@@ -1,5 +1,6 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.register.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -124,6 +125,8 @@ public class RegisterScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                Intent intent = new Intent(RegisterScreen.this, OTPScreen.class);
+                startActivity(intent);
             }
         });
 

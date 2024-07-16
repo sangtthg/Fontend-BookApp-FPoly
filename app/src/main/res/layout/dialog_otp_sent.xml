@@ -30,6 +30,7 @@
         android:id="@+id/otpDialogMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="OTP đã được gửi đến email của bạn. Vui lòng kiểm tra và nhập OTP."
         android:textSize="16sp"
         android:fontFamily="@font/ralewaym"
