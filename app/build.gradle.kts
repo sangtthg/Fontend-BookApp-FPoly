@@ -40,4 +40,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-analytics")
 
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+    implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
+
 }
