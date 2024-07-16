@@ -1,28 +1,26 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.network;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
+
+import static sangttph30270.fptpoly.fontend_bookapp_fpoly.Common.API_URL;
 
 public class RepositoryHome {
-    private static final String BASE_URL = "https://book-manager-phi.vercel.app/";
     private final ApiServiceHome apiService;
 
     public RepositoryHome() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL) // Đặt URL cơ sở
+                .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiServiceHome.class);
     }
 
-    public void fetchFirstApiProducts(Callback<List<HomeModel>> callback) {
-        Call<List<HomeModel>> call = apiService.getFirstApiProducts();
+    public void fetchApiHomePageBook(Callback<HomeBookResponse> callback) {
+        Call<HomeBookResponse> call = apiService.getFirstApiProducts();
         call.enqueue(callback);
     }
-
 }
