@@ -13,6 +13,10 @@ import android.os.Bundle;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
 import me.ibrahimsn.lib.SmoothBottomBar;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.favorite.view.FavoriteFragment;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.notification.view.NotificationFragment;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view.HomeFragment;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.view.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 

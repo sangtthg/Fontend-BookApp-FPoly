@@ -16,6 +16,8 @@
         android:layout_weight="1"
         android:layout_height="0dp"/>
 
+
+
     <me.ibrahimsn.lib.SmoothBottomBar
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
