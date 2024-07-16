@@ -2,6 +2,7 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,13 +17,9 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.network.RepositoryHome;
 
 public class HomeViewModel extends ViewModel {
-    private RepositoryHome repositoryHome;
+    private final RepositoryHome repositoryHome = new RepositoryHome();
     private final MutableLiveData<List<HomeBookModel>> newBookList = new MutableLiveData<>();
     private final MutableLiveData<List<HomeBookModel>> bestSellerBookList = new MutableLiveData<>();
-
-    public HomeViewModel() {
-        this.repositoryHome = new RepositoryHome(); // Consider using dependency injection for better testability and flexibility
-    }
 
     public LiveData<List<HomeBookModel>> getNewBookList() {
         return newBookList;
@@ -32,10 +29,10 @@ public class HomeViewModel extends ViewModel {
         return bestSellerBookList;
     }
 
-    public void fetchFirstApiProducts() {
+    public void fetchHomeBookAPI() {
         repositoryHome.fetchApiHomePageBook(new Callback<HomeBookResponse>() {
             @Override
-            public void onResponse(Call<HomeBookResponse> call, Response<HomeBookResponse> response) {
+            public void onResponse(@NonNull Call<HomeBookResponse> call, @NonNull Response<HomeBookResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     newBookList.postValue(response.body().getData().getNewBooks());
                     bestSellerBookList.postValue(response.body().getData().getBestSellerBooks());
@@ -46,10 +43,11 @@ public class HomeViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<HomeBookResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<HomeBookResponse> call, @NonNull Throwable t) {
                 Log.e("HomeViewModel", "Fetch first API products onFailure: ", t);
             }
         });
     }
+
 
 }
