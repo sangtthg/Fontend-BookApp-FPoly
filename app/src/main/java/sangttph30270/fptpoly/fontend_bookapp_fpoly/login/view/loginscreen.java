@@ -18,32 +18,25 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.MainActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.apilogin.ApiInterface;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network.ApiServiceLogin;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network.RepositoryLogin;
 
 public class loginscreen extends AppCompatActivity {
     public EditText editTextPassword, editTextEmail;
     private boolean isPasswordVisible = false;
     private Button btnLogin;
-    private ApiInterface apiInterface;
+    private ApiServiceLogin apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Khởi tạo Retrofit
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://book-manager-phi.vercel.app/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        // Khởi tạo Interface API
-        apiInterface = retrofit.create(ApiInterface.class);
-
+        // Khởi tạo RepositoryLogin và lấy ApiServiceLogin
+        RepositoryLogin repositoryLogin = new RepositoryLogin();
+        apiInterface = repositoryLogin.getApiService();
         btnLogin = findViewById(R.id.btnLogin);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
@@ -107,9 +100,6 @@ public class loginscreen extends AppCompatActivity {
                 });
             }
         });
-
-
-
     }
 
     private void togglePasswordVisibility() {
