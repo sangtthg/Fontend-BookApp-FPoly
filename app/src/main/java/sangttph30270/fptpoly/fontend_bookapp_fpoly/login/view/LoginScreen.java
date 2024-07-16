@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.login.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,31 +18,25 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.ApiInterface;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.MainActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network.ApiServiceLogin;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network.RepositoryLogin;
 
-public class loginscreen extends AppCompatActivity {
+public class LoginScreen extends AppCompatActivity {
     public EditText editTextPassword, editTextEmail;
     private boolean isPasswordVisible = false;
     private Button btnLogin;
-    private ApiInterface apiInterface;
+    private ApiServiceLogin apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Khởi tạo Retrofit
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://book-manager-phi.vercel.app/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        // Khởi tạo Interface API
-        apiInterface = retrofit.create(ApiInterface.class);
-
+        // Khởi tạo RepositoryLogin và lấy ApiServiceLogin
+        RepositoryLogin repositoryLogin = new RepositoryLogin();
+        apiInterface = repositoryLogin.getApiService();
         btnLogin = findViewById(R.id.btnLogin);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
@@ -63,7 +57,7 @@ public class loginscreen extends AppCompatActivity {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
                 if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(loginscreen.this, "Vui lòng nhập đầy đủ email và mật khẩu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginScreen.this, "Vui lòng nhập đầy đủ email và mật khẩu", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Call<ResponseBody> call = apiInterface.login(email, password);
@@ -75,12 +69,12 @@ public class loginscreen extends AppCompatActivity {
                                 String responseBody = response.body().string();
                                 Log.d("LoginScreen", "Phản hồi từ API: " + responseBody);
                                 if (responseBody.contains("success")) {
-                                    Toast.makeText(loginscreen.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(loginscreen.this, MainActivity.class);
+                                    Toast.makeText(LoginScreen.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(LoginScreen.this, MainActivity.class);
                                     startActivity(intent);
                                     finish(); // Đóng màn hình đăng nhập để người dùng không thể quay lại bằng nút Back
                                 } else {
-                                    Toast.makeText(loginscreen.this, "Đăng nhập thất bại: Tài khoản hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginScreen.this, "Đăng nhập thất bại: Tài khoản hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -93,22 +87,19 @@ public class loginscreen extends AppCompatActivity {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            Toast.makeText(loginscreen.this, "Đăng nhập thất bại: " + response.code(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginScreen.this, "Đăng nhập thất bại: " + response.code(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         // Xử lý lỗi từ Retrofit
-                        Toast.makeText(loginscreen.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginScreen.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("LoginScreen", "Lỗi: " + t.getMessage());
                     }
                 });
             }
         });
-
-
-
     }
 
     private void togglePasswordVisibility() {

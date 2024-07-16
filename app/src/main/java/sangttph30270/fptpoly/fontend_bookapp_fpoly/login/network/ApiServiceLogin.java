@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -6,7 +6,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface ApiInterface {
+public interface ApiServiceLogin {
 
     @FormUrlEncoded
     @POST("login") // Thay đổi URL endpoint nếu cần
@@ -15,5 +15,4 @@ public interface ApiInterface {
             @Field("password") String password
     );
 
-    // Các phương thức khác tương tự có thể được thêm vào để đáp ứng các yêu cầu API khác
 }
