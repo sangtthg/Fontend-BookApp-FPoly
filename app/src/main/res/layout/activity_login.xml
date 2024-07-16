@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:orientation="vertical"
-    tools:context=".loginscreen">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/form_dangnhap"
@@ -50,12 +49,13 @@
 
 
             <EditText
+                android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:background="@drawable/rounded_edittext"
                 android:fontFamily="@font/font_kpmt"
-                android:hint="duongtien12345@gmail.com"
+                android:hint=""
                 android:maxLines="1"
                 android:padding="10dp"
                 android:singleLine="true"
@@ -78,7 +78,7 @@
                 android:background="@drawable/rounded_edittext"
                 android:drawableEnd="@drawable/ic_visibility_off"
                 android:fontFamily="@font/font_kpmt"
-                android:hint="********"
+                android:hint=""
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:padding="10dp"
