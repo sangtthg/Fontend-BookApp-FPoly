@@ -34,11 +34,19 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onResponse(@NonNull Call<HomeBookResponse> call, @NonNull Response<HomeBookResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    newBookList.postValue(response.body().getData().getNewBooks());
-                    bestSellerBookList.postValue(response.body().getData().getBestSellerBooks());
-                    Log.d("HomeViewModel", bestSellerBookList.toString());
+                    HomeBookResponse.BookData data = response.body().getData();
+                    if (data != null) {
+                        if (data.getNewBooks() != null) {
+                            newBookList.postValue(data.getNewBooks());
+                        }
+                        if (data.getBestSellerBooks() != null) {
+                            bestSellerBookList.postValue(data.getBestSellerBooks());
+                        }
+                    } else {
+                        Log.e("HomeViewModel", "Data is null");
+                    }
                 } else {
-                    Log.e("HomeViewModel", "Fetch first API products failed: " + response.message());
+                    Log.e("HomeViewModel", "Fetch API products failed: " + response.message());
                 }
             }
 

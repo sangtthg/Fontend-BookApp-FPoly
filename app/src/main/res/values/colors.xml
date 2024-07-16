@@ -4,6 +4,7 @@
     <color name="transparent">#00000000</color>
     <color name="app_green">#FF149309</color>
     <color name="app_red">#FFF42C2C</color>
+    <color name="backgroundColor">#fafafa</color>
 
 
     <color name="black">#FF000000</color>

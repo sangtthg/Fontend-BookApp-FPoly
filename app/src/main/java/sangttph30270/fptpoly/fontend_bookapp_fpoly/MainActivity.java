@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //https://github.com/ibrahimsn98/SmoothBottomBar
         // Khởi tạo SmoothBottomBar
         SmoothBottomBar bottomBar = findViewById(R.id.bottomBar);
 
