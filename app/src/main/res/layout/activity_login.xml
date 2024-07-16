@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".ManHinhDangNhap">
+    tools:context=".loginscreen">
 
     <LinearLayout
         android:id="@+id/form_dangnhap"
@@ -43,27 +43,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_30sdp"
+                android:fontFamily="@font/font_family"
                 android:text="Email"
                 android:textColor="#2B2B2B"
-                android:textSize="@dimen/_13sdp"
-                android:fontFamily="@font/font_family" />
+                android:textSize="@dimen/_13sdp" />
 
 
             <EditText
+                android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:background="@drawable/rounded_edittext"
-                android:padding="10dp"
-                android:text="duongtien12345@gmail.com"
                 android:fontFamily="@font/font_kpmt"
+                android:hint=""
+                android:maxLines="1"
+                android:padding="10dp"
+                android:singleLine="true"
                 android:textColor="#6A6A6A" />
 
             <TextView
-                android:fontFamily="@font/font_family"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/font_family"
                 android:text="Mật khẩu"
                 android:textColor="#2B2B2B"
                 android:textSize="@dimen/_13sdp" />
@@ -75,10 +78,12 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/rounded_edittext"
                 android:drawableEnd="@drawable/ic_visibility_off"
-                android:inputType="textPassword"
-                android:padding="10dp"
-                android:text="123456"
                 android:fontFamily="@font/font_kpmt"
+                android:hint=""
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:singleLine="true"
                 android:textColor="#6A6A6A" />
 
             <RelativeLayout
@@ -91,9 +96,9 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_10sdp"
+                    android:fontFamily="@font/font_kpmt"
                     android:text="Khôi phục mật khẩu"
                     android:textColor="#000000"
-                    android:fontFamily="@font/font_kpmt"
                     android:textSize="@dimen/_11sdp" /> <!-- Căn chỉnh bên phải -->
             </RelativeLayout>
         </LinearLayout>
@@ -109,14 +114,14 @@
         tools:context=".MainActivity">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/my_button"
-            android:layout_width="@dimen/_275sdp"
+            android:id="@+id/btnLogin"
+            android:layout_width="@dimen/_260sdp"
             android:layout_height="@dimen/_40sdp"
             android:background="@drawable/rounded_button"
             android:backgroundTint="#FF7622"
+            android:fontFamily="@font/font_dn"
             android:gravity="center"
             android:text="Đăng Nhập"
-            android:fontFamily="@font/font_dn"
             android:textColor="@android:color/white" />
 
     </RelativeLayout>
@@ -124,26 +129,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_50sdp"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/_50sdp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font_family"
             android:text="Người dùng mới?"
-            android:textSize="@dimen/_13sdp"
             android:textColor="#1A1D1E"
-            android:fontFamily="@font/font_family"/>
+            android:textSize="@dimen/_13sdp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font_dn"
             android:text=" Tạo tài khoản"
-            android:textSize="@dimen/_13sdp"
             android:textColor="#000000"
-            android:textStyle="bold"
-            android:fontFamily="@font/font_dn"/>
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 
