@@ -7,6 +7,6 @@ import retrofit2.http.POST;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.model.OTPModel;
 
 public interface ApiServiceRegister {
-    @POST("api/send_otp")
-    Call<ResponseBody> sendOtp(@Body OTPModel otpRequest);
+    @POST("send_otp")
+    Call<Void> postOTP(@Body OTPModel otpModel);
 }

@@ -32,6 +32,11 @@ android {
 }
 
 dependencies {
+
+
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.5.1")
+    implementation ("androidx.lifecycle:lifecycle-livedata:2.5.1")
     implementation ("com.chaos.view:pinview:1.4.4")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -45,7 +50,8 @@ dependencies {
     implementation ("io.socket:socket.io-client:2.0.0")
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-analytics")
-
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //----->V import
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
     implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")

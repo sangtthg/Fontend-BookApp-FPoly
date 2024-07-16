@@ -1,6 +1,8 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.register.model;
+import com.google.gson.annotations.SerializedName;
 
 public class OTPModel {
+    @SerializedName("email")
     private String email;
 
     public OTPModel(String email) {
