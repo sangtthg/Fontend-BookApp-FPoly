@@ -1,0 +1,48 @@
+<!-- res/layout/dialog_otp_sent.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_background"
+    android:padding="40dp">
+
+    <ImageView
+        android:id="@+id/otpDialogIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_email_24"
+        android:layout_gravity="center"
+    android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/otpDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:text="Kiểm Tra Email"
+        android:layout_gravity="center"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/_15sdp"
+        android:fontFamily="@font/font_dn"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/otpDialogMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OTP đã được gửi đến email của bạn. Vui lòng kiểm tra và nhập OTP."
+        android:textSize="16sp"
+        android:fontFamily="@font/ralewaym"
+        android:textColor="@color/secondaryTextColor"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDialogOk"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_marginTop="20dp"
+        android:text="Đồng Ý"
+        android:fontFamily="@font/font_dn"
+        android:textColor="@color/buttonTextColor"
+        android:background="@drawable/rounded_button"/>
+</LinearLayout>
