@@ -18,13 +18,13 @@
             android:name=".register.view.OTPScreen"
             android:exported="false" />
         <activity
-            android:name=".login.view.LoginScreen"
+            android:name=".register.view.RegisterScreen"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".register.view.RegisterScreen"
+            android:name=".login.view.LoginScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

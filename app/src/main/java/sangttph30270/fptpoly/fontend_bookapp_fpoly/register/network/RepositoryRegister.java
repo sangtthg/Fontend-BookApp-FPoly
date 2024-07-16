@@ -5,6 +5,7 @@ import static sangttph30270.fptpoly.fontend_bookapp_fpoly.Common.API_URL;
 
 import android.util.Log;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -23,6 +24,17 @@ public class RepositoryRegister {
 
     public void postOTP(OTPModel otpModel, Callback<Void> callback) {
         Call<Void> call = apiService.postOTP(otpModel);
+        call.enqueue(callback);
+    }
+
+    public void registerUser(OTPModel otpModel, Callback<ResponseBody> callback) {
+        Call<ResponseBody> call = apiService.register(otpModel);
+        call.enqueue(callback);
+    }
+
+
+    public void verifyOTP(OTPModel otpModel, Callback<ResponseBody> callback) {
+        Call<ResponseBody> call = apiService.register(otpModel);
         call.enqueue(callback);
     }
 }
