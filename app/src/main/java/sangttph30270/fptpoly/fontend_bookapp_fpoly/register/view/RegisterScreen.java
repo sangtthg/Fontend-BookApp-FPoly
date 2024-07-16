@@ -1,0 +1,129 @@
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.register.view;
+
+import android.os.Bundle;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.util.Patterns;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+
+public class RegisterScreen extends AppCompatActivity {
+    public EditText editTextEmailRegister, editTextUsernameRegister, editTextPasswordRegister, editTextRePasswordRegister;
+    public Button btnRegister;
+    private boolean isPasswordVisible = false;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_registerscreen);
+
+        editTextEmailRegister = findViewById(R.id.editTextEmailRegister);
+        editTextUsernameRegister = findViewById(R.id.editTextUsernameRegister);
+        editTextPasswordRegister = findViewById(R.id.editTextPasswordRegister);
+        editTextRePasswordRegister = findViewById(R.id.editTextRePasswordRegister);
+        btnRegister = findViewById(R.id.btnRegister);
+
+
+        editTextPasswordRegister.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (editTextPasswordRegister.getRight() - editTextPasswordRegister.getCompoundDrawables()[2].getBounds().width())) {
+                    togglePasswordVisibility();
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        editTextRePasswordRegister.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (editTextRePasswordRegister.getRight() - editTextRePasswordRegister.getCompoundDrawables()[2].getBounds().width())) {
+                    togglePasswordVisibility2();
+                    return true;
+                }
+            }
+            return false;
+        });
+
+
+
+
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validateInputs()) {
+                    // Thực hiện đăng ký tài khoản
+                    Toast.makeText(RegisterScreen.this, "Thông tin hợp lệ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private boolean validateInputs() {
+        String email = editTextEmailRegister.getText().toString().trim();
+        String username = editTextUsernameRegister.getText().toString().trim();
+        String password = editTextPasswordRegister.getText().toString().trim();
+        String rePassword = editTextRePasswordRegister.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            editTextEmailRegister.setError("Vui lòng nhập email");
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmailRegister.setError("Email không hợp lệ");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(username)) {
+            editTextUsernameRegister.setError("Vui lòng nhập tên người dùng");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            editTextPasswordRegister.setError("Vui lòng nhập mật khẩu");
+            return false;
+        } else if (password.length() < 6) {
+            editTextPasswordRegister.setError("Mật khẩu phải có ít nhất 6 ký tự");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(rePassword)) {
+            editTextRePasswordRegister.setError("Vui lòng nhập lại mật khẩu");
+            return false;
+        } else if (!password.equals(rePassword)) {
+            editTextRePasswordRegister.setError("Mật khẩu nhập lại không khớp");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            editTextPasswordRegister.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            editTextPasswordRegister.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off, 0);
+        } else {
+            editTextPasswordRegister.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            editTextPasswordRegister.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_visibility_on_24, 0);
+        }
+        isPasswordVisible = !isPasswordVisible;
+        editTextPasswordRegister.setSelection(editTextPasswordRegister.length());
+    }
+
+    private void togglePasswordVisibility2() {
+        if (isPasswordVisible) {
+            editTextRePasswordRegister.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            editTextRePasswordRegister.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off, 0);
+        } else {
+            editTextRePasswordRegister.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            editTextRePasswordRegister.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_visibility_on_24, 0);
+        }
+        isPasswordVisible = !isPasswordVisible;
+        editTextRePasswordRegister.setSelection(editTextRePasswordRegister.length());
+    }
+}
