@@ -124,4 +124,21 @@ public class HomeBookModel {
     public void setUsedBooks(String usedBooks) {
         this.usedBooks = usedBooks;
     }
+
+    @Override
+    public String toString() {
+        return "HomeBookModel{" +
+                "bookId=" + bookId +
+                ", title='" + title + '\'' +
+                ", authorName='" + authorName + '\'' +
+                ", description='" + description + '\'' +
+                ", publicationYear=" + publicationYear +
+                ", bookAvatar='" + bookAvatar + '\'' +
+                ", oldPrice='" + oldPrice + '\'' +
+                ", newPrice='" + newPrice + '\'' +
+                ", viewsCount=" + viewsCount +
+                ", purchaseCount=" + purchaseCount +
+                ", usedBooks='" + usedBooks + '\'' +
+                '}';
+    }
 }

@@ -38,9 +38,11 @@ public class HomeViewModel extends ViewModel {
                     if (data != null) {
                         if (data.getNewBooks() != null) {
                             newBookList.postValue(data.getNewBooks());
+                            Log.d("HomeViewModel", "New Book:" + newBookList);
                         }
                         if (data.getBestSellerBooks() != null) {
                             bestSellerBookList.postValue(data.getBestSellerBooks());
+                            Log.d("HomeViewModel", "SellerBookList:" + newBookList);
                         }
                     } else {
                         Log.e("HomeViewModel", "Data is null");

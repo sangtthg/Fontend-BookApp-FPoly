@@ -73,6 +73,8 @@ public class HomeFragment extends Fragment {
 
         recyclerSachBanChay = view.findViewById(R.id.recyclerSachBanChay);
         recyclerSachBanChay.setHasFixedSize(true);
+        recyclerSachBanChay.setNestedScrollingEnabled(false);
+
         int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
         recyclerSachBanChay.addItemDecoration(new ItemOffsetDecoration(offset));
         recyclerSachBanChay.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -101,14 +103,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
-//        homeViewModel.getBestSellerBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
-//            if (!homeBookModels.isEmpty()) {
-//                Toast.makeText(getActivity(), "First best seller book title: " + homeBookModels.get(0).getTitle(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-
 
 
     }
