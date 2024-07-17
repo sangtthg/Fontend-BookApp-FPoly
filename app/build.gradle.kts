@@ -58,6 +58,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("org.greenrobot:eventbus:3.3.1")
     implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 
     //<-----V import
 

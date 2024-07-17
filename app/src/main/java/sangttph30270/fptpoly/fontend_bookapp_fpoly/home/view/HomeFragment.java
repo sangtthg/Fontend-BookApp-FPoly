@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -32,12 +30,12 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerSachMoiCapNhat;
     private AdapterSachBanChay adapterSachBanChay;
     private AdapterSachHome adapterSachMoiCapNhat;
+    private SkeletonAdapter skeletonAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -59,17 +57,20 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+
         initView(view);
         initRecyclerView();
 
-
-        recyclerSachBanChay.setAdapter(adapterSachBanChay);
+        // Display skeleton while data is loading
+        recyclerSachBanChay.setAdapter(skeletonAdapter);
+        recyclerSachMoiCapNhat.setAdapter(skeletonAdapter);
 
         homeViewModel.getBestSellerBookList().observe(getViewLifecycleOwner(), new Observer<List<HomeBookModel>>() {
             @Override
             public void onChanged(List<HomeBookModel> homeBookModels) {
-                if (!homeBookModels.isEmpty()) {
+                if (homeBookModels != null && !homeBookModels.isEmpty()) {
                     adapterSachBanChay.updateData(homeBookModels);
+                    recyclerSachBanChay.setAdapter(adapterSachBanChay);
                 }
             }
         });
@@ -77,19 +78,21 @@ public class HomeFragment extends Fragment {
         homeViewModel.getNewBookList().observe(getViewLifecycleOwner(), new Observer<List<HomeBookModel>>() {
             @Override
             public void onChanged(List<HomeBookModel> homeBookModels) {
-                if (!homeBookModels.isEmpty()) {
+                if (homeBookModels != null && !homeBookModels.isEmpty()) {
                     adapterSachMoiCapNhat.updateData(homeBookModels);
+                    recyclerSachMoiCapNhat.setAdapter(adapterSachMoiCapNhat);
                 }
             }
         });
-
-
     }
 
     private void initRecyclerView() {
         int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
 
-        // Initialize adapter
+        // Initialize skeleton adapter
+        skeletonAdapter = new SkeletonAdapter(5);
+
+        // Initialize adapter seller books
         adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), position -> {
             Toast.makeText(getActivity(), "Click item at position: " + position, Toast.LENGTH_SHORT).show();
         });
@@ -98,22 +101,16 @@ public class HomeFragment extends Fragment {
         recyclerSachBanChay.addItemDecoration(new ItemOffsetDecoration(offset));
         recyclerSachBanChay.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        //--------------------------------------------
-
-        // Initialize adapter
+        // Initialize adapter new books
         adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), position -> {
             Toast.makeText(getActivity(), "Click item at position: " + position, Toast.LENGTH_SHORT).show();
         });
-
         recyclerSachMoiCapNhat.setHasFixedSize(true);
         recyclerSachMoiCapNhat.setNestedScrollingEnabled(false);
         recyclerSachMoiCapNhat.addItemDecoration(new ItemOffsetDecoration(offset));
         recyclerSachMoiCapNhat.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerSachMoiCapNhat.setAdapter(adapterSachMoiCapNhat);
     }
 
-
-    //---Init View
     private void initView(View view) {
         recyclerSachBanChay = view.findViewById(R.id.recyclerSachBanChay);
         recyclerSachMoiCapNhat = view.findViewById(R.id.recyclerSachMoiCapNhat);
