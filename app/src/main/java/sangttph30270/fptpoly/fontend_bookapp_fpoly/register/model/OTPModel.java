@@ -7,6 +7,26 @@ public class OTPModel {
     private String email;
     @SerializedName("password")
     private String password;
+    @SerializedName("re_password")
+    private String re_password;
+
+    public OTPModel(String email, String password, String re_password, String username, String otp_id, String otp) {
+        this.email = email;
+        this.password = password;
+        this.re_password = re_password;
+        this.username = username;
+        this.otp_id = otp_id;
+        this.otp = otp;
+    }
+
+    public String getRe_password() {
+        return re_password;
+    }
+
+    public void setRe_password(String re_password) {
+        this.re_password = re_password;
+    }
+
     @SerializedName("username")
     private String username;
     @SerializedName("otp_id")

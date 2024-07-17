@@ -13,6 +13,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.chaos.view.PinView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.view.LoginScreen;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.model.OTPModel;
@@ -22,7 +25,7 @@ public class OTPScreen extends AppCompatActivity {
     private RegisterViewModel registerViewModel;
     private PinView pinView;
     private Button btnXacNhan;
-    private String email, username, password, otp, otp_id;
+    private String email, username, password, repassword, otp, otp_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +39,13 @@ public class OTPScreen extends AppCompatActivity {
             email = intent.getStringExtra("email");
             username = intent.getStringExtra("username");
             password = intent.getStringExtra("password");
+            repassword = intent.getStringExtra("re_password");
             otp = intent.getStringExtra("otp");
             otp_id = intent.getStringExtra("otp_id");
             Log.d("OTPScreen", "Email: " + email);
             Log.d("OTPScreen", "Username: " + username);
             Log.d("OTPScreen", "Password: " + password);
+            Log.d("OTPScreen", "RePassword: " + repassword);
             Log.d("OTPScreen", "OTP: " + otp);
             Log.d("OTPScreen", "id: " + otp_id);
         }
@@ -64,17 +69,34 @@ public class OTPScreen extends AppCompatActivity {
                 String otpEntered = pinView.getText().toString().trim();
                 if (!otpEntered.isEmpty() && otp != null && otp_id != null) {
                     if (otpEntered.equals(otp)) {
-                        // Tạo một đối tượng OTPModel để đăng ký
-                        OTPModel otpModel = new OTPModel();
-                        otpModel.setEmail(email);
-                        otpModel.setPassword(password);
-                        otpModel.setPassword(password);
-                        otpModel.setUsername(username);
-                        otpModel.setOtp(otp);
-                        otpModel.setOtp_id(otp_id);
+                        try {
+                            JSONObject requestBody = new JSONObject();
+                            requestBody.put("email", email);
+                            requestBody.put("password", password);
+                            requestBody.put("re_password", repassword);
+                            requestBody.put("username", username);
 
-                        // Gọi phương thức đăng ký từ ViewModel
-                        registerViewModel.register(otpModel);
+                            JSONObject verifyObject = new JSONObject();
+                            verifyObject.put("otp_id", otp_id);
+                            verifyObject.put("otp", otp);
+
+                            requestBody.put("verify", verifyObject);
+
+                            // Tạo một đối tượng OTPModel từ requestBody
+                            OTPModel otpModel = new OTPModel();
+                            otpModel.setEmail(email);
+                            otpModel.setPassword(password);
+                            otpModel.setRe_password(repassword);
+                            otpModel.setUsername(username);
+                            otpModel.setOtp(otp);
+                            otpModel.setOtp_id(otp_id);
+
+                            // Gọi phương thức đăng ký từ ViewModel với OTPModel đã tạo
+                            registerViewModel.register(otpModel);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(OTPScreen.this, "Error preparing JSON request", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Log.d("OTPScreen", "Mã OTP không chính xác");
                         Toast.makeText(OTPScreen.this, "Mã OTP không chính xác", Toast.LENGTH_SHORT).show();
@@ -85,6 +107,10 @@ public class OTPScreen extends AppCompatActivity {
                 }
             }
         });
+
+
+
+
 
     }
 }

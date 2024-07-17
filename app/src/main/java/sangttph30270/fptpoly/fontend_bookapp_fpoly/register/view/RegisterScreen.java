@@ -76,13 +76,16 @@ public class RegisterScreen extends AppCompatActivity {
                     String email = editTextEmailRegister.getText().toString().trim();
                     String username = editTextUsernameRegister.getText().toString().trim();
                     String password = editTextPasswordRegister.getText().toString().trim();
+                    String repassword = editTextRePasswordRegister.getText().toString().trim();
                     // Log các giá trị email, username và password
                     Log.d("RegisterScreen", "Email: " + email);
                     Log.d("RegisterScreen", "Username: " + username);
                     Log.d("RegisterScreen", "Password: " + password);
+                    Log.d("RegisterScreen", "Repassword: " + repassword);
                     OTPModel otpModel = new OTPModel(email);
                     otpModel.setUsername(username);
                     otpModel.setPassword(password);
+                    otpModel.setRe_password(repassword);
                     otpModel.setEmail(email);
                     registerViewModel.setOtpModel(otpModel);
                     registerViewModel.postOTPAPI(otpModel);
@@ -109,6 +112,7 @@ public class RegisterScreen extends AppCompatActivity {
                 intent.putExtra("email", editTextEmailRegister.getText().toString().trim());
                 intent.putExtra("username", editTextUsernameRegister.getText().toString().trim());
                 intent.putExtra("password", editTextPasswordRegister.getText().toString().trim());
+                intent.putExtra("re_password", editTextRePasswordRegister.getText().toString().trim());
                 intent.putExtra("otp", registerViewModel.getOtpModel().getOtp()); // Truyền OTP ID
                 intent.putExtra("otp_id", registerViewModel.getIdotpLiveData().getOtp_id()); // Truyền OTP ID
                 startActivity(intent);
