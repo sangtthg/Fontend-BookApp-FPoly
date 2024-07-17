@@ -138,6 +138,40 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Tin Tức"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_banner_tin_tuc"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Sách mới cập nhật"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerSachMoiCapNhat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+
 
         </LinearLayout>
 

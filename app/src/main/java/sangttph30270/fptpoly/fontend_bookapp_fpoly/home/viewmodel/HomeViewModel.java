@@ -21,13 +21,15 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<List<HomeBookModel>> newBookList = new MutableLiveData<>();
     private final MutableLiveData<List<HomeBookModel>> bestSellerBookList = new MutableLiveData<>();
 
-    public LiveData<List<HomeBookModel>> getNewBookList() {
-        return newBookList;
-    }
 
     public LiveData<List<HomeBookModel>> getBestSellerBookList() {
         return bestSellerBookList;
     }
+
+    public LiveData<List<HomeBookModel>> getNewBookList() {
+        return newBookList;
+    }
+
 
     public void fetchHomeBookAPI() {
         repositoryHome.fetchApiHomePageBook(new Callback<HomeBookResponse>() {
@@ -36,13 +38,13 @@ public class HomeViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     HomeBookResponse.BookData data = response.body().getData();
                     if (data != null) {
+                        if (data.getBestSellerBooks() != null) {
+                            bestSellerBookList.postValue(data.getBestSellerBooks());
+                            Log.d("HomeViewModel", "SellerBookList:" + bestSellerBookList);
+                        }
                         if (data.getNewBooks() != null) {
                             newBookList.postValue(data.getNewBooks());
                             Log.d("HomeViewModel", "New Book:" + newBookList);
-                        }
-                        if (data.getBestSellerBooks() != null) {
-                            bestSellerBookList.postValue(data.getBestSellerBooks());
-                            Log.d("HomeViewModel", "SellerBookList:" + newBookList);
                         }
                     } else {
                         Log.e("HomeViewModel", "Data is null");

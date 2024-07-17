@@ -29,7 +29,9 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private RecyclerView recyclerSachBanChay;
+    private RecyclerView recyclerSachMoiCapNhat;
     private AdapterSachBanChay adapterSachBanChay;
+    private AdapterSachHome adapterSachMoiCapNhat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,20 +44,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
-        homeViewModel.getNewBookList().observe(getViewLifecycleOwner(), new Observer<List<HomeBookModel>>() {
-            @Override
-            public void onChanged(List<HomeBookModel> homeBookModels) {
-                if (!homeBookModels.isEmpty()) {
-                    Toast.makeText(getActivity(), "First new book title: " + homeBookModels.get(0).getTitle(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        homeViewModel.getBestSellerBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
-            if (!homeBookModels.isEmpty()) {
-                Toast.makeText(getActivity(), "First best seller book title: " + homeBookModels.get(0).getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        homeViewModel.fetchHomeBookAPI();
 
         SearchView searchView = view.findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -70,40 +59,63 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+        initView(view);
+        initRecyclerView();
 
-        recyclerSachBanChay = view.findViewById(R.id.recyclerSachBanChay);
-        recyclerSachBanChay.setHasFixedSize(true);
-        recyclerSachBanChay.setNestedScrollingEnabled(false);
-
-        int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
-        recyclerSachBanChay.addItemDecoration(new ItemOffsetDecoration(offset));
-        recyclerSachBanChay.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-
-        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), position -> {
-            Toast.makeText(getActivity(), "Click item at position: " + position, Toast.LENGTH_SHORT).show();
-        });
 
         recyclerSachBanChay.setAdapter(adapterSachBanChay);
-
-        view.findViewById(R.id.myButton1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                homeViewModel.fetchHomeBookAPI();
-            }
-        });
-
-
 
         homeViewModel.getBestSellerBookList().observe(getViewLifecycleOwner(), new Observer<List<HomeBookModel>>() {
             @Override
             public void onChanged(List<HomeBookModel> homeBookModels) {
                 if (!homeBookModels.isEmpty()) {
-                    Toast.makeText(getActivity(), "First new book title: " + homeBookModels.get(0).getTitle(), Toast.LENGTH_SHORT).show();
                     adapterSachBanChay.updateData(homeBookModels);
                 }
             }
         });
 
+        homeViewModel.getNewBookList().observe(getViewLifecycleOwner(), new Observer<List<HomeBookModel>>() {
+            @Override
+            public void onChanged(List<HomeBookModel> homeBookModels) {
+                if (!homeBookModels.isEmpty()) {
+                    adapterSachMoiCapNhat.updateData(homeBookModels);
+                }
+            }
+        });
 
+
+    }
+
+    private void initRecyclerView() {
+        int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
+
+        // Initialize adapter
+        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), position -> {
+            Toast.makeText(getActivity(), "Click item at position: " + position, Toast.LENGTH_SHORT).show();
+        });
+        recyclerSachBanChay.setHasFixedSize(true);
+        recyclerSachBanChay.setNestedScrollingEnabled(false);
+        recyclerSachBanChay.addItemDecoration(new ItemOffsetDecoration(offset));
+        recyclerSachBanChay.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
+        //--------------------------------------------
+
+        // Initialize adapter
+        adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), position -> {
+            Toast.makeText(getActivity(), "Click item at position: " + position, Toast.LENGTH_SHORT).show();
+        });
+
+        recyclerSachMoiCapNhat.setHasFixedSize(true);
+        recyclerSachMoiCapNhat.setNestedScrollingEnabled(false);
+        recyclerSachMoiCapNhat.addItemDecoration(new ItemOffsetDecoration(offset));
+        recyclerSachMoiCapNhat.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerSachMoiCapNhat.setAdapter(adapterSachMoiCapNhat);
+    }
+
+
+    //---Init View
+    private void initView(View view) {
+        recyclerSachBanChay = view.findViewById(R.id.recyclerSachBanChay);
+        recyclerSachMoiCapNhat = view.findViewById(R.id.recyclerSachMoiCapNhat);
     }
 }
