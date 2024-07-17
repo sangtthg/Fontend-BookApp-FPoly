@@ -5,7 +5,7 @@ import retrofit2.Callback;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.RetrofitManager;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
 
-import static sangttph30270.fptpoly.fontend_bookapp_fpoly.Common.API_URL;
+import static sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.Common.API_URL;
 
 public class RepositoryHome {
     private final ApiServiceHome apiService;

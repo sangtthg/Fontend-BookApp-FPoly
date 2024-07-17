@@ -15,6 +15,7 @@ import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 
 public class AdapterSachBanChay extends RecyclerView.Adapter<AdapterSachBanChay.SachBanChayViewHolder> {
 
@@ -32,18 +33,17 @@ public class AdapterSachBanChay extends RecyclerView.Adapter<AdapterSachBanChay.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book_home_sach_ban_chay, parent, false);
         return new SachBanChayViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull AdapterSachBanChay.SachBanChayViewHolder holder, int position) {
         HomeBookModel bookModel = bookModelList.get(position);
         holder.tvTenSach.setText(bookModel.getTitle());
-        holder.tvGiaSach.setText(bookModel.getNewPrice());
+        holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .centerCrop()
                 .placeholder(R.drawable.home)
                 .into(holder.imgAnhBia);
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(position));
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getTitle()));
     }
 
     @Override
@@ -69,6 +69,16 @@ public class AdapterSachBanChay extends RecyclerView.Adapter<AdapterSachBanChay.
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(String bookName);
     }
+//    public void addItem(HomeBookModel newItem) {
+//        bookModelList.add(newItem);
+//        notifyItemInserted(bookModelList.size() - 1);
+//    }
+//    public void removeItem(int position) {
+//        if (position >= 0 && position < bookModelList.size()) {
+//            bookModelList.remove(position);
+//            notifyItemRemoved(position);
+//        }
+//    }
 }

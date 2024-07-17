@@ -15,6 +15,7 @@ import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 
 public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHomeViewHolder> {
 
@@ -37,7 +38,8 @@ public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHo
     public void onBindViewHolder(@NonNull SachHomeViewHolder holder, int position) {
         HomeBookModel bookModel = bookModelList.get(position);
         holder.tvTenSach.setText(bookModel.getTitle());
-        holder.tvGiaSach.setText(bookModel.getNewPrice());
+        holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
+        holder.tvSachBanChay.setVisibility(View.INVISIBLE);
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .centerCrop()
@@ -54,12 +56,14 @@ public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHo
     public static class SachHomeViewHolder extends RecyclerView.ViewHolder {
         TextView tvTenSach;
         TextView tvGiaSach;
+        TextView tvSachBanChay;
         ImageView imgAnhBia;
         public SachHomeViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenSach = itemView.findViewById(R.id.tv_tenSach);
             tvGiaSach = itemView.findViewById(R.id.tv_giaSach);
             imgAnhBia = itemView.findViewById(R.id.imageView_anh_bia);
+            tvSachBanChay = itemView.findViewById(R.id.tv_sachBanChay);
         }
     }
 

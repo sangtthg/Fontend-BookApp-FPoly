@@ -93,9 +93,9 @@ public class HomeFragment extends Fragment {
         skeletonAdapter = new SkeletonAdapter(5);
 
         // Initialize adapter seller books
-        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), position -> {
-            Toast.makeText(getActivity(), "Click item at position: " + position, Toast.LENGTH_SHORT).show();
-        });
+        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), bookName -> {
+            Toast.makeText(getActivity(), "Selected book: " + bookName, Toast.LENGTH_SHORT).show();
+        });;
         recyclerSachBanChay.setHasFixedSize(true);
         recyclerSachBanChay.setNestedScrollingEnabled(false);
         recyclerSachBanChay.addItemDecoration(new ItemOffsetDecoration(offset));
