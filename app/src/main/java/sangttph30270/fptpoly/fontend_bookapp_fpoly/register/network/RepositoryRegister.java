@@ -1,18 +1,11 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.register.network;
 
-import static sangttph30270.fptpoly.fontend_bookapp_fpoly.Common.API_URL;
-
-
-import android.util.Log;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.Common;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.RetrofitManager;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.network.ApiServiceHome;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.model.OTPModel;
 
 public class RepositoryRegister {
@@ -22,8 +15,8 @@ public class RepositoryRegister {
         apiService = RetrofitManager.createService(ApiServiceRegister.class, Common.API_URL);
     }
 
-    public void postOTP(OTPModel otpModel, Callback<Void> callback) {
-        Call<Void> call = apiService.postOTP(otpModel);
+    public void postOTP(OTPModel otpModel, Callback<ResponseBody> callback) {
+        Call<ResponseBody> call = apiService.postOTP(otpModel);
         call.enqueue(callback);
     }
 
@@ -32,9 +25,4 @@ public class RepositoryRegister {
         call.enqueue(callback);
     }
 
-
-    public void verifyOTP(OTPModel otpModel, Callback<ResponseBody> callback) {
-        Call<ResponseBody> call = apiService.register(otpModel);
-        call.enqueue(callback);
-    }
 }

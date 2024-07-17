@@ -68,18 +68,24 @@ public class RegisterScreen extends AppCompatActivity {
                 }
             }
         });
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateInputs()) {
                     String email = editTextEmailRegister.getText().toString().trim();
-                    OTPModel otpModel = new OTPModel(email);
-                    registerViewModel.postOTPAPI(otpModel);
+                    String username = editTextUsernameRegister.getText().toString().trim();
+                    String password = editTextPasswordRegister.getText().toString().trim();
 
+                    OTPModel otpModel = new OTPModel(email);
+                    otpModel.setUsername(username);
+                    otpModel.setPassword(password);
+                    otpModel.setEmail(email);
+                    registerViewModel.setOtpModel(otpModel);
+                    registerViewModel.postOTPAPI(otpModel);
                 }
             }
         });
-
     }
 
     private void showOtpDialog() {
@@ -97,6 +103,9 @@ public class RegisterScreen extends AppCompatActivity {
             public void onClick(View v) {
                 dialog.dismiss();
                 Intent intent = new Intent(RegisterScreen.this, OTPScreen.class);
+                intent.putExtra("email", editTextEmailRegister.getText().toString().trim());
+                intent.putExtra("username", editTextUsernameRegister.getText().toString().trim());
+                intent.putExtra("password", editTextPasswordRegister.getText().toString().trim());
                 startActivity(intent);
             }
         });

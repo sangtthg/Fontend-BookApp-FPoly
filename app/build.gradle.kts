@@ -34,8 +34,8 @@ android {
 dependencies {
 
 
-
     implementation ("androidx.lifecycle:lifecycle-viewmodel:2.5.1")
+
     implementation ("androidx.lifecycle:lifecycle-livedata:2.5.1")
     implementation ("com.chaos.view:pinview:1.4.4")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

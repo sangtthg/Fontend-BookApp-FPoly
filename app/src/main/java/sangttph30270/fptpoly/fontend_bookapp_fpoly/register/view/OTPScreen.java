@@ -39,32 +39,8 @@ public class OTPScreen extends AppCompatActivity {
         email = intent.getStringExtra("email");
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
-
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
-        btnXacNhan.setOnClickListener(v -> {
-            String otp = pinView.getText().toString().trim();
-            if (!otp.isEmpty()) {
-                verifyOTP(email, otp);
-            } else {
-                Toast.makeText(OTPScreen.this, "Vui lòng nhập OTP", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        registerViewModel.getRegisterResponse().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String response) {
-                Toast.makeText(OTPScreen.this, response, Toast.LENGTH_SHORT).show();
-                if (response.equals("Đăng ký thành công!")) {
-                    // Proceed to the next screen or show success message
-                }
-            }
-        });
     }
 
-    private void verifyOTP(String email, String otp) {
-        OTPModel otpModel = new OTPModel(email);
-        otpModel.setOtp(otp);
-        registerViewModel.verifyOTPAPI(otpModel);
-    }
 }

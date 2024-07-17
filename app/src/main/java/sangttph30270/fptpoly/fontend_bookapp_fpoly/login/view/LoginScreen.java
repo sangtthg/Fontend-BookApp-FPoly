@@ -1,5 +1,6 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.login.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -8,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,13 +24,15 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.MainActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network.ApiServiceLogin;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network.RepositoryLogin;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.view.RegisterScreen;
 
 public class LoginScreen extends AppCompatActivity {
     public EditText editTextPassword, editTextEmail;
     private boolean isPasswordVisible = false;
     private Button btnLogin;
     private ApiServiceLogin apiInterface;
-
+    private TextView tvTaoTaiKhoan;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +44,7 @@ public class LoginScreen extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
-
+        tvTaoTaiKhoan = findViewById(R.id.tvTaoTaiKhoan);
         editTextPassword.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (event.getRawX() >= (editTextPassword.getRight() - editTextPassword.getCompoundDrawables()[2].getBounds().width())) {
@@ -50,7 +54,13 @@ public class LoginScreen extends AppCompatActivity {
             }
             return false;
         });
-
+        tvTaoTaiKhoan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
+                startActivity(intent);
+            }
+        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
