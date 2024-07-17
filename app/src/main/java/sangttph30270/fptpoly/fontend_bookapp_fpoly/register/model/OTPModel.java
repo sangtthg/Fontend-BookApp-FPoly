@@ -14,6 +14,14 @@ public class OTPModel {
     @SerializedName("otp")
     private String otp;
 
+    public OTPModel() {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.otp_id = otp_id;
+        this.otp = otp;
+    }
+
     public OTPModel(String email) {
         this.email = email;
     }

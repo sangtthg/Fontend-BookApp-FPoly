@@ -24,10 +24,8 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.network.RepositoryRe
 public class RegisterViewModel extends ViewModel {
     private final RepositoryRegister repositoryRegister = new RepositoryRegister();
     private final MutableLiveData<String> postOTPResponse = new MutableLiveData<>();
-    // Gửi OTP thành công
-
-    private final MutableLiveData<String> registerResponse = new MutableLiveData<>();
-    private final MutableLiveData<String> otpVerificationResponse = new MutableLiveData<>();
+    private final MutableLiveData<String> otpLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> idotpLiveData = new MutableLiveData<>();
     private OTPModel otpModel; // Biến để lưu trữ OTPModel
 
     public RegisterViewModel() {
@@ -38,16 +36,40 @@ public class RegisterViewModel extends ViewModel {
         return postOTPResponse;
     }
 
+    public MutableLiveData<String> getOtpLiveData() {
+        return otpLiveData;
+    }
+
+    private final MutableLiveData<String> registerResponse = new MutableLiveData<>();
+
+
+    public OTPModel getIDOtpModel() {
+        return otpModel;
+    }
+
+    public void setIDOtpModel(OTPModel otpModel) {
+        this.otpModel = otpModel;
+    }
+
+    public OTPModel getIdotpLiveData() {
+        return otpModel;
+    }
+
+    public OTPModel getOtpModel() {
+        return otpModel;
+    }
+
+    public void setOtpModel(OTPModel otpModel) {
+        this.otpModel = otpModel;
+    }
+
     public MutableLiveData<String> getRegisterResponse() {
         return registerResponse;
     }
 
-    public MutableLiveData<String> getOtpVerificationResponse() {
-        return otpVerificationResponse;
-    }
-
 
     public void postOTPAPI(OTPModel otpModel) {
+        this.otpModel = otpModel; // Lưu OTPModel hiện tại
         repositoryRegister.postOTP(otpModel, new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -62,15 +84,19 @@ public class RegisterViewModel extends ViewModel {
                             if (dataArray.length() > 0) {
                                 JSONObject dataObject = dataArray.getJSONObject(0);
                                 String otp = dataObject.getString("otp");
+                                String otpId = dataObject.getString("id"); // Lấy otp_id
+                                otpLiveData.postValue(otp); // Cập nhật giá trị OTP
+                                idotpLiveData.postValue(otpId); // Cập nhật giá trị idotp
                                 otpModel.setOtp(otp); // Cập nhật OTP vào OTPModel
+                                otpModel.setOtp_id(otpId); // Lưu idotp vào OTPModel
                                 Log.d("RegisterViewModel", "Received OTP: " + otp);
+                                Log.d("RegisterViewModel", "Received OTP ID: " + otpId);
                             }
                         }
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                         Log.e("RegisterViewModel", "Exception while parsing OTP response: " + e.getMessage());
                     }
-
                 } else {
                     Log.e("RegisterViewModel", "Post OTP API thất bại: " + response.message());
                     postOTPResponse.postValue("Gửi OTP thất bại: " + response.message());
@@ -85,42 +111,29 @@ public class RegisterViewModel extends ViewModel {
         });
     }
 
-
-
-
-    // Phương thức để set OTPModel vào ViewModel
-    public void setOtpModel(OTPModel otpModel) {
-        this.otpModel = otpModel;
-    }
-
-    public OTPModel getOtpModel() {
-        return otpModel;
-    }
-
-
-    public void registerUser(String otp) {
-        if (otpModel != null) {
-            otpModel.setOtp(otp); // Gán OTP nhận được từ người dùng vào OTPModel
-            repositoryRegister.registerUser(otpModel, new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        registerResponse.postValue("Đăng ký thành công!");
-                    } else {
-                        Log.e("RegisterViewModel", "Đăng ký thất bại: " + response.message());
-                        registerResponse.postValue("Đăng ký thất bại: " + response.message());
+    public void register(OTPModel otpModel) {
+        repositoryRegister.register(otpModel, new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    registerResponse.postValue("Success");
+                } else {
+                    try {
+                        String errorBody = response.errorBody().string();
+                        JSONObject jsonObject = new JSONObject(errorBody);
+                        String errorMessage = jsonObject.getString("message");
+                        registerResponse.postValue(errorMessage);
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                        registerResponse.postValue("Failure: " + e.getMessage());
                     }
                 }
+            }
 
-                @Override
-                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                    Log.e("RegisterViewModel", "Đăng ký thất bại onFailure: ", t);
-                    registerResponse.postValue("Đăng ký thất bại! " + t.getMessage());
-                }
-            });
-        } else {
-            Log.e("RegisterViewModel", "OTPModel is null. Không thể đăng ký.");
-            registerResponse.postValue("Đăng ký thất bại! OTP không hợp lệ.");
-        }
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                registerResponse.postValue("Failure: " + t.getMessage());
+            }
+        });
     }
 }

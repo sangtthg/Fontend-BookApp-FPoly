@@ -20,7 +20,7 @@ public class RepositoryRegister {
         call.enqueue(callback);
     }
 
-    public void registerUser(OTPModel otpModel, Callback<ResponseBody> callback) {
+    public void register(OTPModel otpModel, Callback<ResponseBody> callback) {
         Call<ResponseBody> call = apiService.register(otpModel);
         call.enqueue(callback);
     }
