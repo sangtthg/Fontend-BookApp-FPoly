@@ -4,7 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -13,38 +14,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.MainActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.network.ApiServiceLogin;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.viewmodel.LoginViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.network.RepositoryLogin;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.view.RegisterScreen;
 
 public class LoginScreen extends AppCompatActivity {
-    public EditText editTextPassword, editTextEmail;
+    private EditText editTextPassword, editTextEmail;
     private boolean isPasswordVisible = false;
     private Button btnLogin;
-    private ApiServiceLogin apiInterface;
     private TextView tvTaoTaiKhoan;
+    private LoginViewModel loginViewModel;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Khởi tạo RepositoryLogin và lấy ApiServiceLogin
-        RepositoryLogin repositoryLogin = new RepositoryLogin();
-        apiInterface = repositoryLogin.getApiService();
-        btnLogin = findViewById(R.id.btnLogin);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
+        btnLogin = findViewById(R.id.btnLogin);
         tvTaoTaiKhoan = findViewById(R.id.tvTaoTaiKhoan);
+
+        loginViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory())
+                .get(LoginViewModel.class);
+
         editTextPassword.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (event.getRawX() >= (editTextPassword.getRight() - editTextPassword.getCompoundDrawables()[2].getBounds().width())) {
@@ -54,62 +53,55 @@ public class LoginScreen extends AppCompatActivity {
             }
             return false;
         });
-        tvTaoTaiKhoan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
-                startActivity(intent);
-            }
+
+        tvTaoTaiKhoan.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
+            startActivity(intent);
+            finish(); // Kết thúc màn hình đăng nhập
         });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+        btnLogin.setOnClickListener(v -> {
+            if (validateInputs()) {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
-                if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(LoginScreen.this, "Vui lòng nhập đầy đủ email và mật khẩu", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Call<ResponseBody> call = apiInterface.login(email, password);
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                String responseBody = response.body().string();
-                                Log.d("LoginScreen", "Phản hồi từ API: " + responseBody);
-                                if (responseBody.contains("success")) {
-                                    Toast.makeText(LoginScreen.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(LoginScreen.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish(); // Đóng màn hình đăng nhập để người dùng không thể quay lại bằng nút Back
-                                } else {
-                                    Toast.makeText(LoginScreen.this, "Đăng nhập thất bại: Tài khoản hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            String errorBodyString = null;
-                            try {
-                                errorBodyString = response.errorBody().string();
-                                Log.e("LoginScreen", "Đăng nhập thất bại: " + response.code() + ", Error Body: " + errorBodyString);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            Toast.makeText(LoginScreen.this, "Đăng nhập thất bại: " + response.code(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        // Xử lý lỗi từ Retrofit
-                        Toast.makeText(LoginScreen.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("LoginScreen", "Lỗi: " + t.getMessage());
-                    }
-                });
+                loginViewModel.login(email, password);
             }
         });
+
+        loginViewModel.getLoginResponse().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String response) {
+                if (response.equals("Đăng nhập thành công")) {
+                    Toast.makeText(LoginScreen.this, response, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginScreen.this, MainActivity.class);
+                    startActivity(intent);
+                    finish(); // Đóng màn hình đăng nhập
+                } else {
+                    Toast.makeText(LoginScreen.this, response, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private boolean validateInputs() {
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            editTextEmail.setError("Vui lòng nhập email");
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Email không hợp lệ");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            editTextPassword.setError("Vui lòng nhập mật khẩu");
+            return false;
+        }
+
+        return true;
     }
 
     private void togglePasswordVisibility() {

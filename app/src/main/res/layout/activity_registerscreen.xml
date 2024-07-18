@@ -141,16 +141,18 @@
         android:gravity="center"
         tools:context=".MainActivity">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegister"
             android:layout_width="@dimen/_260sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:background="@drawable/rounded_button"
-            android:backgroundTint="#FF7622"
-            android:fontFamily="@font/font_dn"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_gravity="center"
             android:gravity="center"
             android:text="Đăng Ký"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            app:backgroundTint="#FF7622"
+            app:cornerRadius="50dp"
+            app:fontFamily="@font/font_dn" />
+
 
     </RelativeLayout>
 
@@ -170,6 +172,7 @@
             android:textSize="@dimen/_13sdp" />
 
         <TextView
+            android:id="@+id/tvDangNhap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/font_dn"

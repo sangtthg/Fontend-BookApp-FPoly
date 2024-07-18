@@ -2,6 +2,7 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -18,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.view.LoginScreen;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.model.OTPModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.viewmodel.RegisterViewModel;
 
@@ -27,6 +30,7 @@ public class RegisterScreen extends AppCompatActivity {
     public Button btnRegister;
     private boolean isPasswordVisible = false;
     private RegisterViewModel registerViewModel;
+    private TextView tvDangNhap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,7 @@ public class RegisterScreen extends AppCompatActivity {
         editTextUsernameRegister = findViewById(R.id.editTextUsernameRegister);
         editTextPasswordRegister = findViewById(R.id.editTextPasswordRegister);
         editTextRePasswordRegister = findViewById(R.id.editTextRePasswordRegister);
+        tvDangNhap = findViewById(R.id.tvDangNhap);
         btnRegister = findViewById(R.id.btnRegister);
         editTextPasswordRegister.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -68,7 +73,14 @@ public class RegisterScreen extends AppCompatActivity {
                 }
             }
         });
-
+        tvDangNhap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,24 +115,43 @@ public class RegisterScreen extends AppCompatActivity {
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
+
         Button btnOk = dialogView.findViewById(R.id.btnDialogOk);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Dismiss dialog immediately when button is clicked
                 dialog.dismiss();
-                Intent intent = new Intent(RegisterScreen.this, OTPScreen.class);
-                intent.putExtra("email", editTextEmailRegister.getText().toString().trim());
-                intent.putExtra("username", editTextUsernameRegister.getText().toString().trim());
-                intent.putExtra("password", editTextPasswordRegister.getText().toString().trim());
-                intent.putExtra("re_password", editTextRePasswordRegister.getText().toString().trim());
-                intent.putExtra("otp", registerViewModel.getOtpModel().getVerify().getOtp()); // Truyền OTP ID
-                intent.putExtra("otp_id", registerViewModel.getIdotpLiveData().getVerify().getOtp_id()); // Truyền OTP ID
-                startActivity(intent);
+                navigateToOtpScreen();
             }
         });
 
+        // Show the dialog
         dialog.show();
+
+        // Use Handler to automatically dismiss dialog after 3 seconds
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                    navigateToOtpScreen();
+                }
+            }
+        }, 2000); // 3000 milliseconds = 3 seconds
     }
+
+    private void navigateToOtpScreen() {
+        Intent intent = new Intent(RegisterScreen.this, OTPScreen.class);
+        intent.putExtra("email", editTextEmailRegister.getText().toString().trim());
+        intent.putExtra("username", editTextUsernameRegister.getText().toString().trim());
+        intent.putExtra("password", editTextPasswordRegister.getText().toString().trim());
+        intent.putExtra("re_password", editTextRePasswordRegister.getText().toString().trim());
+        intent.putExtra("otp", registerViewModel.getOtpModel().getVerify().getOtp()); // Truyền OTP ID
+        intent.putExtra("otp_id", registerViewModel.getIdotpLiveData().getVerify().getOtp_id()); // Truyền OTP ID
+        startActivity(intent);
+    }
+
 
     private boolean validateInputs() {
         String email = editTextEmailRegister.getText().toString().trim();

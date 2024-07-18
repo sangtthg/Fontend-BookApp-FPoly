@@ -1,21 +1,20 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.network;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.RetrofitManager;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.Common;
 
 public class RepositoryLogin {
-    private static final String BASE_URL = "https://book-manager-phi.vercel.app/api/";
     private final ApiServiceLogin apiService;
 
     public RepositoryLogin() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL) // Đặt URL cơ sở
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        apiService = retrofit.create(ApiServiceLogin.class);
+        apiService = RetrofitManager.createService(ApiServiceLogin.class, Common.API_URL, null);
     }
 
-    public ApiServiceLogin getApiService() {
-        return apiService;
+    public void login(String email, String password, Callback<ResponseBody> callback) {
+        Call<ResponseBody> call = apiService.login(email, password);
+        call.enqueue(callback);
     }
 }
