@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.utils;
 
 import android.view.LayoutInflater;
 import android.view.View;

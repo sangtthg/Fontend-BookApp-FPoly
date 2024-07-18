@@ -38,9 +38,9 @@
                 android:textAlignment="inherit"
                 android:ellipsize="end"
                 android:textColor="@color/orange"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:text="SÁCH BÁN CHẠY"
-                android:textSize="@dimen/_9ssp" />
+                android:textSize="@dimen/_8ssp" />
 
             <TextView
                 android:id="@+id/tv_tenSach"

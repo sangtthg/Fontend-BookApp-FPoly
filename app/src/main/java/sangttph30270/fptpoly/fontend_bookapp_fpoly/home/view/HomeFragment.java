@@ -10,18 +10,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.ItemOffsetDecoration;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.RecyclerViewUtil;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
 
 public class HomeFragment extends Fragment {
 
@@ -44,6 +41,14 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.fetchHomeBookAPI();
 
+        setupSearchView(view);
+        initView(view);
+        initRecyclerView();
+
+        observeViewModel();
+    }
+
+    private void setupSearchView(View view) {
         SearchView searchView = view.findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -57,62 +62,46 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
-
-        initView(view);
-        initRecyclerView();
-
-        // Display skeleton while data is loading
-        recyclerSachBanChay.setAdapter(skeletonAdapter);
-        recyclerSachMoiCapNhat.setAdapter(skeletonAdapter);
-
-        homeViewModel.getBestSellerBookList().observe(getViewLifecycleOwner(), new Observer<List<HomeBookModel>>() {
-            @Override
-            public void onChanged(List<HomeBookModel> homeBookModels) {
-                if (homeBookModels != null && !homeBookModels.isEmpty()) {
-                    adapterSachBanChay.updateData(homeBookModels);
-                    recyclerSachBanChay.setAdapter(adapterSachBanChay);
-                }
-            }
-        });
-
-        homeViewModel.getNewBookList().observe(getViewLifecycleOwner(), new Observer<List<HomeBookModel>>() {
-            @Override
-            public void onChanged(List<HomeBookModel> homeBookModels) {
-                if (homeBookModels != null && !homeBookModels.isEmpty()) {
-                    adapterSachMoiCapNhat.updateData(homeBookModels);
-                    recyclerSachMoiCapNhat.setAdapter(adapterSachMoiCapNhat);
-                }
-            }
-        });
-    }
-
-    private void initRecyclerView() {
-        int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
-
-        // Initialize skeleton adapter
-        skeletonAdapter = new SkeletonAdapter(5);
-
-        // Initialize adapter seller books
-        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), bookName -> {
-            Toast.makeText(getActivity(), "Selected book: " + bookName, Toast.LENGTH_SHORT).show();
-        });;
-        recyclerSachBanChay.setHasFixedSize(true);
-        recyclerSachBanChay.setNestedScrollingEnabled(false);
-        recyclerSachBanChay.addItemDecoration(new ItemOffsetDecoration(offset));
-        recyclerSachBanChay.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-
-        // Initialize adapter new books
-        adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), position -> {
-            Toast.makeText(getActivity(), "Click item at position: " + position, Toast.LENGTH_SHORT).show();
-        });
-        recyclerSachMoiCapNhat.setHasFixedSize(true);
-        recyclerSachMoiCapNhat.setNestedScrollingEnabled(false);
-        recyclerSachMoiCapNhat.addItemDecoration(new ItemOffsetDecoration(offset));
-        recyclerSachMoiCapNhat.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
     }
 
     private void initView(View view) {
         recyclerSachBanChay = view.findViewById(R.id.recyclerSachBanChay);
         recyclerSachMoiCapNhat = view.findViewById(R.id.recyclerSachMoiCapNhat);
+    }
+
+    private void initRecyclerView() {
+        int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
+
+        skeletonAdapter = new SkeletonAdapter(5);
+
+        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), bookName -> {
+            Toast.makeText(getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
+        });
+        RecyclerViewUtil.setupLinear(getActivity(), recyclerSachBanChay, offset, adapterSachBanChay);
+
+
+        adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), bookName -> {
+            Toast.makeText(getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
+        });
+        RecyclerViewUtil.setupLinear(getActivity(), recyclerSachMoiCapNhat, offset, adapterSachMoiCapNhat);
+
+        recyclerSachBanChay.setAdapter(skeletonAdapter);
+        recyclerSachMoiCapNhat.setAdapter(skeletonAdapter);
+    }
+
+    private void observeViewModel() {
+        homeViewModel.getBestSellerBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
+            if (homeBookModels != null && !homeBookModels.isEmpty()) {
+                adapterSachBanChay.updateData(homeBookModels);
+                recyclerSachBanChay.setAdapter(adapterSachBanChay);
+            }
+        });
+
+        homeViewModel.getNewBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
+            if (homeBookModels != null && !homeBookModels.isEmpty()) {
+                adapterSachMoiCapNhat.updateData(homeBookModels);
+                recyclerSachMoiCapNhat.setAdapter(adapterSachMoiCapNhat);
+            }
+        });
     }
 }
