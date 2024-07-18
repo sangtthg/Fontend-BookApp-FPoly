@@ -40,8 +40,7 @@ public class AdapterSachBanChay extends RecyclerView.Adapter<AdapterSachBanChay.
         holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
-                .centerCrop()
-                .placeholder(R.drawable.home)
+                .placeholder(R.drawable.loading_book)
                 .into(holder.imgAnhBia);
         holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getTitle()));
     }

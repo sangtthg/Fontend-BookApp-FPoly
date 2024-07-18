@@ -42,8 +42,7 @@ public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHo
         holder.tvSachBanChay.setVisibility(View.INVISIBLE);
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
-                .centerCrop()
-                .placeholder(R.drawable.home)
+                .placeholder(R.drawable.loading_book)
                 .into(holder.imgAnhBia);
         holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getTitle()));
     }
