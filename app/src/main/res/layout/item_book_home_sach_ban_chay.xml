@@ -1,0 +1,79 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/_220sdp"
+    android:background="@drawable/shape_rounded_image">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_150sdp"
+            app:cardCornerRadius="@dimen/_4sdp">
+
+            <ImageView
+                android:id="@+id/imageView_anh_bia"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_rounded_image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_holder" />
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginHorizontal="@dimen/_4sdp"
+            android:orientation="vertical"
+            android:paddingStart="0dp">
+
+            <TextView
+                android:id="@+id/tv_sachBanChay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textAlignment="inherit"
+                android:ellipsize="end"
+                android:textColor="@color/orange"
+                android:maxLines="1"
+                android:text="SÁCH BÁN CHẠY"
+                android:textSize="@dimen/_8ssp" />
+
+            <TextView
+                android:id="@+id/tv_tenSach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Đắc Nhân Tâm"
+                android:textColor="#6A6A6A"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_giaSach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textAlignment="inherit"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:maxLines="2"
+                android:text="Giá: 250.000đ"
+                android:textSize="@dimen/_9ssp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_add_homesvg" />
+
+</FrameLayout>
