@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly.register.view;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +18,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.model.OTPModel;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.viewmodel.RegisterViewModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.model.OTPModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.viewmodel.RegisterViewModel;
 
 
 public class RegisterScreen extends AppCompatActivity {

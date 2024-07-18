@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly.register.model;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.model;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,6 +1,6 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly.login.viewmodel;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.viewmodel;
 
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network.RepositoryLogin;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.network.RepositoryLogin;
 
 public class LoginViewModel {
     private RepositoryLogin repositoryLogin;

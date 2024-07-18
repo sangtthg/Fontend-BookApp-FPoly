@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly.login.view;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -22,9 +22,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.MainActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network.ApiServiceLogin;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.login.network.RepositoryLogin;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.view.RegisterScreen;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.network.ApiServiceLogin;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.network.RepositoryLogin;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.view.RegisterScreen;
 
 public class LoginScreen extends AppCompatActivity {
     public EditText editTextPassword, editTextEmail;

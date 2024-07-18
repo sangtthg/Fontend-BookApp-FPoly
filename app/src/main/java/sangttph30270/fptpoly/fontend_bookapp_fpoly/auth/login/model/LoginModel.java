@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly.login.model;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.model;
 
 public class LoginModel {
     private String email;

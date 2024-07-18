@@ -15,7 +15,7 @@ public class RepositoryHome {
     }
 
     public void fetchApiHomePageBook(Callback<HomeBookResponse> callback) {
-        Call<HomeBookResponse> call = apiService.getFirstApiProducts();
+        Call<HomeBookResponse> call = apiService.getApiHomeList();
         call.enqueue(callback);
     }
 }

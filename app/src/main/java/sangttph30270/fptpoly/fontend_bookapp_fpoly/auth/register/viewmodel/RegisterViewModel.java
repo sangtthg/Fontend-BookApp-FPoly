@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly.register.viewmodel;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.viewmodel;
 
 import android.util.Log;
 
@@ -11,15 +11,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.model.OTPModel;
-
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.register.network.RepositoryRegister;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.model.OTPModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.network.RepositoryRegister;
 
 public class RegisterViewModel extends ViewModel {
     private final RepositoryRegister repositoryRegister = new RepositoryRegister();
