@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 
 public class NotificationFragment extends Fragment {
