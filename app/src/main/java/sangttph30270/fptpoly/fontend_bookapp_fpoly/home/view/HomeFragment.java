@@ -27,7 +27,6 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerSachMoiCapNhat;
     private AdapterSachBanChay adapterSachBanChay;
     private AdapterSachHome adapterSachMoiCapNhat;
-    private SkeletonAdapter skeletonAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,8 +70,7 @@ public class HomeFragment extends Fragment {
 
     private void initRecyclerView() {
         int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
-
-        skeletonAdapter = new SkeletonAdapter(5);
+        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(5);
 
         //--
         adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), new AdapterSachBanChay.OnItemClickListener() {
