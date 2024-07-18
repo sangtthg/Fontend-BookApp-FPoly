@@ -17,9 +17,12 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.network.RepositoryHome;
 
 public class HomeViewModel extends ViewModel {
+    private final String NAME = this.getClass().getSimpleName();
     private final RepositoryHome repositoryHome = new RepositoryHome();
     private final MutableLiveData<List<HomeBookModel>> newBookList = new MutableLiveData<>();
     private final MutableLiveData<List<HomeBookModel>> bestSellerBookList = new MutableLiveData<>();
+    private final MutableLiveData<List<HomeBookModel>> randomBooksList = new MutableLiveData<>();
+    private final MutableLiveData<List<HomeBookModel>> mostViewBooksList = new MutableLiveData<>();
 
 
     public LiveData<List<HomeBookModel>> getBestSellerBookList() {
@@ -28,6 +31,14 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<List<HomeBookModel>> getNewBookList() {
         return newBookList;
+    }
+
+    public LiveData<List<HomeBookModel>> getRandomBookList() {
+        return randomBooksList;
+    }
+
+    public LiveData<List<HomeBookModel>> getmostViewBooksList() {
+        return mostViewBooksList;
     }
 
 
@@ -40,23 +51,31 @@ public class HomeViewModel extends ViewModel {
                     if (data != null) {
                         if (data.getBestSellerBooks() != null) {
                             bestSellerBookList.postValue(data.getBestSellerBooks());
-                            Log.d("HomeViewModel", "SellerBookList:" + bestSellerBookList);
+                            Log.d(NAME, "Fetch SellerBookList Success");
                         }
                         if (data.getNewBooks() != null) {
                             newBookList.postValue(data.getNewBooks());
-                            Log.d("HomeViewModel", "New Book:" + newBookList);
+                            Log.d(NAME, "Fetch New Book Success");
+                        }
+                        if (data.getRandomBooks() != null) {
+                            randomBooksList.postValue(data.getRandomBooks());
+                            Log.d(NAME, "Fetch Random Success");
+                        }
+                        if (data.getMostViewBooks() != null) {
+                            mostViewBooksList.postValue(data.getMostViewBooks());
+                            Log.d(NAME, "Fetch MostViewBooks Success:");
                         }
                     } else {
-                        Log.e("HomeViewModel", "Data is null");
+                        Log.e(NAME, "Data is null");
                     }
                 } else {
-                    Log.e("HomeViewModel", "Fetch API products failed: " + response.message());
+                    Log.e(NAME, "Fetch API products failed: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<HomeBookResponse> call, @NonNull Throwable t) {
-                Log.e("HomeViewModel", "Fetch first API products onFailure: ", t);
+                Log.e(NAME, "Fetch first API products onFailure: ", t);
             }
         });
     }

@@ -25,8 +25,13 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private RecyclerView recyclerSachBanChay;
     private RecyclerView recyclerSachMoiCapNhat;
+    private RecyclerView recyclerSachRanDom;
+    private RecyclerView recyclerNhieuLuotXemNhat;
+
     private AdapterSachBanChay adapterSachBanChay;
     private AdapterSachHome adapterSachMoiCapNhat;
+    private AdapterSachHome adapterSachRanDom;
+    private AdapterSachHome adapterNhieuLuotXemNhat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +71,8 @@ public class HomeFragment extends Fragment {
     private void initView(View view) {
         recyclerSachBanChay = view.findViewById(R.id.recyclerSachBanChay);
         recyclerSachMoiCapNhat = view.findViewById(R.id.recyclerSachMoiCapNhat);
+        recyclerSachRanDom = view.findViewById(R.id.recyclerSachRanDom);
+        recyclerNhieuLuotXemNhat = view.findViewById(R.id.recyclerNhieuLuotXemNhat);
     }
 
     private void initRecyclerView() {
@@ -83,6 +90,16 @@ public class HomeFragment extends Fragment {
 
 
         //--
+        adapterNhieuLuotXemNhat = new AdapterSachHome(new ArrayList<>(), new AdapterSachHome.OnItemClickListener() {
+            @Override
+            public void onItemClick(String bookName) {
+                Toast.makeText(HomeFragment.this.getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
+            }
+        });
+        RecyclerViewUtil.setupLinear(getActivity(), recyclerNhieuLuotXemNhat, offset, adapterNhieuLuotXemNhat);
+
+
+        //--
         adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), new AdapterSachHome.OnItemClickListener() {
             @Override
             public void onItemClick(String bookName) {
@@ -91,8 +108,20 @@ public class HomeFragment extends Fragment {
         });
         RecyclerViewUtil.setupLinear(getActivity(), recyclerSachMoiCapNhat, offset, adapterSachMoiCapNhat);
 
+        //--
+        adapterSachRanDom = new AdapterSachHome(new ArrayList<>(), new AdapterSachHome.OnItemClickListener() {
+            @Override
+            public void onItemClick(String bookName) {
+                Toast.makeText(HomeFragment.this.getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
+            }
+        });
+        RecyclerViewUtil.setupGrid(getActivity(), recyclerSachRanDom, offset, 3, adapterSachRanDom);
+
+
         recyclerSachBanChay.setAdapter(skeletonAdapter);
+        recyclerNhieuLuotXemNhat.setAdapter(skeletonAdapter);
         recyclerSachMoiCapNhat.setAdapter(skeletonAdapter);
+        recyclerSachRanDom.setAdapter(skeletonAdapter);
     }
 
     private void observeViewModel() {
@@ -103,10 +132,24 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        homeViewModel.getRandomBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
+            if (homeBookModels != null && !homeBookModels.isEmpty()) {
+                adapterNhieuLuotXemNhat.updateData(homeBookModels);
+                recyclerNhieuLuotXemNhat.setAdapter(adapterNhieuLuotXemNhat);
+            }
+        });
+
         homeViewModel.getNewBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
             if (homeBookModels != null && !homeBookModels.isEmpty()) {
                 adapterSachMoiCapNhat.updateData(homeBookModels);
                 recyclerSachMoiCapNhat.setAdapter(adapterSachMoiCapNhat);
+            }
+        });
+
+        homeViewModel.getRandomBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
+            if (homeBookModels != null && !homeBookModels.isEmpty()) {
+                adapterSachRanDom.updateData(homeBookModels);
+                recyclerSachRanDom.setAdapter(adapterSachRanDom);
             }
         });
     }

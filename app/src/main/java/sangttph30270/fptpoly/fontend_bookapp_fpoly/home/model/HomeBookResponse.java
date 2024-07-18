@@ -46,20 +46,25 @@ public class HomeBookResponse {
         @SerializedName("best_seller_books")
         private List<HomeBookModel> bestSellerBooks;
 
+        @SerializedName("random_books")
+        private List<HomeBookModel> randomBooks;
+
+        @SerializedName("most_view_books")
+        private List<HomeBookModel> mostViewBooks;
+
         public List<HomeBookModel> getNewBooks() {
             return newBooks;
-        }
-
-        public void setNewBooks(List<HomeBookModel> newBooks) {
-            this.newBooks = newBooks;
         }
 
         public List<HomeBookModel> getBestSellerBooks() {
             return bestSellerBooks;
         }
 
-        public void setBestSellerBooks(List<HomeBookModel> bestSellerBooks) {
-            this.bestSellerBooks = bestSellerBooks;
+        public List<HomeBookModel> getRandomBooks() {
+            return randomBooks;
+        }
+        public List<HomeBookModel> getMostViewBooks() {
+            return mostViewBooks;
         }
     }
 }

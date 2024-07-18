@@ -159,6 +159,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="Sách có nhiều sự chú ý nhất"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerNhieuLuotXemNhat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Sách mới cập nhật"
                 android:textSize="@dimen/_12ssp"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -171,6 +188,21 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Gợi ý cho bạn"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerSachRanDom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
 
 
         </LinearLayout>
