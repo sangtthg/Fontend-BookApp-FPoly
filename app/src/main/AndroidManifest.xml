@@ -23,10 +23,8 @@
             android:name=".auth.register.view.RegisterScreen"
             android:exported="false" />
 
-
-
         <activity
-            android:name=".MainActivity"
+            android:name=".auth.login.view.LoginScreen"
             android:exported="true" >
 
             <intent-filter>
@@ -39,7 +37,7 @@
 
 
         <activity
-            android:name=".auth.login.view.LoginScreen"
+            android:name=".MainActivity"
             android:exported="false">
 
         </activity>

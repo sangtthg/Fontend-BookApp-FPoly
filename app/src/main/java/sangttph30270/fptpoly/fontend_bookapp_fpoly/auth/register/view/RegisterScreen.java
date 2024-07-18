@@ -113,8 +113,8 @@ public class RegisterScreen extends AppCompatActivity {
                 intent.putExtra("username", editTextUsernameRegister.getText().toString().trim());
                 intent.putExtra("password", editTextPasswordRegister.getText().toString().trim());
                 intent.putExtra("re_password", editTextRePasswordRegister.getText().toString().trim());
-                intent.putExtra("otp", registerViewModel.getOtpModel().getOtp()); // Truyền OTP ID
-                intent.putExtra("otp_id", registerViewModel.getIdotpLiveData().getOtp_id()); // Truyền OTP ID
+                intent.putExtra("otp", registerViewModel.getOtpModel().getVerify().getOtp()); // Truyền OTP ID
+                intent.putExtra("otp_id", registerViewModel.getIdotpLiveData().getVerify().getOtp_id()); // Truyền OTP ID
                 startActivity(intent);
             }
         });

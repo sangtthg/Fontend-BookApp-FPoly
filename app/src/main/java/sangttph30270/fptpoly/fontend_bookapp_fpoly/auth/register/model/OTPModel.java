@@ -9,44 +9,26 @@ public class OTPModel {
     private String password;
     @SerializedName("re_password")
     private String re_password;
+    @SerializedName("username")
+    private String username;
+    @SerializedName("verify")
+    private Verify verify; // Đối tượng verify chứa otp_id và otp
 
     public OTPModel(String email, String password, String re_password, String username, String otp_id, String otp) {
         this.email = email;
         this.password = password;
         this.re_password = re_password;
         this.username = username;
-        this.otp_id = otp_id;
-        this.otp = otp;
+        this.verify = new Verify(otp_id, otp); // Khởi tạo Verify object
     }
-
-    public String getRe_password() {
-        return re_password;
-    }
-
-    public void setRe_password(String re_password) {
-        this.re_password = re_password;
-    }
-
-    @SerializedName("username")
-    private String username;
-    @SerializedName("otp_id")
-    private String otp_id;
-    @SerializedName("otp")
-    private String otp;
 
     public OTPModel() {
-        this.email = email;
-        this.password = password;
-        this.username = username;
-        this.otp_id = otp_id;
-        this.otp = otp;
+        // Không cần khởi tạo Verify object ở đây
     }
-
     public OTPModel(String email) {
         this.email = email;
     }
 
-    // Getters and Setters
 
     public String getEmail() {
         return email;
@@ -64,6 +46,14 @@ public class OTPModel {
         this.password = password;
     }
 
+    public String getRe_password() {
+        return re_password;
+    }
+
+    public void setRe_password(String re_password) {
+        this.re_password = re_password;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -72,19 +62,57 @@ public class OTPModel {
         this.username = username;
     }
 
-    public String getOtp_id() {
-        return otp_id;
+    public Verify getVerify() {
+        return verify;
+    }
+
+    public void setVerify(Verify verify) {
+        this.verify = verify;
     }
 
     public void setOtp_id(String otp_id) {
-        this.otp_id = otp_id;
-    }
-
-    public String getOtp() {
-        return otp;
+        if (this.verify == null) {
+            this.verify = new Verify();
+        }
+        this.verify.setOtp_id(otp_id);
     }
 
     public void setOtp(String otp) {
-        this.otp = otp;
+        if (this.verify == null) {
+            this.verify = new Verify();
+        }
+        this.verify.setOtp(otp);
+    }
+
+    public class Verify {
+        @SerializedName("otp_id")
+        private String otp_id;
+        @SerializedName("otp")
+        private String otp;
+
+        public Verify() {
+        }
+
+        public Verify(String otp_id, String otp) {
+            this.otp_id = otp_id;
+            this.otp = otp;
+        }
+
+        // Getters and Setters cho các thuộc tính
+        public String getOtp_id() {
+            return otp_id;
+        }
+
+        public void setOtp_id(String otp_id) {
+            this.otp_id = otp_id;
+        }
+
+        public String getOtp() {
+            return otp;
+        }
+
+        public void setOtp(String otp) {
+            this.otp = otp;
+        }
     }
 }

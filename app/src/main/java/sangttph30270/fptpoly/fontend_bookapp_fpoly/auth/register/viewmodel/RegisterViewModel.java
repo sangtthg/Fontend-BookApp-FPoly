@@ -96,8 +96,16 @@ public class RegisterViewModel extends ViewModel {
                         Log.e("RegisterViewModel", "Exception while parsing OTP response: " + e.getMessage());
                     }
                 } else {
+                    try {
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            Log.e("RegisterViewModel", "Error Response Body: " + errorBody);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Log.e("RegisterViewModel", "Post OTP API thất bại: " + response.message());
-                    postOTPResponse.postValue("Gửi OTP thất bại: " + response.message());
+                    postOTPResponse.postValue("Gửi OTP thất bại: " + response.message() + " | Mã trạng thái: " + response.code());
                 }
             }
 
@@ -108,6 +116,7 @@ public class RegisterViewModel extends ViewModel {
             }
         });
     }
+
 
     public void register(OTPModel otpModel) {
         repositoryRegister.register(otpModel, new Callback<ResponseBody>() {
