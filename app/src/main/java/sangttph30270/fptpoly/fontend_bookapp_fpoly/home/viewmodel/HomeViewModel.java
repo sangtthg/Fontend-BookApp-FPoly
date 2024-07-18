@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -78,7 +79,15 @@ public class HomeViewModel extends ViewModel {
                 Log.e(NAME, "Fetch first API products onFailure: ", t);
             }
         });
+
+
     }
 
+    public void clearAllLists() {
+        bestSellerBookList.postValue(new ArrayList<>());
+        newBookList.postValue(new ArrayList<>());
+        randomBooksList.postValue(new ArrayList<>());
+        mostViewBooksList.postValue(new ArrayList<>());
+    }
 
 }

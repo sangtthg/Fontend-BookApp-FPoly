@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,8 @@ public class HomeFragment extends Fragment {
     private AdapterSachHome adapterSachRanDom;
     private AdapterSachHome adapterNhieuLuotXemNhat;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+    SkeletonAdapter skeletonAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -48,6 +51,7 @@ public class HomeFragment extends Fragment {
         setupSearchView(view);
         initView(view);
         initRecyclerView();
+        setupSwipeRefresh(view);
 
         observeViewModel();
     }
@@ -73,11 +77,12 @@ public class HomeFragment extends Fragment {
         recyclerSachMoiCapNhat = view.findViewById(R.id.recyclerSachMoiCapNhat);
         recyclerSachRanDom = view.findViewById(R.id.recyclerSachRanDom);
         recyclerNhieuLuotXemNhat = view.findViewById(R.id.recyclerNhieuLuotXemNhat);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
     }
 
     private void initRecyclerView() {
         int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
-        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(9);
+        skeletonAdapter = new SkeletonAdapter(9);
 
         //--
         adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), new AdapterSachBanChay.OnItemClickListener() {
@@ -122,6 +127,18 @@ public class HomeFragment extends Fragment {
         recyclerNhieuLuotXemNhat.setAdapter(skeletonAdapter);
         recyclerSachMoiCapNhat.setAdapter(skeletonAdapter);
         recyclerSachRanDom.setAdapter(skeletonAdapter);
+    }
+
+    private void setupSwipeRefresh(View view) {
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            homeViewModel.clearAllLists();
+            recyclerSachBanChay.setAdapter(skeletonAdapter);
+            recyclerNhieuLuotXemNhat.setAdapter(skeletonAdapter);
+            recyclerSachMoiCapNhat.setAdapter(skeletonAdapter);
+            recyclerSachRanDom.setAdapter(skeletonAdapter);
+            homeViewModel.fetchHomeBookAPI();
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     private void observeViewModel() {
