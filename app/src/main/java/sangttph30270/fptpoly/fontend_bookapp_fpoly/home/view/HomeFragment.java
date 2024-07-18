@@ -74,14 +74,22 @@ public class HomeFragment extends Fragment {
 
         skeletonAdapter = new SkeletonAdapter(5);
 
-        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), bookName -> {
-            Toast.makeText(getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
+        //--
+        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), new AdapterSachBanChay.OnItemClickListener() {
+            @Override
+            public void onItemClick(String bookName) {
+                Toast.makeText(HomeFragment.this.getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
+            }
         });
         RecyclerViewUtil.setupLinear(getActivity(), recyclerSachBanChay, offset, adapterSachBanChay);
 
 
-        adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), bookName -> {
-            Toast.makeText(getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
+        //--
+        adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), new AdapterSachHome.OnItemClickListener() {
+            @Override
+            public void onItemClick(String bookName) {
+                Toast.makeText(HomeFragment.this.getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
+            }
         });
         RecyclerViewUtil.setupLinear(getActivity(), recyclerSachMoiCapNhat, offset, adapterSachMoiCapNhat);
 
