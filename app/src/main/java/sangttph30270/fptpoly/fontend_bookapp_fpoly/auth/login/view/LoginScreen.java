@@ -13,10 +13,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.MainActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.forgetpassword.view.ForgetPasswordScreen;
@@ -31,6 +33,7 @@ public class LoginScreen extends AppCompatActivity {
     private TextView tvTaoTaiKhoan;
     private LoginViewModel loginViewModel;
     private TextView txtForgetPassword;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -38,24 +41,37 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Initialize SharedPreferencesHelper
+        sharedPreferencesHelper = new SharedPreferencesHelper(this);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvTaoTaiKhoan = findViewById(R.id.tvTaoTaiKhoan);
         txtForgetPassword = findViewById(R.id.txtForgetPassword);
-
-        loginViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory())
-                .get(LoginViewModel.class);
-
-        editTextPassword.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getRawX() >= (editTextPassword.getRight() - editTextPassword.getCompoundDrawables()[2].getBounds().width())) {
-                    togglePasswordVisibility();
-                    return true;
+        // Initialize LoginViewModel with SharedPreferencesHelper
+        loginViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends androidx.lifecycle.ViewModel> T create(@NonNull Class<T> modelClass) {
+                if (modelClass.isAssignableFrom(LoginViewModel.class)) {
+                    return (T) new LoginViewModel(sharedPreferencesHelper);
                 }
+                throw new IllegalArgumentException("Unknown ViewModel class");
             }
-            return false;
-        });
+        }).get(LoginViewModel.class);
+
+
+        // Initialize LoginViewModel
+        loginViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends androidx.lifecycle.ViewModel> T create(@NonNull Class<T> modelClass) {
+                if (modelClass.isAssignableFrom(LoginViewModel.class)) {
+                    return (T) new LoginViewModel(sharedPreferencesHelper);
+                }
+                throw new IllegalArgumentException("Unknown ViewModel class");
+            }
+        }).get(LoginViewModel.class);
 
         tvTaoTaiKhoan.setOnClickListener(view -> {
             Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
