@@ -20,7 +20,7 @@ public class AuthInterceptor implements Interceptor {
         Request.Builder builder = original.newBuilder();
 
         if (authToken != null && !authToken.isEmpty()) {
-            System.out.println("Auth Token: " + authToken); // Log the token
+            System.out.println("Auth Token: " + authToken);
             builder.header("Authorization", "Bearer " + authToken);
         }
 
