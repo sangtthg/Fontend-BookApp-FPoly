@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
 
     private void initRecyclerView() {
         int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
-        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(5);
+        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(9);
 
         //--
         adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), new AdapterSachBanChay.OnItemClickListener() {

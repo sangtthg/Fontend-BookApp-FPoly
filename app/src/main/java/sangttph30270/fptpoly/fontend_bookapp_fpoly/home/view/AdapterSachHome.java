@@ -43,6 +43,7 @@ public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHo
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .placeholder(R.drawable.loading_book)
+                .fitCenter()
                 .into(holder.imgAnhBia);
         holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getTitle()));
     }

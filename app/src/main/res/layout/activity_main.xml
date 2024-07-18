@@ -8,14 +8,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@color/backgroundColor"
     tools:context=".MainActivity">
 
     <FrameLayout
+        android:paddingTop="@dimen/_24sdp"
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp"/>
-
 
 
     <me.ibrahimsn.lib.SmoothBottomBar

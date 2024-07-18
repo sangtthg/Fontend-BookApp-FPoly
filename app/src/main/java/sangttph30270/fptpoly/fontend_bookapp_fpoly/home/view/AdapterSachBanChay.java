@@ -41,6 +41,7 @@ public class AdapterSachBanChay extends RecyclerView.Adapter<AdapterSachBanChay.
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .placeholder(R.drawable.loading_book)
+                .fitCenter()
                 .into(holder.imgAnhBia);
         holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getTitle()));
     }
