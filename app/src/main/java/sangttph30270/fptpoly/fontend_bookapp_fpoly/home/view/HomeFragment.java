@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel.getRandomBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
+        homeViewModel.getmostViewBooksList().observe(getViewLifecycleOwner(), homeBookModels -> {
             if (homeBookModels != null && !homeBookModels.isEmpty()) {
                 adapterNhieuLuotXemNhat.updateData(homeBookModels);
                 recyclerNhieuLuotXemNhat.setAdapter(adapterNhieuLuotXemNhat);
