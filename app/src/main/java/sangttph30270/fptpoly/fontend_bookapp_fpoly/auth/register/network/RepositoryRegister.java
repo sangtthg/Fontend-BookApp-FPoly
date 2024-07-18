@@ -4,9 +4,9 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.network;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.Common;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.RetrofitManager;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.model.OTPModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.Common;
 
 public class RepositoryRegister {
     private final ApiServiceRegister apiService;
