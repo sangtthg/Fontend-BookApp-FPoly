@@ -47,6 +47,8 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         homeViewModel.fetchHomeBookAPI();
+        //Test
+        homeViewModel.fetchBookDetail(14, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywicm9sZSI6InVzZXIiLCJjcmVhdGVkX2F0IjoxNzIxMzE1MTQyNzIyLCJpYXQiOjE3MjEzMTUxNDJ9.gWF3paeaGIhuBshIix2wKFwU-iX7OKxRKTvAjkt8L_k");
 
         setupSearchView(view);
         initView(view);
@@ -138,6 +140,10 @@ public class HomeFragment extends Fragment {
             recyclerSachRanDom.setAdapter(skeletonAdapter);
             homeViewModel.fetchHomeBookAPI();
             swipeRefreshLayout.setRefreshing(false);
+
+//            homeViewModel.fetchBookDetail(14, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywicm9sZSI6InVzZXIiLCJjcmVhdGVkX2F0IjoxNzIxMzE1MTQyNzIyLCJpYXQiOjE3MjEzMTUxNDJ9.gWF3paeaGIhuBshIix2wKFwU-iX7OKxRKTvAjkt8L_k");
+//            swipeRefreshLayout.setRefreshing(false);
+
         });
     }
 
@@ -149,7 +155,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel.getmostViewBooksList().observe(getViewLifecycleOwner(), homeBookModels -> {
+        homeViewModel.getMostViewBooksList().observe(getViewLifecycleOwner(), homeBookModels -> {
             if (homeBookModels != null && !homeBookModels.isEmpty()) {
                 adapterNhieuLuotXemNhat.updateData(homeBookModels);
                 recyclerNhieuLuotXemNhat.setAdapter(adapterNhieuLuotXemNhat);

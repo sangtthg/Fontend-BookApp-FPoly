@@ -76,6 +76,7 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
     //<-----V import
 

@@ -12,7 +12,7 @@ public class RepositoryRegister {
     private final ApiServiceRegister apiService;
 
     public RepositoryRegister() {
-        apiService = RetrofitManager.createService(ApiServiceRegister.class, Common.API_URL);
+        apiService = RetrofitManager.createService(ApiServiceRegister.class, Common.API_URL, null);
     }
 
     public void postOTP(OTPModel otpModel, Callback<ResponseBody> callback) {
