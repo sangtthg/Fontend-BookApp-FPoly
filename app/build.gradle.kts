@@ -41,8 +41,6 @@ dependencies {
 
     implementation ("androidx.lifecycle:lifecycle-livedata:2.5.1")
     implementation ("com.chaos.view:pinview:1.4.4")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -53,25 +51,15 @@ dependencies {
     implementation ("io.socket:socket.io-client:2.0.0")
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //----->V import
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
     implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
     implementation("de.hdodenhof:circleimageview:3.1.0") //thư viện làm tròn ảnh
-    implementation("com.github.bumptech.glide:glide:4.15.1")
-    implementation("com.intuit.sdp:sdp-android:1.1.0")
-    implementation("com.intuit.ssp:ssp-android:1.1.0")
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.0")
     implementation("io.github.muddz:styleabletoast:2.4.0")
     implementation("com.airbnb.android:lottie:6.0.0")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("org.greenrobot:eventbus:3.3.1")
     implementation("androidx.cardview:cardview:1.0.0")
 
-
-    //----->V import
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
     implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
     implementation("de.hdodenhof:circleimageview:3.1.0") //thư viện làm tròn ảnh
