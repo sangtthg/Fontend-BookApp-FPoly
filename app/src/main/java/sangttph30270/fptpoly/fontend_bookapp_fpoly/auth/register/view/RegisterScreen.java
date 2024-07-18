@@ -138,7 +138,7 @@ public class RegisterScreen extends AppCompatActivity {
                     navigateToOtpScreen();
                 }
             }
-        }, 2000); // 3000 milliseconds = 3 seconds
+        }, 3000); // 3000 milliseconds = 3 seconds
     }
 
     private void navigateToOtpScreen() {

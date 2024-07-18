@@ -1,0 +1,37 @@
+<!-- res/layout/dialog_otp_sent.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_background_pass"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/baseline_email_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/font_dn"
+        android:paddingBottom="10dp"
+        android:text="Kiểm Tra Email"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ralewaym"
+        android:gravity="center"
+        android:text="Chúng tôi đã gửi mã khôi phục mật khẩu vào email của bạn."
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="16sp" />
+
+</LinearLayout>

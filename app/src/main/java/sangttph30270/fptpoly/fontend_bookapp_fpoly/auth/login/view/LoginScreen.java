@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.MainActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.forgetpassword.view.ForgetPasswordScreen;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.viewmodel.LoginViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.network.RepositoryLogin;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.view.RegisterScreen;
@@ -29,6 +30,7 @@ public class LoginScreen extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvTaoTaiKhoan;
     private LoginViewModel loginViewModel;
+    private TextView txtForgetPassword;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,6 +42,7 @@ public class LoginScreen extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvTaoTaiKhoan = findViewById(R.id.tvTaoTaiKhoan);
+        txtForgetPassword = findViewById(R.id.txtForgetPassword);
 
         loginViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory())
                 .get(LoginViewModel.class);
@@ -80,6 +83,14 @@ public class LoginScreen extends AppCompatActivity {
                 } else {
                     Toast.makeText(LoginScreen.this, response, Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        txtForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginScreen.this, ForgetPasswordScreen.class);
+                startActivity(intent);
+
             }
         });
     }
