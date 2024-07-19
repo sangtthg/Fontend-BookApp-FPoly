@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -28,6 +29,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerSachMoiCapNhat;
     private RecyclerView recyclerSachRanDom;
     private RecyclerView recyclerNhieuLuotXemNhat;
+    private RecyclerView categoryRecyclerView;
 
     private AdapterSachBanChay adapterSachBanChay;
     private AdapterSachHome adapterSachMoiCapNhat;
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
         homeViewModel.fetchHomeBookAPI();
         //Test
         homeViewModel.fetchBookDetail(14, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywicm9sZSI6InVzZXIiLCJjcmVhdGVkX2F0IjoxNzIxMzE1MTQyNzIyLCJpYXQiOjE3MjEzMTUxNDJ9.gWF3paeaGIhuBshIix2wKFwU-iX7OKxRKTvAjkt8L_k");
+        setupCategoryRecyclerView(view);
 
         setupSearchView(view);
         initView(view);
@@ -178,4 +181,13 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    private void setupCategoryRecyclerView(View view) {
+    RecyclerView categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
+    categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+    CategoryAdapter adapter = new CategoryAdapter(getContext(), position -> {
+        Toast.makeText(getContext(), "position" + position, Toast.LENGTH_SHORT).show();
+    });
+    categoryRecyclerView.setAdapter(adapter);
+}
 }

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,22 +73,22 @@ public class HomeViewModel extends ViewModel {
                             Log.d(NAME, "Fetch MostViewBooks Success:");
                         }
                     } else {
-                        Log.e(NAME, "Data is null");
+//                        Log.e(NAME, "Không có dữ liệu nào trả về");
+                        logErrorResponse("Không có dữ liệu nào trả về",response);
                     }
                 } else {
-                    Log.e(NAME, "Fetch API products failed: " + response.message());
+                    logErrorResponse("Fetch HomeBookAPI failed: ",response);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<HomeBookResponse> call, @NonNull Throwable t) {
-                Log.e(NAME, "Fetch first API products onFailure: ", t);
+                Log.wtf(NAME, "Fetch HomeBookAPI failed onFailure: ", t);
             }
         });
     }
 
     public void fetchBookDetail(int bookId, String token) {
-    try {
         repositoryHome.fetchBookDetail(bookId, token, new Callback<DetailBookResponse>() {
             @Override
             public void onResponse(@NonNull Call<DetailBookResponse> call, @NonNull Response<DetailBookResponse> response) {
@@ -95,12 +96,7 @@ public class HomeViewModel extends ViewModel {
                     detailBook.postValue(response.body());
                     Log.d(NAME, "Fetch BookDetail Success");
                 } else {
-                    Log.e(NAME, "Fetch BookDetail failed: " + response.code() + " " + response.message());
-                    try {
-                        Log.e(NAME, "Error body: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        Log.e(NAME, "Error reading error body", e);
-                    }
+                    logErrorResponse("Fetch BookDetail failed: ",response);
                 }
             }
 
@@ -109,10 +105,8 @@ public class HomeViewModel extends ViewModel {
                 Log.e(NAME, "Fetch BookDetail onFailure: ", t);
             }
         });
-    } catch (Exception e) {
-        Log.e(NAME, "Exception in fetchBookDetail: ", e);
     }
-}
+
 
     public void clearAllLists() {
         bestSellerBookList.postValue(new ArrayList<>());
@@ -120,4 +114,22 @@ public class HomeViewModel extends ViewModel {
         randomBooksList.postValue(new ArrayList<>());
         mostViewBooksList.postValue(new ArrayList<>());
     }
+
+    private void logErrorResponse(String name, @NonNull Response<?> response) {
+        String logMessage = String.format("📛 Lỗi: %s => Mã lỗi: %d => Thông báo: %s", name, response.code(), response.message());
+        Log.e(NAME, logMessage);
+
+        ResponseBody errorBody = response.errorBody();
+        if (errorBody != null) {
+            try (ResponseBody responseBody = errorBody) {
+                String errorMessage = String.format("📛 Nội dung lỗi: %s", responseBody.string());
+                Log.e(NAME, errorMessage);
+            } catch (IOException e) {
+                Log.e(NAME, "📛 Lỗi khi đọc nội dung lỗi", e);
+            }
+        } else {
+            Log.e(NAME, "📛 Nội dung lỗi không tồn tại");
+        }
+    }
+
 }
