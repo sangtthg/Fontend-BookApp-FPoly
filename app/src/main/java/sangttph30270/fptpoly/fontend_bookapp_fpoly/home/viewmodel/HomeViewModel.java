@@ -88,8 +88,8 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    public void fetchBookDetail(int bookId, String token) {
-        repositoryHome.fetchBookDetail(bookId, token, new Callback<DetailBookResponse>() {
+    public void fetchBookDetail(int bookId) {
+        repositoryHome.fetchBookDetail(bookId, new Callback<DetailBookResponse>() {
             @Override
             public void onResponse(@NonNull Call<DetailBookResponse> call, @NonNull Response<DetailBookResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

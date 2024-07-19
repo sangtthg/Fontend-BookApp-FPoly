@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,6 +39,9 @@ public class HomeFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     SkeletonAdapter skeletonAdapter;
+
+    private int scrollPosition = 0;
+    private NestedScrollView nestedScrollView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -49,14 +53,12 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         homeViewModel.fetchHomeBookAPI();
-        //Test
-        homeViewModel.fetchBookDetail(14, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywicm9sZSI6InVzZXIiLCJjcmVhdGVkX2F0IjoxNzIxMzE1MTQyNzIyLCJpYXQiOjE3MjEzMTUxNDJ9.gWF3paeaGIhuBshIix2wKFwU-iX7OKxRKTvAjkt8L_k");
         setupCategoryRecyclerView(view);
 
         setupSearchView(view);
         initView(view);
         initRecyclerView();
-        setupSwipeRefresh(view);
+        setupSwipeRefresh();
 
         observeViewModel();
     }
@@ -83,50 +85,48 @@ public class HomeFragment extends Fragment {
         recyclerSachRanDom = view.findViewById(R.id.recyclerSachRanDom);
         recyclerNhieuLuotXemNhat = view.findViewById(R.id.recyclerNhieuLuotXemNhat);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        nestedScrollView = view.findViewById(R.id.nestedScrollViewHome);
     }
 
     private void initRecyclerView() {
         int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
         skeletonAdapter = new SkeletonAdapter(9);
 
-        //--
-        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), new AdapterSachBanChay.OnItemClickListener() {
-            @Override
-            public void onItemClick(String bookName) {
-                Toast.makeText(HomeFragment.this.getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
-            }
-        });
+        AdapterSachBanChay.OnItemClickListener itemClickListener1 = bookID -> {
+            homeViewModel.fetchBookDetail(bookID);
+            BookDetailsFragment fragment = new BookDetailsFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("bookID", bookID);
+//            fragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frameLayout, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        };
+
+        AdapterSachHome.OnItemClickListener itemClickListener2 = bookID -> {
+            homeViewModel.fetchBookDetail(bookID);
+            BookDetailsFragment fragment = new BookDetailsFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("bookID", bookID);
+//            fragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frameLayout, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        };
+
+
+
+        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), itemClickListener1);
+        adapterNhieuLuotXemNhat = new AdapterSachHome(new ArrayList<>(), itemClickListener2);
+        adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), itemClickListener2);
+        adapterSachRanDom = new AdapterSachHome(new ArrayList<>(), itemClickListener2);
+
         RecyclerViewUtil.setupLinear(getActivity(), recyclerSachBanChay, offset, adapterSachBanChay);
-
-
-        //--
-        adapterNhieuLuotXemNhat = new AdapterSachHome(new ArrayList<>(), new AdapterSachHome.OnItemClickListener() {
-            @Override
-            public void onItemClick(String bookName) {
-                Toast.makeText(HomeFragment.this.getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
-            }
-        });
         RecyclerViewUtil.setupLinear(getActivity(), recyclerNhieuLuotXemNhat, offset, adapterNhieuLuotXemNhat);
-
-
-        //--
-        adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), new AdapterSachHome.OnItemClickListener() {
-            @Override
-            public void onItemClick(String bookName) {
-                Toast.makeText(HomeFragment.this.getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
-            }
-        });
         RecyclerViewUtil.setupLinear(getActivity(), recyclerSachMoiCapNhat, offset, adapterSachMoiCapNhat);
-
-        //--
-        adapterSachRanDom = new AdapterSachHome(new ArrayList<>(), new AdapterSachHome.OnItemClickListener() {
-            @Override
-            public void onItemClick(String bookName) {
-                Toast.makeText(HomeFragment.this.getActivity(), "Book name: " + bookName, Toast.LENGTH_SHORT).show();
-            }
-        });
         RecyclerViewUtil.setupGrid(getActivity(), recyclerSachRanDom, offset, 3, adapterSachRanDom);
-
 
         recyclerSachBanChay.setAdapter(skeletonAdapter);
         recyclerNhieuLuotXemNhat.setAdapter(skeletonAdapter);
@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment {
         recyclerSachRanDom.setAdapter(skeletonAdapter);
     }
 
-    private void setupSwipeRefresh(View view) {
+    private void setupSwipeRefresh() {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             homeViewModel.clearAllLists();
             recyclerSachBanChay.setAdapter(skeletonAdapter);
@@ -144,10 +144,7 @@ public class HomeFragment extends Fragment {
             homeViewModel.fetchHomeBookAPI();
             swipeRefreshLayout.setRefreshing(false);
 
-
-
-            homeViewModel.fetchBookDetail(14, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywicm9sZSI6InVzZXIiLCJjcmVhdGVkX2F0IjoxNzIxMzE1MTQyNzIyLCJpYXQiOjE3MjEzMTUxNDJ9.gWF3paeaGIhuBshIix2wKFwU-iX7OKxRKTvAjkt8L_k");
-//            swipeRefreshLayout.setRefreshing(false);
+            homeViewModel.fetchBookDetail(14);
 
         });
     }
@@ -183,11 +180,28 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupCategoryRecyclerView(View view) {
-    RecyclerView categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
-    categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-    CategoryAdapter adapter = new CategoryAdapter(getContext(), position -> {
-        Toast.makeText(getContext(), "position" + position, Toast.LENGTH_SHORT).show();
-    });
-    categoryRecyclerView.setAdapter(adapter);
-}
+        RecyclerView categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
+        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        CategoryAdapter adapter = new CategoryAdapter(getContext(), position -> {
+            Toast.makeText(getContext(), "position" + position, Toast.LENGTH_SHORT).show();
+        });
+        categoryRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        scrollPosition = nestedScrollView.getScrollY();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nestedScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                nestedScrollView.scrollTo(0, scrollPosition);
+            }
+        });
+    }
 }
