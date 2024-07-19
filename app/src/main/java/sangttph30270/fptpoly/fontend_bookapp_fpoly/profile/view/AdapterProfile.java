@@ -50,7 +50,8 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
         holder.txtDoiMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Đổi mật khẩu",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(view.getContext(), ChangePasswordActivity.class);
+                view.getContext().startActivity(intent);
             }
         });
         holder.txtHoSoCuaToi.setOnClickListener(new View.OnClickListener() {
