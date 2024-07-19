@@ -47,6 +47,9 @@ android {
 }
 
 dependencies {
+
+    implementation ("androidx.recyclerview:recyclerview:1.2.1") // Cập nhật phiên bản nếu cần
+
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.1")
     implementation ("androidx.lifecycle:lifecycle-livedata:2.6.1")
@@ -76,6 +79,7 @@ dependencies {
     implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")

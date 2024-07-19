@@ -5,59 +5,45 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
+import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.model.ProfileModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper;
 
 public class ProfileFragment extends Fragment {
-    private CircleImageView imgProfile;
     private SharedPreferencesHelper sharedPreferencesHelper;
-    private EditText edtTenCuaBanProfile, edtEmailProfile, edtDiaChiProfile, edtMatKhauProfile;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        // Khởi tạo SharedPreferencesHelper
         sharedPreferencesHelper = new SharedPreferencesHelper(getContext());
-        imgProfile = view.findViewById(R.id.imgProfile);
-        edtTenCuaBanProfile = view.findViewById(R.id.edtTenCuaBanProfile);
-        edtEmailProfile = view.findViewById(R.id.edtEmailProfile);
-        edtDiaChiProfile = view.findViewById(R.id.edtDiaChiProfile);
-        edtMatKhauProfile = view.findViewById(R.id.edtMatKhauProfile);
-        String avatarUrl = sharedPreferencesHelper.getAvatar();
-        String tenUrl = sharedPreferencesHelper.getUsername();
-        String emailUrl = sharedPreferencesHelper.getEmail();
-        String diachiUrl = sharedPreferencesHelper.getToken();
-        String matkhauUrl = sharedPreferencesHelper.getToken();
-        if (avatarUrl != null && !avatarUrl.isEmpty()) {
-            Picasso.get()
-                    .load(avatarUrl) // Replace with avatar URL from SharedPreferences
-                    .placeholder(R.drawable.ic_launcher_background) // Placeholder image while loading
-                    .error(R.drawable.ic_launcher_background) // Error image if loading fails
-                    .into(imgProfile);
-        } else {
-            // Load a default image if avatar URL is not available
-            Picasso.get()
-                    .load(R.drawable.ic_launcher_background)
-                    .into(imgProfile);
-        }
-        edtTenCuaBanProfile.setText(tenUrl);
-        edtEmailProfile.setText(emailUrl);
-        edtDiaChiProfile.setText(diachiUrl);
-        edtMatKhauProfile.setText(matkhauUrl);
-        // Log user information
-        logUserInfo();
+
+        List<ProfileModel> profileList = new ArrayList<>();
+        profileList.add(new ProfileModel(
+                sharedPreferencesHelper.getUserId(),
+                sharedPreferencesHelper.getUsername(),
+                sharedPreferencesHelper.getEmail(),
+                sharedPreferencesHelper.getAvatar(),
+                sharedPreferencesHelper.getAuthToken(),
+                sharedPreferencesHelper.getResetCode(),
+                sharedPreferencesHelper.getUserStatus(),
+                sharedPreferencesHelper.getRole(),
+                sharedPreferencesHelper.getToken()
+        ));
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProfile);
+        AdapterProfile adapter = new AdapterProfile(profileList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         return view;
     }
 
