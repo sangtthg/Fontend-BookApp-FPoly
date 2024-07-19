@@ -13,11 +13,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.viewmodel.LoginViewModelFactory;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.MainActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
@@ -40,38 +44,33 @@ public class LoginScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // Initialize SharedPreferencesHelper
-        sharedPreferencesHelper = new SharedPreferencesHelper(this);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvTaoTaiKhoan = findViewById(R.id.tvTaoTaiKhoan);
         txtForgetPassword = findViewById(R.id.txtForgetPassword);
-        // Initialize LoginViewModel with SharedPreferencesHelper
-        loginViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends androidx.lifecycle.ViewModel> T create(@NonNull Class<T> modelClass) {
-                if (modelClass.isAssignableFrom(LoginViewModel.class)) {
-                    return (T) new LoginViewModel(sharedPreferencesHelper);
-                }
-                throw new IllegalArgumentException("Unknown ViewModel class");
-            }
-        }).get(LoginViewModel.class);
+        sharedPreferencesHelper = new SharedPreferencesHelper(this);
+        // Create an instance of LoginViewModelFactory
+        // Khởi tạo LoginViewModelFactory
+        // Create ViewModelFactory
+        // Khởi tạo LoginViewModelFactory
+        LoginViewModelFactory factory = new LoginViewModelFactory(sharedPreferencesHelper);
+
+        // Initialize ViewModelProvider with factory
+        loginViewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
 
 
         // Initialize LoginViewModel
-        loginViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends androidx.lifecycle.ViewModel> T create(@NonNull Class<T> modelClass) {
-                if (modelClass.isAssignableFrom(LoginViewModel.class)) {
-                    return (T) new LoginViewModel(sharedPreferencesHelper);
-                }
-                throw new IllegalArgumentException("Unknown ViewModel class");
-            }
-        }).get(LoginViewModel.class);
+//        loginViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory() {
+//            @NonNull
+//            @Override
+//            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+//                if (modelClass.isAssignableFrom(LoginViewModel.class)) {
+//                    return (T) new LoginViewModel(sharedPreferencesHelper);
+//                }
+//                throw new IllegalArgumentException("Unknown ViewModel class");
+//            }
+//        }).get(LoginViewModel.class);
 
         tvTaoTaiKhoan.setOnClickListener(view -> {
             Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
