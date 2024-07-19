@@ -65,56 +65,44 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public boolean onItemSelect(int i) {
+                Fragment selectedFragment = null;
                 switch (i) {
                     case 0: // Trang chủ
-                        loadFragment(homeFragment);
+                        selectedFragment = new HomeFragment();
                         break;
                     case 1: // Yêu thích
-                        loadFragment(favoriteFragment);
+                        selectedFragment = new FavoriteFragment();
                         break;
                     case 2: // Thông báo
-                        loadFragment(notificationFragment);
+                        selectedFragment = new NotificationFragment();
                         break;
                     case 3: // Profile
-                        loadFragment(profileFragment);
+                        selectedFragment = new ProfileFragment();
                         break;
                 }
+                loadFragment(selectedFragment);
                 return true;
             }
         });
+        ;
 
     }
-
-
 
     private void loadFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+    if (homeFragment.isAdded()) fragmentTransaction.hide(homeFragment);
+    if (favoriteFragment.isAdded()) fragmentTransaction.hide(favoriteFragment);
+    if (notificationFragment.isAdded()) fragmentTransaction.hide(notificationFragment);
+    if (profileFragment.isAdded()) fragmentTransaction.hide(profileFragment);
 
-        if (fragment.isAdded()) {
-            fragmentTransaction.show(fragment);
-        } else {
-            fragmentTransaction.add(R.id.frameLayout, fragment);
-        }
-
-
-        if (fragment != homeFragment) {
-            fragmentTransaction.hide(homeFragment);
-        }
-        if (fragment != favoriteFragment) {
-            fragmentTransaction.hide(favoriteFragment);
-        }
-        if (fragment != notificationFragment) {
-            fragmentTransaction.hide(notificationFragment);
-        }
-        if (fragment != profileFragment) {
-            fragmentTransaction.hide(profileFragment);
-        }
-
-        fragmentTransaction.commit();
+    if (fragment.isAdded()) {
+        fragmentTransaction.show(fragment);
+    } else {
+        fragmentTransaction.add(R.id.frameLayout, fragment);
     }
 
-
-
+    fragmentTransaction.commit();
+}
 }

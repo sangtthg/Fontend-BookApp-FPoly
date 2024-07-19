@@ -11,10 +11,11 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="@dimen/_12sdp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/_12sdp">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollViewHome"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -64,149 +65,108 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/_12sdp"
                     android:background="@drawable/custom_searchview"
-                    android:textColorHint="@color/app_green"
-                    android:queryHint="Search here..." />
+                    android:queryHint="Search here..."
+                    android:textColorHint="@color/app_green" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:gravity="center"
+                    android:paddingBottom="@dimen/_4sdp"
                     android:text="Thể loại sách"
                     android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:paddingBottom="@dimen/_4sdp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoryRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/myButton1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:paddingHorizontal="26dp"
-                        android:textColor="@color/white"
-                        android:backgroundTint="@color/orange"
-                        app:cornerRadius="50dp"
-                        android:text="Khoa học"
-                        />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/myButton2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:paddingHorizontal="26dp"
-                        android:layout_marginHorizontal="@dimen/_8sdp"
-                        android:textColor="@color/white"
-                        android:backgroundTint="@color/orange"
-                        app:cornerRadius="50dp"
-                        android:text="Khoa học"
-                        />
-
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/myButton3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:paddingHorizontal="26dp"
-                        android:textColor="@color/white"
-                        android:backgroundTint="@color/orange"
-                        app:cornerRadius="50dp"
-                        android:text="Khoa học"
-                        />
-
-                </LinearLayout>
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:gravity="center"
+                    android:paddingBottom="@dimen/_4sdp"
                     android:text="🔥 TOP SÁCH BÁN CHẠY "
                     android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_4sdp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerSachBanChay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
+                    android:nestedScrollingEnabled="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Tin Tức"
-                    android:textSize="@dimen/_12ssp"
                     android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center"
                     android:paddingBottom="@dimen/_4sdp"
+                    android:text="Tin Tức"
                     android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/img_banner_tin_tuc"/>
+                    android:src="@drawable/img_banner_tin_tuc" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:gravity="center"
+                    android:paddingBottom="@dimen/_4sdp"
                     android:text="Sách có nhiều sự chú ý nhất"
                     android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_4sdp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerNhieuLuotXemNhat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
+                    android:nestedScrollingEnabled="false" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:gravity="center"
+                    android:paddingBottom="@dimen/_4sdp"
                     android:text="Sách mới cập nhật"
                     android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_4sdp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerSachMoiCapNhat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
+                    android:nestedScrollingEnabled="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:gravity="center"
+                    android:paddingBottom="@dimen/_4sdp"
                     android:text="Gợi ý cho bạn"
                     android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_4sdp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerSachRanDom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
+                    android:nestedScrollingEnabled="false" />
 
 
             </LinearLayout>

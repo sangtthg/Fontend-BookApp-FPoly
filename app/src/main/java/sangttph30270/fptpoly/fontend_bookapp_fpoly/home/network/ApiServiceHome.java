@@ -17,6 +17,6 @@ public interface ApiServiceHome {
 
     @FormUrlEncoded
     @POST("api/book/get-detail")
-    Call<DetailBookResponse> getBookDetail(@Field("book_id") int bookId, @Header("Authorization") String authHeader);
+    Call<DetailBookResponse> getBookDetail(@Field("book_id") int bookId);
 
 }

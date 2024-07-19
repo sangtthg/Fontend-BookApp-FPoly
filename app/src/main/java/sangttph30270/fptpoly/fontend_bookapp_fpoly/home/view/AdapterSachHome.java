@@ -45,7 +45,7 @@ public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHo
                 .placeholder(R.drawable.loading_book)
                 .fitCenter()
                 .into(holder.imgAnhBia);
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getTitle()));
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getBookId()));
     }
 
     @Override
@@ -73,6 +73,6 @@ public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHo
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String bookName);
+        void onItemClick(int bookID);
     }
 }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +24,8 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.view.LoginScreen;
 public class ForgetPasswordScreen extends AppCompatActivity {
     private EditText edtTextForgetPassword;
     private Button btnXacNhanForgetPassword;
-private ImageButton btnBackLogin;
+    private ImageButton btnBackLogin;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ private ImageButton btnBackLogin;
         edtTextForgetPassword = findViewById(R.id.edtTextForgetPassword);
         btnXacNhanForgetPassword = findViewById(R.id.btnXacNhanForgetPassword);
         btnBackLogin = findViewById(R.id.btnBackLogin);
+        validateInputs();
         btnBackLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,5 +78,17 @@ private ImageButton btnBackLogin;
         }, 3000); // 3000 milliseconds = 3 seconds
     }
 
+    private boolean validateInputs() {
+        String email = edtTextForgetPassword.getText().toString().trim();
+        if (TextUtils.isEmpty(email)) {
+            edtTextForgetPassword.setError("Vui lòng nhập email");
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtTextForgetPassword.setError("Email không hợp lệ");
+            return false;
+        }
 
+
+        return true;
+    }
 }

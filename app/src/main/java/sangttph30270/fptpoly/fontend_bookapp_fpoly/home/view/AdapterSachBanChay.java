@@ -43,7 +43,7 @@ public class AdapterSachBanChay extends RecyclerView.Adapter<AdapterSachBanChay.
                 .placeholder(R.drawable.loading_book)
                 .fitCenter()
                 .into(holder.imgAnhBia);
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getTitle()));
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getBookId()));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class AdapterSachBanChay extends RecyclerView.Adapter<AdapterSachBanChay.
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String bookName);
+        void onItemClick(int bookID);
     }
 //    public void addItem(HomeBookModel newItem) {
 //        bookModelList.add(newItem);

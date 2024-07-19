@@ -20,18 +20,9 @@ public class RepositoryHome {
         call.enqueue(callback);
     }
 
-//    public void fetchBookDetail(int bookId, Callback<HomeBookResponse> callback) {
-//        Call<HomeBookResponse> call = apiService.getBookDetail(bookId, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiYWRtaW4iLCJjcmVhdGVkX2F0IjoxNzIwNDQ2OTAwOTA2LCJpYXQiOjE3MjA0NDY5MDB9.VDAKqzJAzZgDurgGYaquhg3bogwtzJbrnrs3y6EsBJ4");
-//        call.enqueue(callback);
-//    }
-
-    public void fetchBookDetail(int bookId, String token, Callback<DetailBookResponse> callback) {
-
-        String authHeader = token != null ? "Bearer " + token : null;
-        Call<DetailBookResponse> call = apiService.getBookDetail(bookId, authHeader);
+    public void fetchBookDetail(int bookId, Callback<DetailBookResponse> callback) {
+        Call<DetailBookResponse> call = apiService.getBookDetail(bookId);
         call.enqueue(callback);
     }
-
-
 
 }
