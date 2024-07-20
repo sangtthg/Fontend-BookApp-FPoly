@@ -28,6 +28,7 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterBookDetail;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
 
 public class BookDetailsActivity extends AppCompatActivity {
 
@@ -52,6 +53,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int bookID = intent.getIntExtra("bookID", -1);
 
+
         tts = new TextToSpeech(this, status -> {
             if (status != TextToSpeech.ERROR) {
                 tts.setLanguage(new Locale("vi"));
@@ -75,6 +77,9 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewDetailBook);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(1);
+        recyclerView.setAdapter(skeletonAdapter);
+
 
         homeViewModel.getDetailBook().observe(this, detailBookResponse -> {
             List<Object> items = new ArrayList<>();

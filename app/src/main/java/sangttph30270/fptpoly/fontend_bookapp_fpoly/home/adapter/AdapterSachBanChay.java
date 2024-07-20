@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,29 +17,30 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 
-public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHomeViewHolder> {
+public class AdapterSachBanChay extends RecyclerView.Adapter<AdapterSachBanChay.SachBanChayViewHolder> {
 
-    private  List<HomeBookModel> bookModelList;
+    private List<HomeBookModel> bookModelList;
     private final OnItemClickListener listener;
 
-    public AdapterSachHome(List<HomeBookModel> bookModelList, OnItemClickListener listener) {
+    public AdapterSachBanChay(List<HomeBookModel> bookModelList, OnItemClickListener listener) {
         this.bookModelList = bookModelList;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public SachHomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterSachBanChay.SachBanChayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book_home_sach_ban_chay, parent, false);
-        return new SachHomeViewHolder(view);
+        return new SachBanChayViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SachHomeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterSachBanChay.SachBanChayViewHolder holder, int position) {
         HomeBookModel bookModel = bookModelList.get(position);
         holder.tvTenSach.setText(bookModel.getTitle());
         holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
-        holder.tvSachBanChay.setVisibility(View.INVISIBLE);
+        holder.tvDaBan.setText(String.valueOf(bookModel.getPurchaseCount()));
+
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .placeholder(R.drawable.loading_book)
@@ -53,17 +54,18 @@ public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHo
         return bookModelList.size();
     }
 
-    public static class SachHomeViewHolder extends RecyclerView.ViewHolder {
+    public static class SachBanChayViewHolder extends RecyclerView.ViewHolder {
         TextView tvTenSach;
         TextView tvGiaSach;
-        TextView tvSachBanChay;
         ImageView imgAnhBia;
-        public SachHomeViewHolder(@NonNull View itemView) {
+        TextView tvDaBan;
+
+        public SachBanChayViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenSach = itemView.findViewById(R.id.tv_tenSach);
             tvGiaSach = itemView.findViewById(R.id.tv_giaSach);
             imgAnhBia = itemView.findViewById(R.id.imageView_anh_bia);
-            tvSachBanChay = itemView.findViewById(R.id.tv_sachBanChay);
+            tvDaBan = itemView.findViewById(R.id.tvDaBan);
         }
     }
 
@@ -75,4 +77,14 @@ public class AdapterSachHome extends RecyclerView.Adapter<AdapterSachHome.SachHo
     public interface OnItemClickListener {
         void onItemClick(int bookID);
     }
+//    public void addItem(HomeBookModel newItem) {
+//        bookModelList.add(newItem);
+//        notifyItemInserted(bookModelList.size() - 1);
+//    }
+//    public void removeItem(int position) {
+//        if (position >= 0 && position < bookModelList.size()) {
+//            bookModelList.remove(position);
+//            notifyItemRemoved(position);
+//        }
+//    }
 }

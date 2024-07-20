@@ -20,6 +20,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.ArrayList;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterSachBanChay;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterSachHome;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterSachHomeGoiY;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.CategoryAdapter;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.RecyclerViewUtil;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
@@ -35,7 +39,7 @@ public class HomeFragment extends Fragment {
 
     private AdapterSachBanChay adapterSachBanChay;
     private AdapterSachHome adapterSachMoiCapNhat;
-    private AdapterSachHome adapterSachRanDom;
+    private AdapterSachHomeGoiY adapterSachRanDom;
     private AdapterSachHome adapterNhieuLuotXemNhat;
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -96,16 +100,6 @@ public class HomeFragment extends Fragment {
         skeletonAdapter = new SkeletonAdapter(9);
 
         AdapterSachBanChay.OnItemClickListener itemClickListener1 = bookID -> {
-//            homeViewModel.fetchBookDetail(bookID);
-            BookDetailsFragment fragment = new BookDetailsFragment();
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("bookID", bookID);
-//            fragment.setArguments(bundle);
-//            requireActivity().getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.frameLayout, fragment)
-//                    .addToBackStack(null)
-//                    .commit();
-
             Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
             intent.putExtra("bookID", bookID);
             startActivity(intent);
@@ -117,17 +111,23 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         };
 
+        AdapterSachHomeGoiY.OnItemClickListener itemClickListenerHomeGoiY = bookID -> {
+            Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
+            intent.putExtra("bookID", bookID);
+            startActivity(intent);
+        };
+
 
 
         adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), itemClickListener1);
         adapterNhieuLuotXemNhat = new AdapterSachHome(new ArrayList<>(), itemClickListener2);
         adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), itemClickListener2);
-        adapterSachRanDom = new AdapterSachHome(new ArrayList<>(), itemClickListener2);
+        adapterSachRanDom = new AdapterSachHomeGoiY(new ArrayList<>(), itemClickListenerHomeGoiY);
 
         RecyclerViewUtil.setupLinear(getActivity(), recyclerSachBanChay, offset, adapterSachBanChay);
         RecyclerViewUtil.setupLinear(getActivity(), recyclerNhieuLuotXemNhat, offset, adapterNhieuLuotXemNhat);
         RecyclerViewUtil.setupLinear(getActivity(), recyclerSachMoiCapNhat, offset, adapterSachMoiCapNhat);
-        RecyclerViewUtil.setupGrid(getActivity(), recyclerSachRanDom, offset, 3, adapterSachRanDom);
+        RecyclerViewUtil.setupGrid(getActivity(), recyclerSachRanDom, offset, 2, adapterSachRanDom);
 
         recyclerSachBanChay.setAdapter(skeletonAdapter);
         recyclerNhieuLuotXemNhat.setAdapter(skeletonAdapter);
