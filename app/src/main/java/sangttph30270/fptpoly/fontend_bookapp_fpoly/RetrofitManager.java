@@ -11,18 +11,18 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper
 
 public class RetrofitManager {
     private static Retrofit retrofit = null;
+    private static SharedPreferencesHelper sharedPreferencesHelper;
+
 
     public static <T> T createService(Class<T> serviceClass, String baseUrl, String token) {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        sharedPreferencesHelper = new SharedPreferencesHelper(null);
 
-
+//        token = sharedPreferencesHelper.getToken();
         token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywicm9sZSI6InVzZXIiLCJjcmVhdGVkX2F0IjoxNzIxMzE1MTQyNzIyLCJpYXQiOjE3MjEzMTUxNDJ9.gWF3paeaGIhuBshIix2wKFwU-iX7OKxRKTvAjkt8L_k";
 
         if (token != null && !token.isEmpty()) {
             httpClientBuilder.addInterceptor(new AuthInterceptor(token));
-            Log.d("RetrofitManager" , "Token="+token);
-        } else {
-            Log.wtf("RetrofitManager" , "NO TOKEN");
         }
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new CustomLogger());

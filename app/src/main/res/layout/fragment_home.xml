@@ -53,7 +53,7 @@
                         android:id="@+id/my_image_view2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_cart_home"
+                        android:src="@drawable/icon_cart"
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
 
@@ -64,9 +64,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/_12sdp"
+                    android:queryHint="Tìm kiếm..."
+                    android:iconifiedByDefault="false"
+                    android:queryBackground="@android:color/transparent"
                     android:background="@drawable/custom_searchview"
-                    android:queryHint="Search here..."
-                    android:textColorHint="@color/app_green" />
+                    />
 
 
                 <TextView

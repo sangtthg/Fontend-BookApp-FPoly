@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.MyApp;
+
 public class SharedPreferencesHelper {
     private static final String PREFS_NAME = "MyPreferences";
     private static final String KEY_USER_ID = "user_id";
@@ -19,7 +21,11 @@ public class SharedPreferencesHelper {
     private final SharedPreferences sharedPreferences;
 
     public SharedPreferencesHelper(Context context) {
-        sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        if (context != null) {
+            sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        } else {
+            sharedPreferences = MyApp.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        }
     }
 
     public void saveUserData(int userId, String username, String email, String avatar, String authToken, String resetCode, int userStatus, String role, String token) {

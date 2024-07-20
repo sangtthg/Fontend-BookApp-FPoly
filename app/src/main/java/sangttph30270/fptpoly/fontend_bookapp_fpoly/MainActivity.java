@@ -1,5 +1,4 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -10,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -19,24 +17,18 @@ import android.view.WindowManager;
 import me.ibrahimsn.lib.OnItemSelectedListener;
 import me.ibrahimsn.lib.SmoothBottomBar;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.favorite.view.FavoriteFragment;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.notification.view.NotificationFragment;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view.HomeFragment;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.view.ProfileFragment;
-
-
-import me.ibrahimsn.lib.OnItemSelectedListener;
-import me.ibrahimsn.lib.SmoothBottomBar;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.favorite.view.FavoriteFragment;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.notification.view.NotificationFragment;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view.HomeFragment;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.view.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private HomeFragment homeFragment;
-    private FavoriteFragment favoriteFragment;
-    private NotificationFragment notificationFragment;
-    private ProfileFragment profileFragment;
+    private final Fragment homeFragment = new HomeFragment();
+    private final Fragment favoriteFragment = new FavoriteFragment();
+    private final Fragment notificationFragment = new NotificationFragment();
+    private final Fragment profileFragment = new ProfileFragment();
+    private final FragmentManager fm = getSupportFragmentManager();
+    private Fragment activeFragment = homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,60 +43,32 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        fm.beginTransaction().add(R.id.frameLayout, homeFragment, "1").commit();
+        fm.beginTransaction().add(R.id.frameLayout, favoriteFragment, "2").hide(favoriteFragment).commit();
+        fm.beginTransaction().add(R.id.frameLayout, notificationFragment, "3").hide(notificationFragment).commit();
+        fm.beginTransaction().add(R.id.frameLayout, profileFragment, "4").hide(profileFragment).commit();
 
         SmoothBottomBar bottomBar = findViewById(R.id.bottomBar);
+        bottomBar.setOnItemSelectedListener((OnItemSelectedListener) i -> {
+            fm.beginTransaction().hide(activeFragment).commit();
 
-        homeFragment = new HomeFragment();
-        favoriteFragment = new FavoriteFragment();
-        notificationFragment = new NotificationFragment();
-        profileFragment = new ProfileFragment();
-
-
-        loadFragment(homeFragment);
-
-        bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
-            @Override
-            public boolean onItemSelect(int i) {
-                Fragment selectedFragment = null;
-                switch (i) {
-                    case 0: // Trang chủ
-                        selectedFragment = new HomeFragment();
-                        break;
-                    case 1: // Yêu thích
-                        selectedFragment = new FavoriteFragment();
-                        break;
-                    case 2: // Thông báo
-                        selectedFragment = new NotificationFragment();
-                        break;
-                    case 3: // Profile
-                        selectedFragment = new ProfileFragment();
-                        break;
-                }
-                loadFragment(selectedFragment);
-                return true;
+            switch (i) {
+                case 0: // Home
+                    activeFragment = homeFragment;
+                    break;
+                case 1: // Favorite
+                    activeFragment = favoriteFragment;
+                    break;
+                case 2: // Notifications
+                    activeFragment = notificationFragment;
+                    break;
+                case 3: // Profile
+                    activeFragment = profileFragment;
+                    break;
             }
+
+            fm.beginTransaction().show(activeFragment).commit();
+            return true;
         });
-        ;
-
     }
-
-    private void loadFragment(Fragment fragment) {
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-    if (homeFragment.isAdded()) fragmentTransaction.hide(homeFragment);
-    if (favoriteFragment.isAdded()) fragmentTransaction.hide(favoriteFragment);
-    if (notificationFragment.isAdded()) fragmentTransaction.hide(notificationFragment);
-    if (profileFragment.isAdded()) fragmentTransaction.hide(profileFragment);
-
-    if (fragment.isAdded()) {
-        fragmentTransaction.show(fragment);
-    } else {
-        fragmentTransaction.add(R.id.frameLayout, fragment);
-    }
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.addToBackStack(null);
-
-        fragmentTransaction.commit();
-}
 }

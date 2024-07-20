@@ -1,5 +1,6 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,27 +96,25 @@ public class HomeFragment extends Fragment {
         skeletonAdapter = new SkeletonAdapter(9);
 
         AdapterSachBanChay.OnItemClickListener itemClickListener1 = bookID -> {
-            homeViewModel.fetchBookDetail(bookID);
+//            homeViewModel.fetchBookDetail(bookID);
             BookDetailsFragment fragment = new BookDetailsFragment();
 //            Bundle bundle = new Bundle();
 //            bundle.putInt("bookID", bookID);
 //            fragment.setArguments(bundle);
-            requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frameLayout, fragment)
-                    .addToBackStack(null)
-                    .commit();
+//            requireActivity().getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.frameLayout, fragment)
+//                    .addToBackStack(null)
+//                    .commit();
+
+            Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
+            intent.putExtra("bookID", bookID);
+            startActivity(intent);
         };
 
         AdapterSachHome.OnItemClickListener itemClickListener2 = bookID -> {
-            homeViewModel.fetchBookDetail(bookID);
-            BookDetailsFragment fragment = new BookDetailsFragment();
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("bookID", bookID);
-//            fragment.setArguments(bundle);
-            requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frameLayout, fragment)
-                    .addToBackStack(null)
-                    .commit();
+            Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
+            intent.putExtra("bookID", bookID);
+            startActivity(intent);
         };
 
 

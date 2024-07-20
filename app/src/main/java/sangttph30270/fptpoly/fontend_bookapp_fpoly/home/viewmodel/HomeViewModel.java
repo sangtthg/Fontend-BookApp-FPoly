@@ -28,6 +28,8 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<List<HomeBookModel>> randomBooksList = new MutableLiveData<>();
     private final MutableLiveData<List<HomeBookModel>> mostViewBooksList = new MutableLiveData<>();
     private final MutableLiveData<DetailBookResponse> detailBook = new MutableLiveData<>();
+    private final MutableLiveData<Integer> badge = new MutableLiveData<>();
+    private final MutableLiveData<String> listen = new MutableLiveData<>();
 
     public LiveData<List<HomeBookModel>> getBestSellerBookList() {
         return bestSellerBookList;
@@ -47,6 +49,14 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<DetailBookResponse> getDetailBook() {
         return detailBook;
+    }
+
+    public MutableLiveData<String> getListen() {
+        return listen;
+    }
+
+    public LiveData<Integer> getBadge() {
+        return badge;
     }
 
     public void fetchHomeBookAPI() {
@@ -94,6 +104,7 @@ public class HomeViewModel extends ViewModel {
             public void onResponse(@NonNull Call<DetailBookResponse> call, @NonNull Response<DetailBookResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     detailBook.postValue(response.body());
+                    listen.postValue(response.body().getData().getDescription());
                     Log.d(NAME, "Fetch BookDetail Success");
                 } else {
                     logErrorResponse("Fetch BookDetail failed: ",response);
