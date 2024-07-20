@@ -102,7 +102,9 @@ public class MainActivity extends AppCompatActivity {
     } else {
         fragmentTransaction.add(R.id.frameLayout, fragment);
     }
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.addToBackStack(null);
 
-    fragmentTransaction.commit();
+        fragmentTransaction.commit();
 }
 }

@@ -3,15 +3,18 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url = uri("https://www.jitpack.io")}
+        jcenter()
+        maven { url = uri("https://www.jitpack.io") }
+
     }
+
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        jcenter()
+        jcenter()  // Có thể không cần thiết nếu đã thay thế bằng Maven Central
         maven { url = uri("https://www.jitpack.io")}
         gradlePluginPortal()
     }

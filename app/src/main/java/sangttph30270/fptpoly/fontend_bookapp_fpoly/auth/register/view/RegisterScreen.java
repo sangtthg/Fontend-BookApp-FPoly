@@ -1,5 +1,6 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.forgetpassword.view.ForgetPasswordScreen;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.view.LoginScreen;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.model.OTPModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.register.viewmodel.RegisterViewModel;
@@ -31,7 +34,8 @@ public class RegisterScreen extends AppCompatActivity {
     private boolean isPasswordVisible = false;
     private RegisterViewModel registerViewModel;
     private TextView tvDangNhap;
-
+private ImageButton btnBackLoginRegister;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,7 @@ public class RegisterScreen extends AppCompatActivity {
         editTextUsernameRegister = findViewById(R.id.editTextUsernameRegister);
         editTextPasswordRegister = findViewById(R.id.editTextPasswordRegister);
         editTextRePasswordRegister = findViewById(R.id.editTextRePasswordRegister);
+        btnBackLoginRegister = findViewById(R.id.btnBackLoginRegister);
         tvDangNhap = findViewById(R.id.tvDangNhap);
         btnRegister = findViewById(R.id.btnRegister);
         editTextPasswordRegister.setOnTouchListener((v, event) -> {
@@ -102,6 +107,15 @@ public class RegisterScreen extends AppCompatActivity {
                     registerViewModel.setOtpModel(otpModel);
                     registerViewModel.postOTPAPI(otpModel);
                 }
+            }
+        });
+
+        btnBackLoginRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
