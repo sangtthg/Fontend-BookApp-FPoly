@@ -19,6 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartDeleteRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartItem;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
@@ -36,7 +37,7 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<Integer> badge = new MutableLiveData<>();
     private final MutableLiveData<String> listen = new MutableLiveData<>();
 
-    private List<Integer> selectedCartItemIds = new ArrayList<>();
+    private final List<Integer> selectedCartItemIds = new ArrayList<>();
 
 
     public LiveData<List<HomeBookModel>> getBestSellerBookList() {
@@ -96,10 +97,10 @@ public class HomeViewModel extends ViewModel {
                         }
                     } else {
 //                        Log.e(NAME, "Không có dữ liệu nào trả về");
-                        logErrorResponse("Không có dữ liệu nào trả về",response);
+                        logErrorResponse("Không có dữ liệu nào trả về", response);
                     }
                 } else {
-                    logErrorResponse("Fetch HomeBookAPI failed: ",response);
+                    logErrorResponse("Fetch HomeBookAPI failed: ", response);
                 }
             }
 
@@ -119,13 +120,38 @@ public class HomeViewModel extends ViewModel {
                     listen.postValue(response.body().getData().getDescription());
                     Log.d(NAME, "Fetch BookDetail Success");
                 } else {
-                    logErrorResponse("Fetch BookDetail failed: ",response);
+                    logErrorResponse("Fetch BookDetail failed: ", response);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<DetailBookResponse> call, @NonNull Throwable t) {
                 Log.e(NAME, "Fetch BookDetail onFailure: ", t);
+            }
+        });
+    }
+
+    //=============
+
+    public void fetchCartList() {
+        repositoryHome.fetchCartList(new Callback<CartListResponse>() {
+            @Override
+            public void onResponse(Call<CartListResponse> call, Response<CartListResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    CartListResponse.CartData cartData = response.body().getData();
+                    List<CartListResponse.CartItemDetail> cartItems = cartData.getData();
+
+                    for (CartListResponse.CartItemDetail item : cartItems) {
+                        System.out.println("Cart ID: " + item.getCartId() + ", Book ID: " + item.getBookId() + ", Quantity: " + item.getQuantity());
+                    }
+                } else {
+                    System.out.println("Failed to fetch cart list");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartListResponse> call, Throwable t) {
+                System.out.println("Error fetching cart list: " + t.getMessage());
             }
         });
     }

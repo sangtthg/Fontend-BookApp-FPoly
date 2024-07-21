@@ -4,6 +4,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.RetrofitManager;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartDeleteRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
@@ -34,6 +35,11 @@ public class RepositoryHome {
 
     public void deleteCartItems(CartDeleteRequest cartDeleteRequest, Callback<Void> callback) {
         Call<Void> call = apiService.deleteCartItems(cartDeleteRequest);
+        call.enqueue(callback);
+    }
+
+    public void fetchCartList(Callback<CartListResponse> callback) {
+        Call<CartListResponse> call = apiService.fetchCartList();
         call.enqueue(callback);
     }
 

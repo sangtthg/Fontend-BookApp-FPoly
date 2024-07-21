@@ -10,6 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartDeleteRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
@@ -27,4 +28,7 @@ public interface ApiServiceHome {
 
     @POST("api/cart/delete")
     Call<Void> deleteCartItems(@Body CartDeleteRequest cartDeleteRequest);
+
+    @POST("api/cart/get")
+    Call<CartListResponse> fetchCartList();
 }

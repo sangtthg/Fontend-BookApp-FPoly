@@ -68,6 +68,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.fetchBookDetail(bookID);
+        homeViewModel.fetchCartList();
 
 
         new QBadgeView(this)
