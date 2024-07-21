@@ -72,7 +72,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 
 
         new QBadgeView(this)
-                .bindTarget(findViewById(R.id.cartIcon))
+                .bindTarget(findViewById(R.id.btnCart))
                 .setBadgeNumber(25)
                 .setBadgeBackgroundColor(Color.RED)
                 .setBadgeTextColor(Color.WHITE)
@@ -146,6 +146,13 @@ public class BookDetailsActivity extends AppCompatActivity {
                 listening = false;
             }
         });
+
+        findViewById(R.id.btnCart).setOnClickListener(v -> {
+            Intent intent = new Intent(BookDetailsActivity.this, ShoppingCartActivity.class);
+            startActivity(intent);
+        });
+
+
     }
 
     @Override

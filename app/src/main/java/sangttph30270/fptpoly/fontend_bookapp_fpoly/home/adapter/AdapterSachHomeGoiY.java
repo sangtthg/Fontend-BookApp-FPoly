@@ -40,6 +40,7 @@ public class AdapterSachHomeGoiY extends RecyclerView.Adapter<AdapterSachHomeGoi
         holder.tvTenSach.setText(bookModel.getTitle());
         holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
         holder.tvDaBan.setText(String.valueOf(bookModel.getPurchaseCount()));
+        holder.tvSachBanChay.setVisibility(View.GONE);
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .placeholder(R.drawable.loading_book)
