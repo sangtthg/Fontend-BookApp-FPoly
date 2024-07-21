@@ -97,7 +97,8 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                 Glide.with(getContext())
                         .load(data.getBookAvatar())
                         .placeholder(R.drawable.loading_book)
-                        .fitCenter()
+                        .error(R.drawable.ic_error_photo)
+                        .centerCrop()
                         .into(book_image_detail);
             } else {
                 tvBookTitleDetaill.setText("Null");

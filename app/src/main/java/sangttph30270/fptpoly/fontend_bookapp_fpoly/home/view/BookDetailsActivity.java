@@ -1,5 +1,6 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -20,12 +21,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import q.rorbin.badgeview.QBadgeView;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterBookDetail;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartDeleteRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
@@ -38,6 +41,7 @@ public class BookDetailsActivity extends AppCompatActivity {
     private TextToSpeech tts;
 
     private boolean listening = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,15 +103,31 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         findViewById(R.id.btnMuaNgay).setOnClickListener(v -> {
             Toast.makeText(this, "Mua Ngay", Toast.LENGTH_SHORT).show();
+            homeViewModel.updateSelectedCartItemIds(9, true);
+            System.out.println(homeViewModel.getSelectedCartItemIds());
         });
 
         findViewById(R.id.btnAddToCart).setOnClickListener(v -> {
-            Toast.makeText(this, "Đặt hàng", Toast.LENGTH_SHORT).show();
+            int bookId = getIntent().getIntExtra("bookID", -1);
+            if (bookId != -1) {
+                homeViewModel.addToCart(bookId, 1, this);
+                Toast.makeText(this, "Đang thêm vào giỏ hàng...", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Lỗi: Không thể xác định ID sách", Toast.LENGTH_SHORT).show();
+            }
         });
 
         findViewById(R.id.btnCallNow).setOnClickListener(v -> {
-            Toast.makeText(this, "!!!", Toast.LENGTH_SHORT).show();
-        });
+            List<Integer> selectedCartItemIds = homeViewModel.getSelectedCartItemIds();
+
+            List<CartDeleteRequest.CartItemDelete> cartItemsToDelete = new ArrayList<>();
+            for (Integer cartItemId : selectedCartItemIds) {
+                cartItemsToDelete.add(new CartDeleteRequest.CartItemDelete(cartItemId));
+            }
+
+            homeViewModel.deleteCartItems(cartItemsToDelete);
+            Toast.makeText(this, "Deleting items...", Toast.LENGTH_SHORT).show();
+        });;
 
         ImageButton btnListen = findViewById(R.id.btnListen);
         btnListen.setOnClickListener(v -> {

@@ -1,6 +1,8 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -15,6 +17,9 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartDeleteRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartItem;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
@@ -30,6 +35,9 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<DetailBookResponse> detailBook = new MutableLiveData<>();
     private final MutableLiveData<Integer> badge = new MutableLiveData<>();
     private final MutableLiveData<String> listen = new MutableLiveData<>();
+
+    private List<Integer> selectedCartItemIds = new ArrayList<>();
+
 
     public LiveData<List<HomeBookModel>> getBestSellerBookList() {
         return bestSellerBookList;
@@ -49,6 +57,10 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<DetailBookResponse> getDetailBook() {
         return detailBook;
+    }
+
+    public List<Integer> getSelectedCartItemIds() {
+        return selectedCartItemIds;
     }
 
     public MutableLiveData<String> getListen() {
@@ -114,6 +126,57 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onFailure(@NonNull Call<DetailBookResponse> call, @NonNull Throwable t) {
                 Log.e(NAME, "Fetch BookDetail onFailure: ", t);
+            }
+        });
+    }
+
+    public void addToCart(int bookId, int quantity, Context context) {
+        List<CartItem> cartItems = new ArrayList<>();
+        cartItems.add(new CartItem(bookId, quantity));
+        CartRequest cartRequest = new CartRequest(cartItems);
+
+        repositoryHome.addToCart(cartRequest, new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Đã thêm!", Toast.LENGTH_SHORT).show();
+                } else {
+                    logErrorResponse("Failed to add to cart", response);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Log.e(NAME, "Error adding to cart", t);
+            }
+        });
+    }
+
+    public void updateSelectedCartItemIds(int cartItemId, boolean isSelected) {
+        if (isSelected) {
+            if (!selectedCartItemIds.contains(cartItemId)) {
+                selectedCartItemIds.add(cartItemId);
+            }
+        } else {
+            selectedCartItemIds.remove(Integer.valueOf(cartItemId));
+        }
+    }
+
+    public void deleteCartItems(List<CartDeleteRequest.CartItemDelete> cartItems) {
+        CartDeleteRequest request = new CartDeleteRequest(cartItems);
+        repositoryHome.deleteCartItems(request, new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d(NAME, "Items deleted successfully");
+                } else {
+                    logErrorResponse("Failed to delete items", response);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Log.e(NAME, "Error deleting items", t);
             }
         });
     }
