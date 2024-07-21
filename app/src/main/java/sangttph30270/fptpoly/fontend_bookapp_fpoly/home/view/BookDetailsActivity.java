@@ -103,8 +103,8 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         findViewById(R.id.btnMuaNgay).setOnClickListener(v -> {
             Toast.makeText(this, "Mua Ngay", Toast.LENGTH_SHORT).show();
-            homeViewModel.updateSelectedCartItemIds(9, true);
-            System.out.println(homeViewModel.getSelectedCartItemIds());
+//            homeViewModel.updateSelectedCartItemIds(9, true);
+//            System.out.println(homeViewModel.getSelectedCartItemIds());
         });
 
         findViewById(R.id.btnAddToCart).setOnClickListener(v -> {
@@ -118,15 +118,15 @@ public class BookDetailsActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btnCallNow).setOnClickListener(v -> {
-            List<Integer> selectedCartItemIds = homeViewModel.getSelectedCartItemIds();
-
-            List<CartDeleteRequest.CartItemDelete> cartItemsToDelete = new ArrayList<>();
-            for (Integer cartItemId : selectedCartItemIds) {
-                cartItemsToDelete.add(new CartDeleteRequest.CartItemDelete(cartItemId));
-            }
-
-            homeViewModel.deleteCartItems(cartItemsToDelete);
-            Toast.makeText(this, "Deleting items...", Toast.LENGTH_SHORT).show();
+//            List<Integer> selectedCartItemIds = homeViewModel.getSelectedCartItemIds();
+//
+//            List<CartDeleteRequest.CartItemDelete> cartItemsToDelete = new ArrayList<>();
+//            for (Integer cartItemId : selectedCartItemIds) {
+//                cartItemsToDelete.add(new CartDeleteRequest.CartItemDelete(cartItemId));
+//            }
+//
+//            homeViewModel.deleteCartItems(cartItemsToDelete);
+//            Toast.makeText(this, "Deleting items...", Toast.LENGTH_SHORT).show();
         });;
 
         ImageButton btnListen = findViewById(R.id.btnListen);
