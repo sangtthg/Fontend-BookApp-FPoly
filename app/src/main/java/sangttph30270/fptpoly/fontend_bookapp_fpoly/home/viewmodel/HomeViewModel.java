@@ -36,6 +36,8 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<DetailBookResponse> detailBook = new MutableLiveData<>();
     private final MutableLiveData<Integer> badge = new MutableLiveData<>();
     private final MutableLiveData<String> listen = new MutableLiveData<>();
+    private MutableLiveData<Integer> cartItemCount = new MutableLiveData<>();
+
 
     private final List<Integer> selectedCartItemIds = new ArrayList<>();
 
@@ -78,6 +80,10 @@ public class HomeViewModel extends ViewModel {
         return badge;
     }
 
+    public MutableLiveData<Integer> getCartItemCount() {
+        return cartItemCount;
+    }
+
     public void fetchHomeBookAPI() {
         repositoryHome.fetchApiHomePageBook(new Callback<HomeBookResponse>() {
             @Override
@@ -102,7 +108,6 @@ public class HomeViewModel extends ViewModel {
                             Log.d(NAME, "Fetch MostViewBooks Success:");
                         }
                     } else {
-//                        Log.e(NAME, "Không có dữ liệu nào trả về");
                         logErrorResponse("Không có dữ liệu nào trả về", response);
                     }
                 } else {
@@ -140,26 +145,29 @@ public class HomeViewModel extends ViewModel {
     //=============
 
     public void fetchCartList() {
-    repositoryHome.fetchCartList(new Callback<CartListResponse>() {
-        @Override
-        public void onResponse(Call<CartListResponse> call, Response<CartListResponse> response) {
-            if (response.isSuccessful() && response.body() != null) {
-                CartListResponse.CartData cartData = response.body().getData();
-                List<CartListResponse.CartItemDetail> cartItems = cartData.getData();
-                cartItemList.postValue(cartItems); // Update LiveData list
-            } else {
-                System.out.println("Failed to fetch cart list");
-                cartItemList.postValue(new ArrayList<>()); // Post an empty list in case of failure
+        repositoryHome.fetchCartList(new Callback<CartListResponse>() {
+            @Override
+            public void onResponse(Call<CartListResponse> call, Response<CartListResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    CartListResponse.CartData cartData = response.body().getData();
+                    List<CartListResponse.CartItemDetail> cartItems = cartData.getData();
+                    cartItemList.postValue(cartItems);
+                    cartItemCount.postValue(cartItems.size());
+                } else {
+                    System.out.println("Failed to fetch cart list");
+                    cartItemList.postValue(new ArrayList<>());
+                    cartItemCount.postValue(0);
+                }
             }
-        }
 
-        @Override
-        public void onFailure(Call<CartListResponse> call, Throwable t) {
-            System.out.println("Error fetching cart list: " + t.getMessage());
-            cartItemList.postValue(new ArrayList<>()); // Post an empty list in case of failure
-        }
-    });
-}
+            @Override
+            public void onFailure(Call<CartListResponse> call, Throwable t) {
+                System.out.println("Error fetching cart list: " + t.getMessage());
+                cartItemList.postValue(new ArrayList<>());
+                cartItemCount.postValue(0);
+            }
+        });
+    }
 
     public void addToCart(int bookId, int quantity, Context context) {
         List<CartItem> cartItems = new ArrayList<>();

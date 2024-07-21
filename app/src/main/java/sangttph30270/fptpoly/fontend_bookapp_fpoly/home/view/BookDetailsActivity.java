@@ -71,13 +71,15 @@ public class BookDetailsActivity extends AppCompatActivity {
         homeViewModel.fetchCartList();
 
 
-        new QBadgeView(this)
-                .bindTarget(findViewById(R.id.btnCart))
-                .setBadgeNumber(25)
-                .setBadgeBackgroundColor(Color.RED)
-                .setBadgeTextColor(Color.WHITE)
-                .setGravityOffset(-2, -1, true)
-                .setBadgeGravity(Gravity.END | Gravity.TOP);
+        homeViewModel.getCartItemCount().observe(this, itemCount -> {
+            new QBadgeView(this)
+                    .bindTarget(findViewById(R.id.btnCart))
+                    .setBadgeNumber(itemCount)
+                    .setBadgeBackgroundColor(Color.RED)
+                    .setBadgeTextColor(Color.WHITE)
+                    .setGravityOffset(-2, -1, true)
+                    .setBadgeGravity(Gravity.END | Gravity.TOP);
+        });
 
 
         recyclerView = findViewById(R.id.recyclerViewDetailBook);
@@ -128,7 +130,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 //
 //            homeViewModel.deleteCartItems(cartItemsToDelete);
 //            Toast.makeText(this, "Deleting items...", Toast.LENGTH_SHORT).show();
-        });;
+        });
 
         ImageButton btnListen = findViewById(R.id.btnListen);
         btnListen.setOnClickListener(v -> {
