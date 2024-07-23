@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -68,10 +69,11 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.fetchBookDetail(bookID);
-        homeViewModel.fetchCartList();
+        homeViewModel.fetchTotalItemInCart();
 
 
         homeViewModel.getCartItemCount().observe(this, itemCount -> {
+            Log.d("BookDetailsActivity", "Updating badge count: " + itemCount); // Debug log
             new QBadgeView(this)
                     .bindTarget(findViewById(R.id.btnCart))
                     .setBadgeNumber(itemCount)
@@ -106,8 +108,6 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         findViewById(R.id.btnMuaNgay).setOnClickListener(v -> {
             Toast.makeText(this, "Mua Ngay", Toast.LENGTH_SHORT).show();
-//            homeViewModel.updateSelectedCartItemIds(9, true);
-//            System.out.println(homeViewModel.getSelectedCartItemIds());
         });
 
         findViewById(R.id.btnAddToCart).setOnClickListener(v -> {
@@ -115,6 +115,7 @@ public class BookDetailsActivity extends AppCompatActivity {
             if (bookId != -1) {
                 homeViewModel.addToCart(bookId, 1, this);
                 Toast.makeText(this, "Đang thêm vào giỏ hàng...", Toast.LENGTH_SHORT).show();
+//                homeViewModel.fetchCartList();
             } else {
                 Toast.makeText(this, "Lỗi: Không thể xác định ID sách", Toast.LENGTH_SHORT).show();
             }

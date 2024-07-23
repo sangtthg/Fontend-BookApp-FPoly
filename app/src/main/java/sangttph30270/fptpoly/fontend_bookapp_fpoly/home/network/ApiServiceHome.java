@@ -29,6 +29,9 @@ public interface ApiServiceHome {
     @POST("api/cart/delete")
     Call<Void> deleteCartItems(@Body CartDeleteRequest cartDeleteRequest);
 
-    @POST("api/cart/get")
-    Call<CartListResponse> fetchCartList();
+    @GET("api/cart/get")
+    Call<CartListResponse> fetchCartList(@Query("page") int page, @Query("limit") int limit);
+
+    @GET("api/cart/total-items")
+    Call<CartListResponse> fetchTotalItemInCart();
 }

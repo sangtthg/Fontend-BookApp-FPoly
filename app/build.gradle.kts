@@ -81,6 +81,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("q.rorbin:badgeview:1.1.3")
+    implementation("com.github.travijuu:numberpicker:1.0.7")
 
 
 

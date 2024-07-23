@@ -1,19 +1,26 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class CartListResponse {
     @SerializedName("status")
     private String status;
 
+    @SerializedName("totalItems")
+    private int totalItems;
+
     @SerializedName("data")
     private CartData data;
 
 
-
     public String getStatus() {
         return status;
+    }
+
+    public int getTotalItems() {
+        return totalItems;
     }
 
     public CartData getData() {
@@ -61,6 +68,8 @@ public class CartListResponse {
         @SerializedName("Book")
         private DetailBookResponse.BookData book;
 
+        private boolean selected;
+
         public int getCartId() {
             return cartId;
         }
@@ -92,6 +101,14 @@ public class CartListResponse {
         public DetailBookResponse.BookData getBook() {
             return book;
         }
-    }
 
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void setSelected(boolean selected) {
+
+        }
+
+    }
 }

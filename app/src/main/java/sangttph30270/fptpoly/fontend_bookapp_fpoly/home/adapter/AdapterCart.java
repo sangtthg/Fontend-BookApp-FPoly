@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,11 +23,20 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
 
 public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder> {
 
-    private List<CartListResponse.CartItemDetail> cartItemList;
+    private final List<CartListResponse.CartItemDetail> cartItemList;
+
+    private OnItemCheckedChangeListener onItemCheckedBoxChangeListener;
+    private boolean showCheckbox = true;
 
     public AdapterCart(List<CartListResponse.CartItemDetail> cartItemList) {
         this.cartItemList = cartItemList;
     }
+
+    public void setOnItemCheckedBoxChangeListener(OnItemCheckedChangeListener listener) {
+        this.onItemCheckedBoxChangeListener = listener;
+    }
+
+
 
     @NonNull
     @Override
@@ -52,23 +61,38 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
                 .centerCrop()
                 .into(holder.bookImage);
 
-
-
-        holder.quantity.setText(String.valueOf(cartItemDetail.getQuantity()));
-
-        holder.btnIncrease.setOnClickListener(v -> {
-            int currentQuantity = Integer.parseInt(holder.quantity.getText().toString());
-            currentQuantity++;
-            holder.quantity.setText(String.valueOf(currentQuantity));
-        });
-
-        holder.btnDecrease.setOnClickListener(v -> {
-            int currentQuantity = Integer.parseInt(holder.quantity.getText().toString());
-            if (currentQuantity > 1) {
-                currentQuantity--;
-                holder.quantity.setText(String.valueOf(currentQuantity));
+        //checkbox
+        holder.bookCheckbox.setVisibility(showCheckbox ? View.VISIBLE : View.GONE);
+        holder.bookCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(onItemCheckedBoxChangeListener != null) {
+                int bookID = cartItemDetail.getBook().getBookId();
+                String bookTitle = cartItemDetail.getBook().getTitle();
+                int cartId = cartItemDetail.getCartId();
+                onItemCheckedBoxChangeListener.onItemCheckedChange(position, isChecked, bookID, bookTitle, cartId);
             }
         });
+
+        holder.btnIncrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+                currentQuantity++; // Increase the quantity
+                holder.tvQuantity.setText(String.valueOf(currentQuantity));
+            }
+        });
+
+        holder.btnDecrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+                if (currentQuantity > 1) { // Assuming 1 is the minimum quantity
+                    currentQuantity--; // Decrease the quantity
+                    holder.tvQuantity.setText(String.valueOf(currentQuantity));
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -82,10 +106,24 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
         notifyDataSetChanged();
     }
 
+    public void toggleCheckbox() {
+        showCheckbox = !showCheckbox;
+        notifyDataSetChanged();
+    }
+
+    public interface OnItemCheckedChangeListener {
+        void onItemCheckedChange(int position, boolean isChecked, int bookID, String bookTitle, int cartID);
+    }
+
     static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView bookImage;
         TextView bookTitle, bookPrice, bookOldPrice, quantity, tvtacGiaSach;
-        MaterialButton btnIncrease, btnDecrease;
+        CheckBox bookCheckbox;
+
+        TextView btnIncrease = itemView.findViewById(R.id.btnCong);
+        TextView btnDecrease = itemView.findViewById(R.id.btnTru);
+        TextView tvQuantity = itemView.findViewById(R.id.tvQuantity);
+
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,10 +131,8 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
             bookTitle = itemView.findViewById(R.id.book_title_detail);
             bookPrice = itemView.findViewById(R.id.tvGiaSach);
             bookOldPrice = itemView.findViewById(R.id.tvGiaSachCu);
-            quantity = itemView.findViewById(R.id.tvQuantity);
-            btnIncrease = itemView.findViewById(R.id.btnCong);
-            btnDecrease = itemView.findViewById(R.id.btnTru);
             tvtacGiaSach = itemView.findViewById(R.id.tvtacGiaSach);
+            bookCheckbox = itemView.findViewById(R.id.book_checkbox);
         }
     }
 }

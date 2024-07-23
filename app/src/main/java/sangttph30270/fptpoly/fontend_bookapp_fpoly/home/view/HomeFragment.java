@@ -58,8 +58,6 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         homeViewModel.fetchHomeBookAPI();
-        //Test
-//        homeViewModel.fetchBookDetail(14, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywicm9sZSI6InVzZXIiLCJjcmVhdGVkX2F0IjoxNzIxMzE1MTQyNzIyLCJpYXQiOjE3MjEzMTUxNDJ9.gWF3paeaGIhuBshIix2wKFwU-iX7OKxRKTvAjkt8L_k");
         setupCategoryRecyclerView(view);
 
         setupSearchView(view);

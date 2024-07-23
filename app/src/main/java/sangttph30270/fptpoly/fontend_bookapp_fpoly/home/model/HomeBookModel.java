@@ -36,6 +36,10 @@ public class HomeBookModel {
     @SerializedName("used_books")
     private String usedBooks;
 
+    @SerializedName("discount_percentage")
+    private int discountPercentage;
+
+
 
     public int getBookId() {
         return bookId;
@@ -123,6 +127,10 @@ public class HomeBookModel {
 
     public void setUsedBooks(String usedBooks) {
         this.usedBooks = usedBooks;
+    }
+
+    public int getDiscountPercentage() {
+        return discountPercentage;
     }
 
     @Override

@@ -39,7 +39,12 @@ public class RepositoryHome {
     }
 
     public void fetchCartList(Callback<CartListResponse> callback) {
-        Call<CartListResponse> call = apiService.fetchCartList();
+        Call<CartListResponse> call = apiService.fetchCartList(1, 50);
+        call.enqueue(callback);
+    }
+
+    public void fetchTotalItemInCart(Callback<CartListResponse> callback) {
+        Call<CartListResponse> call = apiService.fetchTotalItemInCart();
         call.enqueue(callback);
     }
 

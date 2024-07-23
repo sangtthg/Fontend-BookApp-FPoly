@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
@@ -72,6 +73,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView tvGiaSachCu;
         TextView tvTacGia;
         TextView tvDaBan;
+        TextView tvPhanTramGiam;
 
 
         public BookDetailViewHolder(@NonNull View itemView) {
@@ -82,6 +84,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
             tvGiaSachCu = itemView.findViewById(R.id.tvGiaSachCu);
             tvTacGia = itemView.findViewById(R.id.tvTacGia);
             tvDaBan = itemView.findViewById(R.id.tvDaBan);
+            tvPhanTramGiam = itemView.findViewById(R.id.tvPhanTramGiam);
         }
 
         public void bind(DetailBookResponse bookData) {
@@ -93,6 +96,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                 tvGiaSachCu.setPaintFlags(tvGiaSachCu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 tvTacGia.setText(String.format("Tác giả: %s", data.getAuthorName()));
                 tvDaBan.setText(String.valueOf(data.getPurchaseCount()));
+                tvPhanTramGiam.setText(MessageFormat.format("-{0}%", data.getDiscountPercentage()));
 
                 Glide.with(getContext())
                         .load(data.getBookAvatar())

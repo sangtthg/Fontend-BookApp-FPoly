@@ -29,4 +29,8 @@
     <color name="secondaryTextColor">#757575</color>
     <color name="buttonTextColor">#FFFFFF</color>
 
+
+    <color name="colorPressed">#FFC107</color>
+    <color name="colorDefault">#FFFFFF</color>
+
 </resources>

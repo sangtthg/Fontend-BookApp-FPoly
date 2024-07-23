@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
@@ -41,6 +42,8 @@ public class AdapterSachHomeGoiY extends RecyclerView.Adapter<AdapterSachHomeGoi
         holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
         holder.tvDaBan.setText(String.valueOf(bookModel.getPurchaseCount()));
         holder.tvSachBanChay.setVisibility(View.GONE);
+        holder.tvPhanTramGiamHome.setText(MessageFormat.format("-{0}%", bookModel.getDiscountPercentage()));
+
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .placeholder(R.drawable.loading_book)
@@ -59,6 +62,7 @@ public class AdapterSachHomeGoiY extends RecyclerView.Adapter<AdapterSachHomeGoi
         TextView tvGiaSach;
         TextView tvSachBanChay;
         TextView tvDaBan;
+        TextView tvPhanTramGiamHome;
         ImageView imgAnhBia;
         public SachHomeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +71,7 @@ public class AdapterSachHomeGoiY extends RecyclerView.Adapter<AdapterSachHomeGoi
             imgAnhBia = itemView.findViewById(R.id.imageView_anh_bia);
             tvSachBanChay = itemView.findViewById(R.id.tv_sachBanChay);
             tvDaBan = itemView.findViewById(R.id.tvDaBan);
+            tvPhanTramGiamHome = itemView.findViewById(R.id.tvPhanTramGiamHome);
         }
     }
 

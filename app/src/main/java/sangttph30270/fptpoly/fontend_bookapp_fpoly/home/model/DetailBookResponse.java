@@ -43,6 +43,9 @@ public class DetailBookResponse {
         @SerializedName("publication_year")
         private int publicationYear;
 
+        @SerializedName("discount_percentage")
+        private int discountPercentage;
+
         @SerializedName("book_avatar")
         private String bookAvatar;
 
@@ -107,6 +110,10 @@ public class DetailBookResponse {
 
         public String getUsedBooks() {
             return usedBooks;
+        }
+
+        public int getDiscountPercentage() {
+            return discountPercentage;
         }
     }
 }

@@ -36,12 +36,12 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<DetailBookResponse> detailBook = new MutableLiveData<>();
     private final MutableLiveData<Integer> badge = new MutableLiveData<>();
     private final MutableLiveData<String> listen = new MutableLiveData<>();
-    private MutableLiveData<Integer> cartItemCount = new MutableLiveData<>();
+    private final MutableLiveData<Integer> cartItemCount = new MutableLiveData<>();
 
 
     private final List<Integer> selectedCartItemIds = new ArrayList<>();
 
-    private MutableLiveData<List<CartListResponse.CartItemDetail>> cartItemList = new MutableLiveData<>();
+    private final MutableLiveData<List<CartListResponse.CartItemDetail>> cartItemList = new MutableLiveData<>();
 
 
     public LiveData<List<HomeBookModel>> getBestSellerBookList() {
@@ -148,15 +148,14 @@ public class HomeViewModel extends ViewModel {
         repositoryHome.fetchCartList(new Callback<CartListResponse>() {
             @Override
             public void onResponse(Call<CartListResponse> call, Response<CartListResponse> response) {
+                cartItemCount.postValue(0);
                 if (response.isSuccessful() && response.body() != null) {
                     CartListResponse.CartData cartData = response.body().getData();
                     List<CartListResponse.CartItemDetail> cartItems = cartData.getData();
                     cartItemList.postValue(cartItems);
-                    cartItemCount.postValue(cartItems.size());
                 } else {
                     System.out.println("Failed to fetch cart list");
                     cartItemList.postValue(new ArrayList<>());
-                    cartItemCount.postValue(0);
                 }
             }
 
@@ -164,6 +163,29 @@ public class HomeViewModel extends ViewModel {
             public void onFailure(Call<CartListResponse> call, Throwable t) {
                 System.out.println("Error fetching cart list: " + t.getMessage());
                 cartItemList.postValue(new ArrayList<>());
+                cartItemCount.postValue(0);
+            }
+        });
+    }
+
+    public void fetchTotalItemInCart() {
+        repositoryHome.fetchTotalItemInCart(new Callback<CartListResponse>() {
+            @Override
+            public void onResponse(Call<CartListResponse> call, Response<CartListResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    int totalItems = response.body().getTotalItems();
+                    Log.d(NAME, "Total items fetched: " + totalItems); // Debug log
+                    Log.d(NAME, "Total items fetched1: " + response.body().getTotalItems()); // Debug log
+                    cartItemCount.postValue(totalItems);
+                } else {
+                    Log.d(NAME, "Failed to fetch total items. Response unsuccessful or null.");
+                    cartItemCount.postValue(0);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartListResponse> call, Throwable t) {
+                Log.e(NAME, "Error fetching total items: " + t.getMessage());
                 cartItemCount.postValue(0);
             }
         });
@@ -179,6 +201,7 @@ public class HomeViewModel extends ViewModel {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(context, "Đã thêm!", Toast.LENGTH_SHORT).show();
+                    fetchTotalItemInCart();
                 } else {
                     logErrorResponse("Failed to add to cart", response);
                 }
@@ -190,6 +213,7 @@ public class HomeViewModel extends ViewModel {
             }
         });
     }
+
 
     public void updateSelectedCartItemIds(int cartItemId, boolean isSelected) {
         if (isSelected) {

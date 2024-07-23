@@ -1,9 +1,11 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,13 +30,16 @@ public class ShoppingCartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
 
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        recyclerView = findViewById(R.id.recyclerViewCart);
+        recyclerView = findViewById(R.id.recyclerViewCart);
+        ImageButton btnToggleCheckbox = findViewById(R.id.btnCart);
 
+
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.fetchCartList();
 
-        recyclerView = findViewById(R.id.recyclerViewCart);
-        recyclerView = findViewById(R.id.recyclerViewCart);
 
+        btnToggleCheckbox.setOnClickListener(v -> cartAdapter.toggleCheckbox());
 
         findViewById(R.id.backDetailButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,25 +52,21 @@ public class ShoppingCartActivity extends AppCompatActivity {
         cartAdapter = new AdapterCart(new ArrayList<>());
         recyclerView.setAdapter(cartAdapter);
 
+
+        cartAdapter.setOnItemCheckedBoxChangeListener((position, isChecked, bookID, bookTitle, cartId) -> {
+            Log.d("ShoppingCartActivity",
+                    "Position: " + position +
+                            " isChecked: " + isChecked +
+                            " BookID: " + bookID +
+                            " BookTitle: " + bookTitle +
+                            " cartId: " + cartId
+            );
+        });
+
         homeViewModel.getCartItemList().observe(this, cartItems -> {
             if (cartItems != null) {
                 cartAdapter.updateCartItems(cartItems);
             }
         });
-
-//        Button btnCheckout = findViewById(R.id.btnCheckout);
-//        btnCheckout.setOnClickListener(v -> {
-//            Toast.makeText(this, "Proceeding to checkout...", Toast.LENGTH_SHORT).show();
-//        });
-
-//        setupToolbar();
-    }
-
-    private void setupToolbar() {
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Shopping Cart");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> finish());
     }
 }
