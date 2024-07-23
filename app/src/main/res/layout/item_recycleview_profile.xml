@@ -39,6 +39,13 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="8dp">
+        <!-- Icon Hồ sơ -->
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/baseline_people_24" />
 
         <TextView
             android:id="@+id/txtHoSoCuaToi"
@@ -71,6 +78,12 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="8dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/baseline_drive_file_rename_outline_24" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -111,6 +124,12 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="8dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/baseline_mail_outline_24" />
 
         <TextView
             android:layout_width="0dp"
@@ -154,7 +173,11 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="8dp">
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/baseline_password_24" />
         <TextView
             android:id="@+id/txtDoiMatKhau"
             android:layout_width="0dp"
@@ -177,4 +200,13 @@
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
         android:background="#DCDCDC	" />
+    <!-- Nút đăng xuất -->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogoutProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng xuất"
+        android:textColor="@android:color/white"
+        app:backgroundTint="#808B96" />
 </LinearLayout>

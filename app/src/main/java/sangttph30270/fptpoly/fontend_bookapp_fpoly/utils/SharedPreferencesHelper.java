@@ -19,13 +19,14 @@ public class SharedPreferencesHelper {
     private static final String KEY_TOKEN = "token";
 
     private final SharedPreferences sharedPreferences;
-
+    private SharedPreferences.Editor editor;
     public SharedPreferencesHelper(Context context) {
         if (context != null) {
             sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         } else {
             sharedPreferences = MyApp.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         }
+        editor = sharedPreferences.edit();
     }
 
     public void saveUserData(int userId, String username, String email, String avatar, String authToken, String resetCode, int userStatus, String role, String token) {
@@ -93,6 +94,11 @@ public class SharedPreferencesHelper {
     public String getToken() {
         return sharedPreferences.getString(KEY_TOKEN, "");
     }
+    public void clear() {
+        editor.clear();
+        editor.apply();
+    }
+
 }
 
 ///--

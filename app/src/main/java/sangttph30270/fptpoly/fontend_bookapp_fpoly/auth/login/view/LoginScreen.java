@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ public class LoginScreen extends AppCompatActivity {
     private LoginViewModel loginViewModel;
     private TextView txtForgetPassword;
     private SharedPreferencesHelper sharedPreferencesHelper;
-
+    private ImageButton btnBackHomeLogin;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +50,19 @@ public class LoginScreen extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvTaoTaiKhoan = findViewById(R.id.tvTaoTaiKhoan);
         txtForgetPassword = findViewById(R.id.txtForgetPassword);
+        btnBackHomeLogin = findViewById(R.id.btnBackHomeLogin);
         sharedPreferencesHelper = new SharedPreferencesHelper(this);
         LoginViewModelFactory factory = new LoginViewModelFactory(sharedPreferencesHelper);
         loginViewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
+        btnBackHomeLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Khởi tạo Intent để mở MainActivity
+                Intent intent = new Intent(LoginScreen.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         tvTaoTaiKhoan.setOnClickListener(view -> {
             Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
