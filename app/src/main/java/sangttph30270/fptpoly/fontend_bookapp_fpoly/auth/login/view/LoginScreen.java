@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ public class LoginScreen extends AppCompatActivity {
     private TextView txtForgetPassword;
     private SharedPreferencesHelper sharedPreferencesHelper;
     private ImageButton btnBackHomeLogin;
+    private ProgressBar progressBar; // Add ProgressBar
+    private View darkOverlay;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,20 @@ public class LoginScreen extends AppCompatActivity {
         tvTaoTaiKhoan = findViewById(R.id.tvTaoTaiKhoan);
         txtForgetPassword = findViewById(R.id.txtForgetPassword);
         btnBackHomeLogin = findViewById(R.id.btnBackHomeLogin);
+        progressBar = findViewById(R.id.progressBar); // Initialize ProgressBar
+
+         darkOverlay = findViewById(R.id.darkOverlay);
         sharedPreferencesHelper = new SharedPreferencesHelper(this);
         LoginViewModelFactory factory = new LoginViewModelFactory(sharedPreferencesHelper);
         loginViewModel = new ViewModelProvider(this, factory).get(LoginViewModel.class);
+
+
+        editTextPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                togglePasswordVisibility();
+            }
+        });
         btnBackHomeLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,7 +88,9 @@ public class LoginScreen extends AppCompatActivity {
             if (validateInputs()) {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
-
+                // Hiển thị ProgressBar và lớp phủ tối
+                darkOverlay.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(email, password);
             }
         });
@@ -82,6 +98,9 @@ public class LoginScreen extends AppCompatActivity {
         loginViewModel.getLoginResponse().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String response) {
+                // Ẩn ProgressBar và lớp phủ tối khi hoàn tất
+                darkOverlay.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 if (response.equals("Đăng nhập thành công")) {
                     Toast.makeText(LoginScreen.this, response, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginScreen.this, MainActivity.class);
