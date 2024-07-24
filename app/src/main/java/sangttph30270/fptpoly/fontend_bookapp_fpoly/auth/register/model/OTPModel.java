@@ -11,16 +11,42 @@ public class OTPModel {
     private String re_password;
     @SerializedName("username")
     private String username;
-    @SerializedName("verify")
-    private Verify verify; // Đối tượng verify chứa otp_id và otp
+    @SerializedName("address")
+    private String address;
 
-    public OTPModel(String email, String password, String re_password, String username, String otp_id, String otp) {
+    public OTPModel(String email, String password, String re_password, String username, String address, String otp_id, String otp) {
         this.email = email;
         this.password = password;
         this.re_password = re_password;
         this.username = username;
-        this.verify = new Verify(otp_id, otp); // Khởi tạo Verify object
+        this.address = address != null ? address : "Trống"; // Đặt giá trị mặc định là "Trống"
+        this.verify = new Verify(otp_id, otp);
     }
+
+    public OTPModel(String email, String password, String re_password, String username, String otp_id, String otp) {
+        this(email, password, re_password, username, "Trống", otp_id, otp); // Gọi constructor khác và đặt địa chỉ là "Trống"
+    }
+
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @SerializedName("verify")
+    private Verify verify; // Đối tượng verify chứa otp_id và otp
+
+//    public OTPModel(String email, String password, String re_password, String username, String otp_id, String otp) {
+//        this.email = email;
+//        this.password = password;
+//        this.re_password = re_password;
+//        this.username = username;
+//        this.verify = new Verify(otp_id, otp); // Khởi tạo Verify object
+//    }
 
     public OTPModel() {
         // Không cần khởi tạo Verify object ở đây
@@ -115,4 +141,6 @@ public class OTPModel {
             this.otp = otp;
         }
     }
+
+
 }

@@ -49,7 +49,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
     @Override
     public void onBindViewHolder(@NonNull ProfileViewHolder holder, int position) {
         ProfileModel profile = profileList.get(position);
-
+        holder.txtDiaChi.setText(profile.getDefault_address());
         holder.txtTenNguoiDung.setText(profile.getUsername());
         holder.txtEmail.setText(profile.getEmail());
         holder.txtDoiMatKhau.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +132,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
         TextView txtTenNguoiDung, txtEmail;
-        TextView txtDoiMatKhau, txtHoSoCuaToi;
+        TextView txtDoiMatKhau, txtHoSoCuaToi, txtDiaChi;
         ImageView imgAvatar, imgChangeAvatar;
         Button btnLogoutProfile;
 
@@ -141,6 +141,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             txtHoSoCuaToi = itemView.findViewById(R.id.txtHoSoCuaToi);
             txtDoiMatKhau = itemView.findViewById(R.id.txtDoiMatKhau);
             txtTenNguoiDung = itemView.findViewById(R.id.txtTenNguoiDung);
+            txtDiaChi = itemView.findViewById(R.id.txtDiaChi);
             txtEmail = itemView.findViewById(R.id.txtEmail);
             imgAvatar = itemView.findViewById(R.id.imgAvatar);
             imgChangeAvatar = itemView.findViewById(R.id.imgChangeAvatar);

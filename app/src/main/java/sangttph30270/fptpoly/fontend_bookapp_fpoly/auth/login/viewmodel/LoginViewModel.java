@@ -56,9 +56,10 @@ public class LoginViewModel extends ViewModel {
                             int userStatus = userObject.getInt("user_status");
                             String role = userObject.getString("role");
                             String token = dataObject.getString("token");
+                            String defaultAddress = userObject.optString("default_address");
 
                             // Lưu dữ liệu vào SharedPreferences
-                            sharedPreferencesHelper.saveUserData(userId, username, email, avatar, authToken, resetCode, userStatus, role, token);
+                            sharedPreferencesHelper.saveUserData(userId, username, email, avatar, authToken, resetCode, userStatus, role, token, defaultAddress);
 
                             loginResponse.postValue("Đăng nhập thành công");
                         } else {
@@ -86,7 +87,3 @@ public class LoginViewModel extends ViewModel {
         });
     }
 }
-
-
-
-

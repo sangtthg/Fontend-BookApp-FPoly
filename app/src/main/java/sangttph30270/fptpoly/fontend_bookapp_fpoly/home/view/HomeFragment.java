@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment {
         int userStatus = sharedPreferencesHelper.getUserStatus();
         String role = sharedPreferencesHelper.getRole();
         String token = sharedPreferencesHelper.getToken();
+        String address = sharedPreferencesHelper.getDefaultAddress();
 
         // Log dữ liệu
         Log.d("SharedPreferencesHelper", "Username: " + username);
@@ -109,6 +110,7 @@ public class HomeFragment extends Fragment {
         Log.d("SharedPreferencesHelper", "UserStatus: " + userStatus);
         Log.d("SharedPreferencesHelper", "Role: " + role);
         Log.d("SharedPreferencesHelper", "Token: " + token);
+        Log.d("SharedPreferencesHelper", "address: " + address);
     }
 
 

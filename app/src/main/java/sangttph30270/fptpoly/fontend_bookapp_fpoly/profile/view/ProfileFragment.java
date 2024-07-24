@@ -44,7 +44,8 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
                 sharedPreferencesHelper.getResetCode(),
                 sharedPreferencesHelper.getUserStatus(),
                 sharedPreferencesHelper.getRole(),
-                sharedPreferencesHelper.getToken()
+                sharedPreferencesHelper.getToken(),
+                sharedPreferencesHelper.getDefaultAddress()
         ));
         logUserInfo();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProfile);
@@ -74,7 +75,8 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
                 sharedPreferencesHelper.getResetCode(),
                 sharedPreferencesHelper.getUserStatus(),
                 sharedPreferencesHelper.getRole(),
-                sharedPreferencesHelper.getToken()
+                sharedPreferencesHelper.getToken(),
+                sharedPreferencesHelper.getDefaultAddress()
         ));
         adapter.updateProfileList(profileList);
     }
@@ -88,7 +90,7 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
         int userStatus = sharedPreferencesHelper.getUserStatus();
         String role = sharedPreferencesHelper.getRole();
         String token = sharedPreferencesHelper.getToken();
-
+        String address = sharedPreferencesHelper.getDefaultAddress();
         Log.d("ProfileFragment", "UserID: " + userId);
         Log.d("ProfileFragment", "Username: " + username);
         Log.d("ProfileFragment", "Email: " + email);
@@ -98,6 +100,7 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
         Log.d("ProfileFragment", "UserStatus: " + userStatus);
         Log.d("ProfileFragment", "Role: " + role);
         Log.d("ProfileFragment", "Token: " + token);
+        Log.d("ProfileFragment", "address: " + address);
     }
 
 

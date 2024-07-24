@@ -27,7 +27,7 @@ public class OTPScreen extends AppCompatActivity {
     private RegisterViewModel registerViewModel;
     private PinView pinView;
     private Button btnXacNhan;
-    private String email, username, password, repassword, otp, otp_id;
+    private String email, username, password, repassword, otp, otp_id, address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +42,14 @@ public class OTPScreen extends AppCompatActivity {
             username = intent.getStringExtra("username");
             password = intent.getStringExtra("password");
             repassword = intent.getStringExtra("re_password");
+            address = intent.getStringExtra("address");
             otp = intent.getStringExtra("otp");
             otp_id = intent.getStringExtra("otp_id");
             Log.d("OTPScreen", "Email: " + email);
             Log.d("OTPScreen", "Username: " + username);
             Log.d("OTPScreen", "Password: " + password);
             Log.d("OTPScreen", "RePassword: " + repassword);
+            Log.d("OTPScreen", "address: " + address);
             Log.d("OTPScreen", "OTP: " + otp);
             Log.d("OTPScreen", "id: " + otp_id);
         }
@@ -80,7 +82,7 @@ public class OTPScreen extends AppCompatActivity {
                             requestBody.put("password", password);
                             requestBody.put("re_password", repassword);
                             requestBody.put("username", username);
-
+                            requestBody.put("address", address);
                             JSONObject verifyObject = new JSONObject();
                             verifyObject.put("otp_id", otp_id);
                             verifyObject.put("otp", otp);
@@ -93,6 +95,7 @@ public class OTPScreen extends AppCompatActivity {
                             otpModel.setPassword(password);
                             otpModel.setRe_password(repassword);
                             otpModel.setUsername(username);
+                            otpModel.setAddress(address);
                             otpModel.setOtp(otp);
                             otpModel.setOtp_id(otp_id);
 

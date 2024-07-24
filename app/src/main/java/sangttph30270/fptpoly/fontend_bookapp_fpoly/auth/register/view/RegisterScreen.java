@@ -94,16 +94,13 @@ private ImageButton btnBackLoginRegister;
                     String username = editTextUsernameRegister.getText().toString().trim();
                     String password = editTextPasswordRegister.getText().toString().trim();
                     String repassword = editTextRePasswordRegister.getText().toString().trim();
-                    // Log các giá trị email, username và password
+                    String address = "Trống"; // Giá trị mặc định cho address
                     Log.d("RegisterScreen", "Email: " + email);
                     Log.d("RegisterScreen", "Username: " + username);
                     Log.d("RegisterScreen", "Password: " + password);
                     Log.d("RegisterScreen", "Repassword: " + repassword);
-                    OTPModel otpModel = new OTPModel(email);
-                    otpModel.setUsername(username);
-                    otpModel.setPassword(password);
-                    otpModel.setRe_password(repassword);
-                    otpModel.setEmail(email);
+                    Log.d("RegisterScreen", "address: " + address);
+                    OTPModel otpModel = new OTPModel(email, password, repassword, username, address, null, null);
                     registerViewModel.setOtpModel(otpModel);
                     registerViewModel.postOTPAPI(otpModel);
                 }
@@ -157,10 +154,13 @@ private ImageButton btnBackLoginRegister;
 
     private void navigateToOtpScreen() {
         Intent intent = new Intent(RegisterScreen.this, OTPScreen.class);
+
         intent.putExtra("email", editTextEmailRegister.getText().toString().trim());
         intent.putExtra("username", editTextUsernameRegister.getText().toString().trim());
         intent.putExtra("password", editTextPasswordRegister.getText().toString().trim());
         intent.putExtra("re_password", editTextRePasswordRegister.getText().toString().trim());
+        intent.putExtra("email", editTextEmailRegister.getText().toString().trim());
+        intent.putExtra("address", registerViewModel.getOtpModel().getAddress()); // Truyền address
         intent.putExtra("otp", registerViewModel.getOtpModel().getVerify().getOtp()); // Truyền OTP ID
         intent.putExtra("otp_id", registerViewModel.getIdotpLiveData().getVerify().getOtp_id()); // Truyền OTP ID
         startActivity(intent);

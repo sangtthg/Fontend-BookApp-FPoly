@@ -17,9 +17,11 @@ public class SharedPreferencesHelper {
     private static final String KEY_USER_STATUS = "user_status";
     private static final String KEY_ROLE = "role";
     private static final String KEY_TOKEN = "token";
+    private static final String KEY_DEFAULT_ADDRESS = "address";
 
     private final SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+
     public SharedPreferencesHelper(Context context) {
         if (context != null) {
             sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -29,7 +31,7 @@ public class SharedPreferencesHelper {
         editor = sharedPreferences.edit();
     }
 
-    public void saveUserData(int userId, String username, String email, String avatar, String authToken, String resetCode, int userStatus, String role, String token) {
+    public void saveUserData(int userId, String username, String email, String avatar, String authToken, String resetCode, int userStatus, String role, String token, String defaultAddress) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(KEY_USER_ID, userId);
         editor.putString(KEY_USERNAME, username);
@@ -40,6 +42,7 @@ public class SharedPreferencesHelper {
         editor.putInt(KEY_USER_STATUS, userStatus);
         editor.putString(KEY_ROLE, role);
         editor.putString(KEY_TOKEN, token);
+        editor.putString(KEY_DEFAULT_ADDRESS, defaultAddress);
         boolean isSaved = editor.commit(); // use commit() to immediately save the data
 
         // Log saved data
@@ -54,10 +57,12 @@ public class SharedPreferencesHelper {
             Log.d("SharedPreferencesHelper", "UserStatus: " + userStatus);
             Log.d("SharedPreferencesHelper", "Role: " + role);
             Log.d("SharedPreferencesHelper", "Token: " + token);
+            Log.d("SharedPreferencesHelper", "DefaultAddress: " + defaultAddress );
         } else {
             Log.d("SharedPreferencesHelper", "Failed to save user data.");
         }
     }
+
 
     public int getUserId() {
         return sharedPreferences.getInt(KEY_USER_ID, -1);
@@ -94,19 +99,14 @@ public class SharedPreferencesHelper {
     public String getToken() {
         return sharedPreferences.getString(KEY_TOKEN, "");
     }
+
+    public String getDefaultAddress() {
+        return sharedPreferences.getString(KEY_DEFAULT_ADDRESS, "");
+    }
+
+
     public void clear() {
         editor.clear();
         editor.apply();
     }
-
 }
-
-///--
-//SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(context);
-
-//Ghi
-//sharedPreferencesHelper.save("Token người dùng");
-
-//Đọc
-//String name = sharedPreferencesHelper.getValue();
-

@@ -10,8 +10,9 @@ public class ProfileModel {
     private int userStatus;
     private String role;
     private String token;
+    private String default_address;
 
-    public ProfileModel(int userId, String username, String email, String avatar, String authToken, String resetCode, int userStatus, String role, String token) {
+    public ProfileModel(int userId, String username, String email, String avatar, String authToken, String resetCode, int userStatus, String role, String token, String default_address) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -21,6 +22,15 @@ public class ProfileModel {
         this.userStatus = userStatus;
         this.role = role;
         this.token = token;
+        this.default_address = default_address;
+    }
+
+    public String getDefault_address() {
+        return default_address;
+    }
+
+    public void setDefault_address(String default_address) {
+        this.default_address = default_address;
     }
 
     // Getters and Setters
