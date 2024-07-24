@@ -64,6 +64,13 @@ public class DetailBookResponse {
         @SerializedName("used_books")
         private String usedBooks;
 
+        @SerializedName("quantity")
+        private String quantity;
+
+        public String getQuantity() {
+            return quantity;
+        }
+
         public int getBookId() {
             return bookId;
         }

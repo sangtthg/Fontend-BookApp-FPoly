@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -90,6 +91,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         recyclerView.setAdapter(skeletonAdapter);
 
 
+
         homeViewModel.getDetailBook().observe(this, detailBookResponse -> {
             List<Object> items = new ArrayList<>();
             items.add(detailBookResponse);
@@ -97,6 +99,14 @@ public class BookDetailsActivity extends AppCompatActivity {
             RecyclerView recyclerView = findViewById(R.id.recyclerViewDetailBook);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
+        });
+
+
+        findViewById(R.id.btnMuaNgay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                homeViewModel.order();
+            }
         });
 
     }

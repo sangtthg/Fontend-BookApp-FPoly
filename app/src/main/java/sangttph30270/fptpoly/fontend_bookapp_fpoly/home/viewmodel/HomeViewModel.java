@@ -1,6 +1,7 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -24,7 +26,12 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.network.RepositoryHome;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view.WebViewActivity;
 
 public class HomeViewModel extends ViewModel {
     private final String NAME = this.getClass().getSimpleName();
@@ -37,6 +44,14 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<Integer> badge = new MutableLiveData<>();
     private final MutableLiveData<String> listen = new MutableLiveData<>();
     private final MutableLiveData<Integer> cartItemCount = new MutableLiveData<>();
+    private final MutableLiveData<OrderResponse> orderResponseLiveData = new MutableLiveData<>();
+
+    private final MutableLiveData<Integer> idOrder = new MutableLiveData<>();
+
+
+
+    List<Integer> cartItemIds = Arrays.asList(156, 157);
+    String address = "Địa chỉ";
 
 
     private final List<Integer> selectedCartItemIds = new ArrayList<>();
@@ -83,6 +98,11 @@ public class HomeViewModel extends ViewModel {
     public MutableLiveData<Integer> getCartItemCount() {
         return cartItemCount;
     }
+
+    public LiveData<OrderResponse> getOrderResponseLiveData() {
+        return orderResponseLiveData;
+    }
+
 
     public void fetchHomeBookAPI() {
         repositoryHome.fetchApiHomePageBook(new Callback<HomeBookResponse>() {
@@ -245,6 +265,65 @@ public class HomeViewModel extends ViewModel {
     }
 
 
+    public void order() {
+        idOrder.postValue(0);
+        OrderRequest orderRequest = new OrderRequest(cartItemIds, address);
+        repositoryHome.createOrder(orderRequest, new Callback<OrderResponse>() {
+            @Override
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    OrderResponse orderResponse = response.body();
+                    Log.d(NAME, "Order created successfully: " + orderResponse.getMessage());
+                    orderResponseLiveData.postValue(orderResponse);
+                    idOrder.postValue(response.body().getOrderId());
+                } else {
+                    logErrorResponse("Failed to create order", response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
+                Log.e(NAME, "Error creating order", t);
+            }
+        });
+    }
+
+    public void payOrder(Context context) {
+
+        Integer orderIdValue = idOrder.getValue();
+        if (orderIdValue == null) {
+            return;
+        }
+
+        PayOrderRequest payOrderRequest = new PayOrderRequest(idOrder.getValue());
+        repositoryHome.payOrder(payOrderRequest, new Callback<PayOrderResponse>() {
+            @Override
+            public void onResponse(Call<PayOrderResponse> call, Response<PayOrderResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    PayOrderResponse payOrderResponse = response.body();
+                    Log.d(NAME, "Payment successful: " + payOrderResponse.getMessage());
+
+                    String payUrl = payOrderResponse.getPayUrl();
+
+                    System.out.println(payUrl);
+
+                    Intent intent = new Intent(context, WebViewActivity.class);
+                    intent.putExtra("payUrl", payUrl);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                } else {
+                    Log.e(NAME, "Payment failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PayOrderResponse> call, Throwable t) {
+                Log.e(NAME, "Error during payment: " + t.getMessage());
+            }
+        });
+    }
+
+
     public void clearAllLists() {
         bestSellerBookList.postValue(new ArrayList<>());
         newBookList.postValue(new ArrayList<>());
@@ -268,5 +347,6 @@ public class HomeViewModel extends ViewModel {
             Log.e(NAME, "📛 Nội dung lỗi không tồn tại");
         }
     }
+
 
 }

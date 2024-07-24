@@ -50,6 +50,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
         CartListResponse.CartItemDetail cartItemDetail = cartItemList.get(position);
         holder.bookTitle.setText(cartItemDetail.getBook().getTitle());
         holder.tvtacGiaSach.setText(cartItemDetail.getBook().getAuthorName());
+        holder.tvQuantity.setText(cartItemDetail.getQuantity()+ "");
         holder.bookPrice.setText(String.format("%sđ", cartItemDetail.getBook().getNewPrice()));
         holder.bookOldPrice.setText(String.format("%sđ", cartItemDetail.getBook().getOldPrice()));
         holder.bookOldPrice.setPaintFlags(holder.bookOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

@@ -14,6 +14,10 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderResponse;
 
 public interface ApiServiceHome {
     @POST("api/home/get-list-book")
@@ -34,4 +38,11 @@ public interface ApiServiceHome {
 
     @GET("api/cart/total-items")
     Call<CartListResponse> fetchTotalItemInCart();
+
+    @POST("orders/create-order")
+    Call<OrderResponse> createOrder(@Body OrderRequest orderRequest);
+
+    @POST("orders/pay-order")
+    Call<PayOrderResponse> payOrder(@Body PayOrderRequest payOrderRequest);
+
 }

@@ -203,9 +203,6 @@ public class HomeFragment extends Fragment {
             recyclerSachRanDom.setAdapter(skeletonAdapter);
             homeViewModel.fetchHomeBookAPI();
             swipeRefreshLayout.setRefreshing(false);
-
-            homeViewModel.fetchBookDetail(14);
-
         });
     }
 

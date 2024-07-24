@@ -1,5 +1,6 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +41,15 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
 
         btnToggleCheckbox.setOnClickListener(v -> cartAdapter.toggleCheckbox());
+
+        findViewById(R.id.btnMuaNgay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), OrderActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         findViewById(R.id.backDetailButton).setOnClickListener(new View.OnClickListener() {
             @Override

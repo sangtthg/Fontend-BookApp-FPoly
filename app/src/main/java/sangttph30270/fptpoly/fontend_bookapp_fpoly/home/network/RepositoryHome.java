@@ -8,6 +8,10 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderResponse;
 
 import static sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.Common.API_URL;
 
@@ -45,6 +49,16 @@ public class RepositoryHome {
 
     public void fetchTotalItemInCart(Callback<CartListResponse> callback) {
         Call<CartListResponse> call = apiService.fetchTotalItemInCart();
+        call.enqueue(callback);
+    }
+
+    public void createOrder(OrderRequest orderRequest, Callback<OrderResponse> callback) {
+        Call<OrderResponse> call = apiService.createOrder(orderRequest);
+        call.enqueue(callback);
+    }
+
+    public void payOrder(PayOrderRequest payOrderRequest, Callback<PayOrderResponse> callback) {
+        Call<PayOrderResponse> call = apiService.payOrder(payOrderRequest);
         call.enqueue(callback);
     }
 
