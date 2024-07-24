@@ -1,15 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_80sdp"
+    android:layout_marginBottom="@dimen/_8sdp"
     android:orientation="horizontal">
 
 
     <ImageView
         android:id="@+id/imgBookOrder"
         android:layout_width="@dimen/_70sdp"
-        android:layout_height="@dimen/_70sdp"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:src="@drawable/img_holder"/>
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:src="@drawable/img_holder" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,15 +22,71 @@
 
         <TextView
             android:id="@+id/itemTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Title" />
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_regular"
+            android:maxLines="2"
+            android:text="Tiêu đề sách"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp" />
 
         <TextView
-            android:id="@+id/itemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price" />
+            android:layout_marginTop="@dimen/_1sdp"
+            android:background="@drawable/textview_border"
+            android:paddingHorizontal="@dimen/_3sdp"
+            android:paddingVertical="@dimen/_1sdp"
+            android:text="Đổi ý miễn phí"
+            android:textColor="#FF7043"
+            android:textSize="@dimen/_8ssp" />
+
+        <TextView
+            android:id="@+id/itemGiaMoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:fontFamily="@font/display_medium"
+            android:text="132.000 VNĐ"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/_12sdp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/itemGiaCu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/display_regular"
+                android:textColor="@color/secondaryTextColor"
+                android:text="165.000 VNĐ"
+                android:textSize="@dimen/_10ssp" />
+
+            <TextView
+                android:id="@+id/itemSoLuong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/display_regular"
+                android:textColor="@color/secondaryTextColor"
+                android:text="x6"
+                android:textSize="@dimen/_11ssp" />
+
+
+        </LinearLayout>
+
+
+
+
     </LinearLayout>
 
 

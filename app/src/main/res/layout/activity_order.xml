@@ -49,6 +49,14 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -76,13 +84,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_9sdp"
-                    android:src="@drawable/home" />
+                    android:src="@drawable/ic_fast_delivery" />
 
                 <TextView
                     android:id="@+id/tvDaApDungChietKhauVanChuyen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/display_regular"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Đã áp dụng chiết khấu phí vận chuyển"
                     android:textSize="@dimen/_12ssp" />
             </LinearLayout>
@@ -102,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_9sdp"
-                    android:src="@drawable/home" />
+                    android:src="@drawable/ic_location" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -128,7 +136,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/text_regular"
                         android:maxLines="2"
-                        android:text="@string/diaChiTest"
+                        android:text="Thôn Triều - Tân Dân - Chí Linh - Hải Dương Phường Tân Dân, Thành Phố Chí Linh, Hải Dương"
                         android:textColor="#6e6e6e"
                         android:textSize="@dimen/_12ssp" />
 
@@ -149,7 +157,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerviewOrer"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_height="wrap_content"
                 android:background="@color/white" />
 
             <LinearLayout
@@ -300,7 +309,7 @@
                         android:id="@+id/tvTongCong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/display_regular"
+                        android:fontFamily="@font/display_medium"
                         android:text="201.850 VNĐ"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
@@ -418,11 +427,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:ellipsize="end"
-                android:fontFamily="@font/text_medium"
+                android:fontFamily="@font/text_regular"
                 android:maxLines="2"
                 android:text="Tổng thanh toán"
                 android:textColor="@color/grayColor"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_11ssp" />
 
             <TextView
                 android:id="@+id/tvTongSoTien"
@@ -430,18 +439,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:ellipsize="end"
-                android:fontFamily="@font/text_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:maxLines="2"
                 android:text="3.957.000 VNĐ"
                 android:textColor="#aa0116"
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/_13ssp" />
 
         </LinearLayout>
 
         <Button
             android:id="@+id/btnDatHang"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_46sdp"
+            android:layout_height="@dimen/_44sdp"
             android:layout_weight="3"
             android:backgroundTint="#aa0116"
             android:text="ĐẶT HÀNG"

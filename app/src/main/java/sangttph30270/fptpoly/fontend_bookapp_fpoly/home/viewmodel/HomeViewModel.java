@@ -2,6 +2,7 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -47,14 +48,12 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<OrderResponse> orderResponseLiveData = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> idOrder = new MutableLiveData<>();
-
+    private final MutableLiveData<List<Integer>> selectedCartItemIds = new MutableLiveData<>(new ArrayList<>());
 
 
     List<Integer> cartItemIds = Arrays.asList(156, 157);
     String address = "Địa chỉ";
 
-
-    private final List<Integer> selectedCartItemIds = new ArrayList<>();
 
     private final MutableLiveData<List<CartListResponse.CartItemDetail>> cartItemList = new MutableLiveData<>();
 
@@ -83,9 +82,6 @@ public class HomeViewModel extends ViewModel {
         return cartItemList;
     }
 
-    public List<Integer> getSelectedCartItemIds() {
-        return selectedCartItemIds;
-    }
 
     public MutableLiveData<String> getListen() {
         return listen;
@@ -103,6 +99,9 @@ public class HomeViewModel extends ViewModel {
         return orderResponseLiveData;
     }
 
+    public MutableLiveData<List<Integer>> getSelectedCartItemIds() {
+        return selectedCartItemIds;
+    }
 
     public void fetchHomeBookAPI() {
         repositoryHome.fetchApiHomePageBook(new Callback<HomeBookResponse>() {
@@ -236,13 +235,18 @@ public class HomeViewModel extends ViewModel {
 
 
     public void updateSelectedCartItemIds(int cartItemId, boolean isSelected) {
+        List<Integer> currentList = selectedCartItemIds.getValue();
+        if (currentList == null) currentList = new ArrayList<>();
+
         if (isSelected) {
-            if (!selectedCartItemIds.contains(cartItemId)) {
-                selectedCartItemIds.add(cartItemId);
+            if (!currentList.contains(cartItemId)) {
+                currentList.add(cartItemId);
             }
         } else {
-            selectedCartItemIds.remove(Integer.valueOf(cartItemId));
+            currentList.remove(Integer.valueOf(cartItemId));
         }
+        selectedCartItemIds.setValue(currentList);
+        System.out.println("Current selectedCartItemIds: " + selectedCartItemIds.getValue());
     }
 
     public void deleteCartItems(List<CartDeleteRequest.CartItemDelete> cartItems) {
@@ -265,8 +269,9 @@ public class HomeViewModel extends ViewModel {
     }
 
 
-    public void order() {
+    public void order(List<Integer> cartItemIds) {
         idOrder.postValue(0);
+        System.out.println(cartItemIds);
         OrderRequest orderRequest = new OrderRequest(cartItemIds, address);
         repositoryHome.createOrder(orderRequest, new Callback<OrderResponse>() {
             @Override
@@ -289,7 +294,6 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void payOrder(Context context) {
-
         Integer orderIdValue = idOrder.getValue();
         if (orderIdValue == null) {
             return;
@@ -301,16 +305,14 @@ public class HomeViewModel extends ViewModel {
             public void onResponse(Call<PayOrderResponse> call, Response<PayOrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     PayOrderResponse payOrderResponse = response.body();
-                    Log.d(NAME, "Payment successful: " + payOrderResponse.getMessage());
+//                    Log.d(NAME, "Payment successful: " + payOrderResponse.getMessage());
 
                     String payUrl = payOrderResponse.getPayUrl();
-
                     System.out.println(payUrl);
 
-                    Intent intent = new Intent(context, WebViewActivity.class);
-                    intent.putExtra("payUrl", payUrl);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(payUrl));
+                    browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(browserIntent);
                 } else {
                     Log.e(NAME, "Payment failed");
                 }

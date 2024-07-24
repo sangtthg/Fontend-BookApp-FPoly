@@ -93,22 +93,22 @@
             android:layout_marginHorizontal="@dimen/_8sdp"
             android:background="#cacaca" />
 
-        <ImageButton
-            android:id="@+id/btnAddToCart"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:src="@drawable/add_to_cart" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/btnAddToCart"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="@dimen/_35sdp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@color/transparent"-->
+<!--            android:src="@drawable/add_to_cart" />-->
 
         <Button
-            android:id="@+id/btnMuaNgay"
+            android:id="@+id/btnThanhToan"
             android:layout_width="0dp"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginHorizontal="@dimen/_4sdp"
             android:layout_weight="3"
             android:backgroundTint="#aa0116"
-            android:text="Mua ngay"
+            android:text="Thêm vào giỏ hàng"
             android:textColor="@color/white"
             app:cornerRadius="0dp" />
     </LinearLayout>

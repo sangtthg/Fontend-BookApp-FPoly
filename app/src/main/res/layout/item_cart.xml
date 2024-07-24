@@ -53,7 +53,7 @@
                 android:maxLines="1"
                 android:text="Tiêu đề sách"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_16ssp" />
+                android:textSize="@dimen/_14ssp" />
 
             <TextView
                 android:id="@+id/tvtacGiaSach"
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvGiaSach"
@@ -78,18 +78,17 @@
                     android:fontFamily="@font/text_medium"
                     android:text="420.120đ"
                     android:textColor="@color/app_red"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <TextView
                     android:id="@+id/tvGiaSachCu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:fontFamily="@font/display_regular"
                     android:text="520.120đ"
                     android:textColor="#757575"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/_10ssp" />
 
             </LinearLayout>
 
