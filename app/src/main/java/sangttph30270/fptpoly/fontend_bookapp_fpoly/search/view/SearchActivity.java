@@ -30,7 +30,6 @@ public class SearchActivity extends AppCompatActivity {
     private AdapterBookPopupNew adapter;
     private List<HomeBookModel> bookList;
     private SearchViewModel searchViewModel;
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
