@@ -30,6 +30,7 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterSachHome;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterSachHomeGoiY;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.CategoryAdapter;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.search.view.SearchActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.RecyclerViewUtil;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
@@ -123,6 +124,13 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
             }
         });
     }
