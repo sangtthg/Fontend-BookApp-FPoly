@@ -50,11 +50,11 @@
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:id="@+id/my_image_view2"
+                        android:id="@+id/btnCart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_cart"
-                        tools:ignore="ContentDescription" />
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:src="@drawable/icon_cart" />
                 </LinearLayout>
 
 

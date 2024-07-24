@@ -1,5 +1,6 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 
 public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.ViewHolder> {
 
@@ -34,8 +36,11 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderResponse.Item item = items.get(position);
-        holder.title.setText(item.getTitle());
-        holder.price.setText(String.valueOf(item.getItemTotalPrice()));
+        holder.titleBook.setText(item.getTitle());
+        holder.giaMoi.setText(String.valueOf(CurrencyFormatter.toVND(item.getNewPrice())));
+        holder.giaCu.setText(String.valueOf(CurrencyFormatter.toVND(item.getOldPrice())));
+        holder.giaCu.setPaintFlags( holder.giaCu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.itemSoLuong.setText(String.format("x%s", item.getItemTotalQuantity()));
 
         Glide.with(holder.itemView.getContext())
                 .load(item.getBookAvatar())
@@ -50,14 +55,16 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, price;
+        TextView titleBook, giaMoi, giaCu, itemSoLuong;
         ImageView imgBookOrder;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.itemTitle);
-            price = itemView.findViewById(R.id.itemPrice);
+            titleBook = itemView.findViewById(R.id.itemTitle);
+            giaMoi = itemView.findViewById(R.id.itemGiaMoi);
             imgBookOrder = itemView.findViewById(R.id.imgBookOrder);
+            giaCu = itemView.findViewById(R.id.itemGiaCu);
+            itemSoLuong = itemView.findViewById(R.id.itemSoLuong);
         }
     }
 

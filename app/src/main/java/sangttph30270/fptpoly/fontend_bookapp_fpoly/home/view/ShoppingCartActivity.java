@@ -2,11 +2,9 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +30,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shopping_cart);
 
         recyclerView = findViewById(R.id.recyclerViewCart);
-        recyclerView = findViewById(R.id.recyclerViewCart);
         ImageButton btnToggleCheckbox = findViewById(R.id.btnCart);
 
 
@@ -42,11 +39,35 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
         btnToggleCheckbox.setOnClickListener(v -> cartAdapter.toggleCheckbox());
 
-        findViewById(R.id.btnMuaNgay).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnThanhToan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), OrderActivity.class);
-                startActivity(intent);
+                ArrayList<Integer> selectedIds = new ArrayList<>(homeViewModel.getSelectedCartItemIds().getValue());
+
+                if (selectedIds.isEmpty()) {
+                    Toast.makeText(ShoppingCartActivity.this, "Hãy chọn ít nhất một sản phẩm!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), OrderActivity.class);
+                    intent.putIntegerArrayListExtra("selectedCartItemIds", selectedIds);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        cartAdapter = new AdapterCart(new ArrayList<>());
+        recyclerView.setAdapter(cartAdapter);
+
+
+        cartAdapter.setOnItemCheckedBoxChangeListener((position, isChecked, bookID, bookTitle, cartId) -> {
+            homeViewModel.updateSelectedCartItemIds(cartId, isChecked);
+        });
+
+        homeViewModel.getCartItemList().observe(this, cartItems -> {
+            if (cartItems != null) {
+                cartAdapter.updateCartItems(cartItems);
             }
         });
 
@@ -55,27 +76,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        cartAdapter = new AdapterCart(new ArrayList<>());
-        recyclerView.setAdapter(cartAdapter);
-
-
-        cartAdapter.setOnItemCheckedBoxChangeListener((position, isChecked, bookID, bookTitle, cartId) -> {
-            Log.d("ShoppingCartActivity",
-                    "Position: " + position +
-                            " isChecked: " + isChecked +
-                            " BookID: " + bookID +
-                            " BookTitle: " + bookTitle +
-                            " cartId: " + cartId
-            );
-        });
-
-        homeViewModel.getCartItemList().observe(this, cartItems -> {
-            if (cartItems != null) {
-                cartAdapter.updateCartItems(cartItems);
             }
         });
     }

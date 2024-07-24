@@ -72,13 +72,13 @@
         android:paddingHorizontal="@dimen/_2sdp"
         android:paddingVertical="@dimen/_3sdp">
 
-        <ImageButton
-            android:id="@+id/btnCallNow"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:src="@drawable/phone_call" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/btnCallNow"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="@dimen/_35sdp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@color/transparent"-->
+<!--            android:src="@drawable/phone_call" />-->
 
 <!--        <View-->
 <!--            android:layout_width="1dp"-->
@@ -95,7 +95,7 @@
 <!--            android:src="@drawable/add_to_cart" />-->
 
         <Button
-            android:id="@+id/btnMuaNgay"
+            android:id="@+id/btnThanhToan"
             android:layout_width="0dp"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginHorizontal="@dimen/_4sdp"

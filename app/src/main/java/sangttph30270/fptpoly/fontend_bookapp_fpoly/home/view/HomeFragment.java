@@ -2,8 +2,10 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
+import q.rorbin.badgeview.QBadgeView;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.view.LoginScreen;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterSachBanChay;
@@ -73,7 +76,9 @@ public class HomeFragment extends Fragment {
         initView(view);
         initRecyclerView();
         setupSwipeRefresh(view);
-        observeViewModel();
+        observeViewModel(view);
+
+
 //        displayUserData(view);
 
         checkUserLogin(view);
@@ -206,7 +211,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void observeViewModel() {
+    private void observeViewModel(View view) {
         homeViewModel.getBestSellerBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
             if (homeBookModels != null && !homeBookModels.isEmpty()) {
                 adapterSachBanChay.updateData(homeBookModels);
@@ -233,6 +238,23 @@ public class HomeFragment extends Fragment {
                 adapterSachRanDom.updateData(homeBookModels);
                 recyclerSachRanDom.setAdapter(adapterSachRanDom);
             }
+        });
+
+        homeViewModel.fetchTotalItemInCart();
+        homeViewModel.getCartItemCount().observe(getViewLifecycleOwner(), itemCount -> {
+            Log.d("BookDetailsActivity", "Updating badge count: " + itemCount); // Debug log
+            new QBadgeView(getContext())
+                    .bindTarget(view.findViewById(R.id.btnCart))
+                    .setBadgeNumber(itemCount)
+                    .setBadgeBackgroundColor(Color.RED)
+                    .setBadgeTextColor(Color.WHITE)
+                    .setGravityOffset(-2, -1, true)
+                    .setBadgeGravity(Gravity.END | Gravity.TOP);
+        });
+
+        view.findViewById(R.id.btnCart).setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ShoppingCartActivity.class);
+            startActivity(intent);
         });
     }
 

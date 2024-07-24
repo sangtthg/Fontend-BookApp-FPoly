@@ -20,6 +20,7 @@ import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 
 public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder> {
 
@@ -49,10 +50,11 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         CartListResponse.CartItemDetail cartItemDetail = cartItemList.get(position);
         holder.bookTitle.setText(cartItemDetail.getBook().getTitle());
-        holder.tvtacGiaSach.setText(cartItemDetail.getBook().getAuthorName());
         holder.tvQuantity.setText(cartItemDetail.getQuantity()+ "");
-        holder.bookPrice.setText(String.format("%sđ", cartItemDetail.getBook().getNewPrice()));
-        holder.bookOldPrice.setText(String.format("%sđ", cartItemDetail.getBook().getOldPrice()));
+        holder.tvtacGiaSach.setText(cartItemDetail.getBook().getAuthorName());
+
+        holder.bookPrice.setText(String.format("%s", CurrencyFormatter.toVND(cartItemDetail.getBook().getNewPrice())));
+        holder.bookOldPrice.setText(String.format("%s", CurrencyFormatter.toVND(cartItemDetail.getBook().getOldPrice())));
         holder.bookOldPrice.setPaintFlags(holder.bookOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         Glide.with(getContext())
@@ -64,6 +66,8 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
 
         //checkbox
         holder.bookCheckbox.setVisibility(showCheckbox ? View.VISIBLE : View.GONE);
+        holder.bookCheckbox.setOnCheckedChangeListener(null);
+        holder.bookCheckbox.setChecked(false);
         holder.bookCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(onItemCheckedBoxChangeListener != null) {
                 int bookID = cartItemDetail.getBook().getBookId();
@@ -77,7 +81,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
             @Override
             public void onClick(View v) {
                 int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-                currentQuantity++; // Increase the quantity
+                currentQuantity++;
                 holder.tvQuantity.setText(String.valueOf(currentQuantity));
             }
         });
@@ -86,8 +90,8 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
             @Override
             public void onClick(View v) {
                 int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-                if (currentQuantity > 1) { // Assuming 1 is the minimum quantity
-                    currentQuantity--; // Decrease the quantity
+                if (currentQuantity > 1) {
+                    currentQuantity--;
                     holder.tvQuantity.setText(String.valueOf(currentQuantity));
                 }
             }
@@ -115,6 +119,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
     public interface OnItemCheckedChangeListener {
         void onItemCheckedChange(int position, boolean isChecked, int bookID, String bookTitle, int cartID);
     }
+
 
     static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView bookImage;

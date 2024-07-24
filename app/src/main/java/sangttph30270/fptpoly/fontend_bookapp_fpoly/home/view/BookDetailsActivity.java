@@ -1,16 +1,12 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,15 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import q.rorbin.badgeview.QBadgeView;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterBookDetail;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartDeleteRequest;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
 
@@ -102,12 +95,12 @@ public class BookDetailsActivity extends AppCompatActivity {
         });
 
 
-        findViewById(R.id.btnMuaNgay).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                homeViewModel.order();
-            }
-        });
+//        findViewById(R.id.btnMuaNgay).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                homeViewModel.order();
+//            }
+//        });
 
     }
 
@@ -116,20 +109,27 @@ public class BookDetailsActivity extends AppCompatActivity {
             finish();
         });
 
-        findViewById(R.id.btnMuaNgay).setOnClickListener(v -> {
-            Toast.makeText(this, "Mua Ngay", Toast.LENGTH_SHORT).show();
-        });
-
-        findViewById(R.id.btnAddToCart).setOnClickListener(v -> {
+        findViewById(R.id.btnThanhToan).setOnClickListener(v -> {
+//            Toast.makeText(this, "Mua Ngay", Toast.LENGTH_SHORT).show();
             int bookId = getIntent().getIntExtra("bookID", -1);
             if (bookId != -1) {
                 homeViewModel.addToCart(bookId, 1, this);
-                Toast.makeText(this, "Đang thêm vào giỏ hàng...", Toast.LENGTH_SHORT).show();
 //                homeViewModel.fetchCartList();
             } else {
                 Toast.makeText(this, "Lỗi: Không thể xác định ID sách", Toast.LENGTH_SHORT).show();
             }
         });
+
+//        findViewById(R.id.btnAddToCart).setOnClickListener(v -> {
+//            int bookId = getIntent().getIntExtra("bookID", -1);
+//            if (bookId != -1) {
+//                homeViewModel.addToCart(bookId, 1, this);
+//                Toast.makeText(this, "Đang thêm vào giỏ hàng...", Toast.LENGTH_SHORT).show();
+////                homeViewModel.fetchCartList();
+//            } else {
+//                Toast.makeText(this, "Lỗi: Không thể xác định ID sách", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         findViewById(R.id.btnCallNow).setOnClickListener(v -> {
 //            List<Integer> selectedCartItemIds = homeViewModel.getSelectedCartItemIds();
