@@ -32,7 +32,6 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.network.RepositoryHome;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view.WebViewActivity;
 
 public class HomeViewModel extends ViewModel {
     private final String NAME = this.getClass().getSimpleName();
@@ -269,7 +268,7 @@ public class HomeViewModel extends ViewModel {
     }
 
 
-    public void order(List<Integer> cartItemIds) {
+    public void fetchOrderByCartID(List<Integer> cartItemIds) {
         idOrder.postValue(0);
         System.out.println(cartItemIds);
         OrderRequest orderRequest = new OrderRequest(cartItemIds, address);

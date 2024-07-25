@@ -83,10 +83,15 @@ public class OrderResponse {
         private String usedBooks;
         @SerializedName("totalPrice")
         private double itemTotalPrice;
-        @SerializedName("totalQuantity")
-        private int itemTotalQuantity;
+        @SerializedName("quantity")
+        private int quantity;
         @SerializedName("shippingFee")
         private double itemShippingFee;
+
+
+        public int getQuantity() {
+            return quantity;
+        }
 
         public int getBookId() {
             return bookId;
@@ -144,9 +149,6 @@ public class OrderResponse {
             return itemTotalPrice;
         }
 
-        public int getItemTotalQuantity() {
-            return itemTotalQuantity;
-        }
 
         public double getItemShippingFee() {
             return itemShippingFee;

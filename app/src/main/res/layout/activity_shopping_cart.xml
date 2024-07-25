@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".home.view.ShoppingCartActivity">
+    tools:context=".home.view.CartActivity">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -101,7 +101,7 @@
             android:layout_marginHorizontal="@dimen/_4sdp"
             android:layout_weight="3"
             android:backgroundTint="#aa0116"
-            android:text="Thanh toán"
+            android:text="Đặt hàng"
             android:textColor="@color/white"
             app:cornerRadius="0dp" />
     </LinearLayout>

@@ -161,7 +161,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btnCart).setOnClickListener(v -> {
-            Intent intent = new Intent(BookDetailsActivity.this, ShoppingCartActivity.class);
+            Intent intent = new Intent(BookDetailsActivity.this, CartActivity.class);
             startActivity(intent);
         });
 

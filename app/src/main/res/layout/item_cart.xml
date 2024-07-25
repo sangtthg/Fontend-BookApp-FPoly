@@ -22,17 +22,15 @@
             android:visibility="visible" />
 
 
-                <ImageView
-                    android:id="@+id/book_image_detail"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_100sdp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_rounded_image2"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_placeholder" />
-
-
+        <ImageView
+            android:id="@+id/book_image_detail"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/shape_rounded_image2"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_placeholder" />
 
 
         <LinearLayout
@@ -45,7 +43,7 @@
             android:paddingEnd="@dimen/_4sdp">
 
             <TextView
-                android:id="@+id/book_title_detail"
+                android:id="@+id/book_title_detail2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -56,6 +54,7 @@
                 android:textSize="@dimen/_14ssp" />
 
             <TextView
+                android:visibility="invisible"
                 android:id="@+id/tvtacGiaSach"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,7 +87,7 @@
                     android:fontFamily="@font/display_regular"
                     android:text="520.120đ"
                     android:textColor="#757575"
-                    android:textSize="@dimen/_10ssp" />
+                    android:textSize="@dimen/_9ssp" />
 
             </LinearLayout>
 

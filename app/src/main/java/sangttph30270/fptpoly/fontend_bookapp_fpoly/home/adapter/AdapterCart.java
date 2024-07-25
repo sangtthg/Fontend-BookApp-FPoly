@@ -49,9 +49,9 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         CartListResponse.CartItemDetail cartItemDetail = cartItemList.get(position);
-        holder.bookTitle.setText(cartItemDetail.getBook().getTitle());
-        holder.tvQuantity.setText(cartItemDetail.getQuantity()+ "");
-        holder.tvtacGiaSach.setText(cartItemDetail.getBook().getAuthorName());
+        holder.bookTitle.setText(cartItemDetail.getBook_title_in_cart());
+        holder.tvQuantity.setText(String.format("%d", cartItemDetail.getQuantity()));
+//        holder.tvtacGiaSach.setText(cartItemDetail.getBook().getAuthorName());
 
         holder.bookPrice.setText(String.format("%s", CurrencyFormatter.toVND(cartItemDetail.getBook().getNewPrice())));
         holder.bookOldPrice.setText(String.format("%s", CurrencyFormatter.toVND(cartItemDetail.getBook().getOldPrice())));
@@ -134,7 +134,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             bookImage = itemView.findViewById(R.id.book_image_detail);
-            bookTitle = itemView.findViewById(R.id.book_title_detail);
+            bookTitle = itemView.findViewById(R.id.book_title_detail2);
             bookPrice = itemView.findViewById(R.id.tvGiaSach);
             bookOldPrice = itemView.findViewById(R.id.tvGiaSachCu);
             tvtacGiaSach = itemView.findViewById(R.id.tvtacGiaSach);

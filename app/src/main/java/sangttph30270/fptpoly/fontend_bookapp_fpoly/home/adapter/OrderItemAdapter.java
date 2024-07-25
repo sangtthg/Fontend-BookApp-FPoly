@@ -40,7 +40,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.View
         holder.giaMoi.setText(String.valueOf(CurrencyFormatter.toVND(item.getNewPrice())));
         holder.giaCu.setText(String.valueOf(CurrencyFormatter.toVND(item.getOldPrice())));
         holder.giaCu.setPaintFlags( holder.giaCu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.itemSoLuong.setText(String.format("x%s", item.getItemTotalQuantity()));
+        holder.itemSoLuong.setText(String.format("x%s", item.getQuantity()));
 
         Glide.with(holder.itemView.getContext())
                 .load(item.getBookAvatar())

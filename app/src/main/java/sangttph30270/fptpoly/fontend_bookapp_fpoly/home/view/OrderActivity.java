@@ -1,12 +1,11 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,13 +16,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
-
 import java.util.ArrayList;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.OrderItemAdapter;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
@@ -32,14 +28,12 @@ public class OrderActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private HomeViewModel homeViewModel;
-    private ShimmerFrameLayout shimmerFrameLayout;
 
-    private ImageView backDetailButton;
     private TextView tvGiaShip, tvTongPhu, tvTongvanChuyen, tvTongCong, tvTongSoTien;
-    private Button btnDatHang;
 
-    SkeletonAdapter skeletonAdapter;
+    private SkeletonAdapter skeletonAdapter;
 
+    private LinearLayout layout2, layout3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,52 +47,60 @@ public class OrderActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        recyclerView = findViewById(R.id.recyclerviewOrer);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        skeletonAdapter = new SkeletonAdapter(1);
-        recyclerView.setAdapter(skeletonAdapter);
-
         ArrayList<Integer> selectedCartItemIds = getIntent().getIntegerArrayListExtra("selectedCartItemIds");
+        initView();
+        initRecyclerView(this);
+        initItemClick();
+        hidenLayout();
 
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel.fetchOrderByCartID(selectedCartItemIds);
+        homeViewModel.getOrderResponseLiveData().observe(this, orderResponse -> {
+            if (orderResponse != null) {
+                recyclerView.setAdapter(new OrderItemAdapter(orderResponse.getItems()));
+                layout2.setVisibility(View.VISIBLE);
+                layout3.setVisibility(View.VISIBLE);
+                double shippingFee = orderResponse.getShippingFee();
+                double totalPrice = orderResponse.getTotalPrice();
+                double totalPriceExcludingShipping = totalPrice - shippingFee;
+
+                tvGiaShip.setText(CurrencyFormatter.toVND(String.valueOf(shippingFee)));
+                tvTongPhu.setText(CurrencyFormatter.toVND(String.valueOf(totalPriceExcludingShipping)));
+                tvTongvanChuyen.setText(CurrencyFormatter.toVND(String.valueOf(shippingFee)));
+                tvTongCong.setText(CurrencyFormatter.toVND(String.valueOf(totalPrice)));
+                tvTongSoTien.setText(CurrencyFormatter.toVND(String.valueOf(totalPrice)));
+            }
+        });
+
+
+    }
+
+    private void hidenLayout() {
+        layout2 = findViewById(R.id.layout2);
+        layout3 = findViewById(R.id.layout3);
+
+        layout2.setVisibility(View.GONE);
+        layout3.setVisibility(View.GONE);
+    }
+
+    private void initItemClick() {
+        findViewById(R.id.btnDatHang).setOnClickListener(v -> homeViewModel.payOrder(getApplicationContext()));
+
+        findViewById(R.id.backDetailButton).setOnClickListener(v -> finish());
+    }
+
+    private void initRecyclerView(Context context) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        skeletonAdapter = new SkeletonAdapter(3);
+        recyclerView.setAdapter(skeletonAdapter);
+    }
+
+    private void initView() {
         tvGiaShip = findViewById(R.id.tvGiaShip);
         tvTongPhu = findViewById(R.id.tvTongPhu);
         tvTongvanChuyen = findViewById(R.id.tvTongvanChuyen);
         tvTongCong = findViewById(R.id.tvTongCong);
         tvTongSoTien = findViewById(R.id.tvTongSoTien);
-
-
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-
-        homeViewModel.order(selectedCartItemIds);
-
-        homeViewModel.getOrderResponseLiveData().observe(this, orderResponse -> {
-            if (orderResponse != null) {
-
-                OrderItemAdapter adapter = new OrderItemAdapter(orderResponse.getItems());
-                recyclerView.setAdapter(adapter);
-
-                tvGiaShip.setText(CurrencyFormatter.toVND(String.valueOf(orderResponse.getShippingFee())));
-                tvTongPhu.setText(CurrencyFormatter.toVND(String.valueOf(orderResponse.getTotalPrice())));
-                tvTongvanChuyen.setText(CurrencyFormatter.toVND(String.valueOf(orderResponse.getShippingFee())));
-                tvTongCong.setText(CurrencyFormatter.toVND(String.valueOf(orderResponse.getTotalPrice() + orderResponse.getShippingFee())));
-                tvTongSoTien.setText(CurrencyFormatter.toVND(String.valueOf(orderResponse.getTotalPrice() + orderResponse.getShippingFee())));
-
-            }
-        });
-
-        findViewById(R.id.btnDatHang).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                homeViewModel.payOrder(getApplicationContext());
-            }
-        });
-
-        findViewById(R.id.backDetailButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        recyclerView = findViewById(R.id.recyclerviewOrer);
     }
 }

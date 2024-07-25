@@ -62,13 +62,20 @@ public class CartListResponse {
         @SerializedName("created_date")
         private String createdDate;
 
+        @SerializedName("book_title_in_cart")
+        private String book_title_in_cart;
+
         @SerializedName("modify_date")
         private String modifyDate;
 
-        @SerializedName("Book")
+        @SerializedName("book")
         private DetailBookResponse.BookData book;
 
         private boolean selected;
+
+        public String getBook_title_in_cart() {
+            return book_title_in_cart;
+        }
 
         public int getCartId() {
             return cartId;

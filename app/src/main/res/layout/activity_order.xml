@@ -162,6 +162,7 @@
                 android:background="@color/white" />
 
             <LinearLayout
+                android:id="@+id/layout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="@dimen/_8sdp"
@@ -222,6 +223,7 @@
 
 
             <LinearLayout
+                android:id="@+id/layout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -258,7 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/display_regular"
-                        android:text="179.450 VNĐ"
+                        android:text="0 VNĐ"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
 
@@ -284,7 +286,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/display_regular"
-                        android:text="24.000 VNĐ"
+                        android:text="0 VNĐ"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
 
@@ -310,7 +312,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/display_medium"
-                        android:text="201.850 VNĐ"
+                        android:text="0 VNĐ"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
 
@@ -441,7 +443,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_medium"
                 android:maxLines="2"
-                android:text="3.957.000 VNĐ"
+                android:text="0 VNĐ"
                 android:textColor="#aa0116"
                 android:textSize="@dimen/_13ssp" />
 
@@ -453,7 +455,7 @@
             android:layout_height="@dimen/_44sdp"
             android:layout_weight="3"
             android:backgroundTint="#aa0116"
-            android:text="ĐẶT HÀNG"
+            android:text="Thanh toán"
             android:textColor="@color/white"
             app:cornerRadius="0dp" />
 

@@ -33,6 +33,7 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterSachHome;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterSachHomeGoiY;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.CategoryAdapter;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.view.user_order.DonHangActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.search.view.SearchActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.RecyclerViewUtil;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper;
@@ -66,6 +67,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        TextView tvTheLoaiSachTitle = view.findViewById(R.id.tvTheLoaiSachTitle);
+        tvTheLoaiSachTitle.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), DonHangActivity.class);
+            startActivity(intent);
+        });
+
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         sharedPreferencesHelper = new SharedPreferencesHelper(getContext());
 
@@ -255,7 +263,7 @@ public class HomeFragment extends Fragment {
         });
 
         view.findViewById(R.id.btnCart).setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ShoppingCartActivity.class);
+            Intent intent = new Intent(getContext(), CartActivity.class);
             startActivity(intent);
         });
     }
