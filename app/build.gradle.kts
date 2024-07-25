@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-
+    implementation("androidx.cardview:cardview:1.0.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1") // Cập nhật phiên bản nếu cần
 
     implementation ("com.squareup.picasso:picasso:2.71828")

@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:background="@drawable/item_selector"> <!-- Sử dụng drawable selector cho hiệu ứng khi chạm -->
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="4dp">
 
-    <TextView
-        android:id="@+id/textViewBookSearch"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:fontFamily="@font/ralewaym"
         android:gravity="center_vertical"
-        android:paddingEnd="8dp"
-        android:text="Sách thiếu nhi"
-        android:textColor="@android:color/black"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@drawable/item_selector"> <!-- Sử dụng drawable selector cho hiệu ứng khi chạm -->
 
-    <ImageView
-        android:id="@+id/imageViewBookSearch"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="8dp"
-        android:background="?attr/selectableItemBackground"
-        android:padding="4dp"
-        android:src="@drawable/icons8_search" />
+        <ImageView
+            android:id="@+id/imageViewBookSearch"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:padding="4dp"
+            android:src="@drawable/icons8_search" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textViewBookSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/ralewaym"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:text="Sách thiếu nhi"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -39,7 +39,6 @@ public class AdapterBookPopupNew extends RecyclerView.Adapter<AdapterBookPopupNe
     public void onBindViewHolder(@NonNull BookViewHolder holder, @SuppressLint("RecyclerView") int position) {
         HomeBookModel bookModel = bookModelList.get(position);
         holder.textViewBookSearch.setText(bookModel.getTitle());
-        Log.d("AdapterBookPopupNew", "Position: " + position + ", Title: " + bookModel.getTitle());
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .placeholder(R.drawable.loading_book)
@@ -58,9 +57,15 @@ public class AdapterBookPopupNew extends RecyclerView.Adapter<AdapterBookPopupNe
         return bookModelList.size();
     }
 
+    public void updateBookList(List<HomeBookModel> newBookList) {
+        this.bookModelList = newBookList;
+        notifyDataSetChanged();
+    }
+
     public static class BookViewHolder extends RecyclerView.ViewHolder {
         TextView textViewBookSearch;
         ImageView imageViewBookSearch;
+
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewBookSearch = itemView.findViewById(R.id.textViewBookSearch);
