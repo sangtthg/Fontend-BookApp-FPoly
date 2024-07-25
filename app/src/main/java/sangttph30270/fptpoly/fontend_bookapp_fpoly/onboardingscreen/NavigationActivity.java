@@ -1,6 +1,7 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.onboardingscreen;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -20,6 +21,8 @@ public class NavigationActivity extends AppCompatActivity {
     Button backButton, nextButton, skipButton;
     TextView[] dots;
     ViewPagerAdapter viewPagerAdapter;
+    private static final String PREFS_NAME = "MyPrefsFile";
+    private static final String KEY_FIRST_LAUNCH = "first_launch";
 
     ViewPager.OnPageChangeListener viewPagerListener = new ViewPager.OnPageChangeListener() {
         @Override
@@ -34,7 +37,7 @@ public class NavigationActivity extends AppCompatActivity {
             } else {
                 backButton.setVisibility(View.INVISIBLE);
             }
-            if (position == 2){
+            if (position == 2) {
                 nextButton.setText("Kết thúc");
             } else {
                 nextButton.setText("Tiếp tục");
@@ -55,6 +58,7 @@ public class NavigationActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.nextButton);
         skipButton = findViewById(R.id.skipButton);
 
+        // Set up button listeners
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
