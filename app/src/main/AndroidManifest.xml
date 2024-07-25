@@ -17,6 +17,12 @@
         android:theme="@style/Theme.Fontend_BookApp_FPoly"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".onboardingscreen.GetStarted"
+            android:exported="false" />
+        <activity
             android:name=".home.view.WebViewActivity"
             android:exported="false" />
         <activity
@@ -42,7 +48,7 @@
             android:name=".auth.register.view.RegisterScreen"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".onboardingscreen.NavigationActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">

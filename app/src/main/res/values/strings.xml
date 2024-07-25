@@ -92,6 +92,13 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="screen1">Thư viện số trong tầm tay bạn</string>
+    <string name="screen2">Sách hay đến ngay cửa nhà bạn</string>
+    <string name="screen3">Sách mới, kiến thức mới</string>
+    <string name="screen1desc">Trải nghiệm đọc sách trực tuyến tiện lợi và nhanh chóng</string>
+    <string name="screen2desc">Giao hàng nhanh chóng, không lo chờ đợi</string>
+    <string name="screen3desc">Khám phá hàng ngàn tựa sách trong vài giây</string>
+    <string name="startDesc">Nơi Sách Đưa Bạn Đến Những Hành Trình Mới!</string>
     <string name="action_settings">Settings</string>
     <string name="diaChiTest">Shadow, sắp được phóng thích sau thời gian tù, hằng mong chờ cuộc sống bình yên bên vợ. Nhưng khi nhận tin vợ qua đời và gặp ông già Wednesday, anh bị kéo vào một cuộc chiến giữa các vị thần trong thế giới hiện đại của Mỹ. Neil Gaiman với tài nghệ khéo léo tái hiện một thế giới kỳ ảo nhưng gần gũi, thể hiện sự phức tạ</string>
 </resources>
