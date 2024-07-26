@@ -48,7 +48,7 @@ android {
 
 dependencies {
 
-    implementation ("androidx.recyclerview:recyclerview:1.2.1") // Cập nhật phiên bản nếu cần
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
 
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.1")
