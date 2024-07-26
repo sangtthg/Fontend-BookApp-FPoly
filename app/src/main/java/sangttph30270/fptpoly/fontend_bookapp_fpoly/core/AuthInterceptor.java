@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.core;
 
 import java.io.IOException;
 

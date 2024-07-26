@@ -1,7 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly;
-
-import android.content.Context;
-import android.util.Log;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.core;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

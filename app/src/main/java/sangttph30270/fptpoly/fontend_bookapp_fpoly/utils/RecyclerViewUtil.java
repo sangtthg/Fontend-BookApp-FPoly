@@ -5,8 +5,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.ItemOffsetDecoration;
-
 public class RecyclerViewUtil {
 
     public static void setupLinear(Context context, RecyclerView recyclerView, int offset, RecyclerView.Adapter<?> adapter) {

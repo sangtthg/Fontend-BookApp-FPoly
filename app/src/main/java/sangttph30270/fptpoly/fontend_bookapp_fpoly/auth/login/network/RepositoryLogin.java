@@ -3,7 +3,7 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.network;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.RetrofitManager;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.core.RetrofitManager;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.Common;
 
 public class RepositoryLogin {

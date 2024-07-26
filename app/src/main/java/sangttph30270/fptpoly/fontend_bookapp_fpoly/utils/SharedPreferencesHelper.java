@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.MyApp;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.core.MyApp;
 
 public class SharedPreferencesHelper {
     private static final String PREFS_NAME = "MyPreferences";

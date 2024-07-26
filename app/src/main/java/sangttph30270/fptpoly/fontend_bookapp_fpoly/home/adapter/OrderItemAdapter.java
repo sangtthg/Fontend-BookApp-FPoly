@@ -15,14 +15,14 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponseHome;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 
 public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.ViewHolder> {
 
-    private final List<OrderResponse.Item> items;
+    private final List<OrderResponseHome.Item> items;
 
-    public OrderItemAdapter(List<OrderResponse.Item> items) {
+    public OrderItemAdapter(List<OrderResponseHome.Item> items) {
         this.items = items;
     }
 
@@ -35,7 +35,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        OrderResponse.Item item = items.get(position);
+        OrderResponseHome.Item item = items.get(position);
         holder.titleBook.setText(item.getTitle());
         holder.giaMoi.setText(String.valueOf(CurrencyFormatter.toVND(item.getNewPrice())));
         holder.giaCu.setText(String.valueOf(CurrencyFormatter.toVND(item.getOldPrice())));

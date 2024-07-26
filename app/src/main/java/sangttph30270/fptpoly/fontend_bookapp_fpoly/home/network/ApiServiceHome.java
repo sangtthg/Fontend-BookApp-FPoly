@@ -5,9 +5,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartDeleteRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
@@ -15,7 +13,7 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderRequest;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponseHome;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderResponse;
 
@@ -40,7 +38,7 @@ public interface ApiServiceHome {
     Call<CartListResponse> fetchTotalItemInCart();
 
     @POST("orders/create-order")
-    Call<OrderResponse> createOrder(@Body OrderRequest orderRequest);
+    Call<OrderResponseHome> createOrder(@Body OrderRequest orderRequest);
 
     @POST("orders/pay-order")
     Call<PayOrderResponse> payOrder(@Body PayOrderRequest payOrderRequest);

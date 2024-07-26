@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.core;
 
 import android.app.Application;
 import android.content.Context;

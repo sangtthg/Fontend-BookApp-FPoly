@@ -1,14 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.view.user_order.Page3Fragment">
+    android:orientation="vertical"
+    android:background="#f2f2f2"
+    tools:context=".order_user.view.Page3Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/_8sdp"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <TextView
+        android:id="@+id/emptyTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Chưa có dữ liệu"
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"/>
+</LinearLayout>

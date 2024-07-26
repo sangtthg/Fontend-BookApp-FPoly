@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="24dp" android:viewportHeight="64" android:viewportWidth="64" android:width="24dp">
+      
+    <path android:fillColor="#f4b2b0" android:pathData="m2,29a3,3 0,0 0,3 3h34a3,3 0,0 0,3 -3v-14h-40zM12,28h-6v-4h6zM22,28h-6v-4h6zM32,22h6v6h-6zM20,18h3v2h-3zM15,18h3v2h-3zM10,18h3v2h-3zM5,18h3v2h-3z"/>
+      
+    <path android:fillColor="#f4b2b0" android:pathData="m39,6h-34a3,3 0,0 0,-3 3v1h40v-1a3,3 0,0 0,-3 -3z"/>
+      
+    <path android:fillColor="#b3404a" android:pathData="m5,18h3v2h-3z"/>
+      
+    <path android:fillColor="#b3404a" android:pathData="m20,18h3v2h-3z"/>
+      
+    <path android:fillColor="#b3404a" android:pathData="m15,18h3v2h-3z"/>
+      
+    <path android:fillColor="#b3404a" android:pathData="m10,18h3v2h-3z"/>
+      
+    <path android:fillColor="#b3404a" android:pathData="m22,23h-6a1,1 0,0 0,-1 1v4a1,1 0,0 0,1 1h6a1,1 0,0 0,1 -1v-4a1,1 0,0 0,-1 -1zM21,27h-4v-2h4z"/>
+      
+    <path android:fillColor="#b3404a" android:pathData="m12,23h-6a1,1 0,0 0,-1 1v4a1,1 0,0 0,1 1h6a1,1 0,0 0,1 -1v-4a1,1 0,0 0,-1 -1zM11,27h-4v-2h4z"/>
+      
+    <path android:fillColor="#b3404a" android:pathData="m55,25h-12v-16a4,4 0,0 0,-4 -4h-34a4,4 0,0 0,-4 4v20a4,4 0,0 0,4 4h16v18a8.009,8.009 0,0 0,8 8h26a8.009,8.009 0,0 0,8 -8v-18a8.009,8.009 0,0 0,-8 -8zM49,43h12v8h-8.586l-3.414,-3.414zM49,41v-4.586l3.414,-3.414h8.586v8zM55,27a6,6 0,0 1,5.65 4h-8.65a1,1 0,0 0,-0.707 0.293l-3.707,3.707h-4.586v-8zM37,47v-10h10v10zM23,43h12v4.586l-3.414,3.414h-8.586zM36.414,35 L34.414,33h4.586a3.959,3.959 0,0 0,2 -0.556v2.556zM41,14h-38v-3h38zM5,7h34a2,2 0,0 1,2 2h-38a2,2 0,0 1,2 -2zM5,31a2,2 0,0 1,-2 -2v-13h38v13a2,2 0,0 1,-2 2zM31.586,33 L35,36.414v4.586h-12v-8zM23.35,53h8.65a1,1 0,0 0,0.707 -0.293l3.707,-3.707h4.586v8h-12a6,6 0,0 1,-5.65 -4zM55,57h-12v-8h4.586l3.707,3.707a1,1 0,0 0,0.707 0.293h8.65a6,6 0,0 1,-5.65 4z"/>
+      
+    <path android:fillColor="#b3404a" android:pathData="m39,22a1,1 0,0 0,-1 -1h-6a1,1 0,0 0,-1 1v6a1,1 0,0 0,1 1h6a1,1 0,0 0,1 -1zM37,27h-4v-4h4z"/>
+    
+</vector>

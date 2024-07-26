@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".MyApp"
+        android:name=".core.MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -48,7 +48,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".profile.view.user_order.DonHangActivity"
+            android:name=".order_user.view.DonHangActivity"
             android:exported="false" />
         <activity
             android:name=".home.view.WebViewActivity"

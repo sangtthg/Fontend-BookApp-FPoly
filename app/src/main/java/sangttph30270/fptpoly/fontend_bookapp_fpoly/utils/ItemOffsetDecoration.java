@@ -1,4 +1,4 @@
-package sangttph30270.fptpoly.fontend_bookapp_fpoly;
+package sangttph30270.fptpoly.fontend_bookapp_fpoly.utils;
 
 import android.graphics.Rect;
 import android.view.View;

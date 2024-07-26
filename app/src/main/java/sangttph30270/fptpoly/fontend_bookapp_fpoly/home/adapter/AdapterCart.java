@@ -1,6 +1,6 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter;
 
-import static sangttph30270.fptpoly.fontend_bookapp_fpoly.MyApp.getContext;
+import static sangttph30270.fptpoly.fontend_bookapp_fpoly.core.MyApp.getContext;
 
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 

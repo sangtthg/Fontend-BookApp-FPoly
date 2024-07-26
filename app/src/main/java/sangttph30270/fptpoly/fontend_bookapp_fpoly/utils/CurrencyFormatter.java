@@ -11,4 +11,14 @@ public class CurrencyFormatter {
             return price;
         }
     }
+
+    public static String toVNDWithSymbol(String price) {
+        try {
+            double priceValue = Double.parseDouble(price);
+            String formattedPrice = String.format("%,.0f", priceValue);
+            return "₫" + formattedPrice;
+        } catch (NumberFormatException e) {
+            return price;
+        }
+    }
 }

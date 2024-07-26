@@ -28,7 +28,7 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderRequest;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponseHome;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.network.RepositoryHome;
@@ -44,7 +44,7 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<Integer> badge = new MutableLiveData<>();
     private final MutableLiveData<String> listen = new MutableLiveData<>();
     private final MutableLiveData<Integer> cartItemCount = new MutableLiveData<>();
-    private final MutableLiveData<OrderResponse> orderResponseLiveData = new MutableLiveData<>();
+    private final MutableLiveData<OrderResponseHome> orderResponseLiveData = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> idOrder = new MutableLiveData<>();
     private final MutableLiveData<List<Integer>> selectedCartItemIds = new MutableLiveData<>(new ArrayList<>());
@@ -94,7 +94,7 @@ public class HomeViewModel extends ViewModel {
         return cartItemCount;
     }
 
-    public LiveData<OrderResponse> getOrderResponseLiveData() {
+    public LiveData<OrderResponseHome> getOrderResponseLiveData() {
         return orderResponseLiveData;
     }
 
@@ -272,13 +272,13 @@ public class HomeViewModel extends ViewModel {
         idOrder.postValue(0);
         System.out.println(cartItemIds);
         OrderRequest orderRequest = new OrderRequest(cartItemIds, address);
-        repositoryHome.createOrder(orderRequest, new Callback<OrderResponse>() {
+        repositoryHome.createOrder(orderRequest, new Callback<OrderResponseHome>() {
             @Override
-            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+            public void onResponse(Call<OrderResponseHome> call, Response<OrderResponseHome> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    OrderResponse orderResponse = response.body();
-                    Log.d(NAME, "Order created successfully: " + orderResponse.getMessage());
-                    orderResponseLiveData.postValue(orderResponse);
+                    OrderResponseHome orderResponseHome = response.body();
+                    Log.d(NAME, "Order created successfully: " + orderResponseHome.getMessage());
+                    orderResponseLiveData.postValue(orderResponseHome);
                     idOrder.postValue(response.body().getOrderId());
                 } else {
                     logErrorResponse("Failed to create order", response);
@@ -286,7 +286,7 @@ public class HomeViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<OrderResponse> call, Throwable t) {
+            public void onFailure(Call<OrderResponseHome> call, Throwable t) {
                 Log.e(NAME, "Error creating order", t);
             }
         });
