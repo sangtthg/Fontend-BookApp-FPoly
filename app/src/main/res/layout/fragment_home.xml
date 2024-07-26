@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/_12sdp"
                     android:queryHint="Tìm kiếm..."
-                    android:iconifiedByDefault="false"
+                    android:iconifiedByDefault="true"
                     android:queryBackground="@android:color/transparent"
                     android:background="@drawable/custom_searchview"
                     />

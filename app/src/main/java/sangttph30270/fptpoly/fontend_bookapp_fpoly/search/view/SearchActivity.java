@@ -2,6 +2,8 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.search.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,22 +16,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.AdapterSachHome;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.search.adapter.AdapterAuthorSearch;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.search.adapter.AdapterBookPopupNew;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.search.viewmodel.SearchViewModel;
 
 public class SearchActivity extends AppCompatActivity {
     private ImageView imageViewBack;
     private EditText editTextSearch;
-    private RecyclerView recyclerViewBooks;
+    private RecyclerView recyclerViewBooks, recyclerViewBooksLISTTACGIA;
     private ProgressBar progressBar;
-    private AdapterBookPopupNew adapter;
+    private AdapterBookPopupNew bookAdapter;
+    private AdapterAuthorSearch authorAdapter;
     private List<HomeBookModel> bookList;
+    private List<HomeBookModel> authorList;
     private SearchViewModel searchViewModel;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,7 @@ public class SearchActivity extends AppCompatActivity {
         imageViewBack = findViewById(R.id.imageViewBack);
         editTextSearch = findViewById(R.id.editTextSearch);
         recyclerViewBooks = findViewById(R.id.recyclerViewBooksLISTNEW);
+        recyclerViewBooksLISTTACGIA = findViewById(R.id.recyclerViewBooksLISTTACGIA);
         progressBar = findViewById(R.id.progressBar);
 
         imageViewBack.setOnClickListener(new View.OnClickListener() {
@@ -51,9 +60,9 @@ public class SearchActivity extends AppCompatActivity {
         // Khởi tạo ViewModel
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
-        // Thiết lập RecyclerView và Adapter
+        // Thiết lập RecyclerView và Adapter cho sách
         bookList = new ArrayList<>();
-        adapter = new AdapterBookPopupNew(bookList, new AdapterSachHome.OnItemClickListener() {
+        bookAdapter = new AdapterBookPopupNew(bookList, new AdapterSachHome.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 HomeBookModel selectedBook = bookList.get(position);
@@ -62,7 +71,20 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewBooks.setAdapter(adapter);
+        recyclerViewBooks.setAdapter(bookAdapter);
+
+        // Thiết lập RecyclerView và Adapter cho tác giả
+        authorList = new ArrayList<>();
+        authorAdapter = new AdapterAuthorSearch(authorList, new AdapterAuthorSearch.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                HomeBookModel selectedAuthor = authorList.get(position);
+                Toast.makeText(SearchActivity.this, "Selected Author: " + selectedAuthor.getAuthorName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        recyclerViewBooksLISTTACGIA.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewBooksLISTTACGIA.setAdapter(authorAdapter);
 
         // Quan sát dữ liệu từ ViewModel
         observeViewModel();
@@ -70,6 +92,24 @@ public class SearchActivity extends AppCompatActivity {
         // Hiển thị ProgressBar khi tải dữ liệu
         showProgressBar(true);
         searchViewModel.fetchRandomBooks();
+
+        // Thêm TextWatcher cho EditText
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Không cần xử lý
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterBooks(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Không cần xử lý
+            }
+        });
     }
 
     private void observeViewModel() {
@@ -78,20 +118,50 @@ public class SearchActivity extends AppCompatActivity {
             if (books != null && !books.isEmpty()) {
                 bookList.clear();
                 bookList.addAll(books);
-                adapter.notifyDataSetChanged();
+                bookAdapter.notifyDataSetChanged();
+
+                // Lọc danh sách tác giả duy nhất từ danh sách sách
+                Set<String> uniqueAuthors = new HashSet<>();
+                List<HomeBookModel> uniqueAuthorModels = new ArrayList<>();
+
+                for (HomeBookModel book : books) {
+                    String authorName = book.getAuthorName();
+                    if (authorName != null && !uniqueAuthors.contains(authorName)) {
+                        uniqueAuthors.add(authorName);
+                        // Tạo một đối tượng HomeBookModel mới cho tác giả
+                        HomeBookModel authorModel = new HomeBookModel();
+                        authorModel.setAuthorName(authorName);
+                        uniqueAuthorModels.add(authorModel);
+                    }
+                }
+                authorList.clear();
+                authorList.addAll(uniqueAuthorModels);
+                authorAdapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(SearchActivity.this, "No books available", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private void filterBooks(String query) {
+        List<HomeBookModel> filteredBooks = new ArrayList<>();
+        for (HomeBookModel book : bookList) {
+            if (book.getTitle() != null && book.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                filteredBooks.add(book);
+            }
+        }
+        bookAdapter.updateBookList(filteredBooks);
+    }
+
     private void showProgressBar(boolean show) {
         if (show) {
             progressBar.setVisibility(View.VISIBLE);
             recyclerViewBooks.setVisibility(View.GONE);
+            recyclerViewBooksLISTTACGIA.setVisibility(View.GONE);
         } else {
             progressBar.setVisibility(View.GONE);
             recyclerViewBooks.setVisibility(View.VISIBLE);
+            recyclerViewBooksLISTTACGIA.setVisibility(View.VISIBLE);
         }
     }
 }

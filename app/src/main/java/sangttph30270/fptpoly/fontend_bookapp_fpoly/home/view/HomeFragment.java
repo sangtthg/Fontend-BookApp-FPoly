@@ -129,6 +129,15 @@ public class HomeFragment extends Fragment {
 
     private void setupSearchView(View view) {
         SearchView searchView = view.findViewById(R.id.search_view);
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(true); // Đưa SearchView về trạng thái bị thu gọn
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -141,9 +150,12 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                searchView.setFocusable(false);
+                searchView.setIconified(true);
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
             }

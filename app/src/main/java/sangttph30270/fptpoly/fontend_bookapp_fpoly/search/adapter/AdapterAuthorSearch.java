@@ -19,7 +19,7 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookModel;
 
 public class AdapterAuthorSearch extends RecyclerView.Adapter<AdapterAuthorSearch.AuthorViewHolder> {
-    private List<HomeBookModel>  authorModelList;
+    private List<HomeBookModel> authorModelList;
     private final OnItemClickListener listener;
 
     public AdapterAuthorSearch(List<HomeBookModel> authorModelList, OnItemClickListener listener) {
@@ -59,11 +59,9 @@ public class AdapterAuthorSearch extends RecyclerView.Adapter<AdapterAuthorSearc
     public static class AuthorViewHolder extends RecyclerView.ViewHolder {
         TextView textViewAuthor;
 
-
         public AuthorViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewAuthor = itemView.findViewById(R.id.textViewAuthor);
-
         }
     }
 }
