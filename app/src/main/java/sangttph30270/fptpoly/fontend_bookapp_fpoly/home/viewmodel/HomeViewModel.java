@@ -3,6 +3,7 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.favorite.model.ReviewRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartDeleteRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartItem;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
@@ -31,7 +33,9 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderResponseHome;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.PayOrderResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.ReviewResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.network.RepositoryHome;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view.BookDetailsActivity;
 
 public class HomeViewModel extends ViewModel {
     private final String NAME = this.getClass().getSimpleName();
@@ -48,6 +52,10 @@ public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<Integer> idOrder = new MutableLiveData<>();
     private final MutableLiveData<List<Integer>> selectedCartItemIds = new MutableLiveData<>(new ArrayList<>());
+
+    private final MutableLiveData<ReviewResponse> bookReviews = new MutableLiveData<>();
+
+    private final MutableLiveData<ReviewResponse> reviewResponseLiveData = new MutableLiveData<>();
 
 
     List<Integer> cartItemIds = Arrays.asList(156, 157);
@@ -81,6 +89,10 @@ public class HomeViewModel extends ViewModel {
         return cartItemList;
     }
 
+    public LiveData<ReviewResponse> getReviewResponseLiveData() {
+        return reviewResponseLiveData;
+    }
+
 
     public MutableLiveData<String> getListen() {
         return listen;
@@ -100,6 +112,10 @@ public class HomeViewModel extends ViewModel {
 
     public MutableLiveData<List<Integer>> getSelectedCartItemIds() {
         return selectedCartItemIds;
+    }
+
+    public LiveData<ReviewResponse> getBookReviews() {
+        return bookReviews;
     }
 
     public void fetchHomeBookAPI() {
@@ -156,6 +172,52 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onFailure(@NonNull Call<DetailBookResponse> call, @NonNull Throwable t) {
                 Log.e(NAME, "Fetch BookDetail onFailure: ", t);
+            }
+        });
+    }
+
+    public void fetchBookReviews(int bookId) {
+        repositoryHome.fetchBookReviews(bookId, new Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getReviews() != null) {
+                    bookReviews.postValue(response.body());
+                } else {
+                    Log.e(NAME, "Failed to fetch book reviews: " + response.body());
+                    bookReviews.postValue(new ReviewResponse(new ArrayList<>()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReviewResponse> call, Throwable t) {
+                Log.e(NAME, "Error fetching book reviews", t);
+                bookReviews.postValue(new ReviewResponse(new ArrayList<>()));
+            }
+        });
+    }
+
+
+    public void submitReview(int bookId, int rating, String comment, Context context) {
+        ReviewRequest reviewRequest = new ReviewRequest(bookId, rating, comment);
+        repositoryHome.submitReview(reviewRequest, new Callback<ReviewResponse>() {
+            @Override
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(context, "Đánh giá sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(() -> {
+                        Intent intent = new Intent(context, BookDetailsActivity.class);
+                        intent.putExtra("bookID", bookId);
+                        context.startActivity(intent);
+                    }, 2000);
+                    reviewResponseLiveData.postValue(response.body());
+                } else {
+                    reviewResponseLiveData.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReviewResponse> call, Throwable t) {
+                reviewResponseLiveData.postValue(null);
             }
         });
     }
@@ -292,13 +354,21 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    public void payOrder(Context context) {
-        Integer orderIdValue = idOrder.getValue();
-        if (orderIdValue == null) {
-            return;
+    public void payOrder(Context context, int orderID) {
+//        Integer orderIdValue = idOrder.getValue();
+//        if (orderIdValue == null) {
+//            return;
+//        }
+
+        int id = 0;
+
+        if (orderID == -1){
+            id = idOrder.getValue();
+        } else{
+            id = orderID;
         }
 
-        PayOrderRequest payOrderRequest = new PayOrderRequest(idOrder.getValue());
+        PayOrderRequest payOrderRequest = new PayOrderRequest(id);
         repositoryHome.payOrder(payOrderRequest, new Callback<PayOrderResponse>() {
             @Override
             public void onResponse(Call<PayOrderResponse> call, Response<PayOrderResponse> response) {

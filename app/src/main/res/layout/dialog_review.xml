@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đánh Giá Sản Phẩm"
+        android:textSize="@dimen/_12ssp"
+        android:fontFamily="@font/display_medium"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:textStyle="bold" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="1.0" />
+
+    <EditText
+        android:id="@+id/editTextComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:background="#FFFFFF"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:drawablePadding="10dp"
+        android:gravity="top|start"
+        android:backgroundTint="@color/backgroundColor"
+        android:hint="Viết cảm nghĩ của bạn.."
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:textColorHint="#616161"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textSize="@dimen/_11ssp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSubmit"
+        android:layout_width="match_parent"
+        app:cornerRadius="7dp"
+        android:backgroundTint="@color/colorRedM"
+        android:layout_height="wrap_content"
+        android:text="Gửi đánh giá" />
+
+
+</LinearLayout>

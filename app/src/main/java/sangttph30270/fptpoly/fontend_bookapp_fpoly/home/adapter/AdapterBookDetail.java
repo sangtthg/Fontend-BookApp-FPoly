@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,9 @@ import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.ReviewResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.DateUtils;
 
 public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_BOOK_DETAIL = 1, TYPE_COMMENT_LIST = 2;
@@ -33,7 +36,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemViewType(int position) {
         Object item = items.get(position);
         if (item instanceof DetailBookResponse) return TYPE_BOOK_DETAIL;
-        // if (item instanceof CommentListItem) return TYPE_COMMENT_LIST;
+        if (item instanceof ReviewResponse.Review) return TYPE_COMMENT_LIST;
         return -1;
     }
 
@@ -46,9 +49,9 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
             case TYPE_BOOK_DETAIL:
                 view = inflater.inflate(R.layout.item_book_detail, parent, false);
                 return new BookDetailViewHolder(view);
-            // case TYPE_COMMENT_LIST:
-            //     view = inflater.inflate(R.layout.item_image, parent, false);
-            //     return new ImageViewHolder(view);
+            case TYPE_COMMENT_LIST:
+                view = inflater.inflate(R.layout.item_comment, parent, false);
+                return new CommentViewHolder(view);
             default:
                 return null;
         }
@@ -57,8 +60,11 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Object item = items.get(position);
-        if (holder instanceof BookDetailViewHolder)
+        if (holder instanceof BookDetailViewHolder) {
             ((BookDetailViewHolder) holder).bind((DetailBookResponse) item);
+        } else if (holder instanceof CommentViewHolder) {
+            ((CommentViewHolder) holder).bind((ReviewResponse.Review) item);
+        }
     }
 
     @Override
@@ -107,6 +113,56 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
             } else {
                 tvBookTitleDetaill.setText("Null");
                 tvGiaSachCu.setText("Null");
+            }
+        }
+    }
+
+    static class CommentViewHolder extends RecyclerView.ViewHolder {
+        TextView tvReviewerName, tvReviewContent, tvThoiGianComment;
+        ImageView avatar;
+        LinearLayout starContainer;
+
+
+        public CommentViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvReviewerName = itemView.findViewById(R.id.tvReviewerName);
+            tvReviewContent = itemView.findViewById(R.id.tvReviewContent);
+            avatar = itemView.findViewById(R.id.imgAvatarUserComment);
+            starContainer = itemView.findViewById(R.id.starContainer);
+            tvThoiGianComment = itemView.findViewById(R.id.tvThoiGianComment);
+
+        }
+
+        public void bind(ReviewResponse.Review review) {
+            tvReviewerName.setText(review.getReviewerName());
+            tvReviewContent.setText(review.getComment());
+            tvThoiGianComment.setText(DateUtils.formatDate(review.getCreatedAt(), "dd-MM-yyyy  HH:mm"));
+
+            Glide.with(itemView.getContext())
+                    .load(review.getReviewerAvatar())
+                    .placeholder(R.drawable.loading_book)
+                    .centerCrop()
+                    .into(avatar);
+
+            starContainer.removeAllViews();
+            int rating = review.getRating();
+            int totalStars = 5;
+
+            for (int i = 0; i < totalStars; i++) {
+                ImageView star = new ImageView(itemView.getContext());
+                if (i < rating) {
+                    star.setImageResource(R.drawable.ic_2star);
+                } else {
+                    star.setImageResource(R.drawable.ic_1star);
+                }
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        getContext().getResources().getDimensionPixelSize(R.dimen.star_width),
+                        getContext().getResources().getDimensionPixelSize(R.dimen.star_height)
+                );
+                params.setMargins(0, 0, getContext().getResources().getDimensionPixelSize(R.dimen.star_spacing), 0);
+                star.setLayoutParams(params);
+                starContainer.addView(star);
             }
         }
     }

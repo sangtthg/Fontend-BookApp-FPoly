@@ -85,7 +85,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void initItemClick() {
-        findViewById(R.id.btnDatHang).setOnClickListener(v -> homeViewModel.payOrder(getApplicationContext()));
+        findViewById(R.id.btnDatHang).setOnClickListener(v -> homeViewModel.payOrder(getApplicationContext(), -1));
 
         findViewById(R.id.backDetailButton).setOnClickListener(v -> finish());
     }

@@ -1,149 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/book_image_detail"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp"
-        android:src="@drawable/img_placeholder" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/_12sdp">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/book_image_detail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/img_placeholder" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/_12sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvGiaSach"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:fontFamily="@font/text_medium"
+                    android:text="420.120đ"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvGiaSachCu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/display_regular"
+                    android:text="420.120đ"
+                    android:textColor="#757575"
+                    android:textSize="@dimen/_10ssp" />
+
+                <TextView
+                    android:id="@+id/tvPhanTramGiam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_background"
+                    android:fontFamily="@font/display_regular"
+                    android:paddingHorizontal="@dimen/_2sdp"
+                    android:paddingVertical="@dimen/_1sdp"
+                    android:text="-22%"
+                    android:textColor="#E91E63"
+                    android:textSize="@dimen/_8ssp" />
+
+            </LinearLayout>
+
 
             <TextView
-                android:id="@+id/tvGiaSach"
-                android:layout_width="wrap_content"
+                android:id="@+id/book_title_detail"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:fontFamily="@font/text_medium"
-                android:text="420.120đ"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/display_regular"
+                android:maxLines="2"
+                android:text="Tiêu đề sách"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_16ssp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_18ssp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:src="@drawable/star" />
+
+                <TextView
+                    android:id="@+id/tvDanhGia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/text_medium"
+                    android:text="5.0 / 5"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
+
+                <TextView
+                    android:id="@+id/tvLuotDanhGia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/text_medium"
+                    android:text="(10)"
+                    android:textColor="#0288D1"
+                    android:textSize="@dimen/_10ssp" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="14dp"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:layout_marginTop="1dp"
+                    android:background="#cacaca" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/text_regular"
+                    android:text="Đã bán"
+                    android:textColor="#757575"
+                    android:textSize="@dimen/_10ssp" />
+
+                <TextView
+                    android:id="@+id/tvDaBan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/text_medium"
+                    android:text="106"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
+
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tvGiaSachCu"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvTacGia"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:fontFamily="@font/display_regular"
-                android:text="420.120đ"
-                android:textColor="#757575"
-                android:textSize="@dimen/_10ssp" />
+                android:text="Book Author"
+                android:textSize="@dimen/_12ssp" />
 
-            <TextView
-                android:id="@+id/tvPhanTramGiam"
-                android:layout_width="wrap_content"
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:background="#EEEEEE	" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/text_background"
-                android:fontFamily="@font/display_regular"
-                android:paddingHorizontal="@dimen/_2sdp"
-                android:paddingVertical="@dimen/_1sdp"
-                android:text="-22%"
-                android:textColor="#E91E63"
-                android:textSize="@dimen/_8ssp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/_1sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:src="@drawable/ic_delivery_truck" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/display_regular"
+                    android:text="Giao hàng siêu tốc - Nhận hàng nhanh chóng"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:background="#EEEEEE	" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/_10sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:src="@drawable/ic_shield" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/display_regular"
+                    android:text="Đổi trả miễn phí 15 ngày  •  Chính hãng 100%"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10ssp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_12sdp">
+
 
         <TextView
-            android:id="@+id/book_title_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_6sdp"
             android:ellipsize="end"
-            android:fontFamily="@font/display_regular"
+            android:fontFamily="@font/display_bold"
             android:maxLines="2"
-            android:text="Tiêu đề sách"
+            android:text="Đánh Giá Sản Phẩm"
             android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:orientation="horizontal">
-
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_marginEnd="@dimen/_4sdp"
-                android:src="@drawable/star"/>
-
-            <TextView
-                android:id="@+id/tvDanhGia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_4sdp"
-                android:fontFamily="@font/text_medium"
-                android:text="5.0 / 5"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10ssp" />
-
-            <TextView
-                android:id="@+id/tvLuotDanhGia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_4sdp"
-                android:fontFamily="@font/text_medium"
-                android:text="(10)"
-                android:textColor="#0288D1"
-                android:textSize="@dimen/_10ssp" />
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="14dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginHorizontal="@dimen/_8sdp"
-                android:background="#cacaca" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_4sdp"
-                android:fontFamily="@font/text_regular"
-                android:text="Đã bán"
-                android:textColor="#757575"
-                android:textSize="@dimen/_10ssp" />
-
-            <TextView
-                android:id="@+id/tvDaBan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_4sdp"
-                android:fontFamily="@font/text_medium"
-                android:text="106"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10ssp" />
-
-
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTacGia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:fontFamily="@font/display_regular"
-            android:text="Book Author"
             android:textSize="@dimen/_12ssp" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:background="#EEEEEE" />
     </LinearLayout>
 
 

@@ -1,6 +1,5 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.adapter;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,15 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 
 public class P3AdapterOrderDaGiaoHang extends RecyclerView.Adapter<P3AdapterOrderDaGiaoHang.OrderViewHolder> {
     private List<Order> orders = new ArrayList<>();
+    private OnOrderClickListener listener;
+
+    public interface OnOrderClickListener {
+        void onOrderClick(Order order);
+    }
+
+    public void setOnOrderClickListener(OnOrderClickListener listener) {
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -40,13 +48,13 @@ public class P3AdapterOrderDaGiaoHang extends RecyclerView.Adapter<P3AdapterOrde
     }
 
     public void setDataOrdersUser(List<Order> orders) {
-        if (orders!=null){
+        if (orders != null) {
             this.orders = orders;
             notifyDataSetChanged();
         }
     }
 
-    static class OrderViewHolder extends RecyclerView.ViewHolder {
+    class OrderViewHolder extends RecyclerView.ViewHolder {
         private final TextView orderIdTextView;
         private final TextView totalPriceTextView;
         private final TextView tvTrangThaiThanhToan;
@@ -58,7 +66,6 @@ public class P3AdapterOrderDaGiaoHang extends RecyclerView.Adapter<P3AdapterOrde
         private final Button btnDanhGia;
         private final TextView tvTongSanPhamItemUserOrder;
 
-
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             orderIdTextView = itemView.findViewById(R.id.orderIdTextView);
@@ -66,20 +73,26 @@ public class P3AdapterOrderDaGiaoHang extends RecyclerView.Adapter<P3AdapterOrde
             itemsRecyclerView = itemView.findViewById(R.id.itemsRecyclerView);
             tvTrangThaiThanhToan = itemView.findViewById(R.id.tvTrangThaiThanhToan);
             tvTongThanhToanItemUserOrder = itemView.findViewById(R.id.tvTongThanhToanItemUserOrder);
-            btnDanhGia = itemView.findViewById(R.id.btnThanhToanDonChoXacNhan);
+            btnDanhGia = itemView.findViewById(R.id.btnThanhToanDonChoXacNhan1);
             tvGhiChuItemOrder = itemView.findViewById(R.id.tvGhiChuItemOrder);
             tv5 = itemView.findViewById(R.id.tv5);
             tvTongSanPhamItemUserOrder = itemView.findViewById(R.id.tvTongSanPhamItemUserOrder);
 
-
             itemsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             orderItemAdapter = new P1AdapterOrderItemChuaThanhToan(new ArrayList<>());
             itemsRecyclerView.setAdapter(orderItemAdapter);
+
+            btnDanhGia.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    Order clickedOrder = orders.get(position);
+                    System.out.println(orders.get(position));
+                    listener.onOrderClick(clickedOrder);
+                }
+            });
         }
 
         public void bind(Order order) {
-
-
             orderIdTextView.setText(String.valueOf(order.getId()));
             totalPriceTextView.setText(String.valueOf(order.getTotalPrice()));
             tvTongSanPhamItemUserOrder.setText(String.format("%d sản phẩm", order.getQuantity()));
@@ -92,6 +105,5 @@ public class P3AdapterOrderDaGiaoHang extends RecyclerView.Adapter<P3AdapterOrde
                 orderItemAdapter.setOrderItems(new ArrayList<>());
             }
         }
-
     }
 }

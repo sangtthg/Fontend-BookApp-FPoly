@@ -1,12 +1,16 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +21,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +38,11 @@ public class BookDetailsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private HomeViewModel homeViewModel;
+    private int bookID;
 
     private TextToSpeech tts;
 
     private boolean listening = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +56,7 @@ public class BookDetailsActivity extends AppCompatActivity {
             return insets;
         });
         Intent intent = getIntent();
-        int bookID = intent.getIntExtra("bookID", -1);
-
+        bookID = intent.getIntExtra("bookID", -1);
 
         tts = new TextToSpeech(this, status -> {
             if (status != TextToSpeech.ERROR) {
@@ -63,8 +68,8 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.fetchBookDetail(bookID);
+        homeViewModel.fetchBookReviews(bookID);
         homeViewModel.fetchTotalItemInCart();
-
 
         homeViewModel.getCartItemCount().observe(this, itemCount -> {
             Log.d("BookDetailsActivity", "Updating badge count: " + itemCount); // Debug log
@@ -77,31 +82,49 @@ public class BookDetailsActivity extends AppCompatActivity {
                     .setBadgeGravity(Gravity.END | Gravity.TOP);
         });
 
-
         recyclerView = findViewById(R.id.recyclerViewDetailBook);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         SkeletonAdapter skeletonAdapter = new SkeletonAdapter(1);
         recyclerView.setAdapter(skeletonAdapter);
 
-
+        recyclerView = findViewById(R.id.recyclerViewDetailBook);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         homeViewModel.getDetailBook().observe(this, detailBookResponse -> {
             List<Object> items = new ArrayList<>();
             items.add(detailBookResponse);
-            AdapterBookDetail adapter = new AdapterBookDetail(items);
-            RecyclerView recyclerView = findViewById(R.id.recyclerViewDetailBook);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
+
+            homeViewModel.getBookReviews().observe(this, reviewResponse -> {
+                if (reviewResponse != null && reviewResponse.getReviews() != null) {
+                    items.addAll(reviewResponse.getReviews());
+                }
+                AdapterBookDetail adapter = new AdapterBookDetail(items);
+                recyclerView.setAdapter(adapter);
+            });
         });
 
+        ImageButton showReviewDialogButton = findViewById(R.id.btnCallNow);
+        showReviewDialogButton.setOnClickListener(v -> showReviewDialog());
+    }
 
-//        findViewById(R.id.btnMuaNgay).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                homeViewModel.order();
-//            }
-//        });
+    private void showReviewDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_review);
 
+        RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
+        EditText editTextComment = dialog.findViewById(R.id.editTextComment);
+        MaterialButton buttonSubmit = dialog.findViewById(R.id.buttonSubmit);
+
+        buttonSubmit.setOnClickListener(v -> {
+            int rating = (int) ratingBar.getRating();
+            String comment = editTextComment.getText().toString();
+
+            homeViewModel.submitReview(bookID, rating, comment, getApplicationContext());
+
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
     private void initView() {
@@ -110,37 +133,15 @@ public class BookDetailsActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btnThanhToan).setOnClickListener(v -> {
-//            Toast.makeText(this, "Mua Ngay", Toast.LENGTH_SHORT).show();
             int bookId = getIntent().getIntExtra("bookID", -1);
             if (bookId != -1) {
                 homeViewModel.addToCart(bookId, 1, this);
-//                homeViewModel.fetchCartList();
             } else {
                 Toast.makeText(this, "Lỗi: Không thể xác định ID sách", Toast.LENGTH_SHORT).show();
             }
         });
 
-//        findViewById(R.id.btnAddToCart).setOnClickListener(v -> {
-//            int bookId = getIntent().getIntExtra("bookID", -1);
-//            if (bookId != -1) {
-//                homeViewModel.addToCart(bookId, 1, this);
-//                Toast.makeText(this, "Đang thêm vào giỏ hàng...", Toast.LENGTH_SHORT).show();
-////                homeViewModel.fetchCartList();
-//            } else {
-//                Toast.makeText(this, "Lỗi: Không thể xác định ID sách", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         findViewById(R.id.btnCallNow).setOnClickListener(v -> {
-//            List<Integer> selectedCartItemIds = homeViewModel.getSelectedCartItemIds();
-//
-//            List<CartDeleteRequest.CartItemDelete> cartItemsToDelete = new ArrayList<>();
-//            for (Integer cartItemId : selectedCartItemIds) {
-//                cartItemsToDelete.add(new CartDeleteRequest.CartItemDelete(cartItemId));
-//            }
-//
-//            homeViewModel.deleteCartItems(cartItemsToDelete);
-//            Toast.makeText(this, "Deleting items...", Toast.LENGTH_SHORT).show();
         });
 
         ImageButton btnListen = findViewById(R.id.btnListen);
@@ -164,8 +165,6 @@ public class BookDetailsActivity extends AppCompatActivity {
             Intent intent = new Intent(BookDetailsActivity.this, CartActivity.class);
             startActivity(intent);
         });
-
-
     }
 
     @Override
@@ -176,5 +175,4 @@ public class BookDetailsActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
-
 }
