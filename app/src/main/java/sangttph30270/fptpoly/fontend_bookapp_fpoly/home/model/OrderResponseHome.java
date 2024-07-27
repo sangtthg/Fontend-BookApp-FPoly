@@ -19,11 +19,16 @@ public class OrderResponseHome {
     private double shippingFee;
     @SerializedName("payUrl")
     private String payUrl;
+    private String deliveryDateText;
     @SerializedName("items")
     private List<Item> items;
 
     public String getStatus() {
         return status;
+    }
+
+    public String getDeliveryDateText() {
+        return deliveryDateText;
     }
 
     public String getMessage() {

@@ -12,7 +12,6 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:paddingTop="@dimen/_24sdp"
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_weight="1"
@@ -24,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:backgroundColor="@color/white"
-        app:indicatorColor="#FF7622"
+        app:indicatorColor="#aa0116"
         app:iconTintActive="@color/white"
         app:textColor="@color/white"
         app:iconTint="@color/black"

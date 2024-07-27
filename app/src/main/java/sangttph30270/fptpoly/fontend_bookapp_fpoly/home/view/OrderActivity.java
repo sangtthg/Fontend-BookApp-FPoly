@@ -29,7 +29,7 @@ public class OrderActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private HomeViewModel homeViewModel;
 
-    private TextView tvGiaShip, tvTongPhu, tvTongvanChuyen, tvTongCong, tvTongSoTien;
+    private TextView tvGiaShip, tvTongPhu, tvTongvanChuyen, tvTongCong, tvTongSoTien, tvNhanHang;
 
     private SkeletonAdapter skeletonAdapter;
 
@@ -62,6 +62,7 @@ public class OrderActivity extends AppCompatActivity {
                 layout3.setVisibility(View.VISIBLE);
                 double shippingFee = orderResponse.getShippingFee();
                 double totalPrice = orderResponse.getTotalPrice();
+                tvNhanHang.setText(orderResponse.getDeliveryDateText());
                 double totalPriceExcludingShipping = totalPrice - shippingFee;
 
                 tvGiaShip.setText(CurrencyFormatter.toVND(String.valueOf(shippingFee)));
@@ -102,5 +103,6 @@ public class OrderActivity extends AppCompatActivity {
         tvTongCong = findViewById(R.id.tvTongCong);
         tvTongSoTien = findViewById(R.id.tvTongSoTien);
         recyclerView = findViewById(R.id.recyclerviewOrer);
+        tvNhanHang = findViewById(R.id.tvNhanHang);
     }
 }

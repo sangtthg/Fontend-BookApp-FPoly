@@ -48,6 +48,15 @@ public class Order {
         if ("pending".equals(orderStatus)) {
             return "Chờ thanh toán";
         }
+        else if ("wait_for_delivery".equals(orderStatus)) {
+            return "Chờ vận chuyển";
+        }
+        else if ("delivered".equals(orderStatus)) {
+            return "Đã giao";
+        }
+        else if ("cancelled".equals(orderStatus)) {
+            return "Đã huỷ";
+        }
         return orderStatus;
     }
 
@@ -68,6 +77,18 @@ public class Order {
     }
 
     public String getStatusShip() {
+        if ("pending".equals(statusShip)) {
+            return "Chờ thanh toán";
+        }
+        else if ("wait_for_delivery".equals(statusShip)) {
+            return "Chờ vận chuyển";
+        }
+        else if ("delivered".equals(statusShip)) {
+            return "Đã giao";
+        }
+        else if ("cancelled".equals(statusShip)) {
+            return "Đã huỷ";
+        }
         return statusShip;
     }
 

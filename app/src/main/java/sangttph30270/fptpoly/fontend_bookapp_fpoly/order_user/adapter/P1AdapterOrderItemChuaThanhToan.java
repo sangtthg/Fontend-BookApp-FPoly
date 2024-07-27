@@ -18,10 +18,10 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.model.OrderItem;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.TextV;
 
-public class OrderItemAdapter2 extends RecyclerView.Adapter<OrderItemAdapter2.OrderItemViewHolder> {
+public class P1AdapterOrderItemChuaThanhToan extends RecyclerView.Adapter<P1AdapterOrderItemChuaThanhToan.OrderItemViewHolder> {
     private List<OrderItem> orderItems;
 
-    public OrderItemAdapter2(List<OrderItem> orderItems) {
+    public P1AdapterOrderItemChuaThanhToan(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 
@@ -53,6 +53,7 @@ public class OrderItemAdapter2 extends RecyclerView.Adapter<OrderItemAdapter2.Or
         private final TextView tvGiaCuOrderItem;
         private final TextView tvGiaMoiOrderItem;
         private final TextView tv_soLuong_itemOrder_item;
+        private final TextView tvTenTacGiaItemOrder;
         private final ImageView bookImageViewOrderItem;
 
         public OrderItemViewHolder(@NonNull View itemView) {
@@ -62,10 +63,12 @@ public class OrderItemAdapter2 extends RecyclerView.Adapter<OrderItemAdapter2.Or
             tvGiaCuOrderItem = itemView.findViewById(R.id.tvGiaCuOrderItem);
             tvGiaMoiOrderItem = itemView.findViewById(R.id.tvGiaMoiOrderItem);
             tv_soLuong_itemOrder_item = itemView.findViewById(R.id.tv_soLuong_itemOrder_item);
+            tvTenTacGiaItemOrder = itemView.findViewById(R.id.tvTenTacGiaItemOrder);
         }
 
         public void bind(OrderItem orderItem) {
             titleTextView.setText(orderItem.getTitle());
+            tvTenTacGiaItemOrder.setText(orderItem.getAuthor_name());
             tv_soLuong_itemOrder_item.setText(String.format("x%d", orderItem.getQuantity()));
             tvGiaMoiOrderItem.setText(CurrencyFormatter.toVNDWithSymbol(String.valueOf(orderItem.getNew_price())));
             tvGiaCuOrderItem.setText(CurrencyFormatter.toVNDWithSymbol(String.valueOf(orderItem.getOld_price())));

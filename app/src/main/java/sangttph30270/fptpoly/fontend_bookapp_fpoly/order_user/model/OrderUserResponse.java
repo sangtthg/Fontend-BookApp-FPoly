@@ -3,7 +3,7 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.model;
 
 import java.util.List;
 
-public class OrderResponse2 {
+public class OrderUserResponse {
     private int code;
     private String message;
     private List<Order> orders;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.view.LoginScreen;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.view.DonHangActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.model.ProfileModel;
 
 public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileViewHolder> {
@@ -103,6 +105,15 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             }
         });
 
+        holder.linearLayoutDonHangCuaToi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, DonHangActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
         // Check token and set button behavior
         SharedPreferences sharedPreferences = holder.itemView.getContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
@@ -135,6 +146,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
         TextView txtDoiMatKhau, txtHoSoCuaToi, txtDiaChi;
         ImageView imgAvatar, imgChangeAvatar;
         Button btnLogoutProfile;
+        LinearLayout linearLayoutDonHangCuaToi;
 
         public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -146,6 +158,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             imgAvatar = itemView.findViewById(R.id.imgAvatar);
             imgChangeAvatar = itemView.findViewById(R.id.imgChangeAvatar);
             btnLogoutProfile = itemView.findViewById(R.id.btnLogoutProfile);
+            linearLayoutDonHangCuaToi = itemView.findViewById(R.id.linearLayoutDonHangCuaToi);
         }
     }
 

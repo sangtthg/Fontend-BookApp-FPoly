@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.adapter.OrderAdapter2;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.model.OrderResponse2;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.adapter.P1AdapterOrderChuaThanhToan;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.model.OrderUserResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.viewmodel.OrderUserViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
 
@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class Page1Fragment extends Fragment {
     private OrderUserViewModel viewModel;
     private RecyclerView recyclerView;
-    private OrderAdapter2 adapter;
+    private P1AdapterOrderChuaThanhToan adapter;
 
     @Nullable
     @Override
@@ -46,11 +46,11 @@ public class Page1Fragment extends Fragment {
         SkeletonAdapter skeletonAdapter = new SkeletonAdapter(4);
         recyclerView.setAdapter(skeletonAdapter);
 
-        adapter = new OrderAdapter2();
+        adapter = new P1AdapterOrderChuaThanhToan();
 
-        viewModel.getOrdersLiveData().observe(getViewLifecycleOwner(), new Observer<OrderResponse2>() {
+        viewModel.getOrdersLiveData().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
             @Override
-            public void onChanged(OrderResponse2 orderResponse) {
+            public void onChanged(OrderUserResponse orderResponse) {
                 if (orderResponse != null && orderResponse.getCode() == 0) {
                     adapter.setDataOrdersUser(orderResponse.getOrders());
                     recyclerView.setAdapter(adapter);

@@ -14,6 +14,7 @@ public class OrderItem {
     public String old_price;
     public String new_price;
     public String used_books;
+    public String author_name;
     public int totalPrice;
     public int quantity;
     public int shippingFee;
@@ -24,6 +25,10 @@ public class OrderItem {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getAuthor_name() {
+        return author_name;
     }
 
     public int getAuthor_id() {

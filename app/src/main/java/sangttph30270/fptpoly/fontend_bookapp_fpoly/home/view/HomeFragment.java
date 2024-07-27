@@ -70,8 +70,8 @@ public class HomeFragment extends Fragment {
 
         TextView tvTheLoaiSachTitle = view.findViewById(R.id.tvTheLoaiSachTitle);
         tvTheLoaiSachTitle.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), DonHangActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(getActivity(), DonHangActivity.class);
+//            startActivity(intent);
         });
 
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
@@ -230,6 +230,7 @@ public class HomeFragment extends Fragment {
             recyclerSachRanDom.setAdapter(skeletonAdapter);
             homeViewModel.fetchHomeBookAPI();
             swipeRefreshLayout.setRefreshing(false);
+            homeViewModel.fetchTotalItemInCart();
         });
     }
 
@@ -304,6 +305,7 @@ public class HomeFragment extends Fragment {
                 nestedScrollView.scrollTo(0, scrollPosition);
             }
         });
+        homeViewModel.fetchTotalItemInCart();
     }
 
     private void promptLogin() {

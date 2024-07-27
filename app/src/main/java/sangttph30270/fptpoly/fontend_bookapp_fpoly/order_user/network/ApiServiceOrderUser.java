@@ -3,19 +3,19 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.network;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.model.OrderResponse2;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.model.OrderUserResponse;
 
 public interface ApiServiceOrderUser {
     @GET("orders/get-list-order?status=pending")
-    Call<OrderResponse2> getPendingOrders();
+    Call<OrderUserResponse> getPendingOrders();
 
     @GET("orders/get-list-order?status=wait_for_delivery")
-    Call<OrderResponse2> getWaiForDeliverytOrders();
+    Call<OrderUserResponse> getWaiForDeliverytOrders();
 
     @GET("orders/get-list-order?status=delivered")
-    Call<OrderResponse2> getDelivredtOrders();
+    Call<OrderUserResponse> getDelivredtOrders();
 
     @GET("orders/get-list-order?status=cancelled")
-    Call<OrderResponse2> geCanlledOrders();
+    Call<OrderUserResponse> geCanlledOrders();
 }
 
