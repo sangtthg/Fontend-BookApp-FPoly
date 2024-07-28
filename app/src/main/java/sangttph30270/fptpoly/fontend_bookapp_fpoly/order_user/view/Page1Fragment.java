@@ -23,13 +23,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class Page1Fragment extends Fragment {
     private OrderUserViewModel viewModel;
     private RecyclerView recyclerView;
     private P1AdapterOrderChuaThanhToan adapter;
     private HomeViewModel homeViewModel;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -58,7 +59,6 @@ public class Page1Fragment extends Fragment {
             public void onItemClick(Order order) {
                 homeViewModel.payOrder(getContext(), order.getId());
                 Toast.makeText(getContext(), "Chuẩn bị tiến hành thanh toán", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getContext(), "Order ID: " + order.getId() + ", Total Price: " + order.getTotalPrice(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -74,6 +74,13 @@ public class Page1Fragment extends Fragment {
                     emptyTextView.setVisibility(View.VISIBLE);
                 }
             }
+        });
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            recyclerView.setAdapter(skeletonAdapter);
+            viewModel.fetchPendingOrders();
+            swipeRefreshLayout.setRefreshing(false);
         });
     }
 }

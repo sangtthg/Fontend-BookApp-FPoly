@@ -1,18 +1,24 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.view;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.button.MaterialButton;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
@@ -22,21 +28,13 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.model.OrderUserRes
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.viewmodel.OrderUserViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.button.MaterialButton;
-
 public class Page3Fragment extends Fragment {
     private OrderUserViewModel viewModel;
     private RecyclerView recyclerView;
     private P3AdapterOrderDaGiaoHang adapter;
     private int bookID;
     private HomeViewModel homeViewModel;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -49,7 +47,6 @@ public class Page3Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-
         viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
         viewModel.getDelivredtOrders();
 
@@ -62,12 +59,10 @@ public class Page3Fragment extends Fragment {
         recyclerView.setAdapter(skeletonAdapter);
 
         adapter = new P3AdapterOrderDaGiaoHang();
-
         adapter.setOnOrderClickListener(order -> {
             if (order.getItems() != null && !order.getItems().isEmpty()) {
                 bookID = order.getItems().get(0).getBook_id();
                 showReviewDialog();
-//                Toast.makeText(getContext(), "BookID: " + bookID, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "No items in this order", Toast.LENGTH_SHORT).show();
             }
@@ -82,6 +77,13 @@ public class Page3Fragment extends Fragment {
                 recyclerView.setVisibility(View.GONE);
                 emptyTextView.setVisibility(View.VISIBLE);
             }
+        });
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            recyclerView.setAdapter(skeletonAdapter);
+            viewModel.getDelivredtOrders();
+            swipeRefreshLayout.setRefreshing(false);
         });
     }
 
