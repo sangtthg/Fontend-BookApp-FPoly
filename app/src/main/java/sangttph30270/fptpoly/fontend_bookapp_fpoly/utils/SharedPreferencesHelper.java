@@ -4,7 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.model.AddressModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.core.MyApp;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.setting.model.AddressRequestModel;
 
 public class SharedPreferencesHelper {
     private static final String PREFS_NAME = "MyPreferences";
@@ -17,10 +26,13 @@ public class SharedPreferencesHelper {
     private static final String KEY_USER_STATUS = "user_status";
     private static final String KEY_ROLE = "role";
     private static final String KEY_TOKEN = "token";
-    private static final String KEY_DEFAULT_ADDRESS = "address";
-
+    private static final String KEY_DEFAULT_ADDRESS = "default_address";
+    private static final String ADDRESSES_KEY = "address";
+    private static final String ADDRESSES_LIST_KEY = "addresses_list"; // Key cho danh sách địa chỉ
+    private static final String ADDRESS_OBJECT_KEY = "address_object"; // Key cho đối tượng địa chỉ
     private final SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private final Gson gson;
 
     public SharedPreferencesHelper(Context context) {
         if (context != null) {
@@ -29,7 +41,9 @@ public class SharedPreferencesHelper {
             sharedPreferences = MyApp.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         }
         editor = sharedPreferences.edit();
+        gson = new Gson();
     }
+
 
     public void saveUserData(int userId, String username, String email, String avatar, String authToken, String resetCode, int userStatus, String role, String token, String defaultAddress) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -57,11 +71,39 @@ public class SharedPreferencesHelper {
             Log.d("SharedPreferencesHelper", "UserStatus: " + userStatus);
             Log.d("SharedPreferencesHelper", "Role: " + role);
             Log.d("SharedPreferencesHelper", "Token: " + token);
-            Log.d("SharedPreferencesHelper", "DefaultAddress: " + defaultAddress );
+            Log.d("SharedPreferencesHelper", "DefaultAddress: " + defaultAddress);
         } else {
             Log.d("SharedPreferencesHelper", "Failed to save user data.");
         }
     }
+
+
+    public void saveAddresses(List<AddressModel> addresses) {
+        String json = gson.toJson(addresses);
+        editor.putString(ADDRESSES_LIST_KEY, json);
+        editor.apply();
+    }
+
+    public void saveAddress(AddressRequestModel addressRequestModel) {
+        String addressJson = gson.toJson(addressRequestModel);
+        editor.putString(ADDRESS_OBJECT_KEY, addressJson);
+        editor.apply();
+    }
+
+    public AddressRequestModel getAddress() {
+        String addressJson = sharedPreferences.getString(ADDRESS_OBJECT_KEY, null);
+        return gson.fromJson(addressJson, AddressRequestModel.class);
+    }
+
+    public List<AddressModel> getAddresses() {
+        String json = sharedPreferences.getString(ADDRESSES_LIST_KEY, null);
+        Type type = new TypeToken<List<AddressModel>>() {}.getType();
+        if (json == null) {
+            return new ArrayList<>(); // Return an empty list if no addresses are found
+        }
+        return gson.fromJson(json, type);
+    }
+
 
 
     public int getUserId() {

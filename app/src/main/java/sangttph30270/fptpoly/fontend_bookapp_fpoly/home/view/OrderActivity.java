@@ -17,11 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.model.AddressModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter.OrderItemAdapter;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
 
 public class OrderActivity extends AppCompatActivity {
@@ -29,11 +32,12 @@ public class OrderActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private HomeViewModel homeViewModel;
 
-    private TextView tvGiaShip, tvTongPhu, tvTongvanChuyen, tvTongCong, tvTongSoTien, tvNhanHang;
+    private TextView tvGiaShip, tvTongPhu, tvTongvanChuyen, tvTongCong, tvTongSoTien, tvNhanHang, tvTenNguoiDungOrder, tvSDTNguoiDungOrder, tvDiaChiOrderChiTiet;
 
     private SkeletonAdapter skeletonAdapter;
 
     private LinearLayout layout2, layout3;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,19 @@ public class OrderActivity extends AppCompatActivity {
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_order);
+        tvSDTNguoiDungOrder = findViewById(R.id.tvSDTNguoiDungOrder);
+        tvDiaChiOrderChiTiet = findViewById(R.id.tvDiaChiOrderChiTiet);
+        tvTenNguoiDungOrder = findViewById(R.id.tvTenNguoiDungOrder);
+        sharedPreferencesHelper = new SharedPreferencesHelper(this);
+        String tenNguoiDung = sharedPreferencesHelper.getUsername();
+        AddressModel defaultAddressModel = getDefaultAddress();
 
+        String soDienThoai = defaultAddressModel != null ? defaultAddressModel.getPhone() : "Chưa có số điện thoại";
+        String diaChi = defaultAddressModel != null ? defaultAddressModel.getAddress() : "Chưa có địa chỉ";
+
+        tvTenNguoiDungOrder.setText(tenNguoiDung);
+        tvSDTNguoiDungOrder.setText(formatPhoneNumber(soDienThoai));
+        tvDiaChiOrderChiTiet.setText(diaChi);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -52,7 +68,6 @@ public class OrderActivity extends AppCompatActivity {
         initRecyclerView(this);
         initItemClick();
         hidenLayout();
-
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.fetchOrderByCartID(selectedCartItemIds);
         homeViewModel.getOrderResponseLiveData().observe(this, orderResponse -> {
@@ -97,6 +112,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
         tvGiaShip = findViewById(R.id.tvGiaShip);
         tvTongPhu = findViewById(R.id.tvTongPhu);
         tvTongvanChuyen = findViewById(R.id.tvTongvanChuyen);
@@ -105,4 +121,29 @@ public class OrderActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerviewOrer);
         tvNhanHang = findViewById(R.id.tvNhanHang);
     }
+
+    private AddressModel getDefaultAddress() {
+        List<AddressModel> addresses = sharedPreferencesHelper.getAddresses();
+
+        if (addresses == null || addresses.isEmpty()) {
+            return null;
+        }
+
+        for (AddressModel address : addresses) {
+            if (address.isDefault()) {
+                return address;
+            }
+        }
+
+        return null;
+    }
+
+    private String formatPhoneNumber(String phoneNumber) {
+        if (phoneNumber.length() > 6) {
+            return phoneNumber.substring(0, 2) + "****" + phoneNumber.substring(phoneNumber.length() - 4);
+        } else {
+            return phoneNumber;
+        }
+    }
+
 }

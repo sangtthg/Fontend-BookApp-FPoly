@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,16 +24,28 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.view.LoginScreen;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.model.ProfileModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.viewmodel.ProfileViewModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.setting.view.SettingActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper;
 
 public class ProfileFragment extends Fragment implements AdapterProfile.OnLogoutClickListener{
     private SharedPreferencesHelper sharedPreferencesHelper;
     private AdapterProfile adapter;
     private ProfileViewModel profileViewModel;
+
+    ImageView moreMenuNotification;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        moreMenuNotification = view.findViewById(R.id.moreMenuNotification);
+        moreMenuNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
+            }
+        });
+
         sharedPreferencesHelper = new SharedPreferencesHelper(getContext());
         List<ProfileModel> profileList = new ArrayList<>();
         profileList.add(new ProfileModel(
@@ -49,7 +62,7 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
         ));
         logUserInfo();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProfile);
-         adapter = new AdapterProfile(profileList, (AdapterProfile.OnLogoutClickListener) this);
+        adapter = new AdapterProfile(profileList, this, sharedPreferencesHelper);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

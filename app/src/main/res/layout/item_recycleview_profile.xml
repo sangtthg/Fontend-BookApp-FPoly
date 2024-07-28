@@ -1,93 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp">
+
     <!-- Ảnh bo tròn -->
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/_20sdp">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgAvatar"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_120sdp"
-            android:src="@drawable/avatar" />
-
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/avatar"
+            android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/imgChangeAvatar"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/_4sdp"
+            android:layout_margin="4dp"
             android:background="@drawable/circle_background2"
-            android:padding="@dimen/_4sdp"
+            android:padding="4dp"
             android:scaleType="centerInside"
-            android:src="@drawable/baseline_add_photo_alternate_24" />
+            android:src="@drawable/baseline_add_photo_alternate_24"/>
     </FrameLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/_10sdp">
-        <!-- Icon Hồ sơ -->
-        <ImageView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_people_24" />
-
-        <TextView
-            android:id="@+id/txtHoSoCuaToi"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/display_medium"
-            android:textColor="@color/black"
-            android:gravity="center_vertical"
-            android:text="Hồ sơ cá nhân"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:visibility="gone"
-        android:layout_marginBottom="8dp"
-        android:background="#DCDCDC	" />
-
+    <!-- Đơn hàng của tôi -->
     <LinearLayout
         android:id="@+id/linearLayoutDonHangCuaToi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/_10sdp">
+        android:padding="12dp"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_delivery1" />
+            android:src="@drawable/ic_delivery1"/>
 
         <TextView
             android:layout_width="0dp"
@@ -96,82 +55,128 @@
             android:gravity="center_vertical"
             android:text="Đơn hàng của tôi"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24" />
+            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
     </LinearLayout>
 
+    <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:background="#DCDCDC	" />
+        android:background="#DCDCDC"/>
 
+    <!-- Tên người dùng -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/_10sdp">
+        android:padding="12dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_drive_file_rename_outline_24" />
+            android:src="@drawable/baseline_drive_file_rename_outline_24"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="Tên người dùng"
             android:textSize="16sp"
-            android:fontFamily="@font/display_medium"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/txtTenNguoiDung"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_25sdp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="24dp"
             android:ellipsize="end"
-            android:gravity="center_vertical"
             android:maxLines="1"
-            android:fontFamily="@font/display_regular"
             android:padding="4dp"
             android:text="duongtien"
-            android:textSize="16sp" />
-
+            android:textSize="16sp"/>
     </LinearLayout>
 
-
-    <!-- Divider 1 -->
+    <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:background="#DCDCDC	" />
+        android:background="#DCDCDC"/>
 
+    <!-- Số điện thoại -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/_10sdp">
+        android:padding="12dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_mail_outline_24" />
+            android:src="@drawable/baseline_phone_in_talk_24"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Số điện thoại"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtSoDienThoai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="4dp"
+            android:text="840000000"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:background="#DCDCDC"/>
+
+    <!-- Email -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/baseline_mail_outline_24"/>
 
         <TextView
             android:layout_width="0dp"
@@ -180,8 +185,8 @@
             android:gravity="center_vertical"
             android:text="Email"
             android:textSize="16sp"
-            android:fontFamily="@font/display_medium"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/txtEmail"
@@ -189,51 +194,48 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:ellipsize="end"
-            android:gravity="center_vertical"
             android:maxLines="1"
             android:padding="4dp"
-            android:fontFamily="@font/display_regular"
             android:text="duongtien@gmail.com"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24" />
+            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
     </LinearLayout>
 
+    <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:background="#DCDCDC	" />
+        android:background="#DCDCDC"/>
 
+    <!-- Địa chỉ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/_10sdp">
+        android:padding="12dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_directions_24" />
+            android:src="@drawable/baseline_directions_24"/>
 
         <TextView
-
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="Địa chỉ"
             android:textSize="16sp"
-            android:fontFamily="@font/display_medium"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/txtDiaChi"
@@ -241,40 +243,39 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:ellipsize="end"
-            android:gravity="center_vertical"
             android:maxLines="1"
-            android:fontFamily="@font/display_regular"
             android:padding="4dp"
-            android:text="duongtien@gmail.com"
-            android:textSize="16sp" />
+            android:text="Hải Dương"
+            android:textSize="16sp"/>
+
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24" />
+            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
     </LinearLayout>
 
+    <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:background="#DCDCDC	" />
+        android:background="#DCDCDC"/>
 
+    <!-- Thay đổi mật khẩu -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/_10sdp">
+        android:padding="12dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_password_24" />
+            android:src="@drawable/baseline_password_24"/>
 
         <TextView
             android:id="@+id/txtDoiMatKhau"
@@ -284,22 +285,15 @@
             android:gravity="center_vertical"
             android:text="Thay đổi mật khẩu"
             android:textSize="16sp"
-            android:fontFamily="@font/display_medium"
-            android:textColor="@color/black" /> <!-- Căn giữa nội dung của TextView theo chiều dọc -->
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24" />
+            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="8dp"
-        android:background="#DCDCDC	" />
-    <!-- Nút đăng xuất -->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogoutProfile"
