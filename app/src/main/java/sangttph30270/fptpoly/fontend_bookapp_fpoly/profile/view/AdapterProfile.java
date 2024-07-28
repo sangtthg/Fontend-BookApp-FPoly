@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,18 +28,22 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.model.AddressModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.view.LoginScreen;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.view.DonHangActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.model.ProfileModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper;
 
 public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileViewHolder> {
 
     private List<ProfileModel> profileList;
     private OnLogoutClickListener onLogoutClickListener;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
-    public AdapterProfile(List<ProfileModel> profileList, OnLogoutClickListener onLogoutClickListener) {
+    public AdapterProfile(List<ProfileModel> profileList, OnLogoutClickListener onLogoutClickListener, SharedPreferencesHelper sharedPreferencesHelper) {
         this.profileList = profileList;
         this.onLogoutClickListener = onLogoutClickListener;
+        this.sharedPreferencesHelper = sharedPreferencesHelper;
     }
 
     @NonNull
@@ -51,7 +56,16 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
     @Override
     public void onBindViewHolder(@NonNull ProfileViewHolder holder, int position) {
         ProfileModel profile = profileList.get(position);
-        holder.txtDiaChi.setText(profile.getDefault_address());
+        // Set address
+        // Lấy địa chỉ và số điện thoại mặc định từ SharedPreferencesHelper
+        AddressModel defaultAddressModel = getDefaultAddress();
+        if (defaultAddressModel != null) {
+            holder.txtDiaChi.setText(defaultAddressModel.getAddress());
+            holder.txtSoDienThoai.setText(defaultAddressModel.getPhone());
+        } else {
+            holder.txtDiaChi.setText("Chưa có địa chỉ");
+            holder.txtSoDienThoai.setText("Chưa có số điện thoại");
+        }
         holder.txtTenNguoiDung.setText(profile.getUsername());
         holder.txtEmail.setText(profile.getEmail());
         holder.txtDoiMatKhau.setOnClickListener(new View.OnClickListener() {
@@ -63,14 +77,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
                 });
             }
         });
-        holder.txtHoSoCuaToi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkLoginStatus(view.getContext(), () -> {
-                    Toast.makeText(view.getContext(), "Hồ sơ của tôi", Toast.LENGTH_SHORT).show();
-                });
-            }
-        });
+
 
         // Mask email
         String value = profile.getEmail();
@@ -128,7 +135,50 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
                 Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
             }));
         }
+
+
     }
+
+    private AddressModel getDefaultAddress() {
+        List<AddressModel> addresses = sharedPreferencesHelper.getAddresses();
+
+        if (addresses == null || addresses.isEmpty()) {
+            Log.d("DEBUG", "No addresses found");
+            return null;
+        }
+
+        for (AddressModel address : addresses) {
+            if (address.isDefault()) {
+                Log.d("DEBUG", "Default address found: " + address.getAddress());
+                return address;
+            }
+        }
+
+        Log.d("DEBUG", "No default address found");
+        return null;
+    }
+
+    private String getDefaultPhone() {
+        List<AddressModel> addresses = sharedPreferencesHelper.getAddresses();
+
+        if (addresses == null || addresses.isEmpty()) {
+            Log.d("DEBUG", "No addresses found");
+            return "Chưa có số điện thoại";
+        }
+
+        for (AddressModel address : addresses) {
+            if (address.isDefault()) {
+                Log.d("DEBUG", "Default phone found: " + address.getPhone());
+                return address.getPhone();
+            }
+        }
+
+        Log.d("DEBUG", "No default phone found");
+        return "Chưa có số điện thoại";
+    }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -143,14 +193,14 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
         TextView txtTenNguoiDung, txtEmail;
-        TextView txtDoiMatKhau, txtHoSoCuaToi, txtDiaChi;
+        TextView txtDoiMatKhau, txtSoDienThoai, txtDiaChi;
         ImageView imgAvatar, imgChangeAvatar;
         Button btnLogoutProfile;
         LinearLayout linearLayoutDonHangCuaToi;
 
         public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtHoSoCuaToi = itemView.findViewById(R.id.txtHoSoCuaToi);
+            txtSoDienThoai = itemView.findViewById(R.id.txtSoDienThoai);
             txtDoiMatKhau = itemView.findViewById(R.id.txtDoiMatKhau);
             txtTenNguoiDung = itemView.findViewById(R.id.txtTenNguoiDung);
             txtDiaChi = itemView.findViewById(R.id.txtDiaChi);

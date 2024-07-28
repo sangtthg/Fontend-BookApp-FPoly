@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/btnBackThongTinChung"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Back"
+        android:src="@drawable/baseline_keyboard_backspace_24" />
+
+    <LinearLayout
+        android:id="@+id/form_dangnhap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Cập Nhật Thông Tin"
+            android:textColor="#2B2B2B"
+            android:textSize="@dimen/_24sdp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <!-- Tên người dùng -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:text="Tên người dùng"
+                android:textColor="#2B2B2B"
+                android:textSize="@dimen/_13sdp" />
+
+            <EditText
+                android:id="@+id/edtTenNguoiDungCapNhat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/rounded_edittext"
+                android:fontFamily="@font/font_kpmt"
+                android:hint=""
+                android:maxLines="1"
+                android:padding="10dp"
+                android:focusable="false"
+                android:singleLine="true"
+                android:textColor="#6A6A6A" />
+
+            <!-- Số điện thoại -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:text="Số điện thoại"
+                android:textColor="#2B2B2B"
+                android:textSize="@dimen/_13sdp" />
+
+            <EditText
+                android:id="@+id/edtSoDienThoaiCapNhat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/rounded_edittext"
+                android:fontFamily="@font/font_kpmt"
+                android:hint=""
+                android:maxLines="1"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:inputType="phone"
+                android:textColor="#6A6A6A" />
+
+            <!-- Email -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:text="Email"
+                android:textColor="#2B2B2B"
+                android:textSize="@dimen/_13sdp" />
+
+            <EditText
+                android:id="@+id/edtEmailCapNhat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/rounded_edittext"
+                android:fontFamily="@font/font_kpmt"
+                android:hint=""
+                android:maxLines="1"
+                android:focusable="false"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:inputType="textEmailAddress"
+                android:textColor="#6A6A6A" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:text="Địa chỉ"
+                android:textColor="#2B2B2B"
+                android:textSize="@dimen/_13sdp" />
+
+            <EditText
+                android:id="@+id/edtDiaChiCapNhat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/rounded_edittext"
+                android:fontFamily="@font/font_kpmt"
+                android:hint=""
+                android:maxLines="1"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:inputType="textPostalAddress"
+                android:textColor="#6A6A6A" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCapNhatThongTin"
+            android:layout_width="@dimen/_260sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Cập Nhật"
+            android:textColor="@android:color/white"
+            app:backgroundTint="#FF7622"
+            app:cornerRadius="50dp"
+            app:fontFamily="@font/font_dn" />
+    </RelativeLayout>
+
+    <!-- RecyclerView for displaying addresses -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAddresses"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp" />
+
+</LinearLayout>

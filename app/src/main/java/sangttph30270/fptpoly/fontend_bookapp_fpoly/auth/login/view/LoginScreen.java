@@ -111,6 +111,7 @@ public class LoginScreen extends AppCompatActivity {
                 }
             }
         });
+
         txtForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

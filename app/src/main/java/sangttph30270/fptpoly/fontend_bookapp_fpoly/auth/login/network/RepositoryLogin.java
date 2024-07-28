@@ -1,5 +1,6 @@
 package sangttph30270.fptpoly.fontend_bookapp_fpoly.auth.login.network;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,6 +16,11 @@ public class RepositoryLogin {
 
     public void login(String email, String password, Callback<ResponseBody> callback) {
         Call<ResponseBody> call = apiService.login(email, password);
+        call.enqueue(callback);
+    }
+
+    public void getAddress(String token, RequestBody body, Callback<ResponseBody> callback) {
+        Call<ResponseBody> call = apiService.getAddress(token, body);
         call.enqueue(callback);
     }
 }

@@ -15,8 +15,8 @@ public class RetrofitManager {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         sharedPreferencesHelper = new SharedPreferencesHelper(null);
 
-//        token = sharedPreferencesHelper.getToken();
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywicm9sZSI6InVzZXIiLCJjcmVhdGVkX2F0IjoxNzIxMzE1MTQyNzIyLCJpYXQiOjE3MjEzMTUxNDJ9.gWF3paeaGIhuBshIix2wKFwU-iX7OKxRKTvAjkt8L_k";
+        token = sharedPreferencesHelper.getToken();
+//        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywicm9sZSI6InVzZXIiLCJjcmVhdGVkX2F0IjoxNzIxMzE1MTQyNzIyLCJpYXQiOjE3MjEzMTUxNDJ9.gWF3paeaGIhuBshIix2wKFwU-iX7OKxRKTvAjkt8L_k";
 
         if (token != null && !token.isEmpty()) {
             httpClientBuilder.addInterceptor(new AuthInterceptor(token));
