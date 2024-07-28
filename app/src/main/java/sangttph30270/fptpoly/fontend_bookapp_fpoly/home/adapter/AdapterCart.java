@@ -103,9 +103,9 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
-                    holder.tvQuantity.setText(String.valueOf(newQuantity));
                     holder.progressBar.setVisibility(View.GONE);
                     holder.isUpdating = false;
+                    holder.tvQuantity.setText(String.valueOf(newQuantity));
                 } else {
                     Log.e("AdapterCart", "Failed to update cart quantity");
                     holder.isUpdating = false;
