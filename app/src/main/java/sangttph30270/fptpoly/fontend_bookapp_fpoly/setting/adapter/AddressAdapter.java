@@ -46,7 +46,11 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         holder.tvPhone.setText(address.getPhone());
         holder.tvAddress.setText(address.getAddress());
         holder.tvEmail.setText(sharedPreferencesHelper.getEmail());
-
+        if (address.isDefault()) {
+            holder.tvDefaultAddress.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvDefaultAddress.setVisibility(View.GONE);
+        }
         holder.btnEditAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,11 +78,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     }
 
     public static class AddressViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUserName, tvPhone, tvAddress, tvEmail;
+        TextView tvUserName, tvPhone, tvAddress, tvEmail,tvDefaultAddress;
         Button btnEditAddress, btnDeleteAddress;
 
         public AddressViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvDefaultAddress = itemView.findViewById(R.id.tvDefaultTag);
             tvUserName = itemView.findViewById(R.id.tvUserName);
             tvPhone = itemView.findViewById(R.id.tvPhone);
             tvEmail = itemView.findViewById(R.id.tvEmail);
