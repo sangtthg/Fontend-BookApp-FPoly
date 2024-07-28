@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
-import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.adapter.P1AdapterOrderChuaThanhToan;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.adapter.P4AdapterOrderDaHuy;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.model.OrderUserResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.viewmodel.OrderUserViewModel;
@@ -20,11 +19,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class Page4Fragment extends Fragment {
     private OrderUserViewModel viewModel;
     private RecyclerView recyclerView;
     private P4AdapterOrderDaHuy adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -62,5 +63,11 @@ public class Page4Fragment extends Fragment {
             }
         });
 
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            recyclerView.setAdapter(skeletonAdapter);
+            viewModel.geCanlledOrders();
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 }

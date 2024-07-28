@@ -254,8 +254,8 @@ public class HomeViewModel extends ViewModel {
             public void onResponse(Call<CartListResponse> call, Response<CartListResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     int totalItems = response.body().getTotalItems();
-                    Log.d(NAME, "Total items fetched: " + totalItems); // Debug log
-                    Log.d(NAME, "Total items fetched1: " + response.body().getTotalItems()); // Debug log
+                    Log.d(NAME, "Total items fetched: " + totalItems);
+                    Log.d(NAME, "Total items fetched1: " + response.body().getTotalItems());
                     cartItemCount.postValue(totalItems);
                 } else {
                     Log.d(NAME, "Failed to fetch total items. Response unsuccessful or null.");
@@ -293,6 +293,26 @@ public class HomeViewModel extends ViewModel {
             }
         });
     }
+
+    public void updateCartQuantity(int cartId, int quantity, Callback<Void> callback) {
+    repositoryHome.updateCartQuantity(cartId, quantity, new Callback<Void>() {
+        @Override
+        public void onResponse(Call<Void> call, Response<Void> response) {
+            if (response.isSuccessful()) {
+                fetchCartList();
+            } else {
+                Log.e(NAME, "Failed to update cart quantity");
+            }
+            callback.onResponse(call, response);
+        }
+
+        @Override
+        public void onFailure(Call<Void> call, Throwable t) {
+            Log.e(NAME, "Error updating cart quantity", t);
+            callback.onFailure(call, t);
+        }
+    });
+}
 
 
     public void updateSelectedCartItemIds(int cartItemId, boolean isSelected) {

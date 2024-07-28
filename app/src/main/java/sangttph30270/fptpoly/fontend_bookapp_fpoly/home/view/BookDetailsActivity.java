@@ -21,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -43,6 +44,9 @@ public class BookDetailsActivity extends AppCompatActivity {
     private TextToSpeech tts;
 
     private boolean listening = false;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +88,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewDetailBook);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(1);
+        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(5);
         recyclerView.setAdapter(skeletonAdapter);
 
         recyclerView = findViewById(R.id.recyclerViewDetailBook);
@@ -105,6 +109,15 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         ImageButton showReviewDialogButton = findViewById(R.id.btnCallNow);
         showReviewDialogButton.setOnClickListener(v -> showReviewDialog());
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            recyclerView.setAdapter(skeletonAdapter);
+            homeViewModel.fetchBookDetail(bookID);
+            homeViewModel.fetchBookReviews(bookID);
+            homeViewModel.fetchTotalItemInCart();
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     private void showReviewDialog() {

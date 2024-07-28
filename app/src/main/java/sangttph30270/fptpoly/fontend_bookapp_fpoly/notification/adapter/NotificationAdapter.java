@@ -15,6 +15,7 @@ import java.util.List;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.notification.model.NotificationModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.DateUtils;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
     private List<NotificationModel> notifications = new ArrayList<>();
@@ -40,6 +41,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         NotificationModel notification = notifications.get(position);
         holder.titleTextView.setText(notification.getTitle());
         holder.messageTextView.setText(notification.getMessage());
+        holder.notificationDate.setText(DateUtils.formatDate(notification.getCreatedAt(), "dd-MM-yyyy  HH:mm"));
         if (!notification.isRead()) {
             holder.linearLayoutParentNotification.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorLightBlue));
         } else {
@@ -67,12 +69,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     static class NotificationViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView messageTextView;
+        TextView notificationDate;
         LinearLayout linearLayoutParentNotification;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.notificationTitle);
             messageTextView = itemView.findViewById(R.id.notificationMessage);
+            notificationDate = itemView.findViewById(R.id.notificationDate);
             linearLayoutParentNotification = itemView.findViewById(R.id.linearLayoutParentNotification);
         }
     }

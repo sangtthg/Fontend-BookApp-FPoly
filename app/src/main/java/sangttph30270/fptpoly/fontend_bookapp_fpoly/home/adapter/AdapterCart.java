@@ -3,11 +3,13 @@ package sangttph30270.fptpoly.fontend_bookapp_fpoly.home.adapter;
 import static sangttph30270.fptpoly.fontend_bookapp_fpoly.core.MyApp.getContext;
 
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,26 +19,30 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.CurrencyFormatter;
 
 public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder> {
 
     private final List<CartListResponse.CartItemDetail> cartItemList;
+    private final HomeViewModel homeViewModel;
 
     private OnItemCheckedChangeListener onItemCheckedBoxChangeListener;
     private boolean showCheckbox = true;
 
-    public AdapterCart(List<CartListResponse.CartItemDetail> cartItemList) {
+    public AdapterCart(List<CartListResponse.CartItemDetail> cartItemList, HomeViewModel homeViewModel) {
         this.cartItemList = cartItemList;
+        this.homeViewModel = homeViewModel;
     }
 
     public void setOnItemCheckedBoxChangeListener(OnItemCheckedChangeListener listener) {
         this.onItemCheckedBoxChangeListener = listener;
     }
-
-
 
     @NonNull
     @Override
@@ -50,8 +56,6 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
         CartListResponse.CartItemDetail cartItemDetail = cartItemList.get(position);
         holder.bookTitle.setText(cartItemDetail.getBook_title_in_cart());
         holder.tvQuantity.setText(String.format("%d", cartItemDetail.getQuantity()));
-//        holder.tvtacGiaSach.setText(cartItemDetail.getBook().getAuthorName());
-
         holder.bookPrice.setText(String.format("%s", CurrencyFormatter.toVND(cartItemDetail.getBook().getNewPrice())));
         holder.bookOldPrice.setText(String.format("%s", CurrencyFormatter.toVND(cartItemDetail.getBook().getOldPrice())));
         holder.bookOldPrice.setPaintFlags(holder.bookOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -63,12 +67,11 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
                 .centerCrop()
                 .into(holder.bookImage);
 
-        //checkbox
         holder.bookCheckbox.setVisibility(showCheckbox ? View.VISIBLE : View.GONE);
         holder.bookCheckbox.setOnCheckedChangeListener(null);
         holder.bookCheckbox.setChecked(false);
         holder.bookCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(onItemCheckedBoxChangeListener != null) {
+            if (onItemCheckedBoxChangeListener != null) {
                 int bookID = cartItemDetail.getBook().getBookId();
                 String bookTitle = cartItemDetail.getBook().getTitle();
                 int cartId = cartItemDetail.getCartId();
@@ -76,27 +79,47 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
             }
         });
 
-        holder.btnIncrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-                currentQuantity++;
-                holder.tvQuantity.setText(String.valueOf(currentQuantity));
+        holder.btnDecrease.setOnClickListener(v -> {
+            if (holder.isUpdating) return;
+
+            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+            if (currentQuantity > 1) {
+                updateQuantity(holder, cartItemDetail, --currentQuantity);
             }
         });
 
-        holder.btnDecrease.setOnClickListener(new View.OnClickListener() {
+        holder.btnIncrease.setOnClickListener(v -> {
+            if (holder.isUpdating) return;
+
+            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+            updateQuantity(holder, cartItemDetail, ++currentQuantity);
+        });
+    }
+
+    private void updateQuantity(CartViewHolder holder, CartListResponse.CartItemDetail cartItemDetail, int newQuantity) {
+        holder.isUpdating = true;
+        holder.progressBar.setVisibility(View.VISIBLE);
+        homeViewModel.updateCartQuantity(cartItemDetail.getCartId(), newQuantity, new Callback<Void>() {
             @Override
-            public void onClick(View v) {
-                int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-                if (currentQuantity > 1) {
-                    currentQuantity--;
-                    holder.tvQuantity.setText(String.valueOf(currentQuantity));
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    holder.tvQuantity.setText(String.valueOf(newQuantity));
+                    holder.progressBar.setVisibility(View.GONE);
+                    holder.isUpdating = false;
+                } else {
+                    Log.e("AdapterCart", "Failed to update cart quantity");
+                    holder.isUpdating = false;
+                    holder.progressBar.setVisibility(View.GONE);
                 }
             }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                holder.progressBar.setVisibility(View.GONE);
+                holder.isUpdating = false;
+                Log.e("AdapterCart", "Error updating cart quantity", t);
+            }
         });
-
-
     }
 
     @Override
@@ -119,16 +142,17 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
         void onItemCheckedChange(int position, boolean isChecked, int bookID, String bookTitle, int cartID);
     }
 
-
     static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView bookImage;
         TextView bookTitle, bookPrice, bookOldPrice, quantity, tvtacGiaSach;
         CheckBox bookCheckbox;
+        ProgressBar progressBar;
+
+        boolean isUpdating = false;
 
         TextView btnIncrease = itemView.findViewById(R.id.btnCong);
         TextView btnDecrease = itemView.findViewById(R.id.btnTru);
         TextView tvQuantity = itemView.findViewById(R.id.tvQuantity);
-
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -138,6 +162,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
             bookOldPrice = itemView.findViewById(R.id.tvGiaSachCu);
             tvtacGiaSach = itemView.findViewById(R.id.tvtacGiaSach);
             bookCheckbox = itemView.findViewById(R.id.book_checkbox);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 }

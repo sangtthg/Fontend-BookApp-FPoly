@@ -270,8 +270,9 @@ public class HomeFragment extends Fragment {
                     .bindTarget(view.findViewById(R.id.btnCart))
                     .setBadgeNumber(itemCount)
                     .setBadgeBackgroundColor(Color.RED)
+                    .setShowShadow(false)
                     .setBadgeTextColor(Color.WHITE)
-                    .setGravityOffset(-2, -1, true)
+                    .setGravityOffset(0, -1, true)
                     .setBadgeGravity(Gravity.END | Gravity.TOP);
         });
 

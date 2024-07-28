@@ -16,15 +16,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.R;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.notification.viewmodel.NotificationViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.view.ViewPagerAdapter;
 
 public class FavoriteFragment extends Fragment {
+
+    private NotificationViewModel notificationViewModel;
+
 
     @Nullable
     @Override
@@ -94,4 +99,16 @@ public class FavoriteFragment extends Fragment {
 
         return view;
     }
+
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        super.onHiddenChanged(hidden);
+//        if (hidden) {
+//            System.out.println("111111111");
+//        } else {
+//            notificationViewModel = new ViewModelProvider(this).get(NotificationViewModel.class);
+//            notificationViewModel.fetchNotifications();
+//            System.out.println("111111111");
+//        }
+//    }
 }

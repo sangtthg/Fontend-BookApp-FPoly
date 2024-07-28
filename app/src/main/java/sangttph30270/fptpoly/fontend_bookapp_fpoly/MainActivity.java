@@ -84,6 +84,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -95,8 +96,12 @@ import me.ibrahimsn.lib.OnItemSelectedListener;
 import me.ibrahimsn.lib.SmoothBottomBar;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.favorite.view.FavoriteFragment;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.view.HomeFragment;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.notification.view.NotificationFragment;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.notification.viewmodel.NotificationViewModel;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.order_user.viewmodel.OrderUserViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.view.ProfileFragment;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.profile.viewmodel.ProfileViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -107,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
     private final FragmentManager fm = getSupportFragmentManager();
 
     private Fragment activeFragment = homeFragment;
+
+
+    private HomeViewModel homeViewModel;
+    private OrderUserViewModel orderUserViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        orderUserViewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
 
         fm.beginTransaction().add(R.id.frameLayout, homeFragment, "1").commit();
 
@@ -135,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                         homeFragment = new HomeFragment();
                         fm.beginTransaction().add(R.id.frameLayout, homeFragment, "1").commit();
                     }
+                    homeViewModel.fetchTotalItemInCart();
                     activeFragment = homeFragment;
                     break;
                 case 1:
@@ -143,12 +156,14 @@ public class MainActivity extends AppCompatActivity {
                         fm.beginTransaction().add(R.id.frameLayout, favoriteFragment, "2").commit();
                     }
                     activeFragment = favoriteFragment;
+                    orderUserViewModel.fetchPendingOrders();
                     break;
                 case 2:
                     if (notificationFragment == null) {
                         notificationFragment = new NotificationFragment();
                         fm.beginTransaction().add(R.id.frameLayout, notificationFragment, "3").commit();
                     }
+
                     activeFragment = notificationFragment;
                     break;
                 case 3:
@@ -167,4 +182,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
+
+
 }

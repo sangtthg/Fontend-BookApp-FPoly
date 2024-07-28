@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.viewmodel.HomeViewModel;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.setting.view.SettingActivity;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SharedPreferencesHelper;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.utils.SkeletonAdapter;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -35,6 +37,8 @@ public class CartActivity extends AppCompatActivity {
     private AdapterCart cartAdapter;
     private HomeViewModel homeViewModel;
     private SharedPreferencesHelper sharedPreferencesHelper;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +85,10 @@ public class CartActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        cartAdapter = new AdapterCart(new ArrayList<>());
-        recyclerView.setAdapter(cartAdapter);
+        cartAdapter = new AdapterCart(new ArrayList<>(), homeViewModel);
+
+        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(5);
+        recyclerView.setAdapter(skeletonAdapter);
 
         cartAdapter.setOnItemCheckedBoxChangeListener((position, isChecked, bookID, bookTitle, cartId) -> {
             homeViewModel.updateSelectedCartItemIds(cartId, isChecked);
@@ -90,6 +96,7 @@ public class CartActivity extends AppCompatActivity {
 
         homeViewModel.getCartItemList().observe(this, cartItems -> {
             if (cartItems != null) {
+                recyclerView.setAdapter(cartAdapter);
                 cartAdapter.updateCartItems(cartItems);
             }
 
@@ -116,6 +123,13 @@ public class CartActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutCart);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            recyclerView.setAdapter(skeletonAdapter);
+            homeViewModel.fetchCartList();
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     private AddressModel getDefaultAddress() {
@@ -133,6 +147,7 @@ public class CartActivity extends AppCompatActivity {
 
         return null;
     }
+
     private void showMissingInfoDialog() {
         // Tạo một đối tượng Dialog
         Dialog dialog = new Dialog(CartActivity.this);

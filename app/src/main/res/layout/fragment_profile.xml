@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="start"
-                android:text="Thông tin chung"
+                android:text="Thông Tin Chung"
                 android:textColor="@color/black"
                 android:fontFamily="@font/display_bold"
                 android:textSize="@dimen/_18ssp" />

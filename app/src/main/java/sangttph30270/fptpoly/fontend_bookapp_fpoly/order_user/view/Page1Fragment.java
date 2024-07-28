@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class Page1Fragment extends Fragment {
-    private OrderUserViewModel viewModel;
+    private OrderUserViewModel orderUserViewModel;
     private RecyclerView recyclerView;
     private P1AdapterOrderChuaThanhToan adapter;
     private HomeViewModel homeViewModel;
@@ -42,11 +42,10 @@ public class Page1Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView emptyTextView = view.findViewById(R.id.emptyTextView);
-
-        viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        viewModel.fetchPendingOrders();
+        orderUserViewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
+        orderUserViewModel.fetchPendingOrders();
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -62,7 +61,7 @@ public class Page1Fragment extends Fragment {
             }
         });
 
-        viewModel.getOrdersLiveData().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
+        orderUserViewModel.getOrdersLiveData().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
             @Override
             public void onChanged(OrderUserResponse orderResponse) {
                 if (orderResponse != null && orderResponse.getCode() == 0) {
@@ -79,8 +78,12 @@ public class Page1Fragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             recyclerView.setAdapter(skeletonAdapter);
-            viewModel.fetchPendingOrders();
+            orderUserViewModel.fetchPendingOrders();
             swipeRefreshLayout.setRefreshing(false);
         });
     }
+
+
+
+
 }

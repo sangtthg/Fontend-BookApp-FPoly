@@ -7,6 +7,7 @@ import sangttph30270.fptpoly.fontend_bookapp_fpoly.favorite.model.ReviewRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartDeleteRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartListResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartRequest;
+import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.CartUpdateRequest;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.DetailBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.HomeBookResponse;
 import sangttph30270.fptpoly.fontend_bookapp_fpoly.home.model.OrderRequest;
@@ -46,6 +47,12 @@ public class RepositoryHome {
 
     public void fetchCartList(Callback<CartListResponse> callback) {
         Call<CartListResponse> call = apiService.fetchCartList(1, 50);
+        call.enqueue(callback);
+    }
+
+    public void updateCartQuantity(int cartId, int quantity, Callback<Void> callback) {
+        CartUpdateRequest request = new CartUpdateRequest(cartId, quantity);
+        Call<Void> call = apiService.updateCartQuantity(request);
         call.enqueue(callback);
     }
 

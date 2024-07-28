@@ -148,7 +148,7 @@ public class OrderActivity extends AppCompatActivity {
 
     private String convertPhoneNumberToInternational(String phoneNumber) {
         if (phoneNumber.startsWith("0")) {
-            return "(+84)" + phoneNumber.substring(1);
+            return "+84" + phoneNumber.substring(1);
         }
         return phoneNumber;
     }
