@@ -148,7 +148,7 @@
                            android:ellipsize="end"
                            android:fontFamily="@font/text_medium"
                            android:maxLines="2"
-                           android:text="0123****6789"
+                           android:text="+8423****6789"
                            android:textColor="@color/black"
                            android:textSize="@dimen/_14ssp" />
                    </LinearLayout>

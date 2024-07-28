@@ -52,7 +52,7 @@ public class OrderActivity extends AppCompatActivity {
         String tenNguoiDung = sharedPreferencesHelper.getUsername();
         AddressModel defaultAddressModel = getDefaultAddress();
 
-        String soDienThoai = defaultAddressModel != null ? defaultAddressModel.getPhone() : "Chưa có số điện thoại";
+        String soDienThoai = defaultAddressModel != null ? convertPhoneNumberToInternational(defaultAddressModel.getPhone()) : "Chưa có số điện thoại";
         String diaChi = defaultAddressModel != null ? defaultAddressModel.getAddress() : "Chưa có địa chỉ";
 
         tvTenNguoiDungOrder.setText(tenNguoiDung);
@@ -140,10 +140,18 @@ public class OrderActivity extends AppCompatActivity {
 
     private String formatPhoneNumber(String phoneNumber) {
         if (phoneNumber.length() > 6) {
-            return phoneNumber.substring(0, 2) + "****" + phoneNumber.substring(phoneNumber.length() - 4);
+            return phoneNumber.substring(0, 4) + "****" + phoneNumber.substring(phoneNumber.length() - 4);
         } else {
             return phoneNumber;
         }
     }
+
+    private String convertPhoneNumberToInternational(String phoneNumber) {
+        if (phoneNumber.startsWith("0")) {
+            return "+84" + phoneNumber.substring(1);
+        }
+        return phoneNumber;
+    }
+
 
 }
