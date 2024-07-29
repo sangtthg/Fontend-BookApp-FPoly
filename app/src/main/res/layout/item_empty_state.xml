@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/_78sdp"
+    android:gravity="center"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/_18sdp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:src="@drawable/ic_message"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chưa có đánh giá nào về sách này"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="#616161"
+        android:textSize="@dimen/_11ssp" />
+</LinearLayout>

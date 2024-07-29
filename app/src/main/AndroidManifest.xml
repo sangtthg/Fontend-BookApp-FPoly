@@ -19,9 +19,9 @@
         <activity
             android:name=".setting.view.SettingActivity"
             android:exported="false" />
-        <activity
-            android:name=".setting.model"
-            android:exported="false" /> <!-- Activity khởi động chính -->
+<!--        <activity-->
+<!--            android:name=".setting.view.SettingModelActivity"-->
+<!--            android:exported="false" /> &lt;!&ndash; Activity khởi động chính &ndash;&gt;-->
         <activity
             android:name=".onboardingscreen.LauncherActivity"
             android:exported="true"
@@ -29,7 +29,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Các activity khác -->
@@ -44,13 +43,13 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".onboardingscreen.GetStarted"
+            android:name=".onboardingscreen.GetStartedActivity"
             android:exported="false" />
         <activity
             android:name=".order_user.view.DonHangActivity"
             android:exported="false" />
         <activity
-            android:name=".home.view.WebViewActivity"
+            android:name=".WebViewActivity"
             android:exported="false" />
         <activity
             android:name=".home.view.OrderActivity"

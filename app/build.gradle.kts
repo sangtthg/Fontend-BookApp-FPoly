@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "sangttph30270.fptpoly.fontend_bookapp_fpoly"
+    namespace = "frontend_book_market_app.polytechnic.client"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "sangttph30270.fptpoly.fontend_bookapp_fpoly"
+        applicationId = "frontend_book_market_app.polytechnic.client"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -83,6 +83,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("q.rorbin:badgeview:1.1.3")
     implementation("com.github.travijuu:numberpicker:1.0.7")
+    implementation("com.github.colourmoon:readmore-textview:v1.0.2")
 
 
 

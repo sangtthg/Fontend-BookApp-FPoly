@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F7F7"
+    android:background="@color/backgroundColor"
     tools:context=".home.view.OrderActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/white"
+        android:background="@color/backgroundColor"
         android:paddingTop="@dimen/_24sdp"
         android:paddingBottom="@dimen/_14sdp">
 
@@ -129,7 +129,7 @@
                            android:ellipsize="end"
                            android:fontFamily="@font/text_medium"
                            android:maxLines="2"
-                           android:text="Lê Xuân Vit"
+                           android:text="Name"
                            android:textColor="@color/black"
                            android:textSize="@dimen/_14ssp" />
 
@@ -148,7 +148,7 @@
                            android:ellipsize="end"
                            android:fontFamily="@font/text_medium"
                            android:maxLines="2"
-                           android:text="+8423****6789"
+                           android:text="123456"
                            android:textColor="@color/black"
                            android:textSize="@dimen/_14ssp" />
                    </LinearLayout>
@@ -160,7 +160,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/text_regular"
                         android:maxLines="2"
-                        android:text="Thôn Triều - Tân Dân - Chí Linh - Hải Dương Phường Tân Dân, Thành Phố Chí Linh, Hải Dương"
+                        android:text="Địa chỉ"
                         android:textColor="#6e6e6e"
                         android:textSize="@dimen/_12ssp" />
 
@@ -226,7 +226,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/display_regular"
-                        android:text="22.400 VNĐ > "
+                        android:text="0 VNĐ > "
                         android:textColor="@color/black"
                         android:textSize="@dimen/_13ssp" />
 
@@ -239,7 +239,7 @@
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/text_medium"
-                    android:text="Nhận hàng vào 29 tháng 7 - 10 tháng 8"
+                    android:text="Nhận hàng"
                     android:textColor="#62b4ae"
                     android:textSize="@dimen/_12ssp" />
 
@@ -376,7 +376,7 @@
                         android:src="@drawable/img_vnpay" />
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="330dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/display_regular"
@@ -389,7 +389,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginEnd="@dimen/_4sdp"
-                        android:src="@drawable/ic_check" />
+                        android:src="@drawable/ic_3check" />
                 </LinearLayout>
 
 
