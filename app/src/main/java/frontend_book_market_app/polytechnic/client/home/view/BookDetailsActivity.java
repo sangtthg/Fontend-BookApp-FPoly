@@ -50,6 +50,7 @@ public class BookDetailsActivity extends AppCompatActivity {
     private boolean listening = false;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private SkeletonAdapter skeletonAdapter;
 
 
     @Override
@@ -63,9 +64,9 @@ public class BookDetailsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         Intent intent = getIntent();
         bookID = intent.getIntExtra("bookID", -1);
-
         tts = new TextToSpeech(this, status -> {
             if (status != TextToSpeech.ERROR) {
                 tts.setLanguage(new Locale("vi"));
@@ -73,14 +74,13 @@ public class BookDetailsActivity extends AppCompatActivity {
         });
 
         initView();
+        setupRecyclerView();
+
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.fetchBookDetail(bookID);
-        homeViewModel.fetchBookReviews(bookID);
-        homeViewModel.fetchTotalItemInCart();
-
         homeViewModel.getCartItemCount().observe(this, itemCount -> {
-            Log.d("BookDetailsActivity", "Updating badge count: " + itemCount); // Debug log
+            Log.d("BookDetailsActivity", "Updating badge count: " + itemCount);
             new QBadgeView(this)
                     .bindTarget(findViewById(R.id.btnCart))
                     .setBadgeNumber(itemCount)
@@ -90,13 +90,7 @@ public class BookDetailsActivity extends AppCompatActivity {
                     .setBadgeGravity(Gravity.END | Gravity.TOP);
         });
 
-        recyclerViewBookDetailScreen = findViewById(R.id.recyclerViewDetailBook);
-        recyclerViewBookDetailScreen.setLayoutManager(new LinearLayoutManager(this));
-        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(5);
-        recyclerViewBookDetailScreen.setAdapter(skeletonAdapter);
 
-        recyclerViewBookDetailScreen = findViewById(R.id.recyclerViewDetailBook);
-        recyclerViewBookDetailScreen.setLayoutManager(new LinearLayoutManager(this));
 
         homeViewModel.getDetailBook().observe(this, new Observer<DetailBookResponse>() {
             @Override
@@ -122,7 +116,15 @@ public class BookDetailsActivity extends AppCompatActivity {
         ImageButton showReviewDialogButton = findViewById(R.id.btnCallNow);
         showReviewDialogButton.setOnClickListener(v -> showReviewDialog());
 
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
+    }
+
+    private void setupRecyclerView() {
+        recyclerViewBookDetailScreen = findViewById(R.id.recyclerViewDetailBook);
+        recyclerViewBookDetailScreen.setLayoutManager(new LinearLayoutManager(this));
+        skeletonAdapter = new SkeletonAdapter(5);
+        recyclerViewBookDetailScreen.setAdapter(skeletonAdapter);
+
         swipeRefreshLayout.setOnRefreshListener(() -> {
             recyclerViewBookDetailScreen.setAdapter(skeletonAdapter);
             homeViewModel.fetchBookDetail(bookID);
@@ -153,6 +155,8 @@ public class BookDetailsActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
         findViewById(R.id.backDetailButton).setOnClickListener(v -> {
             finish();
         });
@@ -193,6 +197,12 @@ public class BookDetailsActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        homeViewModel.fetchTotalItemInCart();
+        super.onResume();
+    }
+
+    @Override
     public void onDestroy() {
         if (tts != null) {
             tts.stop();
@@ -200,4 +210,5 @@ public class BookDetailsActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
+
 }

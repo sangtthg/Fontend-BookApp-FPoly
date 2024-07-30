@@ -92,7 +92,6 @@ public class CartActivity extends AppCompatActivity {
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         cartAdapter = new AdapterCart(new ArrayList<>(), homeViewModel);
 
         SkeletonAdapter skeletonAdapter = new SkeletonAdapter(5);

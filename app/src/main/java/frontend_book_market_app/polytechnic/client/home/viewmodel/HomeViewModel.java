@@ -40,7 +40,7 @@ import frontend_book_market_app.polytechnic.client.WebViewActivity;
 
 public class HomeViewModel extends ViewModel {
     private final String NAME = this.getClass().getSimpleName();
-    private SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(null);
+    private final SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(null);
 
     private final RepositoryHome repositoryHome = new RepositoryHome();
     private final MutableLiveData<List<HomeBookModel>> newBookList = new MutableLiveData<>();
@@ -128,22 +128,10 @@ public class HomeViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     HomeBookResponse.BookData data = response.body().getData();
                     if (data != null) {
-                        if (data.getBestSellerBooks() != null) {
-                            bestSellerBookList.postValue(data.getBestSellerBooks());
-                            Log.d(NAME, "Fetch SellerBookList Success");
-                        }
-                        if (data.getNewBooks() != null) {
-                            newBookList.postValue(data.getNewBooks());
-                            Log.d(NAME, "Fetch New Book Success");
-                        }
-                        if (data.getRandomBooks() != null) {
-                            randomBooksList.postValue(data.getRandomBooks());
-                            Log.d(NAME, "Fetch Random Success");
-                        }
-                        if (data.getMostViewBooks() != null) {
-                            mostViewBooksList.postValue(data.getMostViewBooks());
-                            Log.d(NAME, "Fetch MostViewBooks Success:");
-                        }
+                        postBookList(data.getBestSellerBooks(), bestSellerBookList, "Fetch SellerBookList Success");
+                        postBookList(data.getNewBooks(), newBookList, "Fetch New Book Success");
+                        postBookList(data.getRandomBooks(), randomBooksList, "Fetch Random Success");
+                        postBookList(data.getMostViewBooks(), mostViewBooksList, "Fetch MostViewBooks Success");
                     } else {
                         logErrorResponse("Không có dữ liệu nào trả về", response);
                     }
@@ -159,6 +147,13 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
+    private void postBookList(List<HomeBookModel> books, MutableLiveData<List<HomeBookModel>> liveData, String successMessage) {
+        if (books != null) {
+            liveData.postValue(books);
+            Log.d(NAME, successMessage);
+        }
+    }
+
     public void fetchBookDetail(int bookId) {
         repositoryHome.fetchBookDetail(bookId, new Callback<DetailBookResponse>() {
             @Override
@@ -167,6 +162,7 @@ public class HomeViewModel extends ViewModel {
                     detailBook.postValue(response.body());
                     listen.postValue(response.body().getData().getDescription());
                     Log.d(NAME, "Fetch BookDetail Success");
+                    fetchBookReviews(bookId);
                 } else {
                     logErrorResponse("Fetch BookDetail failed: ", response);
                 }
@@ -253,14 +249,13 @@ public class HomeViewModel extends ViewModel {
 
     public void fetchTotalItemInCart() {
         String token = sharedPreferencesHelper.getToken();
-        if (!token.isEmpty()){
+        if (!token.isEmpty()) {
             repositoryHome.fetchTotalItemInCart(new Callback<CartListResponse>() {
                 @Override
                 public void onResponse(Call<CartListResponse> call, Response<CartListResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         int totalItems = response.body().getTotalItems();
                         Log.d(NAME, "Total items fetched: " + totalItems);
-                        Log.d(NAME, "Total items fetched1: " + response.body().getTotalItems());
                         cartItemCount.postValue(totalItems);
                     } else {
                         Log.d(NAME, "Failed to fetch total items. Response unsuccessful or null.");
@@ -301,24 +296,24 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void updateCartQuantity(int cartId, int quantity, Callback<Void> callback) {
-    repositoryHome.updateCartQuantity(cartId, quantity, new Callback<Void>() {
-        @Override
-        public void onResponse(Call<Void> call, Response<Void> response) {
-            if (response.isSuccessful()) {
-                fetchCartList();
-            } else {
-                Log.e(NAME, "Failed to update cart quantity");
+        repositoryHome.updateCartQuantity(cartId, quantity, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    fetchCartList();
+                } else {
+                    Log.e(NAME, "Failed to update cart quantity");
+                }
+                callback.onResponse(call, response);
             }
-            callback.onResponse(call, response);
-        }
 
-        @Override
-        public void onFailure(Call<Void> call, Throwable t) {
-            Log.e(NAME, "Error updating cart quantity", t);
-            callback.onFailure(call, t);
-        }
-    });
-}
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e(NAME, "Error updating cart quantity", t);
+                callback.onFailure(call, t);
+            }
+        });
+    }
 
 
     public void updateSelectedCartItemIds(int cartItemId, boolean isSelected) {
@@ -404,42 +399,6 @@ public class HomeViewModel extends ViewModel {
             }
         });
     }
-
-//    public void payOrder(Context context, int orderID) {
-//        int id = 0;
-//
-//        if (orderID == -1){
-//            id = idOrder.getValue();
-//        } else{
-//            id = orderID;
-//        }
-//
-//        PayOrderRequest payOrderRequest = new PayOrderRequest(id);
-//        repositoryHome.payOrder(payOrderRequest, new Callback<PayOrderResponse>() {
-//            @Override
-//            public void onResponse(Call<PayOrderResponse> call, Response<PayOrderResponse> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    PayOrderResponse payOrderResponse = response.body();
-////                    Log.d(NAME, "Payment successful: " + payOrderResponse.getMessage());
-//
-//                    String payUrl = payOrderResponse.getPayUrl();
-//                    System.out.println(payUrl);
-//
-//                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(payUrl));
-//                    browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    context.startActivity(browserIntent);
-//                } else {
-//                    Log.e(NAME, "Payment failed");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<PayOrderResponse> call, Throwable t) {
-//                Log.e(NAME, "Error during payment: " + t.getMessage());
-//            }
-//        });
-//    }
-
 
     public void clearAllLists() {
         bestSellerBookList.postValue(new ArrayList<>());

@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
                         homeFragment = new HomeFragment();
                         fm.beginTransaction().add(R.id.frameLayout, homeFragment, "1").commit();
                     }
-                    homeViewModel.fetchTotalItemInCart();
                     activeFragment = homeFragment;
                     break;
                 case 1:

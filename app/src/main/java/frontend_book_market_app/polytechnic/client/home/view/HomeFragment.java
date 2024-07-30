@@ -58,6 +58,7 @@ public class HomeFragment extends Fragment {
     private int scrollPosition = 0;
     private NestedScrollView nestedScrollView;
     private SharedPreferencesHelper sharedPreferencesHelper;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -80,80 +81,10 @@ public class HomeFragment extends Fragment {
         observeViewModel(view);
 
 
-//        displayUserData(view);
-
         checkUserLogin(view);
     }
-    private void checkUserLogin(View view) {
-        String token = sharedPreferencesHelper.getToken();
-        if (token == null || token.isEmpty()) {
-            // User is not logged in
-            Log.d("HomeFragment", "User is not logged in.");
-            displayUserData(view);
-        } else {
-            // User is logged in
-            Log.d("HomeFragment", "User is logged in.");
-            displayUserData(view);
-        }
-    }
-    private void displayUserData(View view) {
-        String username = sharedPreferencesHelper.getUsername();
-        String email = sharedPreferencesHelper.getEmail();
-        String avatar = sharedPreferencesHelper.getAvatar();
-        String authToken = sharedPreferencesHelper.getAuthToken();
-        String resetCode = sharedPreferencesHelper.getResetCode();
-        int userStatus = sharedPreferencesHelper.getUserStatus();
-        String role = sharedPreferencesHelper.getRole();
-        String token = sharedPreferencesHelper.getToken();
-        String address = sharedPreferencesHelper.getDefaultAddress();
-
-        // Log dữ liệu
-        Log.d("SharedPreferencesHelper", "Username: " + username);
-        Log.d("SharedPreferencesHelper", "Email: " + email);
-        Log.d("SharedPreferencesHelper", "Avatar: " + avatar);
-        Log.d("SharedPreferencesHelper", "AuthToken: " + authToken);
-        Log.d("SharedPreferencesHelper", "ResetCode: " + resetCode);
-        Log.d("SharedPreferencesHelper", "UserStatus: " + userStatus);
-        Log.d("SharedPreferencesHelper", "Role: " + role);
-        Log.d("SharedPreferencesHelper", "Token: " + token);
-        Log.d("SharedPreferencesHelper", "address: " + address);
-    }
 
 
-    private void setupSearchView(View view) {
-        SearchView searchView = view.findViewById(R.id.search_view);
-
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchView.setIconified(true); // Đưa SearchView về trạng thái bị thu gọn
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getActivity(), "Search for: " + query, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchView.setFocusable(false);
-                searchView.setIconified(true);
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 
     private void initView(View view) {
         recyclerSachBanChay = view.findViewById(R.id.recyclerSachBanChay);
@@ -232,19 +163,6 @@ public class HomeFragment extends Fragment {
             if (homeBookModels != null && !homeBookModels.isEmpty()) {
                 adapterSachBanChay.updateData(homeBookModels);
                 recyclerSachBanChay.setAdapter(adapterSachBanChay);
-
-                homeViewModel.fetchTotalItemInCart();
-                homeViewModel.getCartItemCount().observe(getViewLifecycleOwner(), itemCount -> {
-                    Log.d("BookDetailsActivity", "Updating badge count: " + itemCount); // Debug log
-                    new QBadgeView(getContext())
-                            .bindTarget(view.findViewById(R.id.btnCart))
-                            .setBadgeNumber(itemCount)
-                            .setBadgeBackgroundColor(Color.RED)
-                            .setShowShadow(false)
-                            .setBadgeTextColor(Color.WHITE)
-                            .setGravityOffset(0, -1, true)
-                            .setBadgeGravity(Gravity.END | Gravity.TOP);
-                });
             }
         });
 
@@ -269,12 +187,23 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
+        homeViewModel.getCartItemCount().observe(getViewLifecycleOwner(), itemCount -> {
+            Log.d("HomeFragment", "Updating badge count: " + itemCount);
+            new QBadgeView(getContext())
+                    .bindTarget(view.findViewById(R.id.btnCart))
+                    .setBadgeNumber(itemCount)
+                    .setBadgeBackgroundColor(Color.RED)
+                    .setShowShadow(false)
+                    .setBadgeTextColor(Color.WHITE)
+                    .setGravityOffset(0, -1, true)
+                    .setBadgeGravity(Gravity.END | Gravity.TOP);
+        });
 
         view.findViewById(R.id.btnCart).setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), CartActivity.class);
             startActivity(intent);
         });
+
     }
 
     private void setupCategoryRecyclerView(View view) {
@@ -285,6 +214,7 @@ public class HomeFragment extends Fragment {
         });
         categoryRecyclerView.setAdapter(adapter);
     }
+
 
     @Override
     public void onPause() {
@@ -303,6 +233,52 @@ public class HomeFragment extends Fragment {
         });
         homeViewModel.fetchTotalItemInCart();
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            homeViewModel.fetchTotalItemInCart();
+        }
+    }
+
+    //-----------------------------CONFIG INFO----------------------------------
+
+    private void setupSearchView(View view) {
+        SearchView searchView = view.findViewById(R.id.search_view);
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(true); // Đưa SearchView về trạng thái bị thu gọn
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getActivity(), "Search for: " + query, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.setFocusable(false);
+                searchView.setIconified(true);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     private void promptLogin() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -331,5 +307,41 @@ public class HomeFragment extends Fragment {
     private boolean isUserLoggedIn() {
         String authToken = sharedPreferencesHelper.getToken();
         return authToken != null && !authToken.isEmpty();
+    }
+
+    private void checkUserLogin(View view) {
+        String token = sharedPreferencesHelper.getToken();
+        if (token == null || token.isEmpty()) {
+            // User is not logged in
+            Log.d("HomeFragment", "User is not logged in.");
+            displayUserData(view);
+        } else {
+            // User is logged in
+            Log.d("HomeFragment", "User is logged in.");
+            displayUserData(view);
+        }
+    }
+
+    private void displayUserData(View view) {
+        String[] userData = {
+                sharedPreferencesHelper.getUsername(),
+                sharedPreferencesHelper.getEmail(),
+                sharedPreferencesHelper.getAvatar(),
+                sharedPreferencesHelper.getAuthToken(),
+                sharedPreferencesHelper.getResetCode(),
+                String.valueOf(sharedPreferencesHelper.getUserStatus()),
+                sharedPreferencesHelper.getRole(),
+                sharedPreferencesHelper.getToken(),
+                sharedPreferencesHelper.getDefaultAddress()
+        };
+
+        String[] labels = {
+                "Username", "Email", "Avatar", "AuthToken", "ResetCode",
+                "UserStatus", "Role", "Token", "Address"
+        };
+
+        for (int i = 0; i < userData.length; i++) {
+            Log.d("SharedPreferencesHelper", labels[i] + ": " + userData[i]);
+        }
     }
 }
