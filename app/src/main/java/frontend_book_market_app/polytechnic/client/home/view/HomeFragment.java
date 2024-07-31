@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +24,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.util.ArrayList;
+import com.bumptech.glide.Glide;
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.github.muddz.styleabletoast.StyleableToast;
 import q.rorbin.badgeview.QBadgeView;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
@@ -54,6 +62,8 @@ public class HomeFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     SkeletonAdapter skeletonAdapter;
+    private ImageSlider imageSlider2;
+
 
     private int scrollPosition = 0;
     private NestedScrollView nestedScrollView;
@@ -76,6 +86,7 @@ public class HomeFragment extends Fragment {
 
         setupSearchView(view);
         initView(view);
+        imageSl(view);
         initRecyclerView();
         setupSwipeRefresh(view);
         observeViewModel(view);
@@ -84,6 +95,43 @@ public class HomeFragment extends Fragment {
         checkUserLogin(view);
     }
 
+    private void imageSl(View view) {
+        //Model slider1
+        List<SlideModel> slideModelMain1 = new ArrayList<>();
+        slideModelMain1.add(new SlideModel(R.drawable.img1, "", ScaleTypes.FIT));
+        slideModelMain1.add(new SlideModel(R.drawable.img2, "", ScaleTypes.FIT));
+        slideModelMain1.add(new SlideModel(R.drawable.img3, "", ScaleTypes.FIT));
+        slideModelMain1.add(new SlideModel(R.drawable.img4, "", ScaleTypes.FIT));
+        slideModelMain1.add(new SlideModel(R.drawable.img5, "", ScaleTypes.FIT));
+        slideModelMain1.add(new SlideModel(R.drawable.img6, "", ScaleTypes.FIT));
+
+        ImageSlider imageSlider = view.findViewById(R.id.slider);
+        imageSlider.setImageList(slideModelMain1, ScaleTypes.FIT);
+
+//        imageSlider.setItemClickListener(i -> {
+//            if (i == 0) {
+//                callComicSlide(30);
+//            } else if (i == 1) {
+//                callComicSlide(31);
+//            } else if (i == 2) {
+//                callComicSlide(32);
+//            } else if (i == 3) {
+//                callComicSlide(34);
+//            } else if (i == 4) {
+//                callComicSlide(33);
+//            } else if (i == 5) {
+//                callComicSlide(35);
+//            }
+//        });
+
+//        //Model slider2
+//        List<SlideModel> slideModels2 = new ArrayList<>();
+//        slideModels2.add(new SlideModel(R.drawable.ic_add_homesvg, "Thất nghiệp chuyển sinh", ScaleTypes.FIT));
+//
+//        imageSlider2.setImageList(slideModels2, ScaleTypes.FIT);
+//        imageSlider2.setItemClickListener(position -> StyleableToast.makeText(ActivityMain.this, "Vui lòng chờ cập nhật!!!", Toast.LENGTH_SHORT, R.style.mytoast).show());
+
+    }
 
 
     private void initView(View view) {
@@ -93,6 +141,11 @@ public class HomeFragment extends Fragment {
         recyclerNhieuLuotXemNhat = view.findViewById(R.id.recyclerNhieuLuotXemNhat);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         nestedScrollView = view.findViewById(R.id.nestedScrollViewHome);
+        nestedScrollView = view.findViewById(R.id.nestedScrollViewHome);
+        ImageView imgCup = view.findViewById(R.id.imgCup);
+        ImageView imgShoppingBag1 = view.findViewById(R.id.imgShoppingBag1);
+        Glide.with(this).load(R.drawable.sun).centerCrop().into(imgCup);
+        Glide.with(this).load(R.drawable.shopping1_bag).centerCrop().into(imgShoppingBag1);
     }
 
     private void initRecyclerView() {

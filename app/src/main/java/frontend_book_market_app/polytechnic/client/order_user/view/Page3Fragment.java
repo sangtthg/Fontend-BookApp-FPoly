@@ -20,9 +20,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.order_user.adapter.P3AdapterOrderDaGiaoHang;
+import frontend_book_market_app.polytechnic.client.order_user.model.OrderItem;
 import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 
@@ -33,6 +38,7 @@ public class Page3Fragment extends Fragment {
     private int bookID;
     private HomeViewModel homeViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private SkeletonAdapter skeletonAdapter;
 
     @Nullable
     @Override
@@ -46,25 +52,16 @@ public class Page3Fragment extends Fragment {
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
-        viewModel.getDelivredtOrders();
 
         TextView emptyTextView = view.findViewById(R.id.emptyTextView);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(4);
+        skeletonAdapter = new SkeletonAdapter(4);
         recyclerView.setAdapter(skeletonAdapter);
 
-        adapter = new P3AdapterOrderDaGiaoHang();
-        adapter.setOnOrderClickListener(order -> {
-            if (order.getItems() != null && !order.getItems().isEmpty()) {
-                bookID = order.getItems().get(0).getBook_id();
-                showReviewDialog();
-            } else {
-                Toast.makeText(getContext(), "No items in this order", Toast.LENGTH_SHORT).show();
-            }
-        });
+        adapter = new P3AdapterOrderDaGiaoHang(homeViewModel);
 
         viewModel.getOrdersLiveData3().observe(getViewLifecycleOwner(), orderResponse -> {
             if (orderResponse != null && orderResponse.getCode() == 0) {
@@ -85,21 +82,9 @@ public class Page3Fragment extends Fragment {
         });
     }
 
-    private void showReviewDialog() {
-        Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.dialog_review);
-
-        RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
-        EditText editTextComment = dialog.findViewById(R.id.editTextComment);
-        MaterialButton buttonSubmit = dialog.findViewById(R.id.buttonSubmit);
-
-        buttonSubmit.setOnClickListener(v -> {
-            int rating = (int) ratingBar.getRating();
-            String comment = editTextComment.getText().toString();
-            homeViewModel.submitReview(bookID, rating, comment, getContext());
-            dialog.dismiss();
-        });
-
-        dialog.show();
+    @Override
+    public void onResume() {
+        viewModel.getDelivredtOrders();
+        super.onResume();
     }
 }

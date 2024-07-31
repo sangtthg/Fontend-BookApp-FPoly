@@ -2,23 +2,33 @@ package frontend_book_market_app.polytechnic.client.home.adapter;
 
 import static frontend_book_market_app.polytechnic.client.core.MyApp.getContext;
 
+import com.apachat.swipereveallayout.core.SwipeLayout;
+
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.apachat.swipereveallayout.core.SwipeLayout;
 import com.bumptech.glide.Glide;
 import com.google.android.material.checkbox.MaterialCheckBox;
+import com.kongzue.dialogx.dialogs.MessageDialog;
+import com.kongzue.dialogx.interfaces.BaseDialog;
+import com.kongzue.dialogx.interfaces.OnDialogButtonClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import frontend_book_market_app.polytechnic.client.home.model.CartDeleteRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,6 +44,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
 
     private OnItemCheckedChangeListener onItemCheckedBoxChangeListener;
     private boolean showCheckbox = true;
+
 
     public AdapterCart(List<CartListResponse.CartItemDetail> cartItemList, HomeViewModel homeViewModel) {
         this.cartItemList = cartItemList;
@@ -75,7 +86,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
                 int bookID = cartItemDetail.getBook().getBookId();
                 String bookTitle = cartItemDetail.getBook().getTitle();
                 int cartId = cartItemDetail.getCartId();
-                onItemCheckedBoxChangeListener.onItemCheckedChange(position, isChecked, bookID, bookTitle, cartId);
+                onItemCheckedBoxChangeListener.onItemCheckedChange(holder.getAdapterPosition(), isChecked, bookID, bookTitle, cartId);
             }
         });
 
@@ -93,6 +104,32 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
 
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             updateQuantity(holder, cartItemDetail, ++currentQuantity);
+        });
+
+        holder.swipeLayout.open(true);
+        holder.swipeLayout.close(true);
+
+        holder.deleted.setOnClickListener(v -> {
+            int currentPosition = holder.getBindingAdapterPosition();
+            MessageDialog.show("Xác nhận xoá", "Bạn có chắc bạn muốn xóa mục này khỏi giỏ hàng?")
+                    .setOkButton("Đồng ý", new OnDialogButtonClickListener() {
+                        @Override
+                        public boolean onClick(BaseDialog baseDialog, View v) {
+                            List<CartDeleteRequest.CartItemDelete> cartItemsToDelete = new ArrayList<>();
+                            cartItemsToDelete.add(new CartDeleteRequest.CartItemDelete(cartItemDetail.getCartId()));
+                            homeViewModel.deleteCartItems(cartItemsToDelete);
+                            cartItemList.remove(currentPosition);
+                            notifyItemRemoved(currentPosition);
+                            notifyItemRangeChanged(currentPosition, cartItemList.size());
+                            return false;
+                        }
+                    })
+                    .setCancelButton("Không xoá", new OnDialogButtonClickListener() {
+                        @Override
+                        public boolean onClick(BaseDialog baseDialog, View v) {
+                            return false;
+                        }
+                    });
         });
     }
 
@@ -144,9 +181,11 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
 
     static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView bookImage;
+        FrameLayout deleted;
         TextView bookTitle, bookPrice, bookOldPrice, quantity;
         MaterialCheckBox bookCheckbox;
         ProgressBar progressBar;
+        com.apachat.swipereveallayout.core.SwipeLayout swipeLayout;
 
         boolean isUpdating = false;
 
@@ -156,12 +195,14 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
+            swipeLayout = itemView.findViewById(R.id.swipe_layout);
             bookImage = itemView.findViewById(R.id.book_image_detail);
             bookTitle = itemView.findViewById(R.id.book_title_detail2);
             bookPrice = itemView.findViewById(R.id.tvGiaSach);
             bookOldPrice = itemView.findViewById(R.id.tvGiaSachCu);
             bookCheckbox = itemView.findViewById(R.id.book_checkbox);
             progressBar = itemView.findViewById(R.id.progressBar);
+            deleted = itemView.findViewById(R.id.deleted);
         }
     }
 }

@@ -215,12 +215,13 @@
                     android:layout_marginEnd="@dimen/_2sdp"
                     android:layout_weight="10"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Bạn có cảm thấy hài lòng không? Hãy đánh giá và cho chúng tôi biết thêm suy nghĩ của bạn nhé!"
+                    android:text="Bạn có cảm thấy hài lòng không? Hãy nhấn giữ lâu vào sản phẩm ~2 giây để đánh giá và cho chúng tôi biết thêm suy nghĩ của bạn nhé!"
                     android:textColor="#9E9E9E"
                     android:textSize="@dimen/_10ssp" />
 
                 <Button
-                    android:id="@+id/btnThanhToanDonChoXacNhan1"
+                    android:visibility="gone"
+                    android:id="@+id/btnDanhGiaSanPhamDaMua"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#aa0116"

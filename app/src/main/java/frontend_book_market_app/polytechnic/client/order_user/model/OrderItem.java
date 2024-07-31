@@ -18,6 +18,8 @@ public class OrderItem {
     public int totalPrice;
     public int quantity;
     public int shippingFee;
+    private boolean isChecked;
+    private boolean isReview;
 
     public int getBook_id() {
         return book_id;
@@ -27,8 +29,28 @@ public class OrderItem {
         return title;
     }
 
+    public void setAuthor_name(String author_name) {
+        this.author_name = author_name;
+    }
+
+    public boolean isReview() {
+        return isReview;
+    }
+
+    public void setReview(boolean review) {
+        isReview = review;
+    }
+
     public String getAuthor_name() {
         return author_name;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     public int getAuthor_id() {

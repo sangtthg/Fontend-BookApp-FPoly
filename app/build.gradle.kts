@@ -84,7 +84,10 @@ dependencies {
     implementation("q.rorbin:badgeview:1.1.3")
     implementation("com.github.travijuu:numberpicker:1.0.7")
     implementation("com.github.colourmoon:readmore-textview:v1.0.2")
-
+    implementation("com.apachat:swipereveallayout-android:1.1.2")
+    implementation("com.kongzue.dialogx:DialogX:0.0.49")
+    implementation("com.github.denzcoskun:ImageSlideshow:0.1.2")
+    implementation("org.aviran.cookiebar2:cookiebar2:1.1.5")
 
 
     testImplementation("junit:junit:4.13.2")

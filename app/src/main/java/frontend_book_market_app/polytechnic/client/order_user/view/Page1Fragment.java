@@ -61,7 +61,7 @@ public class Page1Fragment extends Fragment {
             @Override
             public void onItemClick(Order order) {
                 homeViewModel.payOrder(getContext(), order.getId());
-                Toast.makeText(getContext(), "Chuẩn bị tiến hành thanh toán", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Chuẩn bị tiến hành thanh toán...", Toast.LENGTH_LONG).show();
             }
         });
 

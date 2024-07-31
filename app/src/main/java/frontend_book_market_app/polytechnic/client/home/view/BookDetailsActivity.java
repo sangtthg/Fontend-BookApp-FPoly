@@ -142,14 +142,14 @@ public class BookDetailsActivity extends AppCompatActivity {
         EditText editTextComment = dialog.findViewById(R.id.editTextComment);
         MaterialButton buttonSubmit = dialog.findViewById(R.id.buttonSubmit);
 
-        buttonSubmit.setOnClickListener(v -> {
-            int rating = (int) ratingBar.getRating();
-            String comment = editTextComment.getText().toString();
-
-            homeViewModel.submitReview(bookID, rating, comment, getApplicationContext());
-
-            dialog.dismiss();
-        });
+//        buttonSubmit.setOnClickListener(v -> {
+//            int rating = (int) ratingBar.getRating();
+//            String comment = editTextComment.getText().toString();
+//
+//            homeViewModel.submitReview(bookID, rating, comment, getApplicationContext());
+//
+//            dialog.dismiss();
+//        });
 
         dialog.show();
     }

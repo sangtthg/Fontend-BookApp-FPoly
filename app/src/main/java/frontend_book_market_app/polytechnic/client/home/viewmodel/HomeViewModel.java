@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import frontend_book_market_app.polytechnic.client.order_user.model.OrderItem;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -59,6 +60,7 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<ReviewResponse> bookReviews = new MutableLiveData<>();
 
     private final MutableLiveData<ReviewResponse> reviewResponseLiveData = new MutableLiveData<>();
+    private final List<OrderItem> selectedItems = new ArrayList<>();
 
 
     List<Integer> cartItemIds = Arrays.asList(156, 157);
@@ -119,6 +121,29 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<ReviewResponse> getBookReviews() {
         return bookReviews;
+    }
+
+
+    public void addItem(OrderItem item) {
+        if (!selectedItems.contains(item)) {
+            selectedItems.add(item);
+        }
+    }
+
+    public void removeItem(OrderItem item) {
+        selectedItems.remove(item);
+    }
+
+    public List<OrderItem> getSelectedItems() {
+        return new ArrayList<>(selectedItems);
+    }
+
+    public List<Integer> getSelectedItemIds() {
+        List<Integer> selectedItemIds = new ArrayList<>();
+        for (OrderItem item : selectedItems) {
+            selectedItemIds.add(item.getBook_id());
+        }
+        return selectedItemIds;
     }
 
     public void fetchHomeBookAPI() {
@@ -196,8 +221,8 @@ public class HomeViewModel extends ViewModel {
     }
 
 
-    public void submitReview(int bookId, int rating, String comment, Context context) {
-        ReviewRequest reviewRequest = new ReviewRequest(bookId, rating, comment);
+    public void submitReview(int bookId, int orderID, int rating, String comment, Context context) {
+        ReviewRequest reviewRequest = new ReviewRequest(bookId, orderID, rating, comment);
         repositoryHome.submitReview(reviewRequest, new Callback<ReviewResponse>() {
             @Override
             public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {

@@ -27,7 +27,7 @@
                     android:id="@+id/imgAvatarUserComment"
                     android:layout_width="@dimen/_26sdp"
                     android:layout_height="@dimen/_26sdp"
-                    android:src="@drawable/placeholder" />
+                    android:src="@drawable/default_placeholder" />
 
             </androidx.cardview.widget.CardView>
 

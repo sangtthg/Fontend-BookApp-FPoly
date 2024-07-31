@@ -41,17 +41,17 @@
                     android:fontFamily="@font/display_bold"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="Giỏ hàng"
+                    android:text="Giỏ Hàng"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/_16ssp" />
 
                 <ImageButton
                     android:id="@+id/btnCart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:background="@drawable/custom_button_selector"
                     android:layout_marginEnd="@dimen/_8sdp"
-                    android:src="@drawable/ic_cart_edit" />
+                    android:src="@drawable/ic_accepted" />
 
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>

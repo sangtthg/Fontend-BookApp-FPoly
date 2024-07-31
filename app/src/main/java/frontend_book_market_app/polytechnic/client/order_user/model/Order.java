@@ -18,6 +18,7 @@ public class Order {
     public String statusShip;
     public String createdAt;
     public String updatedAt;
+    public boolean isReview;
 
     public int getId() {
         return id;
@@ -35,6 +36,9 @@ public class Order {
         return totalPrice;
     }
 
+    public boolean isReview() {
+        return isReview;
+    }
 
     public String getPaymentType() {
         return paymentType;
