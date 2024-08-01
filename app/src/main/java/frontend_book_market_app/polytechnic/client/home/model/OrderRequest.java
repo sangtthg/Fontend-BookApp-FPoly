@@ -5,10 +5,12 @@ import java.util.List;
 public class OrderRequest {
     private List<Integer> listCart;
     private String address;
+    private String phone;
 
-    public OrderRequest(List<Integer> listCart, String address) {
+    public OrderRequest(List<Integer> listCart, String address, String phone) {
         this.listCart = listCart;
         this.address = address;
+        this.phone = phone;
     }
 
     public List<Integer> getListCart() {
@@ -25,5 +27,13 @@ public class OrderRequest {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

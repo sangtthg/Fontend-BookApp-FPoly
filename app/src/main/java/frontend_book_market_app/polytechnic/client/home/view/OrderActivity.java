@@ -40,6 +40,9 @@ public class OrderActivity extends AppCompatActivity {
     private LinearLayout layout2, layout3;
     private SharedPreferencesHelper sharedPreferencesHelper;
 
+    String soDienThoai;
+    String diaChi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +58,9 @@ public class OrderActivity extends AppCompatActivity {
         String tenNguoiDung = sharedPreferencesHelper.getUsername();
         AddressModel defaultAddressModel = getDefaultAddress();
 
-        String soDienThoai = defaultAddressModel != null ? convertPhoneNumberToInternational(defaultAddressModel.getPhone()) : "Chưa có số điện thoại";
-        String diaChi = defaultAddressModel != null ? defaultAddressModel.getAddress() : "Chưa có địa chỉ";
+        //INFO
+        soDienThoai = defaultAddressModel != null ? convertPhoneNumberToInternational(defaultAddressModel.getPhone()) : "Chưa có số điện thoại";
+        diaChi = defaultAddressModel != null ? defaultAddressModel.getAddress() : "Chưa có địa chỉ";
 
         tvTenNguoiDungOrder.setText(tenNguoiDung);
         tvSDTNguoiDungOrder.setText(formatPhoneNumber(soDienThoai));

@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -43,11 +42,11 @@ public class Page1Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView emptyTextView = view.findViewById(R.id.emptyTextView);
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         Window window = requireActivity().getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        TextView emptyTextView = view.findViewById(R.id.emptyTextViewPage1);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         orderUserViewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
         orderUserViewModel.fetchPendingOrders();
 
@@ -59,18 +58,23 @@ public class Page1Fragment extends Fragment {
 
         adapter = new P1AdapterOrderChuaThanhToan(new P1AdapterOrderChuaThanhToan.OnItemClickListener() {
             @Override
-            public void onItemClick(Order order) {
+            public void thanhToanDonHang(Order order) {
                 homeViewModel.payOrder(getContext(), order.getId());
-                Toast.makeText(getContext(), "Chuẩn bị tiến hành thanh toán...", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void huyDonHang(Order order) {
+                orderUserViewModel.cancelOrder(order.getId(), getContext());
             }
         });
 
-        orderUserViewModel.getOrdersLiveData().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
+        orderUserViewModel.getTab1().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
             @Override
             public void onChanged(OrderUserResponse orderResponse) {
-                if (orderResponse != null && orderResponse.getCode() == 0) {
+                if (orderResponse != null && orderResponse.getCode() == 0 && !orderResponse.getOrders().isEmpty()) {
                     adapter.setDataOrdersUser(orderResponse.getOrders());
                     recyclerView.setAdapter(adapter);
+                    recyclerView.setVisibility(View.VISIBLE);
                     emptyTextView.setVisibility(View.GONE);
                 } else {
                     recyclerView.setVisibility(View.GONE);
@@ -87,7 +91,9 @@ public class Page1Fragment extends Fragment {
         });
     }
 
-
-
-
+    @Override
+    public void onResume() {
+        orderUserViewModel.fetchPendingOrders();
+        super.onResume();
+    }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.order_user.adapter.P4AdapterOrderDaHuy;
 import frontend_book_market_app.polytechnic.client.order_user.model.OrderUserResponse;
@@ -37,9 +38,9 @@ public class Page4Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
-        viewModel.geCanlledOrders();
+        viewModel.getCancelledOrders();
 
-        TextView emptyTextView = view.findViewById(R.id.emptyTextView);
+        TextView emptyTextView = view.findViewById(R.id.emptyTextViewPage1);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -49,12 +50,13 @@ public class Page4Fragment extends Fragment {
 
         adapter = new P4AdapterOrderDaHuy();
 
-        viewModel.getOrdersLiveData4().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
+        viewModel.getTab4().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
             @Override
             public void onChanged(OrderUserResponse orderResponse) {
-                if (orderResponse.getCode() == 0) {
+                if (orderResponse != null && orderResponse.getCode() == 0) {
                     adapter.setDataOrdersUser(orderResponse.getOrders());
                     recyclerView.setAdapter(adapter);
+                    recyclerView.setVisibility(View.VISIBLE);
                     emptyTextView.setVisibility(View.GONE);
                 } else {
                     recyclerView.setVisibility(View.GONE);
@@ -66,8 +68,14 @@ public class Page4Fragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             recyclerView.setAdapter(skeletonAdapter);
-            viewModel.geCanlledOrders();
+            viewModel.getCancelledOrders();
             swipeRefreshLayout.setRefreshing(false);
         });
+    }
+
+    @Override
+    public void onResume() {
+        viewModel.getCancelledOrders();
+        super.onResume();
     }
 }

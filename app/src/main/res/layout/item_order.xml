@@ -172,21 +172,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="fill_vertical|center_vertical"
                 android:layout_marginTop="@dimen/_4sdp"
+                android:gravity="fill_vertical|center_vertical|end"
                 android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/btnHuyThanhToanOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:backgroundTint="@color/transparent"
+                    android:text="Huỷ đơn hàng"
+                    android:textColor="#757575"
+                    app:cornerRadius="5dp"
+                    app:strokeColor="#757575"
+                    app:strokeWidth="1dp" />
 
                 <TextView
                     android:id="@+id/infoOrderUser"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_2sdp"
                     android:layout_weight="10"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Thanh toán trước ngày 10-08-2024 15:06 bằng Tài khoản ngân hàng VNPAY"
                     android:textColor="#9E9E9E"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:textSize="@dimen/_10ssp" />
+                    android:textSize="@dimen/_10ssp"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnThanhToanDonChoXacNhan"

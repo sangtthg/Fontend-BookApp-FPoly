@@ -3,12 +3,15 @@ package frontend_book_market_app.polytechnic.client.notification.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +57,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 onItemClickListener.onItemClick(notification);
             }
         });
+
+        if (notification.getImageUrl() != null){
+            Glide.with(holder.itemView.getContext())
+                    .load(notification.getImageUrl())
+                    .placeholder(R.drawable.loading_book)
+                    .centerCrop()
+                    .into(holder.imgNotification);
+        } else {
+            holder.imgNotification.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override
@@ -70,6 +85,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         TextView titleTextView;
         TextView messageTextView;
         TextView notificationDate;
+        ImageView imgNotification;
         LinearLayout linearLayoutParentNotification;
 
         public NotificationViewHolder(@NonNull View itemView) {
@@ -78,6 +94,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             messageTextView = itemView.findViewById(R.id.notificationMessage);
             notificationDate = itemView.findViewById(R.id.notificationDate);
             linearLayoutParentNotification = itemView.findViewById(R.id.linearLayoutParentNotification);
+            imgNotification = itemView.findViewById(R.id.imgNotification);
         }
     }
 }

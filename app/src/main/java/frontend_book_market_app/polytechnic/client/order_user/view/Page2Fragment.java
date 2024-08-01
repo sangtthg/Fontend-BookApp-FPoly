@@ -37,9 +37,9 @@ public class Page2Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
-        viewModel.getWaiForDeliverytOrders();
+        viewModel.getWaitForDeliveryOrders();
 
-        TextView emptyTextView = view.findViewById(R.id.emptyTextView);
+        TextView emptyTextView = view.findViewById(R.id.emptyTextViewPage1);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -49,7 +49,7 @@ public class Page2Fragment extends Fragment {
 
         adapter = new P2AdapterOrderChoVanChuyen();
 
-        viewModel.getOrdersLiveData2().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
+        viewModel.getTab2().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
             @Override
             public void onChanged(OrderUserResponse orderResponse) {
                 if (orderResponse != null && orderResponse.getCode() == 0) {
@@ -66,8 +66,14 @@ public class Page2Fragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             recyclerView.setAdapter(skeletonAdapter);
-            viewModel.getWaiForDeliverytOrders();
+            viewModel.getWaitForDeliveryOrders();
             swipeRefreshLayout.setRefreshing(false);
         });
+    }
+
+    @Override
+    public void onResume() {
+        viewModel.getWaitForDeliveryOrders();
+        super.onResume();
     }
 }

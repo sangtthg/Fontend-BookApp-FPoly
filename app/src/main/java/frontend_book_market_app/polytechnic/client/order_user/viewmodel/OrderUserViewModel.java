@@ -1,6 +1,8 @@
 package frontend_book_market_app.polytechnic.client.order_user.viewmodel;
 
-
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,95 +13,91 @@ import frontend_book_market_app.polytechnic.client.order_user.model.OrderUserRes
 import frontend_book_market_app.polytechnic.client.order_user.network.RepositoryOrderUser;
 
 public class OrderUserViewModel extends ViewModel {
-    private final MutableLiveData<OrderUserResponse> ordersLiveData;
-    private final MutableLiveData<OrderUserResponse> ordersLiveData2;
-    private final MutableLiveData<OrderUserResponse> ordersLiveData3;
-    private final MutableLiveData<OrderUserResponse> ordersLiveData4;
+    private final MutableLiveData<OrderUserResponse> tab1, tab2, tab3, tab4;
     private final RepositoryOrderUser repository;
 
     public OrderUserViewModel() {
-        ordersLiveData = new MutableLiveData<>();
-        ordersLiveData2 = new MutableLiveData<>();
-        ordersLiveData3 = new MutableLiveData<>();
-        ordersLiveData4 = new MutableLiveData<>();
+        tab1 = new MutableLiveData<>();
+        tab2 = new MutableLiveData<>();
+        tab3 = new MutableLiveData<>();
+        tab4 = new MutableLiveData<>();
         repository = new RepositoryOrderUser();
     }
 
-    public LiveData<OrderUserResponse> getOrdersLiveData() {
-        return ordersLiveData;
-    }
-
-    public MutableLiveData<OrderUserResponse> getOrdersLiveData2() {
-        return ordersLiveData2;
-    }
-
-    public MutableLiveData<OrderUserResponse> getOrdersLiveData3() {
-        return ordersLiveData3;
-    }
-
-    public MutableLiveData<OrderUserResponse> getOrdersLiveData4() {
-        return ordersLiveData4;
-    }
+    public LiveData<OrderUserResponse> getTab1() { return tab1; }
+    public MutableLiveData<OrderUserResponse> getTab2() { return tab2; }
+    public MutableLiveData<OrderUserResponse> getTab3() { return tab3; }
+    public MutableLiveData<OrderUserResponse> getTab4() { return tab4; }
 
     public void fetchPendingOrders() {
         repository.fetchPendingOrders(new Callback<OrderUserResponse>() {
             @Override
             public void onResponse(Call<OrderUserResponse> call, Response<OrderUserResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    ordersLiveData.postValue(response.body());
-                }
+                tab1.postValue(response.isSuccessful() && response.body() != null ? response.body() : null);
             }
-
             @Override
             public void onFailure(Call<OrderUserResponse> call, Throwable t) {
-                // Handle failure
+                tab1.postValue(null);
             }
         });
     }
 
-    public void getWaiForDeliverytOrders() {
+    public void getWaitForDeliveryOrders() {
         repository.getWaiForDeliverytOrders(new Callback<OrderUserResponse>() {
             @Override
             public void onResponse(Call<OrderUserResponse> call, Response<OrderUserResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    ordersLiveData2.postValue(response.body());
-                }
+                tab2.postValue(response.isSuccessful() && response.body() != null ? response.body() : null);
             }
             @Override
             public void onFailure(Call<OrderUserResponse> call, Throwable t) {
-                // Handle failure
+                tab2.postValue(null);
             }
         });
     }
 
-    public void getDelivredtOrders() {
+    public void getDeliveredOrders() {
         repository.getDelivredtOrders(new Callback<OrderUserResponse>() {
             @Override
             public void onResponse(Call<OrderUserResponse> call, Response<OrderUserResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    ordersLiveData3.postValue(response.body());
-                }
+                tab3.postValue(response.isSuccessful() && response.body() != null ? response.body() : null);
             }
             @Override
             public void onFailure(Call<OrderUserResponse> call, Throwable t) {
-                // Handle failure
+                tab3.postValue(null);
             }
         });
     }
 
-    public void geCanlledOrders() {
+    public void getCancelledOrders() {
         repository.geCanlledOrders(new Callback<OrderUserResponse>() {
             @Override
             public void onResponse(Call<OrderUserResponse> call, Response<OrderUserResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    ordersLiveData4.postValue(response.body());
-                }
+                tab4.postValue(response.isSuccessful() && response.body() != null ? response.body() : null);
             }
             @Override
             public void onFailure(Call<OrderUserResponse> call, Throwable t) {
-                // Handle failure
+                tab4.postValue(null);
+            }
+        });
+    }
+
+    public void cancelOrder(int orderId, Context context) {
+        Toast.makeText(context, "Đang huỷ đơn hàng...", Toast.LENGTH_SHORT).show();
+        repository.cancelOrder(orderId, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    fetchPendingOrders();
+                    getCancelledOrders();
+                    Toast.makeText(context, "Huỷ đơn hàng thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("OrderUserViewModel", "Đã xảy ra lỗi khi huỷ đơn hàng");
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("OrderUserViewModel", "Đã xảy ra lỗi khi huỷ đơn hàng do: " + t.getMessage());
             }
         });
     }
 }
-

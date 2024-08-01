@@ -50,7 +50,7 @@ public class P2AdapterOrderChoVanChuyen extends RecyclerView.Adapter<P2AdapterOr
         private final TextView orderIdTextView;
         private final TextView totalPriceTextView;
         private final RecyclerView itemsRecyclerView;
-        private final P1AdapterOrderItemChuaThanhToan orderItemAdapter;
+        private final P2AdapterOrderItemChoVanChuyen orderItemAdapter;
         private final TextView tvTrangThaiThanhToan;
         private final TextView tvTongThanhToanItemUserOrder;
         private final TextView tvTongSanPhamItemUserOrder;
@@ -70,7 +70,7 @@ public class P2AdapterOrderChoVanChuyen extends RecyclerView.Adapter<P2AdapterOr
             btnThanhToanDonChoXacNhan = itemView.findViewById(R.id.btnThanhToanDonChoXacNhan);
 
             itemsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
-            orderItemAdapter = new P1AdapterOrderItemChuaThanhToan(new ArrayList<>());
+            orderItemAdapter = new P2AdapterOrderItemChoVanChuyen(new ArrayList<>());
             itemsRecyclerView.setAdapter(orderItemAdapter);
         }
 

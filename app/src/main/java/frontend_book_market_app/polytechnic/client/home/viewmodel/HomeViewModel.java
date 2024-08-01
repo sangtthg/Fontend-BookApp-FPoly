@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import frontend_book_market_app.polytechnic.client.auth.login.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.order_user.model.OrderItem;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import okhttp3.ResponseBody;
@@ -379,7 +380,12 @@ public class HomeViewModel extends ViewModel {
     public void fetchOrderByCartID(List<Integer> cartItemIds) {
         idOrder.postValue(0);
         System.out.println(cartItemIds);
-        OrderRequest orderRequest = new OrderRequest(cartItemIds, address);
+
+        AddressModel defaultAddressModel = getDefaultAddress();
+        String phone = defaultAddressModel.getPhone();
+        String diaChi = defaultAddressModel.getAddress();
+
+        OrderRequest orderRequest = new OrderRequest(cartItemIds, diaChi, phone);
         repositoryHome.createOrder(orderRequest, new Callback<OrderResponseHome>() {
             @Override
             public void onResponse(Call<OrderResponseHome> call, Response<OrderResponseHome> response) {
@@ -401,9 +407,10 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void payOrder(Context context, int orderID) {
+        Toast.makeText(context, "Chuẩn bị tiến hành thanh toán...", Toast.LENGTH_LONG).show();
         int id = (orderID == -1) ? idOrder.getValue() : orderID;
-
         PayOrderRequest payOrderRequest = new PayOrderRequest(id);
+
         repositoryHome.payOrder(payOrderRequest, new Callback<PayOrderResponse>() {
             @Override
             public void onResponse(Call<PayOrderResponse> call, Response<PayOrderResponse> response) {
@@ -423,6 +430,24 @@ public class HomeViewModel extends ViewModel {
                 Log.e(NAME, "Error during payment: " + t.getMessage());
             }
         });
+    }
+
+
+
+    private AddressModel getDefaultAddress() {
+        List<AddressModel> addresses = sharedPreferencesHelper.getAddresses();
+
+        if (addresses == null || addresses.isEmpty()) {
+            return null;
+        }
+
+        for (AddressModel address : addresses) {
+            if (address.isDefault()) {
+                return address;
+            }
+        }
+
+        return null;
     }
 
     public void clearAllLists() {

@@ -1,14 +1,10 @@
 package frontend_book_market_app.polytechnic.client.order_user.view;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,16 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.button.MaterialButton;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.order_user.adapter.P3AdapterOrderDaGiaoHang;
-import frontend_book_market_app.polytechnic.client.order_user.model.OrderItem;
 import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 
@@ -53,7 +42,7 @@ public class Page3Fragment extends Fragment {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
 
-        TextView emptyTextView = view.findViewById(R.id.emptyTextView);
+        TextView emptyTextView = view.findViewById(R.id.emptyTextViewPage1);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -63,7 +52,7 @@ public class Page3Fragment extends Fragment {
 
         adapter = new P3AdapterOrderDaGiaoHang(homeViewModel);
 
-        viewModel.getOrdersLiveData3().observe(getViewLifecycleOwner(), orderResponse -> {
+        viewModel.getTab3().observe(getViewLifecycleOwner(), orderResponse -> {
             if (orderResponse != null && orderResponse.getCode() == 0) {
                 adapter.setDataOrdersUser(orderResponse.getOrders());
                 recyclerView.setAdapter(adapter);
@@ -77,14 +66,14 @@ public class Page3Fragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             recyclerView.setAdapter(skeletonAdapter);
-            viewModel.getDelivredtOrders();
+            viewModel.getDeliveredOrders();
             swipeRefreshLayout.setRefreshing(false);
         });
     }
 
     @Override
     public void onResume() {
-        viewModel.getDelivredtOrders();
+        viewModel.getDeliveredOrders();
         super.onResume();
     }
 }

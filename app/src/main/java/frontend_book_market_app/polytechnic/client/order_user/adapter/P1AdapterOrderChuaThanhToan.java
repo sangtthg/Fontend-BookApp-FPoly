@@ -19,10 +19,11 @@ import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
 
 public class P1AdapterOrderChuaThanhToan extends RecyclerView.Adapter<P1AdapterOrderChuaThanhToan.OrderViewHolder> {
     private List<Order> orders = new ArrayList<>();
-    private OnItemClickListener onItemClickListener;
+    private final OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(Order order);
+        void thanhToanDonHang(Order order);
+        void huyDonHang(Order order);
     }
 
     public P1AdapterOrderChuaThanhToan(OnItemClickListener onItemClickListener) {
@@ -55,14 +56,18 @@ public class P1AdapterOrderChuaThanhToan extends RecyclerView.Adapter<P1AdapterO
     }
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
-        private final TextView orderIdTextView;
-        private final TextView totalPriceTextView;
         private final RecyclerView itemsRecyclerView;
         private final P1AdapterOrderItemChuaThanhToan orderItemAdapter;
-        private final TextView tvTrangThaiThanhToan;
-        private final TextView tvTongThanhToanItemUserOrder;
-        private final TextView tvTongSanPhamItemUserOrder;
-        private final Button btnThanhToanDonChoXacNhan;
+        private final Button
+                btnThanhToanDonChoXacNhan,
+                btnHuyThanhToanOrder;
+
+        private final TextView
+                tvTrangThaiThanhToan,
+                tvTongThanhToanItemUserOrder,
+                tvTongSanPhamItemUserOrder,
+                totalPriceTextView,
+                orderIdTextView;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +78,7 @@ public class P1AdapterOrderChuaThanhToan extends RecyclerView.Adapter<P1AdapterO
             tvTongThanhToanItemUserOrder = itemView.findViewById(R.id.tvTongThanhToanItemUserOrder);
             tvTongSanPhamItemUserOrder = itemView.findViewById(R.id.tvTongSanPhamItemUserOrder);
             btnThanhToanDonChoXacNhan = itemView.findViewById(R.id.btnThanhToanDonChoXacNhan);
+            btnHuyThanhToanOrder = itemView.findViewById(R.id.btnHuyThanhToanOrder);
 
             itemsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             orderItemAdapter = new P1AdapterOrderItemChuaThanhToan(new ArrayList<>());
@@ -92,7 +98,9 @@ public class P1AdapterOrderChuaThanhToan extends RecyclerView.Adapter<P1AdapterO
                 orderItemAdapter.setOrderItems(new ArrayList<>());
             }
 
-            btnThanhToanDonChoXacNhan.setOnClickListener(v -> onItemClickListener.onItemClick(order));
+            //Click Event
+            btnThanhToanDonChoXacNhan.setOnClickListener(v -> onItemClickListener.thanhToanDonHang(order));
+            btnHuyThanhToanOrder.setOnClickListener(v -> onItemClickListener.huyDonHang(order));
         }
     }
 }

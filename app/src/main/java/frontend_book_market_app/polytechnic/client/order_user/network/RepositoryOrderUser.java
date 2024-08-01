@@ -95,5 +95,10 @@ public class RepositoryOrderUser {
             }
         });
     }
+
+    public void cancelOrder(int orderId, Callback<Void> callback) {
+        Call<Void> call = apiService.cancelOrder(orderId);
+        call.enqueue(callback);
+    }
 }
 

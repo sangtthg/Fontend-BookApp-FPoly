@@ -18,16 +18,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <TextView
-            android:id="@+id/emptyTextView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="Chưa có dữ liệu"
-            android:visibility="gone"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"/>
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:src="@drawable/ic_planet"/>
+
+            <TextView
+                android:id="@+id/emptyTextViewPage1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Danh mục này của bạn hiện không có dữ liệu nào"
+                android:fontFamily="@font/display_regular"
+                android:textColor="#616161"
+                android:textSize="@dimen/_13ssp"
+                android:visibility="gone" />
+        </LinearLayout>
 
     </LinearLayout>
 

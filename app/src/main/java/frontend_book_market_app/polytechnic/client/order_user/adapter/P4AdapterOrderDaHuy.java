@@ -50,7 +50,7 @@ public class P4AdapterOrderDaHuy extends RecyclerView.Adapter<P4AdapterOrderDaHu
         private final TextView orderIdTextView;
         private final TextView totalPriceTextView;
         private final RecyclerView itemsRecyclerView;
-        private final P1AdapterOrderItemChuaThanhToan orderItemAdapter;
+        private final P4AdapterOrderItemDaHuy orderItemAdapter;
         private final TextView tvTrangThaiThanhToan;
         private final TextView tvTongThanhToanItemUserOrder;
         private final TextView tvTongSanPhamItemUserOrder;
@@ -71,7 +71,7 @@ public class P4AdapterOrderDaHuy extends RecyclerView.Adapter<P4AdapterOrderDaHu
 
 
             itemsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
-            orderItemAdapter = new P1AdapterOrderItemChuaThanhToan(new ArrayList<>());
+            orderItemAdapter = new P4AdapterOrderItemDaHuy(new ArrayList<>());
             itemsRecyclerView.setAdapter(orderItemAdapter);
         }
 

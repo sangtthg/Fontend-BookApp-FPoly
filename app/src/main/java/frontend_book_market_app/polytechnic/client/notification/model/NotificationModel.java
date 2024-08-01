@@ -9,6 +9,7 @@ public class NotificationModel {
     private boolean isRead;
     private String createdAt;
     private String updatedAt;
+    private String imageUrl;
 
     public int getId() {
         return id;
@@ -60,6 +61,10 @@ public class NotificationModel {
 
     public String getCreatedAt() {
         return createdAt;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public void setCreatedAt(String createdAt) {
