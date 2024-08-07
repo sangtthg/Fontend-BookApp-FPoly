@@ -42,8 +42,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".onboardingscreen.GetStartedActivity"-->
+<!--            android:exported="false" />-->
         <activity
-            android:name=".onboardingscreen.GetStartedActivity"
+            android:name=".onboardingscreen.GetStarted"
             android:exported="false" />
         <activity
             android:name=".order_user.view.DonHangActivity"
