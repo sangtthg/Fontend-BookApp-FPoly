@@ -18,18 +18,18 @@ import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.model.OrderResponseHome;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
 
-public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.ViewHolder> {
+public class PaymentItemAdapter extends RecyclerView.Adapter<PaymentItemAdapter.ViewHolder> {
 
     private final List<OrderResponseHome.Item> items;
 
-    public OrderItemAdapter(List<OrderResponseHome.Item> items) {
+    public PaymentItemAdapter(List<OrderResponseHome.Item> items) {
         this.items = items;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_item_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_item_layout, parent, false);
         return new ViewHolder(view);
     }
 

@@ -52,7 +52,7 @@
             android:name=".WebViewActivity"
             android:exported="false" />
         <activity
-            android:name=".home.view.OrderActivity"
+            android:name=".home.view.PaymentActivity"
             android:exported="false" />
         <activity
             android:name=".search.view.SearchActivity"

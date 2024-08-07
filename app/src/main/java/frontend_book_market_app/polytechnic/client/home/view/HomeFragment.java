@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,13 +31,12 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.muddz.styleabletoast.StyleableToast;
 import q.rorbin.badgeview.QBadgeView;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
-import frontend_book_market_app.polytechnic.client.home.adapter.AdapterSachBanChay;
-import frontend_book_market_app.polytechnic.client.home.adapter.AdapterSachHome;
-import frontend_book_market_app.polytechnic.client.home.adapter.AdapterSachHomeGoiY;
+import frontend_book_market_app.polytechnic.client.home.adapter.AdapteHomerSachBanChay;
+import frontend_book_market_app.polytechnic.client.home.adapter.AdapteHomerSach;
+import frontend_book_market_app.polytechnic.client.home.adapter.AdapteHomerSachHomeGoiY;
 import frontend_book_market_app.polytechnic.client.home.adapter.CategoryAdapter;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.search.view.SearchActivity;
@@ -55,10 +53,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerNhieuLuotXemNhat;
     private RecyclerView categoryRecyclerView;
 
-    private AdapterSachBanChay adapterSachBanChay;
-    private AdapterSachHome adapterSachMoiCapNhat;
-    private AdapterSachHomeGoiY adapterSachRanDom;
-    private AdapterSachHome adapterNhieuLuotXemNhat;
+    private AdapteHomerSachBanChay adapteHomerSachBanChay;
+    private AdapteHomerSach adapterSachMoiCapNhat;
+    private AdapteHomerSachHomeGoiY adapterSachRanDom;
+    private AdapteHomerSach adapterNhieuLuotXemNhat;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     SkeletonAdapter skeletonAdapter;
@@ -152,7 +150,7 @@ public class HomeFragment extends Fragment {
         int offset = getResources().getDimensionPixelSize(R.dimen.item_offset);
         skeletonAdapter = new SkeletonAdapter(9);
 
-        AdapterSachBanChay.OnItemClickListener itemClickListener1 = bookID -> {
+        AdapteHomerSachBanChay.OnItemClickListener itemClickListener1 = bookID -> {
             if (isUserLoggedIn()) {
                 Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
                 intent.putExtra("bookID", bookID);
@@ -162,7 +160,7 @@ public class HomeFragment extends Fragment {
             }
         };
 
-        AdapterSachHome.OnItemClickListener itemClickListener2 = bookID -> {
+        AdapteHomerSach.OnItemClickListener itemClickListener2 = bookID -> {
             if (isUserLoggedIn()) {
                 Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
                 intent.putExtra("bookID", bookID);
@@ -172,7 +170,7 @@ public class HomeFragment extends Fragment {
             }
         };
 
-        AdapterSachHomeGoiY.OnItemClickListener itemClickListenerHomeGoiY = bookID -> {
+        AdapteHomerSachHomeGoiY.OnItemClickListener itemClickListenerHomeGoiY = bookID -> {
             if (isUserLoggedIn()) {
                 Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
                 intent.putExtra("bookID", bookID);
@@ -182,12 +180,12 @@ public class HomeFragment extends Fragment {
             }
         };
 
-        adapterSachBanChay = new AdapterSachBanChay(new ArrayList<>(), itemClickListener1);
-        adapterNhieuLuotXemNhat = new AdapterSachHome(new ArrayList<>(), itemClickListener2);
-        adapterSachMoiCapNhat = new AdapterSachHome(new ArrayList<>(), itemClickListener2);
-        adapterSachRanDom = new AdapterSachHomeGoiY(new ArrayList<>(), itemClickListenerHomeGoiY);
+        adapteHomerSachBanChay = new AdapteHomerSachBanChay(new ArrayList<>(), itemClickListener1);
+        adapterNhieuLuotXemNhat = new AdapteHomerSach(new ArrayList<>(), itemClickListener2);
+        adapterSachMoiCapNhat = new AdapteHomerSach(new ArrayList<>(), itemClickListener2);
+        adapterSachRanDom = new AdapteHomerSachHomeGoiY(new ArrayList<>(), itemClickListenerHomeGoiY);
 
-        RecyclerViewUtil.setupLinear(getActivity(), recyclerSachBanChay, offset, adapterSachBanChay);
+        RecyclerViewUtil.setupLinear(getActivity(), recyclerSachBanChay, offset, adapteHomerSachBanChay);
         RecyclerViewUtil.setupLinear(getActivity(), recyclerNhieuLuotXemNhat, offset, adapterNhieuLuotXemNhat);
         RecyclerViewUtil.setupLinear(getActivity(), recyclerSachMoiCapNhat, offset, adapterSachMoiCapNhat);
         RecyclerViewUtil.setupGrid(getActivity(), recyclerSachRanDom, offset, 2, adapterSachRanDom);
@@ -214,8 +212,8 @@ public class HomeFragment extends Fragment {
     private void observeViewModel(View view) {
         homeViewModel.getBestSellerBookList().observe(getViewLifecycleOwner(), homeBookModels -> {
             if (homeBookModels != null && !homeBookModels.isEmpty()) {
-                adapterSachBanChay.updateData(homeBookModels);
-                recyclerSachBanChay.setAdapter(adapterSachBanChay);
+                adapteHomerSachBanChay.updateData(homeBookModels);
+                recyclerSachBanChay.setAdapter(adapteHomerSachBanChay);
             }
         });
 

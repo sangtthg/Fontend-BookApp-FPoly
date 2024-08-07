@@ -1,5 +1,4 @@
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
@@ -9,8 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#f2f2f2">
+        android:background="#f2f2f2"
+        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -19,27 +18,27 @@
             android:layout_marginTop="@dimen/_8sdp" />
 
         <LinearLayout
+            android:id="@+id/emptyLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginBottom="@dimen/_8sdp"
-                android:src="@drawable/ic_planet"/>
+                android:src="@drawable/ic_planet" />
 
             <TextView
                 android:id="@+id/emptyTextViewPage1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="Danh mục này của bạn hiện không có dữ liệu nào"
                 android:fontFamily="@font/display_regular"
+                android:text="Danh mục này của bạn hiện không có dữ liệu nào"
+                android:textAlignment="center"
                 android:textColor="#616161"
-                android:textSize="@dimen/_13ssp"
-                android:visibility="gone" />
+                android:textSize="@dimen/_13ssp" />
         </LinearLayout>
 
     </LinearLayout>

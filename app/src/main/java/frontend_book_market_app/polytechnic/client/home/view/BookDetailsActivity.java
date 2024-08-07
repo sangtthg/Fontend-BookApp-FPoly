@@ -101,6 +101,7 @@ public class BookDetailsActivity extends AppCompatActivity {
                 homeViewModel.getBookReviews().observe(BookDetailsActivity.this, new Observer<ReviewResponse>() {
                     @Override
                     public void onChanged(ReviewResponse reviewResponse) {
+                        items.remove("EMPTY_STATE");
                         if (reviewResponse != null && reviewResponse.getReviews() != null && !reviewResponse.getReviews().isEmpty()) {
                             items.addAll(reviewResponse.getReviews());
                         } else {

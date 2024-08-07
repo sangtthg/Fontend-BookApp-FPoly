@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.home.adapter.AdapterSachHome;
+import frontend_book_market_app.polytechnic.client.home.adapter.AdapteHomerSach;
 import frontend_book_market_app.polytechnic.client.home.model.HomeBookModel;
 import frontend_book_market_app.polytechnic.client.search.adapter.AdapterAuthorSearch;
 import frontend_book_market_app.polytechnic.client.search.adapter.AdapterBookPopupNew;
@@ -62,7 +62,7 @@ public class SearchActivity extends AppCompatActivity {
 
         // Thiết lập RecyclerView và Adapter cho sách
         bookList = new ArrayList<>();
-        bookAdapter = new AdapterBookPopupNew(bookList, new AdapterSachHome.OnItemClickListener() {
+        bookAdapter = new AdapterBookPopupNew(bookList, new AdapteHomerSach.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 HomeBookModel selectedBook = bookList.get(position);

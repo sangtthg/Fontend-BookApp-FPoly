@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -82,7 +80,7 @@ public class CartActivity extends AppCompatActivity {
                         showMissingInfoDialog();
                     } else {
                         // Nếu đầy đủ thông tin, chuyển đến OrderActivity
-                        Intent intent = new Intent(getApplicationContext(), OrderActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
                         intent.putIntegerArrayListExtra("selectedCartItemIds", selectedIds);
                         startActivity(intent);
                     }

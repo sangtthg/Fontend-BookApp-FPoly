@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -36,10 +39,11 @@ public class Page2Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
         viewModel.getWaitForDeliveryOrders();
 
-        TextView emptyTextView = view.findViewById(R.id.emptyTextViewPage1);
+        LinearLayout emptyLayout = view.findViewById(R.id.emptyLayout);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -52,13 +56,14 @@ public class Page2Fragment extends Fragment {
         viewModel.getTab2().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
             @Override
             public void onChanged(OrderUserResponse orderResponse) {
-                if (orderResponse != null && orderResponse.getCode() == 0) {
+                if (orderResponse != null && orderResponse.getCode() == 0 && !orderResponse.getOrders().isEmpty()) {
                     adapter.setDataOrdersUser(orderResponse.getOrders());
                     recyclerView.setAdapter(adapter);
-                    emptyTextView.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyLayout.setVisibility(View.GONE);
                 } else {
                     recyclerView.setVisibility(View.GONE);
-                    emptyTextView.setVisibility(View.VISIBLE);
+                    emptyLayout.setVisibility(View.VISIBLE);
                 }
             }
         });

@@ -19,6 +19,7 @@
             android:layout_marginTop="@dimen/_8sdp" />
 
         <LinearLayout
+            android:id="@+id/emptyLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -38,8 +39,7 @@
                 android:text="Danh mục này của bạn hiện không có dữ liệu nào"
                 android:fontFamily="@font/display_regular"
                 android:textColor="#616161"
-                android:textSize="@dimen/_13ssp"
-                android:visibility="gone" />
+                android:textSize="@dimen/_13ssp" />
         </LinearLayout>
 
     </LinearLayout>

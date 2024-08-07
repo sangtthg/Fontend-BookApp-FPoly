@@ -3,6 +3,7 @@ package frontend_book_market_app.polytechnic.client.favorite.view;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +15,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.Objects;
+
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.order_user.view.ViewPagerAdapter;
+import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
 
 public class FavoriteFragment extends Fragment {
+
+    private OrderUserViewModel orderUserViewModel;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
-        Window window = getActivity().getWindow();
+        orderUserViewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
+
         ViewPager2 viewPager = view.findViewById(R.id.viewPager);
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
 
@@ -62,7 +71,7 @@ public class FavoriteFragment extends Fragment {
             tab.setCustomView(tabTextView);
         }).attach();
 
-        tabLayout.getTabAt(0).select();
+        Objects.requireNonNull(tabLayout.getTabAt(0)).select();
         TextView firstTabTextView = (TextView) tabLayout.getTabAt(0).getCustomView();
         firstTabTextView.setTextColor(Color.parseColor("#aa0116"));
 
@@ -70,12 +79,14 @@ public class FavoriteFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 TextView tabTextView = (TextView) tab.getCustomView();
+                assert tabTextView != null;
                 tabTextView.setTextColor(Color.parseColor("#aa0116"));
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 TextView tabTextView = (TextView) tab.getCustomView();
+                assert tabTextView != null;
                 tabTextView.setTextColor(Color.BLACK);
             }
 
@@ -87,15 +98,10 @@ public class FavoriteFragment extends Fragment {
         return view;
     }
 
-//    @Override
-//    public void onHiddenChanged(boolean hidden) {
-//        super.onHiddenChanged(hidden);
-//        if (hidden) {
-//            System.out.println("111111111");
-//        } else {
-//            notificationViewModel = new ViewModelProvider(this).get(NotificationViewModel.class);
-//            notificationViewModel.fetchNotifications();
-//            System.out.println("111111111");
-//        }
-//    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) orderUserViewModel.fetchPendingOrders();
+        super.onHiddenChanged(hidden);
+    }
+
 }

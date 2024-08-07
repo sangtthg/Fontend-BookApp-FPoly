@@ -150,14 +150,12 @@ public class MainActivity extends AppCompatActivity {
                         fm.beginTransaction().add(R.id.frameLayout, favoriteFragment, "2").commit();
                     }
                     activeFragment = favoriteFragment;
-                    orderUserViewModel.fetchPendingOrders();
                     break;
                 case 2:
                     if (notificationFragment == null) {
                         notificationFragment = new NotificationFragment();
                         fm.beginTransaction().add(R.id.frameLayout, notificationFragment, "3").commit();
                     }
-
                     activeFragment = notificationFragment;
                     break;
                 case 3:

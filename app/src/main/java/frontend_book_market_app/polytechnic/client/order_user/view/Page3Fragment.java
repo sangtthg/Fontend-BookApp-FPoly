@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,7 +43,7 @@ public class Page3Fragment extends Fragment {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
 
-        TextView emptyTextView = view.findViewById(R.id.emptyTextViewPage1);
+        LinearLayout emptyLayout = view.findViewById(R.id.emptyLayout);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -56,10 +57,11 @@ public class Page3Fragment extends Fragment {
             if (orderResponse != null && orderResponse.getCode() == 0) {
                 adapter.setDataOrdersUser(orderResponse.getOrders());
                 recyclerView.setAdapter(adapter);
-                emptyTextView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyLayout.setVisibility(View.GONE);
             } else {
                 recyclerView.setVisibility(View.GONE);
-                emptyTextView.setVisibility(View.VISIBLE);
+                emptyLayout.setVisibility(View.VISIBLE);
             }
         });
 

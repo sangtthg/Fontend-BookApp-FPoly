@@ -112,4 +112,10 @@ public class NotificationFragment extends Fragment {
             popupMenu = null;
         }
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) notificationViewModel.fetchNotifications();
+        super.onHiddenChanged(hidden);
+    }
 }

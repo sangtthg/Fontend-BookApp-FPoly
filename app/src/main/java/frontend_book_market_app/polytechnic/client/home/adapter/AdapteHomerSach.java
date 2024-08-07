@@ -18,12 +18,12 @@ import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.model.HomeBookModel;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
 
-public class AdapterSachHomeGoiY extends RecyclerView.Adapter<AdapterSachHomeGoiY.SachHomeViewHolder> {
+public class AdapteHomerSach extends RecyclerView.Adapter<AdapteHomerSach.SachHomeViewHolder> {
 
-    private  List<HomeBookModel> bookModelList;
+    private List<HomeBookModel> bookModelList;
     private final OnItemClickListener listener;
 
-    public AdapterSachHomeGoiY(List<HomeBookModel> bookModelList, OnItemClickListener listener) {
+    public AdapteHomerSach(List<HomeBookModel> bookModelList, OnItemClickListener listener) {
         this.bookModelList = bookModelList;
         this.listener = listener;
     }
@@ -31,7 +31,7 @@ public class AdapterSachHomeGoiY extends RecyclerView.Adapter<AdapterSachHomeGoi
     @NonNull
     @Override
     public SachHomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book_home_goi_y, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book_home_sach_ban_chay, parent, false);
         return new SachHomeViewHolder(view);
     }
 
@@ -39,15 +39,16 @@ public class AdapterSachHomeGoiY extends RecyclerView.Adapter<AdapterSachHomeGoi
     public void onBindViewHolder(@NonNull SachHomeViewHolder holder, int position) {
         HomeBookModel bookModel = bookModelList.get(position);
         holder.tvTenSach.setText(bookModel.getTitle());
-        holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
         holder.tvDaBan.setText(String.valueOf(bookModel.getPurchaseCount()));
-        holder.tvSachBanChay.setVisibility(View.GONE);
+        holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
+        holder.tvSachBanChay.setVisibility(View.INVISIBLE);
         holder.tvPhanTramGiamHome.setText(MessageFormat.format("-{0}%", bookModel.getDiscountPercentage()));
+
 
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .placeholder(R.drawable.loading_book)
-                .centerCrop()
+                .fitCenter()
                 .into(holder.imgAnhBia);
         holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getBookId()));
     }
@@ -64,14 +65,15 @@ public class AdapterSachHomeGoiY extends RecyclerView.Adapter<AdapterSachHomeGoi
         TextView tvDaBan;
         TextView tvPhanTramGiamHome;
         ImageView imgAnhBia;
+
         public SachHomeViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenSach = itemView.findViewById(R.id.tv_tenSach);
             tvGiaSach = itemView.findViewById(R.id.tv_giaSach);
             imgAnhBia = itemView.findViewById(R.id.imageView_anh_bia);
             tvSachBanChay = itemView.findViewById(R.id.tv_sachBanChay);
-            tvDaBan = itemView.findViewById(R.id.tvDaBan);
             tvPhanTramGiamHome = itemView.findViewById(R.id.tvPhanTramGiamHome);
+            tvDaBan = itemView.findViewById(R.id.tvDaBan);
         }
     }
 

@@ -189,7 +189,7 @@
                     app:strokeWidth="1dp" />
 
                 <TextView
-                    android:id="@+id/infoOrderUser"
+                    android:id="@+id/txtInfoOrderUser"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_2sdp"

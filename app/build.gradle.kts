@@ -88,6 +88,8 @@ dependencies {
     implementation("com.kongzue.dialogx:DialogX:0.0.49")
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.2")
     implementation("org.aviran.cookiebar2:cookiebar2:1.1.5")
+    implementation("dev.shreyaspatil.MaterialDialog:MaterialDialog:2.2.3")
+    implementation("com.airbnb.android:lottie:3.3.6")
 
 
     testImplementation("junit:junit:4.13.2")

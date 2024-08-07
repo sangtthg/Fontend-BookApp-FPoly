@@ -2,6 +2,8 @@ package frontend_book_market_app.polytechnic.client.order_user.adapter;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,6 +146,10 @@ public class P3AdapterOrderItemDaGiaoHang extends RecyclerView.Adapter<P3Adapter
         private void showReviewDialog(int bookID) {
             Dialog dialog = new Dialog(itemView.getContext());
             dialog.setContentView(R.layout.dialog_review);
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
 
             RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
             EditText editTextComment = dialog.findViewById(R.id.editTextComment);

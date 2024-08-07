@@ -55,7 +55,7 @@ public class P2AdapterOrderChoVanChuyen extends RecyclerView.Adapter<P2AdapterOr
         private final TextView tvTongThanhToanItemUserOrder;
         private final TextView tvTongSanPhamItemUserOrder;
         private final TextView infoOrderUser;
-        private final Button btnThanhToanDonChoXacNhan;
+        private final Button btnThanhToanDonChoXacNhan, btnHuyThanhToanOrder;
 
 
         public OrderViewHolder(@NonNull View itemView) {
@@ -66,12 +66,15 @@ public class P2AdapterOrderChoVanChuyen extends RecyclerView.Adapter<P2AdapterOr
             tvTrangThaiThanhToan = itemView.findViewById(R.id.tvTrangThaiThanhToan);
             tvTongThanhToanItemUserOrder = itemView.findViewById(R.id.tvTongThanhToanItemUserOrder);
             tvTongSanPhamItemUserOrder = itemView.findViewById(R.id.tvTongSanPhamItemUserOrder);
-            infoOrderUser = itemView.findViewById(R.id.infoOrderUser);
+            infoOrderUser = itemView.findViewById(R.id.txtInfoOrderUser);
             btnThanhToanDonChoXacNhan = itemView.findViewById(R.id.btnThanhToanDonChoXacNhan);
+            btnHuyThanhToanOrder = itemView.findViewById(R.id.btnHuyThanhToanOrder);
 
             itemsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             orderItemAdapter = new P2AdapterOrderItemChoVanChuyen(new ArrayList<>());
             itemsRecyclerView.setAdapter(orderItemAdapter);
+
+            btnHuyThanhToanOrder.setVisibility(View.GONE);
         }
 
         public void bind(Order order) {

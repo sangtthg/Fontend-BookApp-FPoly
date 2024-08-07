@@ -1,6 +1,7 @@
 package frontend_book_market_app.polytechnic.client.order_user.adapter;
 
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
+import frontend_book_market_app.polytechnic.client.home.view.BookDetailsActivity;
 import frontend_book_market_app.polytechnic.client.order_user.model.Order;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
 
@@ -40,7 +42,7 @@ public class P4AdapterOrderDaHuy extends RecyclerView.Adapter<P4AdapterOrderDaHu
     }
 
     public void setDataOrdersUser(List<Order> orders) {
-        if (orders!=null){
+        if (orders != null) {
             this.orders = orders;
             notifyDataSetChanged();
         }
@@ -54,12 +56,13 @@ public class P4AdapterOrderDaHuy extends RecyclerView.Adapter<P4AdapterOrderDaHu
         private final TextView tvTrangThaiThanhToan;
         private final TextView tvTongThanhToanItemUserOrder;
         private final TextView tvTongSanPhamItemUserOrder;
-        private final TextView infoOrderUser;
-        private final Button btnThanhToanDonChoXacNhan;
+        private final TextView txtInfoOrderUser;
+        private final Button btnThanhToanDonChoXacNhan, btnHuyThanhToanOrder;
 
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
+
             orderIdTextView = itemView.findViewById(R.id.orderIdTextView);
             totalPriceTextView = itemView.findViewById(R.id.totalPriceTextView);
             itemsRecyclerView = itemView.findViewById(R.id.itemsRecyclerView);
@@ -67,17 +70,23 @@ public class P4AdapterOrderDaHuy extends RecyclerView.Adapter<P4AdapterOrderDaHu
             tvTongThanhToanItemUserOrder = itemView.findViewById(R.id.tvTongThanhToanItemUserOrder);
             tvTongSanPhamItemUserOrder = itemView.findViewById(R.id.tvTongSanPhamItemUserOrder);
             btnThanhToanDonChoXacNhan = itemView.findViewById(R.id.btnThanhToanDonChoXacNhan);
-            infoOrderUser = itemView.findViewById(R.id.infoOrderUser);
+            btnHuyThanhToanOrder = itemView.findViewById(R.id.btnHuyThanhToanOrder);
+            txtInfoOrderUser = itemView.findViewById(R.id.txtInfoOrderUser);
+
+            btnHuyThanhToanOrder.setVisibility(View.GONE);
+            btnThanhToanDonChoXacNhan.setVisibility(View.GONE);
+            txtInfoOrderUser.setVisibility(View.VISIBLE);
 
 
             itemsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             orderItemAdapter = new P4AdapterOrderItemDaHuy(new ArrayList<>());
             itemsRecyclerView.setAdapter(orderItemAdapter);
+
+
         }
 
         public void bind(Order order) {
-            btnThanhToanDonChoXacNhan.setText("Mua lại");
-            infoOrderUser.setText("Đơn hàng của bạn đã bị huỷ");
+            txtInfoOrderUser.setText("Đơn hàng này của bạn đã bị huỷ");
 
             orderIdTextView.setText(String.valueOf(order.getId()));
             totalPriceTextView.setText(String.valueOf(order.getTotalPrice()));
@@ -90,6 +99,8 @@ public class P4AdapterOrderDaHuy extends RecyclerView.Adapter<P4AdapterOrderDaHu
             } else {
                 orderItemAdapter.setOrderItems(new ArrayList<>());
             }
+
+
         }
 
     }

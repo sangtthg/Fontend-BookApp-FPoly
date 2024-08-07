@@ -15,14 +15,14 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.home.adapter.AdapterSachHome;
+import frontend_book_market_app.polytechnic.client.home.adapter.AdapteHomerSach;
 import frontend_book_market_app.polytechnic.client.home.model.HomeBookModel;
 
 public class AdapterBookPopupNew extends RecyclerView.Adapter<AdapterBookPopupNew.BookViewHolder> {
     private List<HomeBookModel> bookModelList;
-    private final AdapterSachHome.OnItemClickListener listener;
+    private final AdapteHomerSach.OnItemClickListener listener;
 
-    public AdapterBookPopupNew(List<HomeBookModel> bookModelList, AdapterSachHome.OnItemClickListener listener) {
+    public AdapterBookPopupNew(List<HomeBookModel> bookModelList, AdapteHomerSach.OnItemClickListener listener) {
         this.bookModelList = bookModelList;
         this.listener = listener;
     }
