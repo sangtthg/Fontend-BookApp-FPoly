@@ -78,19 +78,18 @@ public class RegisterViewModel extends ViewModel {
                         String responseBody = response.body().string();
                         JSONObject jsonObject = new JSONObject(responseBody);
                         if (jsonObject.has("data")) {
-                            JSONArray dataArray = jsonObject.getJSONArray("data");
-                            if (dataArray.length() > 0) {
-                                JSONObject dataObject = dataArray.getJSONObject(0);
-                                String otp = dataObject.getString("otp");
-                                String otpId = dataObject.getString("id"); // Lấy otp_id
-                                otpLiveData.postValue(otp); // Cập nhật giá trị OTP
-                                idotpLiveData.postValue(otpId); // Cập nhật giá trị idotp
-                                otpModel.setOtp(otp); // Cập nhật OTP vào OTPModel
-                                otpModel.setOtp_id(otpId); // Lưu idotp vào OTPModel
-                                Log.d("RegisterViewModel", "Received OTP: " + otp);
-                                Log.d("RegisterViewModel", "Received OTP ID: " + otpId);
-                            }
+                            JSONObject dataObject = jsonObject.getJSONObject("data");
+                            String otp = dataObject.getString("otp");
+                            String otpId = dataObject.getString("id");
+                            otpLiveData.postValue(otp);
+                            idotpLiveData.postValue(otpId);
+                            otpModel.setOtp(otp);
+                            otpModel.setOtp_id(otpId);
+                            Log.d("RegisterViewModel", "Received OTP: " + otp);
+                            Log.d("RegisterViewModel", "Received OTP ID: " + otpId);
                         }
+
+
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                         Log.e("RegisterViewModel", "Exception while parsing OTP response: " + e.getMessage());

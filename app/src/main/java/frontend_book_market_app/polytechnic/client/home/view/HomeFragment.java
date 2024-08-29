@@ -1,5 +1,6 @@
 package frontend_book_market_app.polytechnic.client.home.view;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,7 +32,9 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import q.rorbin.badgeview.QBadgeView;
+//import q.rorbin.badgeview.QBadgeView;
+
+import cn.bingoogolapple.badgeview.BGABadgeImageView;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapteHomerSachBanChay;
@@ -240,14 +243,23 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getCartItemCount().observe(getViewLifecycleOwner(), itemCount -> {
             Log.d("HomeFragment", "Updating badge count: " + itemCount);
-            new QBadgeView(getContext())
-                    .bindTarget(view.findViewById(R.id.btnCart))
-                    .setBadgeNumber(itemCount)
-                    .setBadgeBackgroundColor(Color.RED)
-                    .setShowShadow(false)
-                    .setBadgeTextColor(Color.WHITE)
-                    .setGravityOffset(0, -1, true)
-                    .setBadgeGravity(Gravity.END | Gravity.TOP);
+//            new QBadgeView(getContext())
+//                    .bindTarget(view.findViewById(R.id.btnCart))
+//                    .setBadgeNumber(itemCount)
+//                    .setBadgeBackgroundColor(Color.RED)
+//                    .setShowShadow(false)
+//                    .setBadgeTextColor(Color.WHITE)
+//                    .setGravityOffset(0, -1, true)
+//                    .setBadgeGravity(Gravity.END | Gravity.TOP);
+        });
+
+        homeViewModel.getCartItemCount().observe(getViewLifecycleOwner(), itemCount -> {
+            Log.d("HomeFragment", "Updating badge count: " + itemCount);
+            @SuppressLint("WrongViewCast") BGABadgeImageView badgeImageView = view.findViewById(R.id.btnCart); // Thay đổi này
+            badgeImageView.showCirclePointBadge();
+            badgeImageView.showTextBadge(String.valueOf(itemCount));
+            badgeImageView.getBadgeViewHelper().setBadgeBgColorInt(Color.RED);
+            badgeImageView.getBadgeViewHelper().setBadgeTextColorInt(Color.WHITE);
         });
 
         view.findViewById(R.id.btnCart).setOnClickListener(v -> {

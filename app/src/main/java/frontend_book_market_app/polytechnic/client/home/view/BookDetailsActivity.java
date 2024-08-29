@@ -1,5 +1,6 @@
 package frontend_book_market_app.polytechnic.client.home.view;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -29,7 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import q.rorbin.badgeview.QBadgeView;
+//import q.rorbin.badgeview.QBadgeView;
+import cn.bingoogolapple.badgeview.BGABadgeImageView;
+
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapterBookDetail;
 import frontend_book_market_app.polytechnic.client.home.model.DetailBookResponse;
@@ -79,19 +82,25 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.fetchBookDetail(bookID);
+//        homeViewModel.getCartItemCount().observe(this, itemCount -> {
+//            Log.d("BookDetailsActivity", "Updating badge count: " + itemCount);
+////            new QBadgeView(this)
+////                    .bindTarget(findViewById(R.id.btnCart))
+////                    .setBadgeNumber(itemCount)
+////                    .setBadgeBackgroundColor(Color.RED)
+////                    .setBadgeTextColor(Color.WHITE)
+////                    .setGravityOffset(-2, -1, true)
+////                    .setBadgeGravity(Gravity.END | Gravity.TOP);
+//        });
+
         homeViewModel.getCartItemCount().observe(this, itemCount -> {
-            Log.d("BookDetailsActivity", "Updating badge count: " + itemCount);
-            new QBadgeView(this)
-                    .bindTarget(findViewById(R.id.btnCart))
-                    .setBadgeNumber(itemCount)
-                    .setBadgeBackgroundColor(Color.RED)
-                    .setBadgeTextColor(Color.WHITE)
-                    .setGravityOffset(-2, -1, true)
-                    .setBadgeGravity(Gravity.END | Gravity.TOP);
+            Log.d("BookDetailsActivity", "Updating badge count: " + itemCount); // Debug log
+            @SuppressLint("WrongViewCast") BGABadgeImageView badgeImageView = findViewById(R.id.btnCart); // Thay đổi này
+            badgeImageView.showCirclePointBadge();
+            badgeImageView.showTextBadge(String.valueOf(itemCount));
+            badgeImageView.getBadgeViewHelper().setBadgeBgColorInt(Color.RED);
+            badgeImageView.getBadgeViewHelper().setBadgeTextColorInt(Color.WHITE);
         });
-
-
-
         homeViewModel.getDetailBook().observe(this, new Observer<DetailBookResponse>() {
             @Override
             public void onChanged(DetailBookResponse detailBookResponse) {

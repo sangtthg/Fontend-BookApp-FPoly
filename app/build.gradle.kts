@@ -37,9 +37,13 @@ android {
     sourceSets {
         getByName("main") {
             res {
-                srcDirs("src\\main\\res", "src\\main\\res\\layouts\\home",
+                srcDirs(
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\profile", "src\\main\\res", "src\\main\\res\\layouts\\book_details"
+                    "src\\main\\res\\layouts\\home",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\profile",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\book_details"
                 )
             }
         }
@@ -48,19 +52,21 @@ android {
 
 dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
-    implementation ("androidx.recyclerview:recyclerview:1.2.1") // Cập nhật phiên bản nếu cần
+    implementation("androidx.recyclerview:recyclerview:1.2.1") // Cập nhật phiên bản nếu cần
 
 
-    implementation ("com.squareup.picasso:picasso:2.71828")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.1")
-    implementation ("androidx.lifecycle:lifecycle-livedata:2.6.1")
-    implementation ("androidx.lifecycle:lifecycle-runtime:2.6.1")
+    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime:2.6.1")
     implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.activity:activity:1.9.0")
-    implementation("com.chaos.view:pinview:1.4.4")
+    implementation("io.github.chaosleung:pinview:1.4.4")
+    implementation("cn.bingoogolapple:bga-badgeview:1.1.3")
+
     implementation("io.socket:socket.io-client:2.0.0")
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-analytics")
@@ -81,7 +87,7 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("q.rorbin:badgeview:1.1.3")
+
     implementation("com.github.travijuu:numberpicker:1.0.7")
     implementation("com.github.colourmoon:readmore-textview:v1.0.2")
     implementation("com.apachat:swipereveallayout-android:1.1.2")
@@ -95,4 +101,8 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+
+    //    implementation("com.chaos.view:pinview:1.4.4")
+    //    implementation("q.rorbin:badgeview:1.1.3")
+
 }
