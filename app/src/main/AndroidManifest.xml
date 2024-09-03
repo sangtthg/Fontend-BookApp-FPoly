@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Fontend_BookApp_FPoly"
         tools:targetApi="31">
         <activity
+            android:name=".home.view.BookImageActivity"
+            android:exported="false" />
+        <activity
             android:name=".coupon.view.ChiTietCouponActivity"
             android:exported="false" />
         <activity

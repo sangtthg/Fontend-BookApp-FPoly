@@ -2,6 +2,7 @@ package frontend_book_market_app.polytechnic.client.home.adapter;
 
 import static frontend_book_market_app.polytechnic.client.core.MyApp.getContext;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import java.util.List;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.model.DetailBookResponse;
 import frontend_book_market_app.polytechnic.client.home.model.ReviewResponse;
+import frontend_book_market_app.polytechnic.client.home.view.BookImageActivity;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
 import frontend_book_market_app.polytechnic.client.utils.DateUtils;
 
@@ -123,6 +125,14 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                         .error(R.drawable.ic_error_photo)
                         .centerCrop()
                         .into(book_image_detail);
+
+                tvDaBan.setOnClickListener(v -> {
+                    Intent intent = new Intent(itemView.getContext(), BookImageActivity.class);
+                    intent.putExtra("bookID", data.getBookId());
+                    itemView.getContext().startActivity(intent);
+                });
+
+
             } else {
                 tvBookTitleDetaill.setText("Null");
                 tvGiaSachCu.setText("Null");

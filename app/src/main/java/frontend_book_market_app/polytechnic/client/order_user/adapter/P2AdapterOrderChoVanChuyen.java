@@ -93,6 +93,7 @@ public class P2AdapterOrderChoVanChuyen extends RecyclerView.Adapter<P2AdapterOr
                 orderItemAdapter.setOrderItems(order.getItems());
             } else {
                 orderItemAdapter.setOrderItems(new ArrayList<>());
+
             }
         }
 

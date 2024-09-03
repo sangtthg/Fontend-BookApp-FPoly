@@ -1,5 +1,7 @@
 package frontend_book_market_app.polytechnic.client.home.network;
 
+import frontend_book_market_app.polytechnic.client.home.model.ImageRequest;
+import frontend_book_market_app.polytechnic.client.home.model.ImageResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import frontend_book_market_app.polytechnic.client.core.RetrofitManager;
@@ -78,6 +80,11 @@ public class RepositoryHome {
 
     public void submitReview(ReviewRequest reviewRequest, Callback<ReviewResponse> callback) {
         Call<ReviewResponse> call = apiService.submitReview(reviewRequest);
+        call.enqueue(callback);
+    }
+
+    public void fetchImages(int bookId, Callback<ImageResponse> callback) {
+        Call<ImageResponse> call = apiService.getImages(new ImageRequest(1, 10, new ImageRequest.Query(bookId)));
         call.enqueue(callback);
     }
 

@@ -1,5 +1,7 @@
 package frontend_book_market_app.polytechnic.client.home.network;
 
+import frontend_book_market_app.polytechnic.client.home.model.ImageRequest;
+import frontend_book_market_app.polytechnic.client.home.model.ImageResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -58,6 +60,9 @@ public interface ApiServiceHome {
 
     @POST("reviews")
     Call<ReviewResponse> submitReview(@Body ReviewRequest reviewRequest);
+
+    @POST("api/avatar_reviews/get")
+    Call<ImageResponse> getImages(@Body ImageRequest imageRequest);
 
 
 }
