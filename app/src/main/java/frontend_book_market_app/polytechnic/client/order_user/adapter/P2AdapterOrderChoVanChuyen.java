@@ -1,6 +1,7 @@
 package frontend_book_market_app.polytechnic.client.order_user.adapter;
 
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +80,8 @@ public class P2AdapterOrderChoVanChuyen extends RecyclerView.Adapter<P2AdapterOr
 
         public void bind(Order order) {
             infoOrderUser.setText("Vui lòng chỉ nhấn 'Đã nhận được hàng' khi đơn hàng đã được giao dến bạn và sản phẩm nhận được không vấn đề gì");
-            btnThanhToanDonChoXacNhan.setText("Đã nhận được hàng");
+            btnThanhToanDonChoXacNhan.setText("Đơn hàng đang trên đường giao tới bạn");
+            btnThanhToanDonChoXacNhan.setVisibility(View.GONE);
 
             orderIdTextView.setText(String.valueOf(order.getId()));
             totalPriceTextView.setText(String.valueOf(order.getTotalPrice()));
