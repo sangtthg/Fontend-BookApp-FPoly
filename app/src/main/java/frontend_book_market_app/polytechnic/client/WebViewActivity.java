@@ -1,6 +1,7 @@
 package frontend_book_market_app.polytechnic.client;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -37,6 +38,8 @@ public class WebViewActivity extends AppCompatActivity {
         if (url != null) {
             webView.loadUrl(url);
         }
+        Log.d("WebViewActivity", "Loading URL: " + url);
+
     }
 
     private class CustomWebViewClient extends WebViewClient {

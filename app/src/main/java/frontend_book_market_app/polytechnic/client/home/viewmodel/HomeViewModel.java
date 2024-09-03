@@ -406,32 +406,58 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    public void payOrder(Context context, int orderID) {
+    public void payOrder(Context context, int orderID, String discountCode, String token) {
         Toast.makeText(context, "Chuẩn bị tiến hành thanh toán...", Toast.LENGTH_LONG).show();
-        int id = (orderID == -1) ? idOrder.getValue() : orderID;
-        PayOrderRequest payOrderRequest = new PayOrderRequest(id);
 
+        if (token.isEmpty()) {
+            Toast.makeText(context, "Token không hợp lệ, không thể thanh toán!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Xác định ID đơn hàng
+        int id = (orderID == -1) ? idOrder.getValue() : orderID;
+
+        // Tạo đối tượng yêu cầu thanh toán
+        PayOrderRequest payOrderRequest = new PayOrderRequest(id, discountCode, token);
+
+        // Ghi log thông tin yêu cầu
+        Log.d("HomeViewModel", "Sending PayOrderRequest with ID: " + id + " and DiscountCode: " + discountCode);
+        Log.d("HomeViewModel", "PayOrderRequest: ID=" + id + ", DiscountCode=" + discountCode + ", Token=" + token);
+
+        // Gửi yêu cầu thanh toán
         repositoryHome.payOrder(payOrderRequest, new Callback<PayOrderResponse>() {
             @Override
             public void onResponse(Call<PayOrderResponse> call, Response<PayOrderResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    // Lấy URL thanh toán từ phản hồi
                     String payUrl = response.body().getPayUrl();
-                    Intent intent = new Intent(context, WebViewActivity.class);
-                    intent.putExtra("url", payUrl);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+
+                    // Ghi log thông tin phản hồi
+                    Log.d("HomeViewModel", "Payment URL: " + payUrl);
+
+                    // Mở WebViewActivity với URL thanh toán
+                    if (payUrl != null && !payUrl.isEmpty()) {
+                        Intent intent = new Intent(context, WebViewActivity.class);
+                        intent.putExtra("url", payUrl);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    } else {
+                        Log.e("HomeViewModel", "Invalid payment URL received");
+                    }
                 } else {
-                    Log.e(NAME, "Payment failed");
+                    // Ghi log lỗi nếu thanh toán không thành công
+                    String errorMessage = response.errorBody() != null ? response.errorBody().toString() : "Unknown error";
+                    Log.e("HomeViewModel", "Payment failed: " + response.message() + ", Error Body: " + errorMessage);
                 }
             }
 
             @Override
             public void onFailure(Call<PayOrderResponse> call, Throwable t) {
-                Log.e(NAME, "Error during payment: " + t.getMessage());
+                // Ghi log lỗi nếu có lỗi trong quá trình thanh toán
+                Log.e("HomeViewModel", "Error during payment: " + t.getMessage());
             }
         });
     }
-
 
 
     private AddressModel getDefaultAddress() {

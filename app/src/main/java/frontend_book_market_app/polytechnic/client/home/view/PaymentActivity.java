@@ -1,12 +1,18 @@
 package frontend_book_market_app.polytechnic.client.home.view;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +24,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.model.AddressModel;
+import frontend_book_market_app.polytechnic.client.coupon.view.CouponActivity;
 import frontend_book_market_app.polytechnic.client.home.adapter.PaymentItemAdapter;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
@@ -33,19 +41,20 @@ public class PaymentActivity extends AppCompatActivity {
     private HomeViewModel homeViewModel;
     private RecyclerView recyclerViewPaymentItem;
     private SkeletonAdapter skeletonAdapter;
-    private LinearLayout layout2, layout3;
-    private TextView tvGiaShip, tvTongPhu, tvTongVanChuyen, tvTongCong, tvTongSoTien, tvNhanHang, tvTenNguoiDungOrder, tvSDTNguoiDungOrder, tvDiaChiOrderChiTiet;
-
+    private LinearLayout layout2, layout3, layoutCoupon;
+    private TextView chonCoupon, tvGiaShip, tvTongPhu, tvTongVanChuyen, tvTongCong, tvTongSoTien, tvNhanHang, tvTenNguoiDungOrder, tvSDTNguoiDungOrder, tvDiaChiOrderChiTiet;
+    private double totalPrice = 0.0;
     String soDienThoai;
     String diaChi;
+    private static final int COUPON_REQUEST_CODE = 100; // Define a unique request code
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
         setContentView(R.layout.activity_payment);
         tvSDTNguoiDungOrder = findViewById(R.id.tvSDTNguoiDungOrder);
         tvDiaChiOrderChiTiet = findViewById(R.id.tvDiaChiOrderChiTiet);
@@ -73,16 +82,24 @@ public class PaymentActivity extends AppCompatActivity {
         hidenLayout();
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.fetchOrderByCartID(selectedCartItemIds);
+        chonCoupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PaymentActivity.this, CouponActivity.class);
+                startActivityForResult(intent, COUPON_REQUEST_CODE);
+            }
+        });
+
         homeViewModel.getOrderResponseLiveData().observe(this, orderResponse -> {
             if (orderResponse != null) {
                 recyclerViewPaymentItem.setAdapter(new PaymentItemAdapter(orderResponse.getItems()));
                 layout2.setVisibility(View.VISIBLE);
                 layout3.setVisibility(View.VISIBLE);
                 double shippingFee = orderResponse.getShippingFee();
-                double totalPrice = orderResponse.getTotalPrice();
+                totalPrice = orderResponse.getTotalPrice(); // Cập nhật biến toàn cục
                 tvNhanHang.setText(orderResponse.getDeliveryDateText());
                 double totalPriceExcludingShipping = totalPrice - shippingFee;
-
+                Log.d("PaymentActivity", "TauTau: " + totalPrice);
                 tvGiaShip.setText(CurrencyFormatter.toVND(String.valueOf(shippingFee)));
                 tvTongPhu.setText(CurrencyFormatter.toVND(String.valueOf(totalPriceExcludingShipping)));
                 tvTongVanChuyen.setText(CurrencyFormatter.toVND(String.valueOf(shippingFee)));
@@ -97,16 +114,41 @@ public class PaymentActivity extends AppCompatActivity {
     private void hidenLayout() {
         layout2 = findViewById(R.id.layout2);
         layout3 = findViewById(R.id.layout3);
-
+        layoutCoupon = findViewById(R.id.layoutCoupon);
         layout2.setVisibility(View.GONE);
         layout3.setVisibility(View.GONE);
     }
 
     private void initItemClick() {
-        findViewById(R.id.btnDatHang).setOnClickListener(v -> homeViewModel.payOrder(getApplicationContext(), -1));
+        findViewById(R.id.btnDatHang).setOnClickListener(v -> {
+            // Lấy mã giảm giá từ TextView
+            String couponCode = chonCoupon.getText().toString().equals("Chọn hoặc nhập mã >") ? "" : chonCoupon.getText().toString();
+
+            // Lấy token hiện tại từ SharedPreferences
+            SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(getApplicationContext());
+            String token = sharedPreferencesHelper.getToken();
+
+            // Log thông tin mã giảm giá và token
+            Log.d("PaymentActivity", "Coupon Code: " + couponCode);
+            Log.d("khiAnDâtHang", "Token: " + token);
+
+            // Kiểm tra xem token có hợp lệ không
+            if (token.isEmpty()) {
+                Toast.makeText(PaymentActivity.this, "Token không hợp lệ, không thể thanh toán!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Gọi phương thức payOrder với mã giảm giá và token hiện tại
+            homeViewModel.payOrder(getApplicationContext(), -1, couponCode, token);
+
+            // Log thông tin về yêu cầu thanh toán
+            Log.d("PaymentActivity", "Calling payOrder with orderId: -1 and couponCode: " + couponCode);
+        });
 
         findViewById(R.id.backDetailButton).setOnClickListener(v -> finish());
     }
+
+
 
     private void initRecyclerView(Context context) {
         recyclerViewPaymentItem.setLayoutManager(new LinearLayoutManager(context));
@@ -115,7 +157,7 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void initView() {
-
+        chonCoupon = findViewById(R.id.chonCoupon);
         tvGiaShip = findViewById(R.id.tvGiaShip);
         tvTongPhu = findViewById(R.id.tvTongPhu);
         tvTongVanChuyen = findViewById(R.id.tvTongvanChuyen);
@@ -155,6 +197,50 @@ public class PaymentActivity extends AppCompatActivity {
         }
         return phoneNumber;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == COUPON_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            int couponId = data.getIntExtra("couponId", -1);
+            String couponCode = data.getStringExtra("couponCode");
+            double couponDiscount = data.getDoubleExtra("couponDiscount", 0.0);
+
+            // Tính toán giá cuối cùng
+            double finalPrice = totalPrice - couponDiscount;
+
+            // Log thông tin giảm giá và giá cuối cùng
+            Log.d("PaymentActivity", "Coupon ID: " + couponId);
+            Log.d("PaymentActivity", "Coupon Code: " + couponCode);
+            Log.d("PaymentActivity", "Coupon Discount: " + couponDiscount);
+            Log.d("PaymentActivity", "Total Price: " + totalPrice);
+            Log.d("PaymentActivity", "Final Price: " + finalPrice);
+
+            // Cập nhật giao diện với giá cuối cùng
+            tvTongCong.setText(CurrencyFormatter.toVND(String.valueOf(finalPrice)));
+            tvTongSoTien.setText(CurrencyFormatter.toVND(String.valueOf(finalPrice)));
+
+            // Cập nhật TextView chonCoupon với mã giảm giá
+            if (couponCode != null && !couponCode.isEmpty()) {
+                chonCoupon.setText(couponCode);
+                chonCoupon.setTextColor(Color.RED);
+                chonCoupon.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20); // Adjust size as needed
+                chonCoupon.setTypeface(null, Typeface.BOLD);
+                chonCoupon.setAlpha(1.0f); // Fully opaque
+            } else {
+                // Reset to default text if no coupon code is applied
+                chonCoupon.setText("Chọn hoặc nhập mã >");
+                chonCoupon.setTextColor(Color.parseColor("#888888"));
+                chonCoupon.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                chonCoupon.setTypeface(null, Typeface.NORMAL);
+                chonCoupon.setAlpha(0.5f); // Semi-transparent
+            }
+        }
+    }
+
+
+
 
 
 }

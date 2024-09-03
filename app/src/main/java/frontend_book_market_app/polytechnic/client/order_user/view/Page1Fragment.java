@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import frontend_book_market_app.polytechnic.client.order_user.adapter.P1AdapterO
 import frontend_book_market_app.polytechnic.client.order_user.model.Order;
 import frontend_book_market_app.polytechnic.client.order_user.model.OrderUserResponse;
 import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
+import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 
 
@@ -35,6 +37,7 @@ public class Page1Fragment extends Fragment {
     private P1AdapterOrderChuaThanhToan adapter;
     private HomeViewModel homeViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private String discountCode = ""; // Initialize to an empty string or a default value
 
 
     @Nullable
@@ -64,7 +67,13 @@ public class Page1Fragment extends Fragment {
         adapter = new P1AdapterOrderChuaThanhToan(new P1AdapterOrderChuaThanhToan.OnItemClickListener() {
             @Override
             public void thanhToanDonHang(Order order) {
-                homeViewModel.payOrder(getContext(), order.getId());
+                String token = getToken(); // Lấy token
+                if (token.isEmpty()) {
+                    // Xử lý trường hợp không có token
+                    Toast.makeText(getContext(), "Token không hợp lệ, không thể thanh toán!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                homeViewModel.payOrder(getContext(), order.getId(), discountCode != null ? discountCode : "", token);
             }
 
             @Override
@@ -121,5 +130,9 @@ public class Page1Fragment extends Fragment {
         super.onResume();
     }
 
+    private String getToken() {
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(getContext());
+        return sharedPreferencesHelper.getToken();
+    }
 
 }

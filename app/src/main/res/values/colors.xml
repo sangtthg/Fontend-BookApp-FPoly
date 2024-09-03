@@ -6,7 +6,7 @@
     <color name="app_red">#FFF42C2C</color>
     <color name="backgroundColor">#fafafa</color>
     <color name="skeleton_background">#E0E0E0</color>
-
+    <color name="colorRedLight">#ff8d95</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -14,14 +14,24 @@
     <color name="teal_700">#FF018786</color>
     <color name="lavender">#8692f7</color>
     <color name="grey">#808080</color>
-
+    <color name="gray_light">#D3D3D3</color>
+    <color name="checked_color">#FF0000</color> <!-- Example: Red -->
+    <!-- Define the color for unchecked state -->
+    <color name="unchecked_color">#FFFFFF</color> <!-- Example: White -->
+    <!-- Define the stroke color -->
+    <color name="grayColor">#CCCCCC</color> <!-- Example: Light Gray -->
+    <color name="colorAccent">#FF4081</color>
+    <color name="track_color">#d3d3d3</color>
+    <color name="progress_color">#4caf50</color>
     <color name="black">#FF000000</color>
+    <color name="checkbox_checked_color">#FF0000</color> <!-- Example: Red -->
+    <!-- Define the color for unchecked state -->
+    <color name="checkbox_unchecked_color">#CCCCCC</color> <!-- Example: Light Gray -->
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#FFFF4081</color>
     <color name="scaffoldColorDark">#FF090909</color>
     <color name="scaffoldSecondaryDark">#FF1E1E1E</color>
     <color name="appButtonColorDark">#FF282828</color>
-    <color name="grayColor">#FF757575</color>
     <color name="app_grey_DADADA">#FFDADADA</color>
     <color name="app_grey_F4F4F4">#FFF4F4F4</color>
     <color name="app_grey_E5E5E5">#FFE5E5E5</color>
