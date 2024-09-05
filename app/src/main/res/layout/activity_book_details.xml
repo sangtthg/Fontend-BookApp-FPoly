@@ -42,11 +42,20 @@
                     android:queryBackground="@android:color/transparent"
                     android:queryHint="Sách hay hằng ngày..." />
 
+
+                <ImageButton
+                    android:id="@+id/btnDocThu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/book" />
+
                 <ImageButton
                     android:id="@+id/btnListen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:background="@color/transparent"
                     android:src="@drawable/ic_listen" />

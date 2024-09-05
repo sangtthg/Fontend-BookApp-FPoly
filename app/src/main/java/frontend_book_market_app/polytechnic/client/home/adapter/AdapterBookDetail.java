@@ -126,11 +126,11 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                         .centerCrop()
                         .into(book_image_detail);
 
-                tvDaBan.setOnClickListener(v -> {
-                    Intent intent = new Intent(itemView.getContext(), BookImageActivity.class);
-                    intent.putExtra("bookID", data.getBookId());
-                    itemView.getContext().startActivity(intent);
-                });
+//                tvDaBan.setOnClickListener(v -> {
+//                    Intent intent = new Intent(itemView.getContext(), BookImageActivity.class);
+//                    intent.putExtra("bookID", data.getBookId());
+//                    itemView.getContext().startActivity(intent);
+//                });
 
 
             } else {

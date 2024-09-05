@@ -200,6 +200,15 @@ public class BookDetailsActivity extends AppCompatActivity {
             }
         });
 
+
+        ImageButton btnDocThu = findViewById(R.id.btnDocThu);
+        btnDocThu.setOnClickListener(v -> {
+            int bookId = getIntent().getIntExtra("bookID", -1);
+            Intent intent = new Intent(BookDetailsActivity.this, BookImageActivity.class);
+            intent.putExtra("bookID", bookId);
+            startActivity(intent);
+        });
+
         findViewById(R.id.btnCart).setOnClickListener(v -> {
             Intent intent = new Intent(BookDetailsActivity.this, CartActivity.class);
             startActivity(intent);
