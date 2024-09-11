@@ -1,45 +1,36 @@
 package frontend_book_market_app.polytechnic.client.profile.model;
 
 public class ProfileModel {
-    private int userId;
+    private int user_id;
     private String username;
     private String email;
     private String avatar;
-    private String authToken;
-    private String resetCode;
-    private int userStatus;
+    private String auth_token;
+    private String reset_code;
+    private int user_status;
     private String role;
     private String token;
     private String default_address;
 
-    public ProfileModel(int userId, String username, String email, String avatar, String authToken, String resetCode, int userStatus, String role, String token, String default_address) {
-        this.userId = userId;
+    public ProfileModel(int user_id, String username, String email, String avatar, String auth_token, String reset_code, int user_status, String role, String token, String default_address) {
+        this.user_id = user_id;
         this.username = username;
         this.email = email;
         this.avatar = avatar;
-        this.authToken = authToken;
-        this.resetCode = resetCode;
-        this.userStatus = userStatus;
+        this.auth_token = auth_token;
+        this.reset_code = reset_code;
+        this.user_status = user_status;
         this.role = role;
         this.token = token;
         this.default_address = default_address;
     }
 
-    public String getDefault_address() {
-        return default_address;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setDefault_address(String default_address) {
-        this.default_address = default_address;
-    }
-
-    // Getters and Setters
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getUsername() {
@@ -66,28 +57,28 @@ public class ProfileModel {
         this.avatar = avatar;
     }
 
-    public String getAuthToken() {
-        return authToken;
+    public String getAuth_token() {
+        return auth_token;
     }
 
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
+    public void setAuth_token(String auth_token) {
+        this.auth_token = auth_token;
     }
 
-    public String getResetCode() {
-        return resetCode;
+    public String getReset_code() {
+        return reset_code;
     }
 
-    public void setResetCode(String resetCode) {
-        this.resetCode = resetCode;
+    public void setReset_code(String reset_code) {
+        this.reset_code = reset_code;
     }
 
-    public int getUserStatus() {
-        return userStatus;
+    public int getUser_status() {
+        return user_status;
     }
 
-    public void setUserStatus(int userStatus) {
-        this.userStatus = userStatus;
+    public void setUser_status(int user_status) {
+        this.user_status = user_status;
     }
 
     public String getRole() {
@@ -104,5 +95,13 @@ public class ProfileModel {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getDefault_address() {
+        return default_address;
+    }
+
+    public void setDefault_address(String default_address) {
+        this.default_address = default_address;
     }
 }

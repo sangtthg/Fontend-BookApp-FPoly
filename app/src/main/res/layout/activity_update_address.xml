@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroundColor"
+    tools:context=".profile.view.UpdateAddressActivity">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#aa0116"
+        android:elevation="4dp"
+        android:paddingTop="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_14sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btnBackUpdateAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/display_bold"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:paddingEnd="@dimen/_30sdp"
+                android:text="Cập nhật địa chỉ"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18ssp" />
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- ScrollView for content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Full Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtFullNameLabelUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="Họ và tên"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/_15ssp" />
+
+                <EditText
+                    android:id="@+id/edtFullNameUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_edittext"
+                    android:fontFamily="@font/font_family"
+                    android:hint="Nhập họ và tên"
+                    android:padding="12dp" />
+            </LinearLayout>
+
+            <!-- Phone Number -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtPhoneNumberLabelUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="Số điện thoại"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/_15ssp" />
+
+                <EditText
+                    android:id="@+id/edtPhoneNumberUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_edittext"
+                    android:fontFamily="@font/font_family"
+                    android:hint="Nhập số điện thoại"
+                    android:inputType="phone"
+                    android:padding="12dp" />
+            </LinearLayout>
+
+            <!-- Delivery Address -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtDeliveryAddressLabelUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="Địa chỉ nhận hàng"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/_15ssp" />
+
+                <EditText
+                    android:id="@+id/edtDeliveryAddressUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_edittext"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:fontFamily="@font/font_family"
+                    android:hint="Nhập địa chỉ nhận hàng"
+                    android:padding="12dp" />
+
+                <EditText
+                    android:id="@+id/edtStreetNameUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/rounded_edittext"
+                    android:fontFamily="@font/font_family"
+                    android:hint="Tên đường, số nhà, tòa nhà"
+                    android:padding="12dp" />
+            </LinearLayout>
+
+            <!-- Address Type -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtAddressTypeLabelUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="Loại địa chỉ"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/_15ssp" />
+
+                <Spinner
+                    android:id="@+id/spinnerAddressTypeUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_background"
+                    android:entries="@array/address_type_options"
+                    android:padding="12dp" />
+            </LinearLayout>
+
+            <!-- Default Address Toggle -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/txtDefaultAddressUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="Đặt làm địa chỉ mặc định"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/_15ssp" />
+
+                <Switch
+                    android:id="@+id/switchDefaultAddressUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:padding="8dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- Save Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSaveAddressUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16sdp"
+        android:backgroundTint="#aa0116"
+        android:text="Cập nhật Địa Chỉ"
+        android:textColor="@android:color/white"
+        app:cornerRadius="8dp"
+        app:iconGravity="textStart" />
+</LinearLayout>

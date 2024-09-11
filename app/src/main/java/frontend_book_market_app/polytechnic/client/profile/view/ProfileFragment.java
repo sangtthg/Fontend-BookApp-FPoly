@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
+import frontend_book_market_app.polytechnic.client.profile.adapter.AdapterProfile;
 import frontend_book_market_app.polytechnic.client.profile.model.ProfileModel;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.ProfileViewModel;
 import frontend_book_market_app.polytechnic.client.setting.view.SettingActivity;
@@ -33,13 +34,13 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         moreMenuNotification = view.findViewById(R.id.moreMenuNotification);
-        moreMenuNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SettingActivity.class);
-                startActivity(intent);
-            }
-        });
+//        moreMenuNotification.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), SettingActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         sharedPreferencesHelper = new SharedPreferencesHelper(getContext());
         List<ProfileModel> profileList = new ArrayList<>();

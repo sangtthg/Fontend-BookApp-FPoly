@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <!-- Ảnh bo tròn -->
+    <!-- Profile Picture -->
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,73 +16,46 @@
             android:id="@+id/imgAvatar"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:layout_gravity="center"
             android:src="@drawable/avatar"
-            android:layout_gravity="center"/>
+            app:civ_border_color="@color/colorRedM"
+            app:civ_border_width="2dp" />
 
         <ImageView
             android:id="@+id/imgChangeAvatar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_gravity="bottom|end"
-            android:layout_margin="4dp"
+            android:layout_margin="8dp"
             android:background="@drawable/circle_background2"
-            android:padding="4dp"
+            android:padding="6dp"
             android:scaleType="centerInside"
-            android:src="@drawable/baseline_add_photo_alternate_24"/>
+            android:src="@drawable/baseline_add_photo_alternate_24" />
     </FrameLayout>
 
-    <!-- Đơn hàng của tôi -->
-    <LinearLayout
-        android:id="@+id/linearLayoutDonHangCuaToi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:visibility="gone">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_delivery1"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Đơn hàng của tôi"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
-    </LinearLayout>
 
     <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:background="#DCDCDC"/>
+        android:background="#DCDCDC" />
 
-    <!-- Tên người dùng -->
+    <!-- User Name -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         android:padding="12dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_drive_file_rename_outline_24"/>
+            android:src="@drawable/baseline_drive_file_rename_outline_24" />
 
         <TextView
             android:layout_width="0dp"
@@ -92,91 +64,84 @@
             android:gravity="center_vertical"
             android:text="Tên người dùng"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtTenNguoiDung"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="4dp"
             android:text="duongtien"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
+
+<!--    &lt;!&ndash; Divider &ndash;&gt;-->
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+        android:background="#DCDCDC" />
+
+<!--    &lt;!&ndash; Phone Number &ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:background="?android:attr/selectableItemBackground"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="12dp">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:src="@drawable/baseline_phone_in_talk_24" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:text="Số điện thoại"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/txtSoDienThoai"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="4dp"-->
+<!--            android:text="0123456789"-->
+<!--            android:textSize="16sp" />-->
+<!--    </LinearLayout>-->
 
     <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:background="#DCDCDC"/>
-
-    <!-- Số điện thoại -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:orientation="horizontal"
-        android:padding="12dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_phone_in_talk_24"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Số điện thoại"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/txtSoDienThoai"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="4dp"
-            android:text="840000000"
-            android:textSize="16sp"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
-    </LinearLayout>
-
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="8dp"
-        android:background="#DCDCDC"/>
+        android:background="#DCDCDC" />
 
     <!-- Email -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         android:padding="12dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_mail_outline_24"/>
+            android:src="@drawable/baseline_mail_outline_24" />
 
         <TextView
             android:layout_width="0dp"
@@ -185,8 +150,7 @@
             android:gravity="center_vertical"
             android:text="Email"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtEmail"
@@ -197,13 +161,7 @@
             android:maxLines="1"
             android:padding="4dp"
             android:text="duongtien@gmail.com"
-            android:textSize="16sp"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
     <!-- Divider -->
@@ -211,49 +169,38 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:background="#DCDCDC"/>
+        android:background="#DCDCDC" />
 
-    <!-- Địa chỉ -->
+    <!-- Address -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         android:padding="12dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_directions_24"/>
+            android:src="@drawable/baseline_directions_24" />
 
         <TextView
+            android:id="@+id/txtDiaChi"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="Địa chỉ"
+            android:text="Quản lý địa chỉ"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/txtDiaChi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="4dp"
-            android:text="Hải Dương"
-            android:textSize="16sp"/>
-
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
+            android:src="@drawable/baseline_keyboard_arrow_right_24" />
     </LinearLayout>
 
     <!-- Divider -->
@@ -261,23 +208,25 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:background="#DCDCDC"/>
+        android:background="#DCDCDC" />
 
-    <!-- Thay đổi mật khẩu -->
+    <!-- Change Password -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         android:padding="12dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_password_24"/>
+            android:src="@drawable/baseline_password_24" />
 
         <TextView
+
             android:id="@+id/txtDoiMatKhau"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -285,21 +234,52 @@
             android:gravity="center_vertical"
             android:text="Thay đổi mật khẩu"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_keyboard_arrow_right_24"/>
+            android:src="@drawable/baseline_keyboard_arrow_right_24" />
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogoutProfile"
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:background="#DCDCDC" />
+
+    <!-- Logout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Đăng xuất"
-        android:textColor="@android:color/white"
-        app:backgroundTint="@color/colorRedM" />
+        android:layout_marginBottom="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/baseline_logout_24" />
+
+        <TextView
+            android:id="@+id/btnLogoutProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Đăng xuất"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24" />
+    </LinearLayout>
+
 </LinearLayout>

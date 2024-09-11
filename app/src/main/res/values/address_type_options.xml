@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Other string resources -->
+
+    <string-array name="address_type_options">
+        <item>Nhà</item>
+        <item>Văn phòng</item>
+        <item>Khác</item>
+    </string-array>
+</resources>

@@ -4,11 +4,16 @@ import java.util.List;
 
 public class OrderRequest {
     private List<Integer> listCart;
+    private String name;
     private String address;
     private String phone;
 
-    public OrderRequest(List<Integer> listCart, String address, String phone) {
+    public OrderRequest() {
+    }
+
+    public OrderRequest(List<Integer> listCart, String name, String address, String phone) {
         this.listCart = listCart;
+        this.name = name;
         this.address = address;
         this.phone = phone;
     }
@@ -19,6 +24,15 @@ public class OrderRequest {
 
     public void setListCart(List<Integer> listCart) {
         this.listCart = listCart;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {

@@ -10,10 +10,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/item_selector"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="@drawable/item_selector"> <!-- Sử dụng drawable selector cho hiệu ứng khi chạm -->
+        android:padding="8dp"> <!-- Sử dụng drawable selector cho hiệu ứng khi chạm -->
 
         <ImageView
             android:id="@+id/imageViewBookSearch"
@@ -24,17 +24,61 @@
             android:padding="4dp"
             android:src="@drawable/icons8_search" />
 
-        <TextView
-            android:id="@+id/textViewBookSearch"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/ralewaym"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:text="Sách thiếu nhi"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:paddingStart="8dp">
+
+            <TextView
+                android:id="@+id/textViewBookSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ralewaym"
+                android:gravity="center_vertical"
+                android:text="Sách thiếu nhi"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewBookPrice2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/ralewaym"
+                android:gravity="center_vertical"
+                android:text="Giá: 100,000đ"
+                android:textColor="#E91E63"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:textAlignment="inherit"
+                android:textSize="@dimen/_12sdp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/text_regular"
+                    android:text="Đã bán"
+                    android:textColor="#757575"
+                    android:textSize="@dimen/_9ssp" />
+
+                <TextView
+                    android:id="@+id/txtDaBan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/text_medium"
+                    android:text="106"
+                    android:textColor="#757575"
+                    android:textSize="@dimen/_9ssp" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

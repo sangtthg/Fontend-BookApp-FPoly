@@ -40,7 +40,6 @@ public class HomeBookModel {
     private int discountPercentage;
 
 
-
     public int getBookId() {
         return bookId;
     }
@@ -131,6 +130,28 @@ public class HomeBookModel {
 
     public int getDiscountPercentage() {
         return discountPercentage;
+    }
+
+    public void setDiscountPercentage(int discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    public HomeBookModel() {
+    }
+
+    public HomeBookModel(int bookId, String title, String authorName, String description, int publicationYear, String bookAvatar, String oldPrice, String newPrice, int viewsCount, int purchaseCount, String usedBooks, int discountPercentage) {
+        this.bookId = bookId;
+        this.title = title;
+        this.authorName = authorName;
+        this.description = description;
+        this.publicationYear = publicationYear;
+        this.bookAvatar = bookAvatar;
+        this.oldPrice = oldPrice;
+        this.newPrice = newPrice;
+        this.viewsCount = viewsCount;
+        this.purchaseCount = purchaseCount;
+        this.usedBooks = usedBooks;
+        this.discountPercentage = discountPercentage;
     }
 
     @Override

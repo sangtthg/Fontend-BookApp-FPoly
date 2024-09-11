@@ -51,7 +51,7 @@ public class SettingViewModel extends ViewModel {
                         JSONObject jsonObject = new JSONObject(responseBody);
                         if (jsonObject.has("status") && jsonObject.getString("status").equals("1")) {
                             addAddressResponse.postValue("Thêm địa chỉ thành công");
-                            sharedPreferencesHelper.saveAddress(addressRequestModel);
+//                            sharedPreferencesHelper.saveAddress(addressRequestModel);
                         } else {
                             String errorMessage = jsonObject.optString("message", "Thêm địa chỉ thất bại");
                             addAddressResponse.postValue("Thêm địa chỉ thất bại: " + errorMessage);

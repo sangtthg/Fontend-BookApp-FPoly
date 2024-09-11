@@ -15,10 +15,19 @@
     <color name="lavender">#8692f7</color>
     <color name="grey">#808080</color>
     <color name="gray_light">#D3D3D3</color>
-    <color name="checked_color">#FF0000</color> <!-- Example: Red -->
+    <color name="checked_color">#FF0000</color>
     <!-- Define the color for unchecked state -->
-    <color name="unchecked_color">#FFFFFF</color> <!-- Example: White -->
+    <color name="unchecked_color">#FFFFFF</color>
     <!-- Define the stroke color -->
+    <!-- Màu nền của BottomNavigationView -->
+    <color name="bottom_nav_background">#FFFFFF</color>
+    <color name="textColorPrimary">#333333</color>
+
+    <!-- Màu của các item trong BottomNavigationView -->
+    <color name="bottom_nav_item_color">#000000</color>
+
+    <!-- Màu của ripple effect -->
+    <color name="bottom_nav_ripple_color">#E0E0E0</color>
     <color name="grayColor">#CCCCCC</color> <!-- Example: Light Gray -->
     <color name="colorAccent">#FF4081</color>
     <color name="track_color">#d3d3d3</color>
@@ -45,7 +54,7 @@
     <color name="secondaryTextColor">#757575</color>
     <color name="buttonTextColor">#FFFFFF</color>
     <color name="mycolor">#FFBD59</color>
-
+    <color name="search">#e1e0f0</color>
     <color name="colorPressed">#FFC107</color>
     <color name="colorDefault">#FFFFFF</color>
     <color name="colorRedM">#aa0116</color>

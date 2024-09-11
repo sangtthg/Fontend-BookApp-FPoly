@@ -1,4 +1,4 @@
-package frontend_book_market_app.polytechnic.client.profile.view;
+package frontend_book_market_app.polytechnic.client.profile.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +26,11 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.auth.login.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
 import frontend_book_market_app.polytechnic.client.order_user.view.DonHangActivity;
 import frontend_book_market_app.polytechnic.client.profile.model.ProfileModel;
+import frontend_book_market_app.polytechnic.client.profile.view.AddressListActivity;
+import frontend_book_market_app.polytechnic.client.profile.view.ChangePasswordActivity;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 
 public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileViewHolder> {
@@ -55,16 +55,6 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
     @Override
     public void onBindViewHolder(@NonNull ProfileViewHolder holder, int position) {
         ProfileModel profile = profileList.get(position);
-        // Set address
-        // Lấy địa chỉ và số điện thoại mặc định từ SharedPreferencesHelper
-        AddressModel defaultAddressModel = getDefaultAddress();
-        if (defaultAddressModel != null) {
-            holder.txtDiaChi.setText(defaultAddressModel.getAddress());
-            holder.txtSoDienThoai.setText(defaultAddressModel.getPhone());
-        } else {
-            holder.txtDiaChi.setText("Chưa có địa chỉ");
-            holder.txtSoDienThoai.setText("Chưa có số điện thoại");
-        }
         holder.txtTenNguoiDung.setText(profile.getUsername());
         holder.txtEmail.setText(profile.getEmail());
         holder.txtDoiMatKhau.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +67,6 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             }
         });
 
-
-        // Mask email
         String value = profile.getEmail();
         if (value.length() > 5) {
             int atPosition = value.indexOf("@");
@@ -111,14 +99,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             }
         });
 
-        holder.linearLayoutDonHangCuaToi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, DonHangActivity.class);
-                context.startActivity(intent);
-            }
-        });
+
 
         // Check token and set button behavior
         SharedPreferences sharedPreferences = holder.itemView.getContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
@@ -135,45 +116,17 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             }));
         }
 
-
-    }
-
-    private AddressModel getDefaultAddress() {
-        List<AddressModel> addresses = sharedPreferencesHelper.getAddresses();
-
-        if (addresses == null || addresses.isEmpty()) {
-            Log.d("DEBUG", "No addresses found");
-            return null;
-        }
-
-        for (AddressModel address : addresses) {
-            if (address.isDefault()) {
-                Log.d("DEBUG", "Default address found: " + address.getAddress());
-                return address;
+        holder.txtDiaChi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo một Intent để bắt đầu AddressListActivity
+                Intent intent = new Intent(v.getContext(), AddressListActivity.class);
+                v.getContext().startActivity(intent);
             }
-        }
+        });
 
-        Log.d("DEBUG", "No default address found");
-        return null;
-    }
 
-    private String getDefaultPhone() {
-        List<AddressModel> addresses = sharedPreferencesHelper.getAddresses();
 
-        if (addresses == null || addresses.isEmpty()) {
-            Log.d("DEBUG", "No addresses found");
-            return "Chưa có số điện thoại";
-        }
-
-        for (AddressModel address : addresses) {
-            if (address.isDefault()) {
-                Log.d("DEBUG", "Default phone found: " + address.getPhone());
-                return address.getPhone();
-            }
-        }
-
-        Log.d("DEBUG", "No default phone found");
-        return "Chưa có số điện thoại";
     }
 
 
@@ -192,14 +145,13 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
         TextView txtTenNguoiDung, txtEmail;
-        TextView txtDoiMatKhau, txtSoDienThoai, txtDiaChi;
+        TextView txtDoiMatKhau, txtSoDienThoai, txtDiaChi,btnLogoutProfile;
         ImageView imgAvatar, imgChangeAvatar;
-        Button btnLogoutProfile;
-        LinearLayout linearLayoutDonHangCuaToi;
+//        LinearLayout linearLayoutDonHangCuaToi;
 
         public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtSoDienThoai = itemView.findViewById(R.id.txtSoDienThoai);
+//            txtSoDienThoai = itemView.findViewById(R.id.txtSoDienThoai);
             txtDoiMatKhau = itemView.findViewById(R.id.txtDoiMatKhau);
             txtTenNguoiDung = itemView.findViewById(R.id.txtTenNguoiDung);
             txtDiaChi = itemView.findViewById(R.id.txtDiaChi);
@@ -207,7 +159,6 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             imgAvatar = itemView.findViewById(R.id.imgAvatar);
             imgChangeAvatar = itemView.findViewById(R.id.imgChangeAvatar);
             btnLogoutProfile = itemView.findViewById(R.id.btnLogoutProfile);
-            linearLayoutDonHangCuaToi = itemView.findViewById(R.id.linearLayoutDonHangCuaToi);
         }
     }
 

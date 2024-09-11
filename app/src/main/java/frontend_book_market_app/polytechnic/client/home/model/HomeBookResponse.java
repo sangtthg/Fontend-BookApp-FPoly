@@ -52,6 +52,9 @@ public class HomeBookResponse {
         @SerializedName("most_view_books")
         private List<HomeBookModel> mostViewBooks;
 
+        @SerializedName("book_suggestions") // Thêm thuộc tính cho gợi ý sách
+        private List<HomeBookModel> bookSuggestions;
+
         public List<HomeBookModel> getNewBooks() {
             return newBooks;
         }
@@ -63,8 +66,13 @@ public class HomeBookResponse {
         public List<HomeBookModel> getRandomBooks() {
             return randomBooks;
         }
+
         public List<HomeBookModel> getMostViewBooks() {
             return mostViewBooks;
+        }
+
+        public List<HomeBookModel> getBookSuggestions() {
+            return bookSuggestions;
         }
     }
 }

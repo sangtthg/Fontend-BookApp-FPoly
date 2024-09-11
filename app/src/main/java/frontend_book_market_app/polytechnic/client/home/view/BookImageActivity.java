@@ -1,6 +1,7 @@
 package frontend_book_market_app.polytechnic.client.home.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -45,8 +46,9 @@ public class BookImageActivity extends AppCompatActivity {
         });
 
         int bookId = getIntent().getIntExtra("bookID", -1);
-//        imageListViewModel.fetchImages(bookId);
-        imageListViewModel.fetchImages(83);
+        Log.d("Log id hien tai","bookId" + bookId);
+        imageListViewModel.fetchImages(bookId);
+//        imageListViewModel.fetchImages(83);
 
 
         ImageButton btnBack = findViewById(R.id.btnBack);

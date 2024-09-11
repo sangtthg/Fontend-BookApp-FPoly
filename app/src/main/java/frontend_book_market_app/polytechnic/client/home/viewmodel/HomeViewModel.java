@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import frontend_book_market_app.polytechnic.client.auth.login.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.order_user.model.OrderItem;
+import frontend_book_market_app.polytechnic.client.profile.model.AddressModel;
+import frontend_book_market_app.polytechnic.client.profile.network.SharedService;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -123,7 +124,9 @@ public class HomeViewModel extends ViewModel {
     public LiveData<ReviewResponse> getBookReviews() {
         return bookReviews;
     }
-
+    public AddressModel getDefaultAddress() {
+        return SharedService.getInstance().getDefaultAddress();
+    }
 
     public void addItem(OrderItem item) {
         if (!selectedItems.contains(item)) {
@@ -376,35 +379,41 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-
     public void fetchOrderByCartID(List<Integer> cartItemIds) {
         idOrder.postValue(0);
         System.out.println(cartItemIds);
 
         AddressModel defaultAddressModel = getDefaultAddress();
-        String phone = defaultAddressModel.getPhone();
-        String diaChi = defaultAddressModel.getAddress();
+        if (defaultAddressModel != null) {
+            String name = defaultAddressModel.getName();
+            String phone = defaultAddressModel.getPhone();
+            String diaChi = defaultAddressModel.getAddress();
 
-        OrderRequest orderRequest = new OrderRequest(cartItemIds, diaChi, phone);
-        repositoryHome.createOrder(orderRequest, new Callback<OrderResponseHome>() {
-            @Override
-            public void onResponse(Call<OrderResponseHome> call, Response<OrderResponseHome> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    OrderResponseHome orderResponseHome = response.body();
-                    Log.d(NAME, "Order created successfully: " + orderResponseHome.getMessage());
-                    orderResponseLiveData.postValue(orderResponseHome);
-                    idOrder.postValue(response.body().getOrderId());
-                } else {
-                    logErrorResponse("Failed to create order", response);
+            OrderRequest orderRequest = new OrderRequest(cartItemIds, name, diaChi, phone);
+            repositoryHome.createOrder(orderRequest, new Callback<OrderResponseHome>() {
+                @Override
+                public void onResponse(Call<OrderResponseHome> call, Response<OrderResponseHome> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        OrderResponseHome orderResponseHome = response.body();
+                        Log.d(NAME, "Order created successfully: " + orderResponseHome.getMessage());
+                        orderResponseLiveData.postValue(orderResponseHome);
+                        idOrder.postValue(response.body().getOrderId());
+                    } else {
+                        logErrorResponse("Failed to create order", response);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<OrderResponseHome> call, Throwable t) {
-                Log.e(NAME, "Error creating order", t);
-            }
-        });
+                @Override
+                public void onFailure(Call<OrderResponseHome> call, Throwable t) {
+                    Log.e(NAME, "Error creating order", t);
+                }
+            });
+        } else {
+            Log.e(NAME, "Default address is null. Cannot proceed with order creation.");
+        }
     }
+
+
 
     public void payOrder(Context context, int orderID, String discountCode, String token) {
         Toast.makeText(context, "Chuẩn bị tiến hành thanh toán...", Toast.LENGTH_LONG).show();
@@ -460,21 +469,7 @@ public class HomeViewModel extends ViewModel {
     }
 
 
-    private AddressModel getDefaultAddress() {
-        List<AddressModel> addresses = sharedPreferencesHelper.getAddresses();
 
-        if (addresses == null || addresses.isEmpty()) {
-            return null;
-        }
-
-        for (AddressModel address : addresses) {
-            if (address.isDefault()) {
-                return address;
-            }
-        }
-
-        return null;
-    }
 
     public void clearAllLists() {
         bestSellerBookList.postValue(new ArrayList<>());

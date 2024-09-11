@@ -7,10 +7,9 @@
     android:orientation="vertical"
     android:padding="@dimen/_8sdp">
 
-    <!-- Search Bar -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_52sdp"
         android:layout_marginBottom="16dp"
         android:elevation="4dp"
         app:cardCornerRadius="8dp">
@@ -27,29 +26,75 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="8dp"
+                android:layout_gravity="center"
                 android:src="@drawable/baseline_arrow_back_24" />
 
-            <EditText
-                android:id="@+id/editTextSearch"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Tìm kiếm"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:singleLine="true"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray" />
+                android:padding="8dp">
+
+                <EditText
+                    android:id="@+id/editTextSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Nhập sách cần tìm"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="48dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:imeOptions="actionSearch"/>
+
+                <ImageView
+                    android:id="@+id/imageViewClear"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="Clear"
+                    android:padding="8dp"
+                    android:src="@drawable/closed" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/imageViewSearch"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_gravity="center"
                 android:padding="8dp"
                 android:src="@drawable/icons8_search" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+
+    <!-- RecyclerView cho gợi ý sách -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewBookSuggestions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <!-- TextView thông báo không có sách -->
+    <TextView
+        android:id="@+id/textViewNoBooks1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/textview_background_red"
+        android:fontFamily="@font/roboto_regular"
+        android:paddingStart="2dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:text="🚫 Không có sách trong cửa hàng"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/textViewSuggestions"
@@ -64,10 +109,11 @@
         android:text="🔥 Gợi ý cho bạn!"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="16sp"
-        android:textStyle="bold" />
-
+        android:textStyle="bold"
+        android:visibility="visible" />
 
     <View
+        android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/_1sdp"
@@ -77,47 +123,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewBooksLISTNEW"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_180sdp"
-        android:layout_marginTop="8dp"
-        android:paddingBottom="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-
-
-    <!-- ProgressBar -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:visibility="gone" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:background="@drawable/textview_background_red"
-        android:fontFamily="@font/roboto_regular"
-        android:paddingStart="2dp"
-        android:paddingEnd="8dp"
-        android:text="🔥 Tác giả thịnh hành"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:layout_marginBottom="8dp"
-        android:background="#DCDCDC" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewBooksLISTTACGIA"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:paddingBottom="8dp"
+        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <!-- ProgressBar -->
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/progressBar"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:indeterminate="true"-->
+    <!--        android:visibility="gone" />-->
+
 </LinearLayout>

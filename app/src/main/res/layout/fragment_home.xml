@@ -66,11 +66,12 @@
                     android:id="@+id/search_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:iconifiedByDefault="false"
                     android:layout_marginVertical="@dimen/_12sdp"
                     android:background="@drawable/custom_searchview"
-                    android:iconifiedByDefault="true"
                     android:queryBackground="@android:color/transparent"
-                    android:queryHint="Tìm kiếm..." />
+                    android:enabled="false" />
+
 
 
                 <LinearLayout

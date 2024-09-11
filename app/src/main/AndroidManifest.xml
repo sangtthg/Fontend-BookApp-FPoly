@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".core.MyApp"
@@ -16,6 +17,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fontend_BookApp_FPoly"
         tools:targetApi="31">
+        <activity
+            android:name=".profile.view.UpdateCityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profile.view.UpdateAddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profile.view.AddCityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profile.view.AddAddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".profile.view.AddressListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".search.view.SearchResultsActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".home.view.BookImageActivity"
             android:exported="false" />
@@ -67,7 +86,7 @@
             android:exported="false" />
         <activity
             android:name=".search.view.SearchActivity"
-            android:exported="false" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".home.view.CartActivity"
             android:exported="false" />

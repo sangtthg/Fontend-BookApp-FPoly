@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -31,9 +32,10 @@
 
             <ImageView
                 android:id="@+id/moreMenuNotification"
-                android:layout_width="@dimen/_21sdp"
-                android:layout_height="@dimen/_22sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/_5sdp"
                 android:src="@drawable/icon_setting" />
 
         </LinearLayout>
@@ -43,8 +45,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProfile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:layout_marginTop="8dp" />
 </LinearLayout>

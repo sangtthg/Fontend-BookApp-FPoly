@@ -61,7 +61,7 @@ public interface ApiServiceHome {
     @POST("reviews")
     Call<ReviewResponse> submitReview(@Body ReviewRequest reviewRequest);
 
-    @POST("api/avatar_reviews/get")
+    @POST("api/book/get")
     Call<ImageResponse> getImages(@Body ImageRequest imageRequest);
 
 
