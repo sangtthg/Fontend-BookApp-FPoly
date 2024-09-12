@@ -39,6 +39,16 @@ public class HomeBookModel {
     @SerializedName("discount_percentage")
     private int discountPercentage;
 
+    @SerializedName("rate_book")
+    private double rateBook;
+
+    public double getRateBook() {
+        return rateBook;
+    }
+
+    public void setRateBook(int rateBook) {
+        this.rateBook = rateBook;
+    }
 
     public int getBookId() {
         return bookId;
@@ -139,7 +149,7 @@ public class HomeBookModel {
     public HomeBookModel() {
     }
 
-    public HomeBookModel(int bookId, String title, String authorName, String description, int publicationYear, String bookAvatar, String oldPrice, String newPrice, int viewsCount, int purchaseCount, String usedBooks, int discountPercentage) {
+    public HomeBookModel(int bookId, String title, String authorName, String description, int publicationYear, String bookAvatar, String oldPrice, String newPrice, int viewsCount, int purchaseCount, String usedBooks, int discountPercentage, int rateBook) {
         this.bookId = bookId;
         this.title = title;
         this.authorName = authorName;
@@ -152,6 +162,7 @@ public class HomeBookModel {
         this.purchaseCount = purchaseCount;
         this.usedBooks = usedBooks;
         this.discountPercentage = discountPercentage;
+        this.rateBook = rateBook;
     }
 
     @Override

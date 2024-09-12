@@ -87,6 +87,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView tvTacGia;
         TextView tvDaBan;
         TextView tvPhanTramGiam;
+        TextView tvDanhGia;
         ReadMoreTextView tvMoTaNoiDung;
 
 
@@ -100,12 +101,15 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
             tvDaBan = itemView.findViewById(R.id.tvDaBan);
             tvPhanTramGiam = itemView.findViewById(R.id.tvPhanTramGiam);
             tvMoTaNoiDung = itemView.findViewById(R.id.tvMoTaNoiDung);
+            tvDanhGia = itemView.findViewById(R.id.tvDanhGia);
         }
 
         public void bind(DetailBookResponse bookData) {
             if (bookData != null && bookData.getData() != null) {
                 DetailBookResponse.BookData data = bookData.getData();
                 tvBookTitleDetaill.setText(data.getTitle());
+                tvDanhGia.setText(String.format("%s / 5", data.getRateBook()));
+
                 tvMoTaNoiDung.setCollapsedText("Xem thêm");
                 tvMoTaNoiDung.setExpandedText("Thu gọn");
                 tvMoTaNoiDung.setCollapsedTextColor(R.color.app_red);

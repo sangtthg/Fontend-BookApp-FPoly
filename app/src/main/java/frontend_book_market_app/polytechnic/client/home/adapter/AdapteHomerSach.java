@@ -43,6 +43,8 @@ public class AdapteHomerSach extends RecyclerView.Adapter<AdapteHomerSach.SachHo
         holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
         holder.tvSachBanChay.setVisibility(View.INVISIBLE);
         holder.tvPhanTramGiamHome.setText(MessageFormat.format("-{0}%", bookModel.getDiscountPercentage()));
+        holder.tvDanhGia.setText(String.valueOf(bookModel.getRateBook()));
+
 
 
         Glide.with(holder.itemView.getContext())
@@ -65,6 +67,7 @@ public class AdapteHomerSach extends RecyclerView.Adapter<AdapteHomerSach.SachHo
         TextView tvDaBan;
         TextView tvPhanTramGiamHome;
         ImageView imgAnhBia;
+        TextView tvDanhGia;
 
         public SachHomeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +77,7 @@ public class AdapteHomerSach extends RecyclerView.Adapter<AdapteHomerSach.SachHo
             tvSachBanChay = itemView.findViewById(R.id.tv_sachBanChay);
             tvPhanTramGiamHome = itemView.findViewById(R.id.tvPhanTramGiamHome);
             tvDaBan = itemView.findViewById(R.id.tvDaBan);
+            tvDanhGia = itemView.findViewById(R.id.tvDanhGia);
         }
     }
 

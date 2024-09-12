@@ -67,6 +67,18 @@ public class DetailBookResponse {
         @SerializedName("quantity")
         private String quantity;
 
+        @SerializedName("rate_book")
+        private double rateBook;
+
+
+        public double getRateBook() {
+            return rateBook;
+        }
+
+        public void setRateBook(double rateBook) {
+            this.rateBook = rateBook;
+        }
+
         public String getQuantity() {
             return quantity;
         }
