@@ -11,15 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.home.model.ImageResponse;
 
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ImageViewHolder> {
-    private List<ImageResponse.ImageData> images = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
 
-    public void setImages(List<ImageResponse.ImageData> images) {
+    public void setImages(ArrayList<String> images) {
         this.images = images;
         notifyDataSetChanged();
     }
@@ -33,8 +31,11 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        String imageUrl = images.get(position).getUrl();
-        Glide.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
+        String imageUrl = images.get(position);
+        Glide.with(holder.imageView.getContext())
+                .load(imageUrl)
+                .fitCenter()
+                .into(holder.imageView);
     }
 
     @Override

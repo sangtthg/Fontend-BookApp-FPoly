@@ -58,33 +58,19 @@ public class ImageResponse {
         this.totalPages = totalPages;
     }
 
-    public static class ImageData {
-        private int avatar_review_id;
-        private int book_id;
-        private String url;
+    public class ImageData {
+        private String imageUrl;
 
-        public int getAvatarReviewId() {
-            return avatar_review_id;
+        public ImageData(String imageUrl) {
+            this.imageUrl = imageUrl;
         }
 
-        public void setAvatarReviewId(int avatar_review_id) {
-            this.avatar_review_id = avatar_review_id;
+        public String getImageUrl() {
+            return imageUrl;
         }
 
-        public int getBookId() {
-            return book_id;
-        }
-
-        public void setBookId(int book_id) {
-            this.book_id = book_id;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
         }
     }
 }

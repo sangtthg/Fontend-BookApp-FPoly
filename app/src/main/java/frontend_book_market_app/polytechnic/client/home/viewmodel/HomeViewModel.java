@@ -63,6 +63,7 @@ public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<ReviewResponse> reviewResponseLiveData = new MutableLiveData<>();
     private final List<OrderItem> selectedItems = new ArrayList<>();
+    private List<String> avatarReviews;
 
 
     List<Integer> cartItemIds = Arrays.asList(156, 157);
@@ -124,6 +125,13 @@ public class HomeViewModel extends ViewModel {
     public LiveData<ReviewResponse> getBookReviews() {
         return bookReviews;
     }
+
+    public List<String> getAvatarReviews() {
+        return avatarReviews;
+    }
+
+
+
     public AddressModel getDefaultAddress() {
         return SharedService.getInstance().getDefaultAddress();
     }
@@ -190,6 +198,9 @@ public class HomeViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     detailBook.postValue(response.body());
                     listen.postValue(response.body().getData().getDescription());
+                    avatarReviews = response.body().getData().getAvatarReviews();
+                    Log.d(NAME, "Avatar Reviews: " + avatarReviews);
+
                     Log.d(NAME, "Fetch BookDetail Success");
                     fetchBookReviews(bookId);
                 } else {

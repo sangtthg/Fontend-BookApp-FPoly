@@ -203,9 +203,9 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         ImageButton btnDocThu = findViewById(R.id.btnDocThu);
         btnDocThu.setOnClickListener(v -> {
-            int bookId = getIntent().getIntExtra("bookID", -1);
+            List<String> avatarReviews = homeViewModel.getAvatarReviews();
             Intent intent = new Intent(BookDetailsActivity.this, BookImageActivity.class);
-            intent.putExtra("bookID", bookId);
+            intent.putStringArrayListExtra("avatarReviews", new ArrayList<>(avatarReviews));
             startActivity(intent);
         });
 

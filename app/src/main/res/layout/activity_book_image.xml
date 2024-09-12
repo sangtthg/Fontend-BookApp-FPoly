@@ -43,6 +43,16 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/noDataTextView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Không có dữ liệu"
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:gravity="center_vertical|center_horizontal"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewImages"
         android:layout_width="match_parent"

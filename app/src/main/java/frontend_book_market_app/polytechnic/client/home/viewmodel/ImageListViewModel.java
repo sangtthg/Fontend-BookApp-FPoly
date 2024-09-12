@@ -22,29 +22,29 @@ public class ImageListViewModel extends ViewModel {
         return images;
     }
 
-    public void fetchImages(int bookId) {
-        repositoryHome.fetchImages(bookId, new Callback<ImageResponse>() {
-            @Override
-            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
-                try {
-                    if (response.isSuccessful() && response.body() != null) {
-                        System.out.println("kkkkkk 1 " + response.body().getData().get(0).getUrl());
-                         images.postValue(response.body().getData());
-                    } else {
-                        System.out.println("kkkkkk null rồi " + response.body().getData());
-                        images.postValue(new ArrayList<>());
-                    }
-                } catch (Exception e) {
-                    System.err.println("Error processing response: " + e.getMessage());
-                    e.printStackTrace();
-                    images.postValue(new ArrayList<>());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ImageResponse> call, Throwable t) {
-                images.postValue(new ArrayList<>());
-            }
-        });
-    }
+//    public void fetchImages(int bookId) {
+//        repositoryHome.fetchImages(bookId, new Callback<ImageResponse>() {
+//            @Override
+//            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+//                try {
+//                    if (response.isSuccessful() && response.body() != null) {
+//                        System.out.println("kkkkkk 1 " + response.body().getData().get(0).getUrl());
+//                         images.postValue(response.body().getData());
+//                    } else {
+//                        System.out.println("kkkkkk null rồi " + response.body().getData());
+//                        images.postValue(new ArrayList<>());
+//                    }
+//                } catch (Exception e) {
+//                    System.err.println("Error processing response: " + e.getMessage());
+//                    e.printStackTrace();
+//                    images.postValue(new ArrayList<>());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ImageResponse> call, Throwable t) {
+//                images.postValue(new ArrayList<>());
+//            }
+//        });
+//    }
 }

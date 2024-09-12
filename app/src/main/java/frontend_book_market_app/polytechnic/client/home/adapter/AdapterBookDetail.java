@@ -23,7 +23,6 @@ import java.util.List;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.model.DetailBookResponse;
 import frontend_book_market_app.polytechnic.client.home.model.ReviewResponse;
-import frontend_book_market_app.polytechnic.client.home.view.BookImageActivity;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
 import frontend_book_market_app.polytechnic.client.utils.DateUtils;
 
