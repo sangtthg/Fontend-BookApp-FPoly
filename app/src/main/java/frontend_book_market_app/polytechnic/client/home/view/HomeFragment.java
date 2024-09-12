@@ -154,33 +154,21 @@ public class HomeFragment extends Fragment {
         skeletonAdapter = new SkeletonAdapter(9);
 
         AdapteHomerSachBanChay.OnItemClickListener itemClickListener1 = bookID -> {
-            if (isUserLoggedIn()) {
-                Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
-                intent.putExtra("bookID", bookID);
-                startActivity(intent);
-            } else {
-                promptLogin();
-            }
+            Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
+            intent.putExtra("bookID", bookID);
+            startActivity(intent);
         };
 
         AdapteHomerSach.OnItemClickListener itemClickListener2 = bookID -> {
-            if (isUserLoggedIn()) {
-                Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
-                intent.putExtra("bookID", bookID);
-                startActivity(intent);
-            } else {
-                promptLogin();
-            }
+            Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
+            intent.putExtra("bookID", bookID);
+            startActivity(intent);
         };
 
         AdapteHomerSachHomeGoiY.OnItemClickListener itemClickListenerHomeGoiY = bookID -> {
-            if (isUserLoggedIn()) {
-                Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
-                intent.putExtra("bookID", bookID);
-                startActivity(intent);
-            } else {
-                promptLogin();
-            }
+            Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
+            intent.putExtra("bookID", bookID);
+            startActivity(intent);
         };
 
         adapteHomerSachBanChay = new AdapteHomerSachBanChay(new ArrayList<>(), itemClickListener1);
