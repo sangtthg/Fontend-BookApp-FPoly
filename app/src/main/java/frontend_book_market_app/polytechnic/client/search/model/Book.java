@@ -21,7 +21,7 @@ public class Book implements Serializable {
     private String used_books;
     private int discountPercentage;
 
-    private List<String> avatar_reviews; // Cập nhật kiểu dữ liệu thành List<String>
+//    private List<String> avatar_reviews; // Cập nhật kiểu dữ liệu thành List<String>
 
     // Getters và Setters cho từng trường
     public int getBook_id() {
@@ -136,13 +136,13 @@ public class Book implements Serializable {
         this.discountPercentage = discountPercentage;
     }
 
-    public List<String> getAvatar_reviews() {
-        return avatar_reviews;
-    }
-
-    public void setAvatar_reviews(List<String> avatar_reviews) {
-        this.avatar_reviews = avatar_reviews;
-    }
+//    public List<String> getAvatar_reviews() {
+//        return avatar_reviews;
+//    }
+//
+//    public void setAvatar_reviews(List<String> avatar_reviews) {
+//        this.avatar_reviews = avatar_reviews;
+//    }
 
     // Phương thức tính toán phần trăm giảm giá
     public void calculateDiscountPercentage() {

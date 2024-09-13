@@ -43,7 +43,11 @@ public class AdapteHomerSachBanChay extends RecyclerView.Adapter<AdapteHomerSach
         holder.tvDaBan.setText(String.valueOf(bookModel.getPurchaseCount()));
         holder.tvDanhGia.setText(String.valueOf(bookModel.getRateBook()));
 
-        holder.tvPhanTramGiamHome.setText(MessageFormat.format("-{0}%", bookModel.getDiscountPercentage()));
+        if (bookModel.getDiscountPercentage() > 0){
+            holder.tvPhanTramGiamHome.setText(MessageFormat.format("-{0}%", bookModel.getDiscountPercentage()));
+        } else{
+            holder.tvPhanTramGiamHome.setVisibility(View.GONE);
+        }
 
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())

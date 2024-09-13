@@ -198,6 +198,7 @@ public class HomeViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     detailBook.postValue(response.body());
                     listen.postValue(response.body().getData().getDescription());
+                    Log.d(NAME, "dddddddddddd");
                     avatarReviews = response.body().getData().getAvatarReviews();
                     Log.d(NAME, "Avatar Reviews: " + avatarReviews);
 

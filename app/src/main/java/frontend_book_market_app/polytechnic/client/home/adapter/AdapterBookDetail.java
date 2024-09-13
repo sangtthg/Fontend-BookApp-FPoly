@@ -120,7 +120,11 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                 tvGiaSachCu.setPaintFlags(tvGiaSachCu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 tvTacGia.setText(String.format("Tác giả: %s", data.getAuthorName()));
                 tvDaBan.setText(String.valueOf(data.getPurchaseCount()));
-                tvPhanTramGiam.setText(MessageFormat.format("-{0}%", data.getDiscountPercentage()));
+                if (data.getDiscountPercentage() < 0){
+                    tvPhanTramGiam.setVisibility(View.GONE);
+                } else{
+                    tvPhanTramGiam.setText(MessageFormat.format("-{0}%", data.getDiscountPercentage()));
+                }
 
                 Glide.with(getContext())
                         .load(data.getBookAvatar())

@@ -82,16 +82,6 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.fetchBookDetail(bookID);
-//        homeViewModel.getCartItemCount().observe(this, itemCount -> {
-//            Log.d("BookDetailsActivity", "Updating badge count: " + itemCount);
-////            new QBadgeView(this)
-////                    .bindTarget(findViewById(R.id.btnCart))
-////                    .setBadgeNumber(itemCount)
-////                    .setBadgeBackgroundColor(Color.RED)
-////                    .setBadgeTextColor(Color.WHITE)
-////                    .setGravityOffset(-2, -1, true)
-////                    .setBadgeGravity(Gravity.END | Gravity.TOP);
-//        });
 
         homeViewModel.getCartItemCount().observe(this, itemCount -> {
             Log.d("BookDetailsActivity", "Updating badge count: " + itemCount); // Debug log

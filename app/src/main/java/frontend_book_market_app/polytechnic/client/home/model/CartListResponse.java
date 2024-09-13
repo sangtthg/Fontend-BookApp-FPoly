@@ -59,14 +59,9 @@ public class CartListResponse {
         @SerializedName("status")
         private int status;
 
-        @SerializedName("created_date")
-        private String createdDate;
 
         @SerializedName("book_title_in_cart")
         private String book_title_in_cart;
-
-        @SerializedName("modify_date")
-        private String modifyDate;
 
         @SerializedName("book")
         private DetailBookResponse.BookData book;
@@ -97,24 +92,8 @@ public class CartListResponse {
             return status;
         }
 
-        public String getCreatedDate() {
-            return createdDate;
-        }
-
-        public String getModifyDate() {
-            return modifyDate;
-        }
-
         public DetailBookResponse.BookData getBook() {
             return book;
-        }
-
-        public boolean isSelected() {
-            return selected;
-        }
-
-        public void setSelected(boolean selected) {
-
         }
 
     }

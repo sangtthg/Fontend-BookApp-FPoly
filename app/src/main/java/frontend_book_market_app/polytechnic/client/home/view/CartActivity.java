@@ -25,12 +25,11 @@ import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapterCart;
 import frontend_book_market_app.polytechnic.client.home.model.CartListResponse;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
-import frontend_book_market_app.polytechnic.client.profile.model.AddressModel; // Correct import
+import frontend_book_market_app.polytechnic.client.profile.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.profile.network.SharedService;
 import frontend_book_market_app.polytechnic.client.profile.view.AddressListActivity;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
-import frontend_book_market_app.polytechnic.client.setting.view.SettingActivity;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -71,7 +70,7 @@ public class CartActivity extends AppCompatActivity {
                         showMissingInfoDialog();
                     } else {
                         // Use the address details if all fields are present
-                        Log.d("CartActivity", "Default Address: " + defaultAddress.toString());
+                        Log.d("CartActivity", "Default Address: " + defaultAddress);
 
                         Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
                         intent.putIntegerArrayListExtra("selectedCartItemIds", selectedIds);

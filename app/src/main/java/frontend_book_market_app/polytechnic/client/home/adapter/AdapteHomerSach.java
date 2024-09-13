@@ -42,7 +42,11 @@ public class AdapteHomerSach extends RecyclerView.Adapter<AdapteHomerSach.SachHo
         holder.tvDaBan.setText(String.valueOf(bookModel.getPurchaseCount()));
         holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
         holder.tvSachBanChay.setVisibility(View.INVISIBLE);
-        holder.tvPhanTramGiamHome.setText(MessageFormat.format("-{0}%", bookModel.getDiscountPercentage()));
+        if (bookModel.getDiscountPercentage() > 0){
+            holder.tvPhanTramGiamHome.setText(MessageFormat.format("-{0}%", bookModel.getDiscountPercentage()));
+        } else{
+            holder.tvPhanTramGiamHome.setVisibility(View.GONE);
+        }
         holder.tvDanhGia.setText(String.valueOf(bookModel.getRateBook()));
 
 

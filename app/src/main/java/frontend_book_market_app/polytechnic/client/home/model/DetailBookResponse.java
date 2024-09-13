@@ -2,6 +2,8 @@ package frontend_book_market_app.polytechnic.client.home.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DetailBookResponse {
@@ -73,7 +75,7 @@ public class DetailBookResponse {
         private double rateBook;
 
         @SerializedName("avatar_reviews")
-        private List<String> avatarReviews;
+        private Object avatarReviews;
 
         public double getRateBook() {
             return rateBook;
@@ -140,7 +142,13 @@ public class DetailBookResponse {
         }
 
         public List<String> getAvatarReviews() {
-            return avatarReviews;
+            if (avatarReviews instanceof String) {
+                return Arrays.asList(((String) avatarReviews).split(","));
+            } else if (avatarReviews instanceof List) {
+                return (List<String>) avatarReviews;
+            } else {
+                return new ArrayList<>();
+            }
         }
 
         public void setAvatarReviews(List<String> avatarReviews) {
