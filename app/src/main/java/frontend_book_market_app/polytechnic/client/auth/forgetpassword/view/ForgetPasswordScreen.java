@@ -10,11 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import frontend_book_market_app.polytechnic.client.auth.forgetpassword.model.ForgotPasswordRequest;
+import frontend_book_market_app.polytechnic.client.auth.forgetpassword.viewmodel.ForgetPasswordViewModel;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
 import frontend_book_market_app.polytechnic.client.R;
 
@@ -22,6 +26,7 @@ public class ForgetPasswordScreen extends AppCompatActivity {
     private EditText edtTextForgetPassword;
     private Button btnXacNhanForgetPassword;
     private ImageButton btnBackLogin;
+    private ForgetPasswordViewModel viewModel;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -29,63 +34,71 @@ public class ForgetPasswordScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_forget_password_screen);
+
         edtTextForgetPassword = findViewById(R.id.edtTextForgetPassword);
         btnXacNhanForgetPassword = findViewById(R.id.btnXacNhanForgetPassword);
         btnBackLogin = findViewById(R.id.btnBackLogin);
-        validateInputs();
-        btnBackLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ForgetPasswordScreen.this, LoginScreen.class);
-                startActivity(intent);
-                finish();
-            }
+
+        btnBackLogin.setOnClickListener(view -> {
+            Intent intent = new Intent(ForgetPasswordScreen.this, LoginScreen.class);
+            startActivity(intent);
+            finish();
         });
-        btnXacNhanForgetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        viewModel = new ViewModelProvider(this).get(ForgetPasswordViewModel.class);
+        viewModel.getOtpSentSuccess().observe(this, otpSentSuccess -> {
+            if (otpSentSuccess) {
+                // OTP sent successfully, show dialog
                 showEmailCheckDialog();
+            } else {
+                // OTP send failed, handle failure
+                Toast.makeText(this, "Lỗi khi gửi OTP", Toast.LENGTH_SHORT).show();
             }
         });
 
+        viewModel.getErrorMessage().observe(this, errorMessage -> {
+            // Handle error message
+            Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+        });
+
+        // Handle button click
+        btnXacNhanForgetPassword.setOnClickListener(view -> {
+            String email = edtTextForgetPassword.getText().toString().trim();
+            if (validateEmail(email)) {
+                ForgotPasswordRequest request = new ForgotPasswordRequest(email);
+                viewModel.sendForgotPasswordOtp(request);
+            } else {
+                edtTextForgetPassword.setError("Invalid email");
+            }
+        });
     }
 
     private void showEmailCheckDialog() {
+        // Inflate the dialog layout
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_otp_resetpass, null);
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(dialogView)
                 .setCancelable(false)
                 .create();
-
         dialog.show();
 
-        // Đặt background cho dialog sau khi nó được tạo
+        // Set background for dialog
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background_pass);
-
-        // Use Handler to dismiss dialog after 3 seconds
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                    // Optional: Perform any additional actions after dialog is dismissed
-                    // e.g., navigateToAnotherScreen();
-                }
+        new Handler().postDelayed(() -> {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+                navigateToOtpScreen();
             }
-        }, 3000); // 3000 milliseconds = 3 seconds
+        }, 3000);
     }
 
-    private boolean validateInputs() {
-        String email = edtTextForgetPassword.getText().toString().trim();
-        if (TextUtils.isEmpty(email)) {
-            edtTextForgetPassword.setError("Vui lòng nhập email");
-            return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            edtTextForgetPassword.setError("Email không hợp lệ");
-            return false;
-        }
 
+    private boolean validateEmail(String email) {
+        return !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 
-        return true;
+    private void navigateToOtpScreen() {
+        Intent intent = new Intent(ForgetPasswordScreen.this, OTPScreenForgetPass.class);
+        startActivity(intent);
+        finish(); // Optionally finish this activity to prevent returning to it
     }
 }

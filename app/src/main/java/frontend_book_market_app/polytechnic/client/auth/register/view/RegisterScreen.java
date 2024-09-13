@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import frontend_book_market_app.polytechnic.client.MainActivity;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
 import frontend_book_market_app.polytechnic.client.auth.register.model.OTPModel;
@@ -172,6 +173,7 @@ private ImageButton btnBackLoginRegister;
         String password = editTextPasswordRegister.getText().toString().trim();
         String rePassword = editTextRePasswordRegister.getText().toString().trim();
 
+        // Kiểm tra email
         if (TextUtils.isEmpty(email)) {
             editTextEmailRegister.setError("Vui lòng nhập email");
             return false;
@@ -180,11 +182,20 @@ private ImageButton btnBackLoginRegister;
             return false;
         }
 
+        // Kiểm tra tên người dùng
         if (TextUtils.isEmpty(username)) {
             editTextUsernameRegister.setError("Vui lòng nhập tên người dùng");
             return false;
+        } else if (username.length() < 10) {
+            editTextUsernameRegister.setError("Tên người dùng phải có ít nhất 10 ký tự");
+            return false;
+        } else if (!username.matches("^[A-Z][a-z]*(\\s[A-Z][a-z]*)*$")) { // Biểu thức kiểm tra chữ cái đầu viết hoa
+            editTextUsernameRegister.setError("Họ và tên phải có chữ cái đầu viết hoa mỗi từ");
+            return false;
         }
 
+
+        // Kiểm tra mật khẩu
         if (TextUtils.isEmpty(password)) {
             editTextPasswordRegister.setError("Vui lòng nhập mật khẩu");
             return false;
@@ -193,6 +204,7 @@ private ImageButton btnBackLoginRegister;
             return false;
         }
 
+        // Kiểm tra nhập lại mật khẩu
         if (TextUtils.isEmpty(rePassword)) {
             editTextRePasswordRegister.setError("Vui lòng nhập lại mật khẩu");
             return false;
@@ -203,6 +215,7 @@ private ImageButton btnBackLoginRegister;
 
         return true;
     }
+
 
     private void togglePasswordVisibility() {
         if (isPasswordVisible) {
@@ -227,4 +240,13 @@ private ImageButton btnBackLoginRegister;
         isPasswordVisible = !isPasswordVisible;
         editTextRePasswordRegister.setSelection(editTextRePasswordRegister.length());
     }
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Khởi tạo Intent để mở MainActivity
+        Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
