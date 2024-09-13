@@ -73,7 +73,7 @@
                     android:id="@+id/txtFullNameLabelUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Họ và tên"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
@@ -83,9 +83,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_edittext"
-                    android:fontFamily="@font/font_family"
                     android:hint="Nhập họ và tên"
-                    android:padding="12dp" />
+                    android:fontFamily="@font/roboto_medium"
+                    android:padding="@dimen/_11sdp"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"/>
             </LinearLayout>
 
             <!-- Phone Number -->
@@ -99,8 +101,8 @@
                     android:id="@+id/txtPhoneNumberLabelUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
                     android:text="Số điện thoại"
+                    android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
 
@@ -109,10 +111,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_edittext"
-                    android:fontFamily="@font/font_family"
-                    android:hint="Nhập số điện thoại"
+                    android:fontFamily="@font/roboto_medium"                    android:hint="Nhập số điện thoại"
                     android:inputType="phone"
-                    android:padding="12dp" />
+                    android:padding="@dimen/_11sdp"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"/>
             </LinearLayout>
 
             <!-- Delivery Address -->
@@ -126,8 +129,7 @@
                     android:id="@+id/txtDeliveryAddressLabelUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
-                    android:text="Địa chỉ nhận hàng"
+                    android:fontFamily="@font/roboto_medium"                    android:text="Địa chỉ nhận hàng"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
 
@@ -138,9 +140,9 @@
                     android:background="@drawable/rounded_edittext"
                     android:clickable="false"
                     android:focusable="false"
-                    android:fontFamily="@font/font_family"
                     android:hint="Nhập địa chỉ nhận hàng"
-                    android:padding="12dp" />
+                    android:padding="@dimen/_11sdp"
+                    android:fontFamily="@font/roboto_medium"/>
 
                 <EditText
                     android:id="@+id/edtStreetNameUpdate"
@@ -148,9 +150,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/rounded_edittext"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:hint="Tên đường, số nhà, tòa nhà"
-                    android:padding="12dp" />
+                    android:padding="@dimen/_11sdp"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"/>
             </LinearLayout>
 
             <!-- Address Type -->
@@ -164,8 +169,8 @@
                     android:id="@+id/txtAddressTypeLabelUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
                     android:text="Loại địa chỉ"
+                    android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
 
@@ -175,7 +180,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/spinner_background"
                     android:entries="@array/address_type_options"
-                    android:padding="12dp" />
+                    android:padding="12dp"
+                    />
             </LinearLayout>
 
             <!-- Default Address Toggle -->
@@ -190,7 +196,7 @@
                     android:id="@+id/txtDefaultAddressUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Đặt làm địa chỉ mặc định"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
@@ -214,6 +220,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_16sdp"
         android:backgroundTint="#aa0116"
+        android:fontFamily="@font/roboto_medium"
         android:text="Cập nhật Địa Chỉ"
         android:textColor="@android:color/white"
         app:cornerRadius="8dp"

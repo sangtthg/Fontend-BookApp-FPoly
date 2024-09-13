@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/_16sdp"
+        android:fontFamily="@font/roboto_medium"
         android:text="Nam Sách"
         android:textColor="@color/black" />
 </LinearLayout>

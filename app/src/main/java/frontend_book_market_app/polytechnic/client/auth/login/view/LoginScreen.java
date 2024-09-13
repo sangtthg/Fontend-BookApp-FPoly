@@ -7,6 +7,8 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,8 +28,6 @@ import frontend_book_market_app.polytechnic.client.auth.forgetpassword.view.Forg
 import frontend_book_market_app.polytechnic.client.auth.login.viewmodel.LoginViewModel;
 import frontend_book_market_app.polytechnic.client.auth.register.view.RegisterScreen;
 
-
-
 public class LoginScreen extends AppCompatActivity {
     private EditText editTextPassword, editTextEmail;
     private boolean isPasswordVisible = false;
@@ -43,6 +43,8 @@ public class LoginScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_login);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);

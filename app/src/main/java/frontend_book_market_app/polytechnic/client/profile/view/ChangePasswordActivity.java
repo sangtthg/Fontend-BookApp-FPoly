@@ -2,8 +2,6 @@ package frontend_book_market_app.polytechnic.client.profile.view;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.method.PasswordTransformationMethod;
-import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,7 +15,9 @@ import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.profile.model.ChangePasswordModel;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.ProfileViewModel;
 import frontend_book_market_app.polytechnic.client.profile.network.RepositoryChangePass;
+import frontend_book_market_app.polytechnic.client.profile.network.RepositoryChangePicture;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.ProfileViewModelFactory;
+import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -31,53 +31,42 @@ public class ChangePasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_change_password);
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
-        RepositoryChangePass repositoryChangePass = new RepositoryChangePass();
 
-        profileViewModel = new ViewModelProvider(
-                this,
-                new ProfileViewModelFactory(repositoryChangePass, sharedPreferences)
-        ).get(ProfileViewModel.class);
+        // Initialize SharedPreferencesHelper
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(this);
+
+        // Initialize Repository
+        RepositoryChangePass repositoryChangePass = new RepositoryChangePass();
+        RepositoryChangePicture repositoryChangePicture = new RepositoryChangePicture(); // Initialize this
+
+        // Create ViewModelFactory with all required parameters
+        ProfileViewModelFactory factory = new ProfileViewModelFactory(
+                repositoryChangePass, repositoryChangePicture, sharedPreferencesHelper
+        );
+
+        // Initialize ViewModel using the factory
+        profileViewModel = new ViewModelProvider(this, factory).get(ProfileViewModel.class);
+
+        // Initialize UI components
         imgBack = findViewById(R.id.imgBack);
         edtOldPassword = findViewById(R.id.edtOldPassword);
         edtNewPassword = findViewById(R.id.edtNewPassword);
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         btnChangePassword = findViewById(R.id.btnChangePassword);
+
+        // Set click listeners
         imgBack.setOnClickListener(view -> onBackPressed());
         btnChangePassword.setOnClickListener(v -> handleChangePassword());
-        setUpPasswordVisibilityToggle(edtOldPassword);
-        setUpPasswordVisibilityToggle(edtNewPassword);
-        setUpPasswordVisibilityToggle(edtConfirmPassword);
-    }
-
-    private void setUpPasswordVisibilityToggle(final EditText editText) {
-        editText.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[2].getBounds().width())) {
-                    // Toggle password visibility
-                    if (editText.getTransformationMethod() instanceof PasswordTransformationMethod) {
-                        // Show password
-                        editText.setTransformationMethod(null);
-                        editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_visibility_on_24, 0);
-                    } else {
-                        // Hide password
-                        editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off, 0);
-                    }
-                    // Move cursor to the end of the text
-                    editText.setSelection(editText.getText().length());
-                    return true;
-                }
-            }
-            return false;
-        });
     }
 
     private void handleChangePassword() {
         String oldPassword = edtOldPassword.getText().toString().trim();
         String newPassword = edtNewPassword.getText().toString().trim();
         String confirmPassword = edtConfirmPassword.getText().toString().trim();
+
+        // Create ChangePasswordModel instance
         ChangePasswordModel model = new ChangePasswordModel(oldPassword, newPassword, confirmPassword);
+
         if (validatePasswords(model)) {
             profileViewModel.changePassword(oldPassword, newPassword);
             observePasswordChange();
@@ -89,10 +78,17 @@ public class ChangePasswordActivity extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
             return false;
         }
+
+        if (model.getNew_password().length() < 6) {
+            Toast.makeText(this, "Mật khẩu mới phải có ít nhất 6 ký tự.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         if (!model.getNew_password().equals(model.getRe_password())) {
             Toast.makeText(this, "Mật khẩu mới và mật khẩu xác nhận không khớp.", Toast.LENGTH_SHORT).show();
             return false;
         }
+
         return true;
     }
 

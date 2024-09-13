@@ -15,8 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#aa0116"
-        android:elevation="4dp"
-        android:paddingTop="@dimen/_15sdp"
+        android:paddingTop="@dimen/_25sdp"
         android:paddingBottom="@dimen/_14sdp">
 
         <LinearLayout
@@ -30,9 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
-                android:src="@drawable/ic_back" />
+                android:src="@drawable/ic_back_white" />
 
             <TextView
                 android:layout_width="0dp"
@@ -74,8 +72,9 @@
                     android:id="@+id/txtFullNameLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Họ và tên"
+
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
 
@@ -84,9 +83,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_edittext"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:hint="Nhập họ và tên"
-                    android:padding="12dp" />
+                    android:padding="@dimen/_11sdp"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
             </LinearLayout>
 
             <!-- Phone Number -->
@@ -100,7 +102,7 @@
                     android:id="@+id/txtPhoneNumberLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Số điện thoại"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
@@ -110,10 +112,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_edittext"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:hint="Nhập số điện thoại"
                     android:inputType="phone"
-                    android:padding="12dp" />
+                    android:padding="@dimen/_11sdp"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone" />
             </LinearLayout>
 
             <!-- Delivery Address -->
@@ -127,7 +131,7 @@
                     android:id="@+id/txtDeliveryAddressLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Địa chỉ nhận hàng"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
@@ -139,9 +143,9 @@
                     android:background="@drawable/rounded_edittext"
                     android:clickable="false"
                     android:focusable="false"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:hint="Nhập địa chỉ nhận hàng"
-                    android:padding="12dp" />
+                    android:padding="@dimen/_11sdp" />
 
                 <EditText
                     android:id="@+id/edtTenduong"
@@ -149,9 +153,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/rounded_edittext"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:hint="Tên đường, số nhà, tòa nhà"
-                    android:padding="12dp" />
+                    android:padding="@dimen/_11sdp"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
+
+
             </LinearLayout>
 
             <!-- Address Type -->
@@ -165,7 +174,7 @@
                     android:id="@+id/txtAddressTypeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Loại địa chỉ"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
@@ -191,7 +200,7 @@
                     android:id="@+id/txtDefaultAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Đặt làm địa chỉ mặc định"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/_15ssp" />
@@ -216,6 +225,7 @@
         android:layout_margin="@dimen/_16sdp"
         android:backgroundTint="#aa0116"
         android:text="Thêm Địa Chỉ"
+        android:fontFamily="@font/roboto_medium"
         android:textColor="@android:color/white"
         app:cornerRadius="8dp"
         app:iconGravity="textStart" />

@@ -95,7 +95,7 @@ public class AddCityActivity extends AppCompatActivity implements CityAdapter.On
             if (!selectedProvince.isEmpty()) {
                 loadDistricts(selectedProvince);
             } else {
-                Toast.makeText(this, "Please select a province first", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Vui lòng chọn Tỉnh/Thành Phố", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,7 +104,7 @@ public class AddCityActivity extends AppCompatActivity implements CityAdapter.On
             if (!selectedDistrict.isEmpty()) {
                 loadWards(selectedDistrict);
             } else {
-                Toast.makeText(this, "Please select a district first", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Vui lòng chọn Quận/Huyện", Toast.LENGTH_SHORT).show();
             }
         });
         btnBackAddCity.setOnClickListener(v -> finish());

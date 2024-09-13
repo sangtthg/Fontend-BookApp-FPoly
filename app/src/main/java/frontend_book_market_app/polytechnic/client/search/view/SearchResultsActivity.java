@@ -131,18 +131,15 @@ public class SearchResultsActivity extends AppCompatActivity {
         });
 
         imageViewSearch2.setOnClickListener(v -> {
-            String token = getTokenFromSharedPreferences();
-            if (token != null && !token.isEmpty()) {
+
                 String query = editTextSearch2.getText().toString().trim();
                 if (!query.isEmpty()) {
                     showProgressBar(true);
-                    performSearch(token, query);  // Perform the search
+                    performSearch(query);  // Perform the search
                 } else {
                     Toast.makeText(SearchResultsActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(SearchResultsActivity.this, "Token not found. Please log in.", Toast.LENGTH_SHORT).show();
-            }
+
         });
 
 
@@ -151,17 +148,14 @@ public class SearchResultsActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 showProgressBar(true);
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
-                    String token = getTokenFromSharedPreferences();
-                    if (token != null && !token.isEmpty()) {
+
                         String query = editTextSearch2.getText().toString().trim();
                         if (!query.isEmpty()) {
-                            performSearch(token, query);  // Perform the search
+                            performSearch(query);  // Perform the search
                         } else {
                             Toast.makeText(SearchResultsActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(SearchResultsActivity.this, "Token not found. Please log in.", Toast.LENGTH_SHORT).show();
-                    }
+
                     return true;
                 }
                 return false;
@@ -268,9 +262,9 @@ public class SearchResultsActivity extends AppCompatActivity {
         return sharedPreferences.getString("token", null);
     }
 
-    private void performSearch(String token, String query) {
+    private void performSearch( String query) {
         showProgressBar(true);
-        searchViewModel.searchBooks(token, 1000, 1000, query);
+        searchViewModel.searchBooks( 1000, 1000, query);
 
         // Observe the search results
         searchViewModel.getSearchResults().observe(this, bookSearchResponse -> {

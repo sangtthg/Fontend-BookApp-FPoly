@@ -203,4 +203,14 @@ public class SharedPreferencesHelper {
     public void clear() {
         editor.clear().apply();
     }
+    public void saveProfileImage(String imageUrl) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("profile_image_url", imageUrl);
+        editor.apply();
+    }
+
+    public String getProfileImage() {
+        return sharedPreferences.getString("profile_image_url", "");
+    }
+
 }
