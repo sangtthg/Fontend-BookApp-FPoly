@@ -7,7 +7,7 @@
     android:background="@color/backgroundColor"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".home.view.PaymentActivity">
+    tools:context=".profile.view.AddressListActivity">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar

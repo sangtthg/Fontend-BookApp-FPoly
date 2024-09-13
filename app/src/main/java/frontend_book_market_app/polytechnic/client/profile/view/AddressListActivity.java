@@ -2,6 +2,7 @@ package frontend_book_market_app.polytechnic.client.profile.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -43,6 +44,11 @@ public class AddressListActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decor = getWindow().getDecorView();
+            decor.setSystemUiVisibility(0);
+        }
+
         setContentView(R.layout.activity_address_list);
         btnBackThanhToan = findViewById(R.id.btnBackThanhToan);
         recyclerViewAddressList = findViewById(R.id.recyclerViewAddressList);
