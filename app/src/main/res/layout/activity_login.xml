@@ -35,6 +35,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:text="Đăng nhập"
                 android:textColor="#2B2B2B"
@@ -44,6 +45,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="Điền thông tin của bạn"
                 android:textColor="#707B81"
@@ -59,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_30sdp"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Email"
                     android:textColor="#2B2B2B"
                     android:textSize="@dimen/_13sdp" />
@@ -68,12 +70,14 @@
                     android:id="@+id/editTextEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/_10sdp"
                     android:background="@drawable/rounded_edittext"
-                    android:fontFamily="@font/font_kpmt"
-                    android:hint=""
+                    android:fontFamily="@font/roboto_medium"
+                    android:hint="Email"
+                    android:imeOptions="actionDone"
+                    android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:padding="10dp"
+                    android:padding="@dimen/_10sdp"
                     android:singleLine="true"
                     android:textColor="#6A6A6A" />
 
@@ -81,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/font_family"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="Mật khẩu"
                     android:textColor="#2B2B2B"
                     android:textSize="@dimen/_13sdp" />
@@ -90,14 +94,15 @@
                     android:id="@+id/editTextPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/_10sdp"
                     android:background="@drawable/rounded_edittext"
                     android:drawableEnd="@drawable/ic_visibility_off"
-                    android:fontFamily="@font/font_kpmt"
-                    android:hint=""
+                    android:fontFamily="@font/roboto_medium"
+                    android:hint="Mật khẩu"
+                    android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:padding="10dp"
+                    android:padding="@dimen/_10sdp"
                     android:singleLine="true"
                     android:textColor="#6A6A6A" />
 
@@ -112,7 +117,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_10sdp"
-                        android:fontFamily="@font/font_kpmt"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Khôi phục mật khẩu"
                         android:textColor="#000000"
                         android:textSize="@dimen/_11sdp" /> <!-- Căn chỉnh bên phải -->
@@ -133,6 +138,7 @@
                 android:layout_height="@dimen/_45sdp"
                 android:layout_gravity="center"
                 android:backgroundTint="#FF7622"
+                android:fontFamily="@font/roboto_medium"
                 android:text="Đăng Nhập"
                 android:textColor="@android:color/white"
                 app:cornerRadius="@dimen/_40sdp"
@@ -149,16 +155,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font_family"
                 android:text="Người dùng mới?"
                 android:textColor="#1A1D1E"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_13sdp"
+                android:fontFamily="@font/roboto_medium"/>
 
             <TextView
                 android:id="@+id/tvTaoTaiKhoan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font_dn"
+                android:fontFamily="@font/roboto_bold"
                 android:text=" Tạo tài khoản"
                 android:textColor="#000000"
                 android:textSize="@dimen/_13sdp"

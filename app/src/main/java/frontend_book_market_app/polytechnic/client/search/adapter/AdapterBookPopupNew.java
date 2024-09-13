@@ -44,7 +44,7 @@ public class AdapterBookPopupNew extends RecyclerView.Adapter<AdapterBookPopupNe
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .placeholder(R.drawable.loading_book)
-                .fitCenter()
+                .centerCrop()
                 .into(holder.imageViewBookSearch);
         holder.itemView.setOnClickListener(v -> listener.onItemClick(bookModel.getBookId()));
     }

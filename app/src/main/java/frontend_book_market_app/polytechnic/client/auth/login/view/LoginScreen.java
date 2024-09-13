@@ -77,7 +77,6 @@ public class LoginScreen extends AppCompatActivity {
         tvTaoTaiKhoan.setOnClickListener(view -> {
             Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
             startActivity(intent);
-            finish(); // Kết thúc màn hình đăng nhập
         });
 
         btnLogin.setOnClickListener(v -> {
@@ -94,19 +93,19 @@ public class LoginScreen extends AppCompatActivity {
         loginViewModel.getLoginResponse().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String response) {
-                // Ẩn ProgressBar và lớp phủ tối khi hoàn tất
                 darkOverlay.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
                 if (response.equals("Đăng nhập thành công")) {
                     Toast.makeText(LoginScreen.this, response, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginScreen.this, MainActivity.class);
                     startActivity(intent);
-                    finish(); // Đóng màn hình đăng nhập
+                    finish();
                 } else {
                     Toast.makeText(LoginScreen.this, response, Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
         txtForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,21 +121,31 @@ public class LoginScreen extends AppCompatActivity {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
+        // Kiểm tra email không được để trống
         if (TextUtils.isEmpty(email)) {
             editTextEmail.setError("Vui lòng nhập email");
             return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        }
+        // Kiểm tra email có hợp lệ hay không
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editTextEmail.setError("Email không hợp lệ");
             return false;
         }
 
+        // Kiểm tra mật khẩu không được để trống
         if (TextUtils.isEmpty(password)) {
             editTextPassword.setError("Vui lòng nhập mật khẩu");
+            return false;
+        }
+        // Kiểm tra mật khẩu phải từ 6 ký tự trở lên
+        else if (password.length() < 6) {
+            editTextPassword.setError("Mật khẩu phải có ít nhất 6 ký tự");
             return false;
         }
 
         return true;
     }
+
 
     private void togglePasswordVisibility() {
         if (isPasswordVisible) {
@@ -149,4 +158,14 @@ public class LoginScreen extends AppCompatActivity {
         isPasswordVisible = !isPasswordVisible;
         editTextPassword.setSelection(editTextPassword.length());
     }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Khởi tạo Intent để mở MainActivity
+        Intent intent = new Intent(LoginScreen.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }

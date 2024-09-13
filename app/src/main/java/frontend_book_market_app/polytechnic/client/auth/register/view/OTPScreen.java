@@ -98,8 +98,6 @@ public class OTPScreen extends AppCompatActivity {
                             otpModel.setAddress(address);
                             otpModel.setOtp(otp);
                             otpModel.setOtp_id(otp_id);
-
-                            // Gọi phương thức đăng ký từ ViewModel với OTPModel đã tạo
                             registerViewModel.register(otpModel);
                         } catch (JSONException e) {
                             e.printStackTrace();

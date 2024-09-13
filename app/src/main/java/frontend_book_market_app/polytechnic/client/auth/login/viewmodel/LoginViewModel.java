@@ -53,6 +53,7 @@ public class LoginViewModel extends ViewModel {
                         Log.d("LoginViewModel", "Response Body: " + responseBody);
                         JSONObject jsonObject = new JSONObject(responseBody);
                         if (jsonObject.has("status") && jsonObject.getString("status").equals("1")) {
+                            // Đăng nhập thành công
                             JSONObject dataObject = jsonObject.getJSONObject("data");
                             JSONObject userObject = dataObject.getJSONObject("user");
 
@@ -72,15 +73,17 @@ public class LoginViewModel extends ViewModel {
                             loginResponse.postValue("Đăng nhập thành công");
 
                             // Gọi getAddress sau khi đăng nhập thành công
-//                            getAddress(userId, token);
+                            // getAddress(userId, token);
                         } else {
-                            String errorMessage = jsonObject.optString("message", "Đăng nhập thất bại");
+                            // Đăng nhập thất bại
+                            String errorMessage = jsonObject.optString("message", "Sai tài khoản hoặc mật khẩu");
                             loginResponse.postValue("Đăng nhập thất bại: " + errorMessage);
                         }
                     } else {
+                        // Xử lý khi phản hồi không thành công
                         String errorBody = response.errorBody() != null ? response.errorBody().string() : "Đã xảy ra lỗi";
                         JSONObject jsonObject = new JSONObject(errorBody);
-                        String errorMessage = jsonObject.optString("message", "Đăng nhập thất bại");
+                        String errorMessage = jsonObject.optString("message", "Sai tài khoản hoặc mật khẩu");
                         loginResponse.postValue("Đăng nhập thất bại: " + errorMessage);
                         Log.e("LoginViewModel", "Error Response Body: " + errorBody);
                     }
@@ -90,6 +93,7 @@ public class LoginViewModel extends ViewModel {
                 }
             }
 
+
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 Log.e("LoginViewModel", "Login API onFailure: ", t);
@@ -98,73 +102,5 @@ public class LoginViewModel extends ViewModel {
         });
     }
 
-//    private void getAddress(int userId, String token) {
-//        String authHeader = "Bearer " + token;
-//        RequestBody body = RequestBody.create(okhttp3.MultipartBody.FORM, String.valueOf(userId));
-//
-//        repositoryLogin.getAddress(authHeader, body, new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-//                try {
-//                    if (response.isSuccessful() && response.body() != null) {
-//                        String responseBody = response.body().string();
-//                        Log.d("LoginViewModel", "Address Response Body: " + responseBody);
-//
-//                        JSONObject jsonObject = new JSONObject(responseBody);
-//                        if (jsonObject.has("status") && jsonObject.getString("status").equals("1")) {
-//                            JSONArray dataArray = jsonObject.getJSONArray("data");
-//                            List<AddressModel> addresses = new ArrayList<>();
-//
-//                            for (int i = 0; i < dataArray.length(); i++) {
-//                                JSONObject addressObject = dataArray.getJSONObject(i);
-//
-//                                AddressModel address = new AddressModel(
-//                                        addressObject.getInt("address_id"),
-//                                        addressObject.getInt("user_id"),
-//                                        addressObject.getString("name"),
-//                                        addressObject.getString("phone"),
-//                                        addressObject.getString("address"),
-//                                        addressObject.getString("address_type"),
-//                                        addressObject.getInt("status"),
-//                                        addressObject.getString("created_at"),
-//                                        addressObject.getString("updated_at"),
-//                                        addressObject.getBoolean("is_default")
-//                                );
-//
-//                                addresses.add(address);
-//                                Log.d("LoginViewModel", "Address " + i + ": " + addressObject.toString());
-//                            }
-//
-//                            // Lưu địa chỉ vào SharedPreferencesHelper
-//                            sharedPreferencesHelper.saveAddresses(addresses);
-//
-//                            // Cập nhật dữ liệu vào LiveData
-//                            addressResponse.postValue(addresses);
-//                        } else {
-//                            String errorMessage = jsonObject.optString("message", "Không thể lấy địa chỉ");
-//                            addressResponse.postValue(new ArrayList<>());
-//                            Log.e("LoginViewModel", "Address Error: " + errorMessage);
-//                        }
-//                    } else {
-//                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "Đã xảy ra lỗi";
-//                        JSONObject jsonObject = new JSONObject(errorBody);
-//                        String errorMessage = jsonObject.optString("message", "Không thể lấy địa chỉ");
-//                        addressResponse.postValue(new ArrayList<>());
-//                        Log.e("LoginViewModel", "Address Error Response Body: " + errorBody);
-//                    }
-//                } catch (IOException | JSONException e) {
-//                    e.printStackTrace();
-//                    addressResponse.postValue(new ArrayList<>());
-//                    Log.e("LoginViewModel", "Address Exception: " + e.getMessage());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-//                Log.e("LoginViewModel", "Address API onFailure: ", t);
-//                addressResponse.postValue(new ArrayList<>());
-//            }
-//        });
-//    }
 
 }
