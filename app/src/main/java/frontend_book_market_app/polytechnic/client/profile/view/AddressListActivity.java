@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -39,6 +41,8 @@ public class AddressListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_address_list);
         btnBackThanhToan = findViewById(R.id.btnBackThanhToan);
         recyclerViewAddressList = findViewById(R.id.recyclerViewAddressList);
@@ -64,9 +68,10 @@ public class AddressListActivity extends AppCompatActivity {
             @Override
             public void onDeleteAddress(AddressModel address) {
                 addressViewModel.deleteAddress(address.getAddress_id());
-                Toast.makeText(AddressListActivity.this, "Address deleted successfully", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(AddressListActivity.this, "Xóa địa chỉ thành công", Toast.LENGTH_SHORT).show();
                 addressViewModel.loadAddresses();
+                loadAddressList();
+
             }
         });
 

@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -38,13 +41,16 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
     private List<ProfileModel> profileList;
     private OnLogoutClickListener onLogoutClickListener;
     private SharedPreferencesHelper sharedPreferencesHelper;
+    private Fragment fragment; // Change to Fragment reference
+    private OnImageSelectedListener onImageSelectedListener;
 
-    public AdapterProfile(List<ProfileModel> profileList, OnLogoutClickListener onLogoutClickListener, SharedPreferencesHelper sharedPreferencesHelper) {
+    public AdapterProfile(List<ProfileModel> profileList, OnLogoutClickListener onLogoutClickListener, SharedPreferencesHelper sharedPreferencesHelper, Fragment fragment, OnImageSelectedListener onImageSelectedListener) {
         this.profileList = profileList;
         this.onLogoutClickListener = onLogoutClickListener;
         this.sharedPreferencesHelper = sharedPreferencesHelper;
+        this.fragment = fragment; // Initialize Fragment reference
+        this.onImageSelectedListener = onImageSelectedListener;
     }
-
     @NonNull
     @Override
     public ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,15 +63,11 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
         ProfileModel profile = profileList.get(position);
         holder.txtTenNguoiDung.setText(profile.getUsername());
         holder.txtEmail.setText(profile.getEmail());
-        holder.txtDoiMatKhau.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkLoginStatus(view.getContext(), () -> {
-                    Intent intent = new Intent(view.getContext(), ChangePasswordActivity.class);
-                    view.getContext().startActivity(intent);
-                });
-            }
-        });
+
+        holder.txtDoiMatKhau.setOnClickListener(view -> checkLoginStatus(view.getContext(), () -> {
+            Intent intent = new Intent(view.getContext(), ChangePasswordActivity.class);
+            view.getContext().startActivity(intent);
+        }));
 
         String value = profile.getEmail();
         if (value.length() > 5) {
@@ -80,28 +82,21 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             holder.txtEmail.setText(value);
         }
 
-        // Load avatar
         String avatarUrl = profile.getAvatar();
-        Glide.with(holder.itemView.getContext())
-                .load(avatarUrl != null && !avatarUrl.isEmpty() ? avatarUrl : R.drawable.avatar)
-                .placeholder(R.drawable.avatar)
-                .error(R.drawable.avatar)
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(16)))  // Apply rounded corners
-                .into(holder.imgAvatar);
+//        Glide.with(holder.itemView.getContext())
+//                .load(avatarUrl != null && !avatarUrl.isEmpty() ? avatarUrl : R.drawable.avatar)
+//                .placeholder(R.drawable.avatar)
+//                .error(R.drawable.avatar)
+//                .apply(RequestOptions.bitmapTransform(new RoundedCorners(16)))  // Apply rounded corners
+//                .into(holder.imgAvatar);
 
-        holder.imgChangeAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkLoginStatus(view.getContext(), () -> {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    ((Activity) view.getContext()).startActivityForResult(intent, 100); // 100 is a request code
-                });
-            }
-        });
+//        holder.imgChangeAvatar.setOnClickListener(view -> checkLoginStatus(view.getContext(), () -> {
+//            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            fragment.startActivityForResult(intent, 100); // Use the Fragment reference
+//        }));
 
 
 
-        // Check token and set button behavior
         SharedPreferences sharedPreferences = holder.itemView.getContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
 
@@ -116,21 +111,11 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             }));
         }
 
-        holder.txtDiaChi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Tạo một Intent để bắt đầu AddressListActivity
-                Intent intent = new Intent(v.getContext(), AddressListActivity.class);
-                v.getContext().startActivity(intent);
-            }
+        holder.txtDiaChi.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), AddressListActivity.class);
+            v.getContext().startActivity(intent);
         });
-
-
-
     }
-
-
-
 
     @Override
     public int getItemCount() {
@@ -145,19 +130,17 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
         TextView txtTenNguoiDung, txtEmail;
-        TextView txtDoiMatKhau, txtSoDienThoai, txtDiaChi,btnLogoutProfile;
+        TextView txtDoiMatKhau, txtDiaChi, btnLogoutProfile;
         ImageView imgAvatar, imgChangeAvatar;
-//        LinearLayout linearLayoutDonHangCuaToi;
 
         public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
-//            txtSoDienThoai = itemView.findViewById(R.id.txtSoDienThoai);
             txtDoiMatKhau = itemView.findViewById(R.id.txtDoiMatKhau);
             txtTenNguoiDung = itemView.findViewById(R.id.txtTenNguoiDung);
             txtDiaChi = itemView.findViewById(R.id.txtDiaChi);
             txtEmail = itemView.findViewById(R.id.txtEmail);
-            imgAvatar = itemView.findViewById(R.id.imgAvatar);
-            imgChangeAvatar = itemView.findViewById(R.id.imgChangeAvatar);
+//            imgAvatar = itemView.findViewById(R.id.imgAvatar);
+//            imgChangeAvatar = itemView.findViewById(R.id.imgChangeAvatar);
             btnLogoutProfile = itemView.findViewById(R.id.btnLogoutProfile);
         }
     }
@@ -165,7 +148,9 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
     public interface OnLogoutClickListener {
         void onLogoutClick();
     }
-
+    public interface OnImageSelectedListener {
+        void onImageSelected(Uri imageUri);
+    }
     private void checkLoginStatus(Context context, Runnable onSuccess) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
@@ -223,4 +208,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
 
         dialog.show();
     }
+
+
+
 }

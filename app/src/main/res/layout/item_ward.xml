@@ -8,6 +8,7 @@
     <TextView
         android:text="Thanh Quang"
         android:textColor="@color/black"
+        android:fontFamily="@font/roboto_medium"
         android:id="@+id/textViewWardName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

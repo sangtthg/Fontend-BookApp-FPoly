@@ -119,29 +119,24 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
-                    // Xử lý hành động tìm kiếm hoặc hoàn thành tại đây
-                    String token = getTokenFromSharedPreferences();
 
-                    if (token != null && !token.isEmpty()) {
                         String query = editTextSearch.getText().toString().trim();
 
                         if (!query.isEmpty()) {
-//                    showProgressBar(true);
+
 
                             // Gọi phương thức tìm kiếm với query và token
-                            searchViewModel.searchBooks(token, 1000, 1000, query);
+                            searchViewModel.searchBooks( 1000, 1000, query);
 
                             // Quan sát kết quả tìm kiếm
                             searchViewModel.getSearchResults().observe(SearchActivity.this, bookSearchResponse -> {
-//                        showProgressBar(false);
+
                                 handleSearchResults(bookSearchResponse, query); // Pass the query to handleSearchResults
                             });
                         } else {
                             Toast.makeText(SearchActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(SearchActivity.this, "Token not found. Please log in.", Toast.LENGTH_SHORT).show();
-                    }
+
                     return true;
                 }
                 return false;
@@ -197,16 +192,14 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         imageViewSearch.setOnClickListener(v -> {
-            String token = getTokenFromSharedPreferences();
 
-            if (token != null && !token.isEmpty()) {
                 String query = editTextSearch.getText().toString().trim();
 
                 if (!query.isEmpty()) {
 //                    showProgressBar(true);
 
                     // Gọi phương thức tìm kiếm với query và token
-                    searchViewModel.searchBooks(token, 1000, 1000, query);
+                    searchViewModel.searchBooks( 1000, 1000, query);
 
                     // Quan sát kết quả tìm kiếm
                     searchViewModel.getSearchResults().observe(SearchActivity.this, bookSearchResponse -> {
@@ -216,9 +209,7 @@ public class SearchActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(SearchActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(SearchActivity.this, "Token not found. Please log in.", Toast.LENGTH_SHORT).show();
-            }
+
         });
 
         // Handle back button click
@@ -331,11 +322,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void showBookSuggestions(String query, SearchCallback callback) {
-        // Kiểm tra nếu token hợp lệ
-        String token = getTokenFromSharedPreferences();
-        if (token != null && !token.isEmpty()) {
-            // Gọi API để lấy kết quả tìm kiếm
-            searchViewModel.searchBooks(token, 1000, 1000, query);
+
+
+            searchViewModel.searchBooks( 1000, 1000, query);
 
             searchViewModel.getSearchResults().observe(SearchActivity.this, bookSearchResponse -> {
                 boolean hasSuggestions = false;
@@ -394,12 +383,7 @@ public class SearchActivity extends AppCompatActivity {
                     callback.onSearchCompleted(hasSuggestions);
                 }
             });
-        } else {
-            Toast.makeText(SearchActivity.this, "Token not found. Please log in.", Toast.LENGTH_SHORT).show();
-            if (callback != null) {
-                callback.onSearchCompleted(false);
-            }
-        }
+
     }
 
     public interface SearchCallback {

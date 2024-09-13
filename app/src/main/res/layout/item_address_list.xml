@@ -20,7 +20,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Address Name"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Dương Hồng Tiến"
             android:textColor="#212121"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="Mặc định"
+            android:fontFamily="@font/roboto_medium"
             android:textColor="#0288D1"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -43,7 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Phone Number"
+        android:fontFamily="@font/roboto_medium"
+        android:text="0332322764"
         android:textColor="#616161"
         android:textSize="14sp" />
 
@@ -53,7 +56,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Address Details"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Thông Tông Phố, Xã Thanh Quang, Huyện Nam Sách, Tỉnh Hải Dương"
         android:textColor="#616161"
         android:textSize="14sp" />
 
@@ -62,7 +66,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
@@ -75,10 +78,12 @@
             android:id="@+id/txtAddressTypeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address Type"
+            android:layout_marginStart="5dp"
+            android:text="Nhà"
+        android:layout_gravity="center"
+            android:fontFamily="@font/roboto_medium"
             android:textColor="#212121"
-            android:textSize="14sp"
-        android:layout_marginStart="8dp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
     <!-- Action Buttons -->
@@ -98,6 +103,7 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="Sửa"
+            android:fontFamily="@font/roboto_medium"
             android:textColor="@android:color/white"
             app:cornerRadius="8dp" />
 
@@ -108,6 +114,7 @@
             android:backgroundTint="@android:color/holo_red_light"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
+            android:fontFamily="@font/roboto_medium"
             android:text="Xóa"
             android:textColor="@android:color/white"
             app:cornerRadius="8dp" />

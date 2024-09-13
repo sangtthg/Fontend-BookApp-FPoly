@@ -67,6 +67,7 @@
                 android:id="@+id/txtProvinceUpdateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
                 android:text="Tỉnh/Thành Phố"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/_15ssp" />
@@ -80,9 +81,10 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
+                android:fontFamily="@font/roboto_medium"
                 android:hint="Chọn Tỉnh/Thành Phố"
                 android:inputType="none"
-                android:padding="12dp" />
+                android:padding="@dimen/_11sdp" />
 
         </LinearLayout>
 
@@ -97,6 +99,7 @@
                 android:id="@+id/txtDistrictUpdateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
                 android:text="Quận/Huyện"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/_15ssp" />
@@ -110,9 +113,10 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
+                android:fontFamily="@font/roboto_medium"
                 android:hint="Chọn Quận/Huyện"
                 android:inputType="none"
-                android:padding="12dp" />
+                android:padding="@dimen/_11sdp" />
 
         </LinearLayout>
 
@@ -127,6 +131,7 @@
                 android:id="@+id/txtWardUpdateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
                 android:text="Phường/Xã"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/_15ssp" />
@@ -140,9 +145,10 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
+                android:fontFamily="@font/roboto_medium"
                 android:hint="Chọn Phường/Xã"
                 android:inputType="none"
-                android:padding="12dp" />
+                android:padding="@dimen/_11sdp" />
 
         </LinearLayout>
 
@@ -154,6 +160,7 @@
             android:background="@drawable/rounded_edittext"
             android:drawableStart="@drawable/baseline_search_24"
             android:drawablePadding="8dp"
+            android:fontFamily="@font/roboto_medium"
             android:hint="Tìm kiếm tỉnh/thành phố"
             android:inputType="text"
             android:maxLines="1"

@@ -71,8 +71,11 @@ public class UpdateAddressActivity extends AppCompatActivity {
             Log.d("UpdateAddressActivity", "Address ID: " + addressId);
             edtFullNameUpdate.setText(fullName);
             edtPhoneNumberUpdate.setText(phoneNumber);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.address_type_options, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.address_type_options,
+                    R.layout.spinner_item); // Use the custom layout for items
+
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerAddressTypeUpdate.setAdapter(adapter);
             int addressTypePosition = adapter.getPosition(addressType);
             spinnerAddressTypeUpdate.setSelection(addressTypePosition);
@@ -119,7 +122,7 @@ public class UpdateAddressActivity extends AppCompatActivity {
             addressViewModel.updateAddress(updatedAddress);
             addressViewModel.getAddressUpdateSuccess().observe(this, isSuccess -> {
                 if (isSuccess != null && isSuccess) {
-                    Toast.makeText(UpdateAddressActivity.this, "Address updated successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateAddressActivity.this, "Cập nhật địa chỉ thành công", Toast.LENGTH_SHORT).show();
                     Intent resultIntent = new Intent();
                     setResult(RESULT_OK, resultIntent);
                     finish();

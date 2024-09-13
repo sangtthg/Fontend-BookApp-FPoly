@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:background="#aa0116"
         android:elevation="4dp"
-        android:paddingTop="@dimen/_15sdp"
+        android:paddingTop="@dimen/_33sdp"
         android:paddingBottom="@dimen/_14sdp">
 
         <LinearLayout
@@ -29,9 +29,10 @@
                 android:id="@+id/btnBackThanhToan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
-                android:src="@drawable/ic_back" />
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_back_white" />
 
             <TextView
                 android:layout_width="0dp"

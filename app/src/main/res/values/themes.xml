@@ -30,7 +30,24 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+    <style name="Login" parent="Theme.Material3.DayNight.NoActionBar">
 
+        <item name="android:statusBarColor">@color/colorRedM</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:popupBackground">@color/white</item>
+        <item name="android:popupTheme">@color/white</item>
+        <item name="android:popupMenuStyle">@color/white</item>
+        <item name="colorPrimary">@color/colorRedM</item>
+        <item name="colorPrimaryDark">@color/colorRedM</item>
+        <item name="colorAccent">@color/colorRedM</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="material_dialog_background">#FFFFFF</item>
+        <item name="material_dialog_title_text_color">#000000</item>
+        <item name="material_dialog_message_text_color">#5F5F5F</item>
+        <item name="material_dialog_positive_button_color">@color/colorRedM</item>
+        <item name="material_dialog_positive_button_text_color">#FFFFFF</item>
+        <item name="material_dialog_negative_button_text_color">@color/colorRedM</item>
+    </style>
 
     <style name="Theme.Fontend_BookApp_FPoly" parent="Base.Theme.Fontend_BookApp_FPoly" />
     <style name="Theme.Fontend_BookApp_FPoly.NoActionBar">

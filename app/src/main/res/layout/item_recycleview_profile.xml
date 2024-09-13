@@ -5,33 +5,24 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!-- Profile Picture -->
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp">
+<!--    &lt;!&ndash; Profile Picture &ndash;&gt;-->
+<!--    <FrameLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginBottom="16dp">-->
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgAvatar"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:src="@drawable/avatar"
-            app:civ_border_color="@color/colorRedM"
-            app:civ_border_width="2dp" />
+<!--&lt;!&ndash;        <de.hdodenhof.circleimageview.CircleImageView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/imgAvatar"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="160dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="160dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:src="@drawable/avatar"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:civ_border_color="@color/colorRedM"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:civ_border_width="1dp" />&ndash;&gt;-->
 
-        <ImageView
-            android:id="@+id/imgChangeAvatar"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="8dp"
-            android:background="@drawable/circle_background2"
-            android:padding="6dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/baseline_add_photo_alternate_24" />
-    </FrameLayout>
+
+<!--    </FrameLayout>-->
 
 
 
@@ -63,6 +54,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="Tên người dùng"
+            android:fontFamily="@font/roboto_medium"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -74,61 +66,17 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="4dp"
+            android:fontFamily="@font/roboto_italic"
             android:text="duongtien"
             android:textSize="16sp" />
     </LinearLayout>
 
-<!--    &lt;!&ndash; Divider &ndash;&gt;-->
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"-->
-<!--        android:layout_marginBottom="8dp"-->
-        android:background="#DCDCDC" />
-
-<!--    &lt;!&ndash; Phone Number &ndash;&gt;-->
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:background="?android:attr/selectableItemBackground"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:padding="12dp">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:layout_marginEnd="8dp"-->
-<!--            android:src="@drawable/baseline_phone_in_talk_24" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:text="Số điện thoại"-->
-<!--            android:textSize="16sp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtSoDienThoai"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:ellipsize="end"-->
-<!--            android:maxLines="1"-->
-<!--            android:padding="4dp"-->
-<!--            android:text="0123456789"-->
-<!--            android:textSize="16sp" />-->
-<!--    </LinearLayout>-->
-
-    <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
         android:background="#DCDCDC" />
 
-    <!-- Email -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -149,6 +97,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="Email"
+            android:fontFamily="@font/roboto_medium"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -160,18 +109,19 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="4dp"
+            android:fontFamily="@font/roboto_italic"
             android:text="duongtien@gmail.com"
             android:textSize="16sp" />
     </LinearLayout>
 
-    <!-- Divider -->
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
         android:background="#DCDCDC" />
 
-    <!-- Address -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -182,13 +132,14 @@
 
         <ImageView
             android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_height="match_parent"
             android:layout_marginEnd="8dp"
             android:src="@drawable/baseline_directions_24" />
 
         <TextView
             android:id="@+id/txtDiaChi"
             android:layout_width="0dp"
+            android:fontFamily="@font/roboto_medium"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
@@ -234,6 +185,7 @@
             android:gravity="center_vertical"
             android:text="Thay đổi mật khẩu"
             android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"
             android:textStyle="bold" />
 
         <ImageView
@@ -273,6 +225,7 @@
             android:gravity="center_vertical"
             android:text="Đăng xuất"
             android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"
             android:textStyle="bold" />
 
         <ImageView

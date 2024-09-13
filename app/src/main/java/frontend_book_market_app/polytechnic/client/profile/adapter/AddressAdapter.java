@@ -3,9 +3,12 @@ package frontend_book_market_app.polytechnic.client.profile.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,7 +63,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
                 break;
             default:
                 holder.imgAddressTypeIcon.setVisibility(View.GONE);
-                holder.txtAddressTypeLabel.setText("Unknown");
+                holder.txtAddressTypeLabel.setText("Không có sẵn");
                 break;
         }
 
@@ -70,10 +73,16 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
             }
         });
         holder.btnDeleteAddress.setOnClickListener(v -> {
-            if (onAddressActionListener != null) {
-                onAddressActionListener.onDeleteAddress(address);
-            }
+                if (onAddressActionListener != null) {
+                    if (address.isIs_default()) {
+                        Toast.makeText(holder.itemView.getContext(), "Không thể xóa địa chỉ mặc định", Toast.LENGTH_SHORT).show();
+                    } else {
+                        onAddressActionListener.onDeleteAddress(address);
+                    }
+                }
+
         });
+
     }
 
     @Override

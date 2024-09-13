@@ -65,8 +65,8 @@ public class SearchViewModel extends ViewModel {
         });
     }
 
-    public void searchBooks(String token, int totalAll, int limit, String searchQuery) {
-        repositorySearch.searchBooks(token, totalAll, limit, searchQuery, new Callback<BookSearchResponse>() {
+    public void searchBooks( int totalAll, int limit, String searchQuery) {
+        repositorySearch.searchBooks( totalAll, limit, searchQuery, new Callback<BookSearchResponse>() {
             @Override
             public void onResponse(Call<BookSearchResponse> call, Response<BookSearchResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

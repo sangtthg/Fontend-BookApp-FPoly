@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-feature android:name="android.hardware.telephony" android:required="true" />
 
@@ -24,18 +26,23 @@
             android:exported="false" />
         <activity
             android:name=".profile.view.UpdateCityActivity"
+            android:theme="@style/Login"
             android:exported="false" />
         <activity
             android:name=".profile.view.UpdateAddressActivity"
+            android:theme="@style/Login"
             android:exported="false" />
         <activity
             android:name=".profile.view.AddCityActivity"
+            android:theme="@style/Login"
             android:exported="false" />
         <activity
             android:name=".profile.view.AddAddressActivity"
+            android:theme="@style/Login"
             android:exported="false" />
         <activity
             android:name=".profile.view.AddressListActivity"
+            android:theme="@style/Login"
             android:exported="false" />
         <activity
             android:name=".search.view.SearchResultsActivity"
@@ -67,11 +74,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Các activity khác -->
+        </activity>
+
+
+
         <activity
             android:name=".onboardingscreen.SplashScreenActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".onboardingscreen.NavigationActivity"
             android:exported="false" />
@@ -114,6 +125,7 @@
             android:name=".auth.register.view.RegisterScreen"
             android:exported="false" />
         <activity
+            android:theme="@style/Login"
             android:name=".auth.login.view.LoginScreen"
             android:exported="true" />
     </application>
