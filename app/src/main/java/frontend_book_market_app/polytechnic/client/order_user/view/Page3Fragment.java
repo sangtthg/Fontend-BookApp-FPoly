@@ -25,7 +25,6 @@ public class Page3Fragment extends Fragment {
     private OrderUserViewModel viewModel;
     private RecyclerView recyclerView;
     private P3AdapterOrderDaGiaoHang adapter;
-    private int bookID;
     private HomeViewModel homeViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
     private SkeletonAdapter skeletonAdapter;

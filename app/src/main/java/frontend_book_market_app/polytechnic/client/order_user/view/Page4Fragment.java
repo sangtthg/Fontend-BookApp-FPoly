@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +25,7 @@ public class Page4Fragment extends Fragment {
     private RecyclerView recyclerView;
     private P4AdapterOrderDaHuy adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private SkeletonAdapter skeletonAdapter;
 
     @Nullable
     @Override
@@ -36,6 +36,7 @@ public class Page4Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
 
         LinearLayout emptyLayout = view.findViewById(R.id.emptyLayout);
@@ -43,23 +44,20 @@ public class Page4Fragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        SkeletonAdapter skeletonAdapter = new SkeletonAdapter(4);
+        skeletonAdapter = new SkeletonAdapter(4);
         recyclerView.setAdapter(skeletonAdapter);
 
         adapter = new P4AdapterOrderDaHuy();
 
-        viewModel.getTab4().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
-            @Override
-            public void onChanged(OrderUserResponse orderResponse) {
-                if (orderResponse != null && orderResponse.getCode() == 0 && !orderResponse.getOrders().isEmpty()) {
-                    adapter.setDataOrdersUser(orderResponse.getOrders());
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyLayout.setVisibility(View.GONE);
-                } else {
-                    recyclerView.setVisibility(View.GONE);
-                    emptyLayout.setVisibility(View.VISIBLE);
-                }
+        viewModel.getTab4().observe(getViewLifecycleOwner(), orderResponse -> {
+            if (orderResponse != null && orderResponse.getCode() == 0 && !orderResponse.getOrders().isEmpty()) {
+                adapter.setDataOrdersUser(orderResponse.getOrders());
+                recyclerView.setAdapter(adapter);
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyLayout.setVisibility(View.GONE);
+            } else {
+                recyclerView.setVisibility(View.GONE);
+                emptyLayout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -69,8 +67,6 @@ public class Page4Fragment extends Fragment {
             viewModel.getCancelledOrders();
             swipeRefreshLayout.setRefreshing(false);
         });
-
-        viewModel.getCancelledOrders();
     }
 
     @Override

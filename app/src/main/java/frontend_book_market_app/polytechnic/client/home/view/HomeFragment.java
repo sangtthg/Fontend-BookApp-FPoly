@@ -32,8 +32,6 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import java.util.ArrayList;
 import java.util.List;
 
-//import q.rorbin.badgeview.QBadgeView;
-
 import cn.bingoogolapple.badgeview.BGABadgeImageView;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
@@ -80,7 +78,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-        sharedPreferencesHelper = new SharedPreferencesHelper(getContext());
+        sharedPreferencesHelper = new SharedPreferencesHelper(null);
 
         homeViewModel.fetchHomeBookAPI();
         setupCategoryRecyclerView(view);
@@ -93,7 +91,7 @@ public class HomeFragment extends Fragment {
         observeViewModel(view);
 
 
-        checkUserLogin(view);
+
     }
 
     private void imageSl(View view) {
@@ -108,29 +106,6 @@ public class HomeFragment extends Fragment {
 
         ImageSlider imageSlider = view.findViewById(R.id.slider);
         imageSlider.setImageList(slideModelMain1, ScaleTypes.FIT);
-
-//        imageSlider.setItemClickListener(i -> {
-//            if (i == 0) {
-//                callComicSlide(30);
-//            } else if (i == 1) {
-//                callComicSlide(31);
-//            } else if (i == 2) {
-//                callComicSlide(32);
-//            } else if (i == 3) {
-//                callComicSlide(34);
-//            } else if (i == 4) {
-//                callComicSlide(33);
-//            } else if (i == 5) {
-//                callComicSlide(35);
-//            }
-//        });
-
-//        //Model slider2
-//        List<SlideModel> slideModels2 = new ArrayList<>();
-//        slideModels2.add(new SlideModel(R.drawable.ic_add_homesvg, "Thất nghiệp chuyển sinh", ScaleTypes.FIT));
-//
-//        imageSlider2.setImageList(slideModels2, ScaleTypes.FIT);
-//        imageSlider2.setItemClickListener(position -> StyleableToast.makeText(ActivityMain.this, "Vui lòng chờ cập nhật!!!", Toast.LENGTH_SHORT, R.style.mytoast).show());
 
     }
 
@@ -251,8 +226,10 @@ public class HomeFragment extends Fragment {
         });
 
         view.findViewById(R.id.btnCart).setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), CartActivity.class);
-            startActivity(intent);
+            if (checkUserLogin(view)) {
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                startActivity(intent);
+            }
         });
 
     }
@@ -360,16 +337,18 @@ public class HomeFragment extends Fragment {
         return authToken != null && !authToken.isEmpty();
     }
 
-    private void checkUserLogin(View view) {
+    private boolean checkUserLogin(View view) {
         String token = sharedPreferencesHelper.getToken();
         if (token == null || token.isEmpty()) {
             // User is not logged in
             Log.d("HomeFragment", "User is not logged in.");
-            displayUserData(view);
+            promptLogin();
+            return false;
         } else {
             // User is logged in
             Log.d("HomeFragment", "User is logged in.");
             displayUserData(view);
+            return true;
         }
     }
 

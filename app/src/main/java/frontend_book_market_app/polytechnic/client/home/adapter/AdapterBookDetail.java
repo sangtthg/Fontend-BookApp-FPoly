@@ -29,6 +29,8 @@ import frontend_book_market_app.polytechnic.client.utils.DateUtils;
 public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_BOOK_DETAIL = 1, TYPE_COMMENT_LIST = 2, TYPE_EMPTY_STATE = 3;
     private final List<Object> items;
+    private static int commentCount = 0;
+
 
     public AdapterBookDetail(List<Object> items) {
         this.items = items;
@@ -67,6 +69,12 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Object item = items.get(position);
         if (holder instanceof BookDetailViewHolder) {
+            commentCount = 0;
+            for (Object obj : items) {
+                if (obj instanceof ReviewResponse.Review) {
+                    commentCount++;
+                }
+            }
             ((BookDetailViewHolder) holder).bind((DetailBookResponse) item);
         } else if (holder instanceof CommentViewHolder) {
             ((CommentViewHolder) holder).bind((ReviewResponse.Review) item);
@@ -87,7 +95,9 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView tvDaBan;
         TextView tvPhanTramGiam;
         TextView tvDanhGia;
+        TextView tvLuotDanhGia;
         ReadMoreTextView tvMoTaNoiDung;
+        LinearLayout layoutRate;
 
 
         public BookDetailViewHolder(@NonNull View itemView) {
@@ -101,10 +111,15 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
             tvPhanTramGiam = itemView.findViewById(R.id.tvPhanTramGiam);
             tvMoTaNoiDung = itemView.findViewById(R.id.tvMoTaNoiDung);
             tvDanhGia = itemView.findViewById(R.id.tvDanhGia);
+            tvLuotDanhGia = itemView.findViewById(R.id.tvLuotDanhGia);
+            layoutRate = itemView.findViewById(R.id.layoutRate);
         }
 
         public void bind(DetailBookResponse bookData) {
             if (bookData != null && bookData.getData() != null) {
+                if (commentCount > 0) layoutRate.setVisibility(View.VISIBLE);
+                else layoutRate.setVisibility(View.GONE);
+
                 DetailBookResponse.BookData data = bookData.getData();
                 tvBookTitleDetaill.setText(data.getTitle());
                 tvDanhGia.setText(String.format("%s / 5", data.getRateBook()));
@@ -115,6 +130,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                 tvMoTaNoiDung.setExpandedTextColor(R.color.app_red);
                 tvMoTaNoiDung.setTrimLines(3);
                 tvMoTaNoiDung.setText(data.getDescription());
+                tvLuotDanhGia.setText(String.format("(%d)", commentCount));
                 tvGiaSach.setText(CurrencyFormatter.toVND(data.getNewPrice()));
                 tvGiaSachCu.setText(CurrencyFormatter.toVND(data.getOldPrice()));
                 tvGiaSachCu.setPaintFlags(tvGiaSachCu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

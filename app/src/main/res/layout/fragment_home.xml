@@ -44,14 +44,6 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_18ssp" />
 
-                    <!--                    <ImageView-->
-                    <!--                        android:id="@+id/btnUserOrder"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginEnd="@dimen/_8sdp"-->
-                    <!--                        android:src="@drawable/ic_delivery1" />-->
-
-                    <!-- Thay thế ImageView bằng BGABadgeImageView -->
                     <cn.bingoogolapple.badgeview.BGABadgeImageView
                         android:id="@+id/btnCart"
                         android:layout_width="wrap_content"

@@ -1,13 +1,18 @@
 package frontend_book_market_app.polytechnic.client.home.view;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
@@ -15,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -30,16 +36,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-//import q.rorbin.badgeview.QBadgeView;
 import cn.bingoogolapple.badgeview.BGABadgeImageView;
-
 import frontend_book_market_app.polytechnic.client.R;
+import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapterBookDetail;
 import frontend_book_market_app.polytechnic.client.home.model.DetailBookResponse;
 import frontend_book_market_app.polytechnic.client.home.model.ReviewResponse;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
+import frontend_book_market_app.polytechnic.client.notification.view.NotificationFragment;
+import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
-
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 public class BookDetailsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewBookDetailScreen;
@@ -54,6 +64,7 @@ public class BookDetailsActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private SkeletonAdapter skeletonAdapter;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
 
     @Override
@@ -67,6 +78,7 @@ public class BookDetailsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        sharedPreferencesHelper = new SharedPreferencesHelper(this);
 
         Intent intent = getIntent();
         bookID = intent.getIntExtra("bookID", -1);
@@ -84,8 +96,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         homeViewModel.fetchBookDetail(bookID);
 
         homeViewModel.getCartItemCount().observe(this, itemCount -> {
-            Log.d("BookDetailsActivity", "Updating badge count: " + itemCount); // Debug log
-            @SuppressLint("WrongViewCast") BGABadgeImageView badgeImageView = findViewById(R.id.btnCart); // Thay đổi này
+            @SuppressLint("WrongViewCast") BGABadgeImageView badgeImageView = findViewById(R.id.btnCart);
             badgeImageView.showCirclePointBadge();
             badgeImageView.showTextBadge(String.valueOf(itemCount));
             badgeImageView.getBadgeViewHelper().setBadgeBgColorInt(Color.RED);
@@ -114,9 +125,34 @@ public class BookDetailsActivity extends AppCompatActivity {
         });
 
         ImageButton showReviewDialogButton = findViewById(R.id.btnCallNow);
-        showReviewDialogButton.setOnClickListener(v -> showReviewDialog());
+        showReviewDialogButton.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+            } else {
+                makePhoneCall();
+            }
+        });;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                makePhoneCall();
+            } else {
+                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
-
+    private void makePhoneCall() {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:0969086132"));
+        if (callIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(callIntent);
+        } else {
+            Toast.makeText(BookDetailsActivity.this, "No application available to handle the call", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupRecyclerView() {
@@ -125,10 +161,13 @@ public class BookDetailsActivity extends AppCompatActivity {
         skeletonAdapter = new SkeletonAdapter(5);
         recyclerViewBookDetailScreen.setAdapter(skeletonAdapter);
 
+
         swipeRefreshLayout.setOnRefreshListener(() -> {
+            homeViewModel.clearBookReviews();
+            swipeRefreshLayout.setRefreshing(true);
             recyclerViewBookDetailScreen.setAdapter(skeletonAdapter);
             homeViewModel.fetchBookDetail(bookID);
-            homeViewModel.fetchBookReviews(bookID);
+//            homeViewModel.fetchBookReviews(bookID);
             homeViewModel.fetchTotalItemInCart();
             swipeRefreshLayout.setRefreshing(false);
         });
@@ -161,7 +200,7 @@ public class BookDetailsActivity extends AppCompatActivity {
             finish();
         });
 
-        findViewById(R.id.btnThanhToan).setOnClickListener(v -> {
+        findViewById(R.id.btnDatHang).setOnClickListener(v -> {
             int bookId = getIntent().getIntExtra("bookID", -1);
             if (bookId != -1) {
                 homeViewModel.addToCart(bookId, 1, this);
@@ -193,16 +232,53 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         ImageButton btnDocThu = findViewById(R.id.btnDocThu);
         btnDocThu.setOnClickListener(v -> {
-            List<String> avatarReviews = homeViewModel.getAvatarReviews();
+            List<String> reviewImages = homeViewModel.getAvatarReviews();
             Intent intent = new Intent(BookDetailsActivity.this, BookImageActivity.class);
-            intent.putStringArrayListExtra("avatarReviews", new ArrayList<>(avatarReviews));
+            intent.putStringArrayListExtra("avatarReviews", new ArrayList<>(reviewImages));
             startActivity(intent);
         });
 
         findViewById(R.id.btnCart).setOnClickListener(v -> {
-            Intent intent = new Intent(BookDetailsActivity.this, CartActivity.class);
-            startActivity(intent);
+            if (checkUserLogin()) {
+                Intent intent = new Intent(BookDetailsActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
         });
+    }
+
+    private boolean checkUserLogin() {
+        String token = sharedPreferencesHelper.getToken();
+        if (token == null || token.isEmpty()) {
+            Log.d("HomeFragment", "User is not logged in.");
+            promptLogin();
+            return false;
+        } else {
+            Log.d("HomeFragment", "User is logged in.");
+            return true;
+        }
+    }
+
+    private void promptLogin() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_custom_login, null);
+
+        Button btnDialogCancel = dialogView.findViewById(R.id.btnDialogCancel);
+        Button btnDialogOk = dialogView.findViewById(R.id.btnDialogOk);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        btnDialogOk.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LoginScreen.class);
+            startActivity(intent);
+            dialog.dismiss();
+        });
+
+        btnDialogCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     @Override
@@ -219,5 +295,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
+
+
 
 }

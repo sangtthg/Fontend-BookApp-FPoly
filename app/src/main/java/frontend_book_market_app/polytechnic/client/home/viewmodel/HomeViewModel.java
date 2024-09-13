@@ -198,10 +198,7 @@ public class HomeViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     detailBook.postValue(response.body());
                     listen.postValue(response.body().getData().getDescription());
-                    Log.d(NAME, "dddddddddddd");
                     avatarReviews = response.body().getData().getAvatarReviews();
-                    Log.d(NAME, "Avatar Reviews: " + avatarReviews);
-
                     Log.d(NAME, "Fetch BookDetail Success");
                     fetchBookReviews(bookId);
                 } else {
@@ -234,6 +231,15 @@ public class HomeViewModel extends ViewModel {
                 bookReviews.postValue(new ReviewResponse(new ArrayList<>()));
             }
         });
+    }
+
+    public void clearBookReviews() {
+        bookReviews.setValue(null);
+    }
+
+    public boolean hasBookReviews() {
+        ReviewResponse currentReviews = bookReviews.getValue();
+        return currentReviews != null && currentReviews.getReviews() != null && !currentReviews.getReviews().isEmpty();
     }
 
 

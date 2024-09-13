@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapterCart;
@@ -28,7 +26,6 @@ import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.profile.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.profile.network.SharedService;
 import frontend_book_market_app.polytechnic.client.profile.view.AddressListActivity;
-import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 
 public class CartActivity extends AppCompatActivity {
@@ -36,7 +33,6 @@ public class CartActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AdapterCart cartAdapter;
     private HomeViewModel homeViewModel;
-    private SharedPreferencesHelper sharedPreferencesHelper;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -45,7 +41,6 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shopping_cart);
 
         EdgeToEdge.enable(this);
-        sharedPreferencesHelper = new SharedPreferencesHelper(this);
         recyclerView = findViewById(R.id.recyclerViewCart);
         ImageButton btnToggleCheckbox = findViewById(R.id.btnCart);
 
@@ -54,7 +49,7 @@ public class CartActivity extends AppCompatActivity {
         homeViewModel.fetchCartList();
         btnToggleCheckbox.setOnClickListener(v -> cartAdapter.toggleCheckbox());
 
-        findViewById(R.id.btnThanhToan).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnDatHang).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<Integer> selectedIds = new ArrayList<>(homeViewModel.getSelectedCartItemIds().getValue());
@@ -69,7 +64,7 @@ public class CartActivity extends AppCompatActivity {
                             defaultAddress.getAddress() == null || defaultAddress.getAddress().isEmpty()) {
                         showMissingInfoDialog();
                     } else {
-                        // Use the address details if all fields are present
+                        //sử dụng chi tiết địa chỉ nếu có tất cả các trường
                         Log.d("CartActivity", "Default Address: " + defaultAddress);
 
                         Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
@@ -115,12 +110,7 @@ public class CartActivity extends AppCompatActivity {
         });
 
 
-        findViewById(R.id.backDetailButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        findViewById(R.id.backDetailButton).setOnClickListener(v -> finish());
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutCart);
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -130,39 +120,15 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    public AddressModel getDefaultAddress() {
-        List<AddressModel> addresses = sharedPreferencesHelper.getAddresses();
-
-
-        if (addresses == null || addresses.isEmpty()) {
-            Log.d("SharedPreferencesHelper", "No addresses found.");
-            return null;
-        }
-
-        for (AddressModel address : addresses) {
-            if (address.isIs_default()) {
-                Log.d("SharedPreferencesHelper", "Default Address: " + address.toString());
-                return address;
-            }
-        }
-
-        Log.d("SharedPreferencesHelper", "No default address found.");
-        return null;
-    }
-
-
     private void showMissingInfoDialog() {
         Dialog dialog = new Dialog(CartActivity.this);
         dialog.setContentView(R.layout.dialog_missing_info);
         Button btnOk = dialog.findViewById(R.id.btnOk);
 
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                Intent intent = new Intent(CartActivity.this, AddressListActivity.class);
-                startActivity(intent);
-            }
+        btnOk.setOnClickListener(v -> {
+            dialog.dismiss();
+            Intent intent = new Intent(CartActivity.this, AddressListActivity.class);
+            startActivity(intent);
         });
 
         dialog.show();

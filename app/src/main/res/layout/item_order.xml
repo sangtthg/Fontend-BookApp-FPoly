@@ -180,12 +180,12 @@
                     android:id="@+id/btnHuyThanhToanOrder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_7sdp"
                     android:backgroundTint="@color/transparent"
                     android:text="Huỷ đơn hàng"
-                    android:textColor="#757575"
+                    android:textColor="#bdbdbd"
                     app:cornerRadius="5dp"
-                    app:strokeColor="#757575"
+                    app:strokeColor="#bdbdbd"
                     app:strokeWidth="1dp" />
 
                 <TextView
