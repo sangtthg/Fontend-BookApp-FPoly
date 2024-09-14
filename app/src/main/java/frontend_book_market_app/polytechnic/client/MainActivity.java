@@ -1,16 +1,10 @@
 package frontend_book_market_app.polytechnic.client;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,29 +12,52 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
-import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
-import me.ibrahimsn.lib.OnItemSelectedListener;
-import me.ibrahimsn.lib.SmoothBottomBar;
 import frontend_book_market_app.polytechnic.client.favorite.view.FavoriteFragment;
 import frontend_book_market_app.polytechnic.client.home.view.HomeFragment;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.notification.view.NotificationFragment;
 import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
 import frontend_book_market_app.polytechnic.client.profile.view.ProfileFragment;
+import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
+import me.ibrahimsn.lib.OnItemSelectedListener;
+import me.ibrahimsn.lib.SmoothBottomBar;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
+    private final FragmentManager fm = getSupportFragmentManager();
+    private final ActivityResultLauncher<String> resultLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    getDeviceToken();
+                } else {
+                    Toast.makeText(this, "Quyền thông báo bị từ chối", Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
     private SharedPreferencesHelper sharedPreferencesHelper;
-
     private Fragment homeFragment = new HomeFragment();
     private Fragment favoriteFragment;
     private Fragment notificationFragment;
     private Fragment profileFragment;
-    private final FragmentManager fm = getSupportFragmentManager();
-
     private Fragment activeFragment = homeFragment;
-
     private HomeViewModel homeViewModel;
     private OrderUserViewModel orderUserViewModel;
 
@@ -83,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                             fm.beginTransaction().add(R.id.frameLayout, favoriteFragment, "2").commit();
                         }
                         activeFragment = favoriteFragment;
-                    }  else{
+                    } else {
                         if (homeFragment == null) {
                             homeFragment = new HomeFragment();
                             fm.beginTransaction().add(R.id.frameLayout, homeFragment, "1").commit();
@@ -99,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                             fm.beginTransaction().add(R.id.frameLayout, notificationFragment, "3").commit();
                         }
                         activeFragment = notificationFragment;
-                    }  else{
+                    } else {
                         if (homeFragment == null) {
                             homeFragment = new HomeFragment();
                             fm.beginTransaction().add(R.id.frameLayout, homeFragment, "1").commit();
@@ -107,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
                         activeFragment = homeFragment;
                         bottomBar.setItemActiveIndex(0);
                     }
-
                     break;
                 case 3:
                     if (profileFragment == null) {
@@ -124,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+
+        requestNotificationPermission();
     }
 
     private boolean checkUserLogin() {
@@ -159,5 +177,37 @@ public class MainActivity extends AppCompatActivity {
         btnDialogCancel.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                getDeviceToken();
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                Toast.makeText(this, "Bạn cần cấp quyền thông báo để BookMarket App hoạt động bình thường.", Toast.LENGTH_LONG).show();
+                resultLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            } else {
+                resultLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        } else {
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+            if (notificationManagerCompat.areNotificationsEnabled()) {
+                getDeviceToken();
+            } else {
+                Toast.makeText(this, "Bạn cần bật thông báo trong cài đặt để BookMarket App hoạt động bình thường.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void getDeviceToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("FirebaseLogs", "Fetching token failed", task.getException());
+                return;
+            }
+
+            String token = task.getResult();
+            Log.v("FirebaseLogs", "Device Token: " + token);
+        });
     }
 }

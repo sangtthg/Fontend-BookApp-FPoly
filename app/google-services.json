@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "163599643262",
-    "project_id": "datn-2789f",
-    "storage_bucket": "datn-2789f.appspot.com"
+    "project_number": "640656580567",
+    "project_id": "push-fcm-1a2cf",
+    "storage_bucket": "push-fcm-1a2cf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:163599643262:android:a3c3d65b6a64ad4bab9e2f",
+        "mobilesdk_app_id": "1:640656580567:android:fed77187045297cc167592",
         "android_client_info": {
-          "package_name": "datn.com.appname"
+          "package_name": "frontend_book_market_app.polytechnic.client"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCOsECC6dcyVFFl2z9gKHfvzsTgiLwUdBM"
+          "current_key": "AIzaSyBxC5VzM0_g5SPkLQ_SsnV2cS6Dud97ISE"
         }
       ],
       "services": {

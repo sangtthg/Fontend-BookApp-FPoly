@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-feature android:name="android.hardware.telephony" android:required="true" />
 
@@ -89,8 +91,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".onboardingscreen.GetStartedActivity" -->
-        <!-- android:exported="false" /> -->
+
         <activity
             android:name=".onboardingscreen.GetStarted"
             android:exported="false" />
@@ -128,6 +129,14 @@
             android:theme="@style/Login"
             android:name=".auth.login.view.LoginScreen"
             android:exported="true" />
+
+        <service
+            android:name=".core.MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

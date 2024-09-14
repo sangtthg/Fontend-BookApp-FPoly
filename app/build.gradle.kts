@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 
 }
 
@@ -99,6 +100,7 @@ dependencies {
     implementation("dev.shreyaspatil.MaterialDialog:MaterialDialog:2.2.3")
     implementation("com.airbnb.android:lottie:3.3.6")
     implementation("com.android.support:appcompat-v7:28.0.0")
+    implementation("com.google.firebase:firebase-messaging:24.0.1")
 
 
     testImplementation("junit:junit:4.13.2")
