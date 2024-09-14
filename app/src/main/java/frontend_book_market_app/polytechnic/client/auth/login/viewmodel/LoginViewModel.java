@@ -66,9 +66,9 @@ public class LoginViewModel extends ViewModel {
                             int userStatus = userObject.getInt("user_status");
                             String role = userObject.getString("role");
                             String token = dataObject.getString("token");
-                            String defaultAddress = userObject.optString("address");
-
-                            sharedPreferencesHelper.saveUserData(userId, username, email, avatar, authToken, resetCode, userStatus, role, token, defaultAddress);
+                            int defaultAddress = userObject.optInt("default_address");
+                            System.out.println("kkkkkkkkkkkkkkkkkk1: "+ defaultAddress);
+                            sharedPreferencesHelper.saveUserData(userId, username, email, avatar, authToken, resetCode, userStatus, role, token, defaultAddress + "");
 
                             loginResponse.postValue("Đăng nhập thành công");
 

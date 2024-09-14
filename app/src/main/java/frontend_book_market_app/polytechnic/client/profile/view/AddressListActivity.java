@@ -101,8 +101,8 @@ public class AddressListActivity extends AppCompatActivity {
         btnBackThanhToan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddressListActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(AddressListActivity.this, MainActivity.class);
+//                startActivity(intent);
                 finish();
             }
         });

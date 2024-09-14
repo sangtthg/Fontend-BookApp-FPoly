@@ -20,6 +20,10 @@
     <color name="unchecked_color">#FFFFFF</color>
     <!-- Define the stroke color -->
     <!-- Màu nền của BottomNavigationView -->
+    #737373
+    <color name="texthethan">#fdfdfd</color>
+
+
     <color name="bottom_nav_background">#FFFFFF</color>
     <color name="textColorPrimary">#333333</color>
 

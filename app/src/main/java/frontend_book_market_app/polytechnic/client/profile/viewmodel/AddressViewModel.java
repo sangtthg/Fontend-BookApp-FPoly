@@ -1,6 +1,10 @@
 package frontend_book_market_app.polytechnic.client.profile.viewmodel;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -24,6 +28,7 @@ import frontend_book_market_app.polytechnic.client.profile.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.profile.model.UpdateAddressModel;
 import frontend_book_market_app.polytechnic.client.profile.network.RepositoryAddress;
 import frontend_book_market_app.polytechnic.client.profile.network.SharedService;
+import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -40,7 +45,12 @@ public class AddressViewModel extends ViewModel {
 
     private final RepositoryAddress repositoryAddress;
     private final SharedPreferences sharedPreferences;
+    private SharedPreferencesHelper sharedPreferencesHelper;
+
+
+
     private final Gson gson = new Gson(); // Initialize Gson
+    SharedPreferences.Editor editor;
 
     public AddressViewModel(SharedPreferences sharedPreferences, RepositoryAddress repositoryAddress) {
         this.sharedPreferences = sharedPreferences;
@@ -67,13 +77,18 @@ public class AddressViewModel extends ViewModel {
         return addressUpdateSuccess;
     }
 
-    public void addAddress(AddressModel addressModel) {
+    public void addAddress(Context context, AddressModel addressModel) {
         String token = sharedPreferences.getString("token", ""); // Get token from SharedPreferences
         repositoryAddress.addAddress(token, addressModel, new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
+                    System.out.println("kkkkkkkkkkkkkk2");
                     addressAddSuccess.setValue(true);
+                    System.out.println("heheheh"+ addressModel);
+
+//                    setUserAddress(context, addressModel.getAddress_id() + "");
+                    setUserAddress(context, "1");
                 } else {
                     String error = "Error: " + response.code() + " - " + response.message();
                     errorMessage.setValue(error);
@@ -87,6 +102,27 @@ public class AddressViewModel extends ViewModel {
             }
         });
     }
+
+    public void setUserAddress(Context context, String defaultAddress) {
+
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferencesHelper = new SharedPreferencesHelper(null);
+
+        editor =  sharedPreferences.edit();
+
+        editor.putString("default_address", defaultAddress);
+
+        boolean isSaved = editor.commit(); // Use commit() to immediately save the data
+
+        // Log the result
+        if (isSaved) {
+            Log.d("SharedPreferencesHelper123", "Default address saved successfully.");
+            Log.d("SharedPreferencesHelper123", "DefaultAddress: " + defaultAddress);
+        } else {
+            Log.e("SharedPreferencesHelper123", "Failed to save default address.");
+        }
+    }
+
 
     public AddressModel getDefaultAddress() {
         List<AddressModel> addresses = addressList.getValue();

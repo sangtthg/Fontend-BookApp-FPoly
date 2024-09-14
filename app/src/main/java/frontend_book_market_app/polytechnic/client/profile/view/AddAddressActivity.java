@@ -156,7 +156,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 }
 
                 AddressModel addressModel = new AddressModel(fullName, phoneNumber, combinedAddress, addressType, isDefaultAddress);
-                addressViewModel.addAddress(addressModel);
+                addressViewModel.addAddress(getApplicationContext(), addressModel);
                 addressViewModel.getAddressAddSuccess().observe(AddAddressActivity.this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(Boolean success) {

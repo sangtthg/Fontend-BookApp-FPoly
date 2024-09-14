@@ -2,6 +2,7 @@ package frontend_book_market_app.polytechnic.client.home.view;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,20 +13,28 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import frontend_book_market_app.polytechnic.client.R;
+import frontend_book_market_app.polytechnic.client.don_hang.viewmodel.DonHangUserViewModel;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapterCart;
 import frontend_book_market_app.polytechnic.client.home.model.CartListResponse;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.profile.model.AddressModel;
+import frontend_book_market_app.polytechnic.client.profile.network.RepositoryAddress;
 import frontend_book_market_app.polytechnic.client.profile.network.SharedService;
 import frontend_book_market_app.polytechnic.client.profile.view.AddressListActivity;
+import frontend_book_market_app.polytechnic.client.profile.viewmodel.AddressViewModel;
+import frontend_book_market_app.polytechnic.client.profile.viewmodel.AddressViewModelFactory;
+import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 
 public class CartActivity extends AppCompatActivity {
@@ -34,18 +43,23 @@ public class CartActivity extends AppCompatActivity {
     private AdapterCart cartAdapter;
     private HomeViewModel homeViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private SharedPreferences sharedPreferences;
+    private AddressViewModel addressViewModel;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
-
+        sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         EdgeToEdge.enable(this);
         recyclerView = findViewById(R.id.recyclerViewCart);
         ImageButton btnToggleCheckbox = findViewById(R.id.btnCart);
-
-
+        RepositoryAddress repositoryAddress = new RepositoryAddress(); // Ensure proper initialization
+        AddressViewModelFactory factory = new AddressViewModelFactory(sharedPreferences, repositoryAddress);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel .class);
+
         homeViewModel.fetchCartList();
         btnToggleCheckbox.setOnClickListener(v -> cartAdapter.toggleCheckbox());
 
@@ -57,16 +71,8 @@ public class CartActivity extends AppCompatActivity {
                 if (selectedIds.isEmpty()) {
                     Toast.makeText(CartActivity.this, "Hãy chọn ít nhất một sản phẩm!", Toast.LENGTH_SHORT).show();
                 } else {
-                    AddressModel defaultAddress = SharedService.getInstance().getDefaultAddress();
-
-                    if (defaultAddress == null ||
-                            defaultAddress.getPhone() == null || defaultAddress.getPhone().isEmpty() ||
-                            defaultAddress.getAddress() == null || defaultAddress.getAddress().isEmpty()) {
-                        showMissingInfoDialog();
-                    } else {
-                        //sử dụng chi tiết địa chỉ nếu có tất cả các trường
-                        Log.d("CartActivity", "Default Address: " + defaultAddress);
-
+                    if (Objects.equals(getUserAddress(), "0")) showMissingInfoDialog();
+                    else{
                         Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
                         intent.putIntegerArrayListExtra("selectedCartItemIds", selectedIds);
                         startActivity(intent);
@@ -118,6 +124,15 @@ public class CartActivity extends AppCompatActivity {
             homeViewModel.fetchCartList();
             swipeRefreshLayout.setRefreshing(false);
         });
+
+
+
+
+
+
+
+
+
     }
 
     private void showMissingInfoDialog() {
@@ -133,4 +148,22 @@ public class CartActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
+    public String getUserAddress() {
+        String defaultAddress = sharedPreferences.getString("default_address", null);
+
+        if (defaultAddress != null) {
+            Log.d("SharedPreferencesHelper", "Retrieved Default Address: " + defaultAddress);
+        } else {
+            Log.e("SharedPreferencesHelper", "No Default Address found.");
+        }
+
+        return defaultAddress;
+    }
+
+
+
+
 }
+
+

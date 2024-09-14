@@ -46,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_25sdp"
         android:layout_marginBottom="16dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -54,6 +55,7 @@
             android:layout_height="160dp"
             android:layout_gravity="center"
             android:src="@drawable/avatar"
+
             app:civ_border_color="@color/colorRedM"
             app:civ_border_width="1dp" />
         <ImageView
