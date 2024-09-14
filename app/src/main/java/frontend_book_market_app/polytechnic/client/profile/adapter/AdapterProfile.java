@@ -28,6 +28,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
+import frontend_book_market_app.polytechnic.client.MainActivity;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
 import frontend_book_market_app.polytechnic.client.profile.model.ProfileModel;
@@ -195,11 +196,17 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
         AppCompatButton btnDialogCancel = dialogView.findViewById(R.id.btnDialogCancel);
         AppCompatButton btnDialogOk = dialogView.findViewById(R.id.btnDialogOk);
         btnDialogCancel.setOnClickListener(v -> dialog.dismiss());
+
+        // Launch MainActivity and clear other activities from the stack
+
         btnDialogOk.setOnClickListener(v -> {
             holder.btnLogoutProfile.setText("Đăng nhập");
             if (onLogoutClickListener != null) {
                 onLogoutClickListener.onLogoutClick();
             }
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            context.startActivity(intent);
             dialog.dismiss();
         });
 

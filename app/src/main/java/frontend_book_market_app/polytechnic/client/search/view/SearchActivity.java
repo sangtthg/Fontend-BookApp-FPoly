@@ -86,34 +86,12 @@ public class SearchActivity extends AppCompatActivity {
             startActivity(intent);
         });
         bookSuggestionList = new ArrayList<>();
-
-
-//        bookSuggestionAdapter = new BookSuggestionAdapter(bookSuggestionList);
-//        recyclerViewBookSuggestions.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerViewBookSuggestions.setAdapter(bookSuggestionAdapter);
-
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewBooks.setAdapter(bookAdapter);
-
-
         recyclerViewBooks.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewBooks.setAdapter(bookAdapter);
-
-        // Set up RecyclerView for authors
-//        authorList = new ArrayList<>();
-//        authorAdapter = new AdapterAuthorSearch(authorList, position -> {
-//            HomeBookModel selectedAuthor = authorList.get(position);
-//            Toast.makeText(SearchActivity.this, "Selected Author: " + selectedAuthor.getAuthorName(), Toast.LENGTH_SHORT).show();
-//        });
-//        recyclerViewAuthors.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerViewAuthors.setAdapter(authorAdapter);
-
-        // Initialize ViewModel
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-
-        // Observe ViewModel data
         observeViewModel();
-//        showProgressBar(true);
         searchViewModel.fetchRandomBooks();
         editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -192,43 +170,34 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // No action needed
             }
         });
 
         imageViewSearch.setOnClickListener(v -> {
-
                 String query = editTextSearch.getText().toString().trim();
 
                 if (!query.isEmpty()) {
-//                    showProgressBar(true);
-
-                    // Gọi phương thức tìm kiếm với query và token
                     searchViewModel.searchBooks( 1000, 1000, query);
-
-                    // Quan sát kết quả tìm kiếm
                     searchViewModel.getSearchResults().observe(SearchActivity.this, bookSearchResponse -> {
-//                        showProgressBar(false);
-                        handleSearchResults(bookSearchResponse, query); // Pass the query to handleSearchResults
+                        handleSearchResults(bookSearchResponse, query);
                     });
                 } else {
                     Toast.makeText(SearchActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
                 }
 
         });
-
-        // Handle back button click
-        imageViewBack.setOnClickListener(v -> onBackPressed());
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
-    private String getTokenFromSharedPreferences() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
-        return sharedPreferences.getString("token", null);
-    }
+
 
     private void observeViewModel() {
         searchViewModel.getRandomBookList().observe(this, books -> {
-//            showProgressBar(false);
             if (books != null && !books.isEmpty()) {
                 updateBookList(books);
             } else {
@@ -247,7 +216,6 @@ public class SearchActivity extends AppCompatActivity {
 
         bookList.clear();
         bookList.addAll(books);
-
         Set<String> uniqueAuthors = new HashSet<>();
         List<HomeBookModel> uniqueAuthorModels = new ArrayList<>();
 
@@ -260,24 +228,12 @@ public class SearchActivity extends AppCompatActivity {
                 uniqueAuthorModels.add(authorModel);
             }
         }
-
         authorList.clear();
         authorList.addAll(uniqueAuthorModels);
         bookAdapter.notifyDataSetChanged();
-        // Đảm bảo rằng authorAdapter được cập nhật nếu bạn sử dụng nó
-        // authorAdapter.notifyDataSetChanged();
     }
 
 
-    private void filterBooks(String query) {
-        List<HomeBookModel> filteredBooks = new ArrayList<>();
-        for (HomeBookModel book : bookList) {
-            if (book.getTitle() != null && book.getTitle().toLowerCase().contains(query.toLowerCase())) {
-                filteredBooks.add(book);
-            }
-        }
-        bookAdapter.updateBookList(filteredBooks);
-    }
 
     private void handleSearchResults(BookSearchResponse bookSearchResponse, String query) {
         if (bookSearchResponse != null && bookSearchResponse.getData() != null) {
@@ -300,18 +256,37 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    private void handleSearchResultsSach(BookSearchResponse bookSearchResponse, String query) {
+        if (bookSearchResponse != null && bookSearchResponse.getData() != null) {
+            List<Book> books = bookSearchResponse.getData().getData();
+            List<Book> filteredBooks = new ArrayList<>();
+            String normalizedQuery = query.toLowerCase();
+            for (Book book : books) {
+                String bookTitle = book.getTitle().toLowerCase();
+                if (bookTitle.contains(normalizedQuery)) {
+                    filteredBooks.add(book);
+                }
+            }
 
-//    private void showProgressBar(boolean show) {
-//        if (show) {
-//            progressBar.setVisibility(View.VISIBLE);
-//            recyclerViewBooks.setVisibility(View.GONE);
-////            recyclerViewAuthors.setVisibility(View.GONE);
-//        } else {
-//            progressBar.setVisibility(View.GONE);
-//            recyclerViewBooks.setVisibility(View.VISIBLE);
-////            recyclerViewAuthors.setVisibility(View.VISIBLE);
-//        }
-//    }
+            Intent intent = new Intent(SearchActivity.this, SearchResultsActivity.class);
+            intent.putExtra("SEARCH_QUERY", query);
+
+            if (!filteredBooks.isEmpty()) {
+                // Chỉ truyền sách đã chọn
+                intent.putExtra("BOOK_LIST", new ArrayList<>(filteredBooks));
+                intent.putExtra("HAS_BOOKS", true); // Xác định có sách
+            } else {
+                intent.putExtra("HAS_BOOKS", false); // Không có sách
+            }
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivityForResult(intent, REQUEST_CODE_SEARCH_RESULTS);
+        } else {
+            Log.d(TAG, "No search results found.");
+        }
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -319,9 +294,7 @@ public class SearchActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE_SEARCH_RESULTS) {
             if (resultCode == RESULT_OK) {
-                // Xử lý kết quả nếu cần
-                // Ví dụ: bạn có thể làm mới dữ liệu tìm kiếm hoặc thực hiện các thao tác khác
-                searchViewModel.fetchRandomBooks(); // Tải lại dữ liệu nếu cần
+                searchViewModel.fetchRandomBooks();
             }
         }
     }
@@ -355,7 +328,7 @@ public class SearchActivity extends AppCompatActivity {
                             // Cập nhật adapter với từ tìm kiếm
                             if (bookSuggestionAdapter == null) {
                                 bookSuggestionAdapter = new BookSuggestionAdapter(bookSuggestionList, query, title -> {
-                                    searchBooksByTitle(title); // Xử lý khi chọn một gợi ý
+                                    searchBooksByTitle(title);
                                 });
                                 recyclerViewBookSuggestions.setAdapter(bookSuggestionAdapter);
                             } else {
@@ -405,10 +378,14 @@ public class SearchActivity extends AppCompatActivity {
         return homeBookModel;
     }
     private void searchBooksByTitle(String title) {
-        // Hiển thị tiêu đề sách lên màn hình bằng Toast
+
         editTextSearch.setText(title);
-        Toast.makeText(SearchActivity.this, "Title: " + title, Toast.LENGTH_SHORT).show();
+        searchViewModel.searchBooks(1000, 1000, title);
+        searchViewModel.getSearchResults().observe(SearchActivity.this, bookSearchResponse -> {
+            handleSearchResultsSach(bookSearchResponse, title);
+        });
     }
+
 
 
 

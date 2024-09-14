@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -63,7 +64,8 @@ public class HomeFragment extends Fragment {
     SkeletonAdapter skeletonAdapter;
     private ImageSlider imageSlider2;
 
-
+    private EditText edit_text_search;
+    private ImageView image_view_search_icon;
     private int scrollPosition = 0;
     private NestedScrollView nestedScrollView;
     private SharedPreferencesHelper sharedPreferencesHelper;
@@ -89,7 +91,6 @@ public class HomeFragment extends Fragment {
         initRecyclerView();
         setupSwipeRefresh(view);
         observeViewModel(view);
-
 
 
     }
@@ -273,35 +274,19 @@ public class HomeFragment extends Fragment {
     //-----------------------------CONFIG INFO----------------------------------
 
     private void setupSearchView(View view) {
-        SearchView searchView = view.findViewById(R.id.search_view);
-
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
+        image_view_search_icon = view.findViewById(R.id.image_view_search_icon);
+        edit_text_search = view.findViewById(R.id.edit_text_search);
+        image_view_search_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchView.setIconified(true); // Đưa SearchView về trạng thái bị thu gọn
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                Intent intent = new Intent(getActivity(),SearchActivity.class);
                 startActivity(intent);
             }
         });
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        edit_text_search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getActivity(), "Search for: " + query, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchView.setFocusable(false);
-                searchView.setIconified(true);
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),SearchActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
-
+    android:layout_height="match_parent"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/imageViewTerms1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            android:src="@drawable/dksd1" />
+            android:layout_height="380dp"
+            android:layout_marginBottom="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dksd2" /> <!-- No margin below -->
+
+        <!-- No margin above -->
 
         <ImageView
             android:id="@+id/imageViewTerms2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            android:src="@drawable/dksd2" />
+            android:layout_height="288dp"
+            android:layout_marginTop="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dksd" />
 
         <Button
             android:id="@+id/btnAcceptTerms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Chấp nhận điều khoản"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:text="Chấp nhận điều khoản" />
 
         <Button
             android:id="@+id/btnDeclineTerms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Từ chối"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="Từ chối" />
 
     </LinearLayout>
 </ScrollView>

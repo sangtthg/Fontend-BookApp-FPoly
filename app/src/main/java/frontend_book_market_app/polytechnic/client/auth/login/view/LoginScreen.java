@@ -177,6 +177,7 @@ public class LoginScreen extends AppCompatActivity {
         Dialog dialog = new Dialog(LoginScreen.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_terms);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_shadow); // Apply shadow
 
         // Cấu hình các phần tử trong dialog
         ImageView imageViewTerms1 = dialog.findViewById(R.id.imageViewTerms1);

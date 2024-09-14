@@ -53,17 +53,38 @@
                 </LinearLayout>
 
 
-                <!--            SEARCH VIEW   -->
-                <SearchView
-                    android:id="@+id/search_view"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:iconifiedByDefault="false"
                     android:layout_marginVertical="@dimen/_12sdp"
-                    android:background="@drawable/custom_searchview"
-                    android:queryBackground="@android:color/transparent"
-                    android:searchIcon="@drawable/seach1234"
-                    android:enabled="false" />
+                    android:background="@drawable/custom_searchview">
+
+                    <!-- Search Icon (ImageView) on the left -->
+                    <ImageView
+                        android:id="@+id/image_view_search_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/seach1234"
+                        android:layout_gravity="start|center_vertical"
+                        android:padding="10dp"
+                        android:layout_marginStart="10dp" />
+
+                    <!-- EditText for search input -->
+                    <EditText
+                        android:id="@+id/edit_text_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:hint="Tìm kiếm sách tại đây..."
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="50dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@android:color/black"
+                        android:inputType="none"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:layout_gravity="center_vertical" />
+
+                </FrameLayout>
 
 
 
