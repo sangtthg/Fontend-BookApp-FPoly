@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +33,8 @@ public class ChiTietCouponActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_chi_tiet_coupon);
         voucher_image = findViewById(R.id.voucher_image);
         voucher_title_chitiet = findViewById(R.id.voucher_title_chitiet);
@@ -39,7 +43,6 @@ public class ChiTietCouponActivity extends AppCompatActivity {
         txtHanSuDungCoupon = findViewById(R.id.txtHanSuDungCoupon);
         btnBackMaGiamGia = findViewById(R.id.btnBackMaGiamGia);
         txtSoluongmagiamgia = findViewById(R.id.txtSoluongmagiamgia);
-        btnDongYChiTietCoupon = findViewById(R.id.btnDongYChiTietCoupon);
         slma = findViewById(R.id.slma);
         int couponId = getIntent().getIntExtra("couponId", -1);
         String couponCode = getIntent().getStringExtra("couponCode");
@@ -109,15 +112,8 @@ public class ChiTietCouponActivity extends AppCompatActivity {
             Log.e(TAG, "ParseException: " + e.getMessage());
             txtHetHan.setText("Không thể tính toán hạn sử dụng");
         }
-        btnDongYChiTietCoupon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         btnBackMaGiamGia.setOnClickListener(v -> {
-            Intent intent = new Intent(ChiTietCouponActivity.this, CouponActivity.class);
-            startActivity(intent);
             finish();
         });
 

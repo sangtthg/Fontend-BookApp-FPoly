@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,10 +35,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
+import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.profile.adapter.AdapterProfile;
 import frontend_book_market_app.polytechnic.client.profile.model.ProfileModel;
 import frontend_book_market_app.polytechnic.client.profile.network.ApiServiceChangePicture;
+import frontend_book_market_app.polytechnic.client.profile.viewmodel.AViewModel;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.ProfileViewModel;
+import frontend_book_market_app.polytechnic.client.profile.viewmodel.ProfileViewModelFactory;
 import frontend_book_market_app.polytechnic.client.setting.view.SettingActivity;
 import frontend_book_market_app.polytechnic.client.utils.Common;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
@@ -56,6 +60,7 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
     private SharedPreferencesHelper sharedPreferencesHelper;
     private AdapterProfile adapter;
     private ProfileViewModel profileViewModel;
+    private AViewModel aViewModel;
     private static final int PICK_IMAGE_REQUEST = 100;
 
     private ImageView moreMenuNotification;
@@ -71,13 +76,11 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
         moreMenuNotification = view.findViewById(R.id.moreMenuNotification);
         imgAvatar = view.findViewById(R.id.imgAvatar1);
         imgChangeAvatar  = view.findViewById(R.id.imgChangeAvatar);
-
-
         imgChangeAvatar.setOnClickListener(v -> {
-            // Open image picker
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, PICK_IMAGE_REQUEST);
         });
+
         sharedPreferencesHelper = new SharedPreferencesHelper(getContext());
         List<ProfileModel> profileList = new ArrayList<>();
         profileList.add(new ProfileModel(
@@ -102,6 +105,15 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        aViewModel = new ViewModelProvider(requireActivity()).get(AViewModel.class);
+
+
+    }
+
     private void loadAvatar(String avatarUrl) {
         if (avatarUrl == null || avatarUrl.isEmpty()) {
             imgAvatar.setImageResource(R.drawable.ic_money); // Set default avatar image
@@ -175,54 +187,7 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
     }
 
 
-    private void uploadImage(Uri imageUri) {
-        File file = getFileFromUri(imageUri);
-        if (file == null || !file.exists()) {
-            Toast.makeText(getContext(), "Invalid image file or file not accessible", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        // Compress the image file before uploading
-        File compressedFile = compressImage(file);
-
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), compressedFile);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", compressedFile.getName(), requestFile);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Common.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiServiceChangePicture service = retrofit.create(ApiServiceChangePicture.class);
-        String token = "Bearer " + sharedPreferencesHelper.getToken();
-
-        Call<ResponseBody> call = service.updateProfilePicture(token, body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-
-                    Toast.makeText(getContext(), "Cập nhật hình ảnh thành công", Toast.LENGTH_SHORT).show();
-                } else {
-                    try {
-                        String responseBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
-                        Log.e("ProfileFragment", "Error response body: " + responseBody);
-                        Log.e("ProfileFragment", "Error response code: " + response.code());
-                        Log.e("ProfileFragment", "Error response message: " + response.message());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Toast.makeText(getContext(), "Cập nhật hình ảnh thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-                Log.e("ProfileFragment", "Network error", throwable);
-                Toast.makeText(getContext(), "Network error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private File compressImage(File file) {
         File compressedFile = new File(getContext().getCacheDir(), file.getName());
@@ -318,6 +283,56 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
     }
     private void resetAvatar() {
         imgAvatar.setImageResource(R.drawable.ic_money);
+    }
+
+
+    private void uploadImage(Uri imageUri) {
+        File file = getFileFromUri(imageUri);
+        if (file == null || !file.exists()) {
+            Toast.makeText(getContext(), "Invalid image file or file not accessible", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Compress the image file before uploading
+        File compressedFile = compressImage(file);
+
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), compressedFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", compressedFile.getName(), requestFile);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Common.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiServiceChangePicture service = retrofit.create(ApiServiceChangePicture.class);
+        String token = "Bearer " + sharedPreferencesHelper.getToken();
+
+        Call<ResponseBody> call = service.updateProfilePicture(token, body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Cập nhật hình ảnh thành công", Toast.LENGTH_SHORT).show();
+                    aViewModel.fetchProfile(getContext());
+                } else {
+                    try {
+                        String responseBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
+                        Log.e("ProfileFragment", "Error response body: " + responseBody);
+                        Log.e("ProfileFragment", "Error response code: " + response.code());
+                        Log.e("ProfileFragment", "Error response message: " + response.message());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getContext(), "Cập nhật hình ảnh thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                Log.e("ProfileFragment", "Network error", throwable);
+                Toast.makeText(getContext(), "Network error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

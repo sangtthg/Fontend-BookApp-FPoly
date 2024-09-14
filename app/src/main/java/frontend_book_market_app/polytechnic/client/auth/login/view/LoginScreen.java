@@ -1,6 +1,7 @@
 package frontend_book_market_app.polytechnic.client.auth.login.view;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,8 +79,8 @@ public class LoginScreen extends AppCompatActivity {
         });
 
         tvTaoTaiKhoan.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
-            startActivity(intent);
+            showTermsDialog();
+
         });
 
         btnLogin.setOnClickListener(v -> {
@@ -165,9 +167,37 @@ public class LoginScreen extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Khởi tạo Intent để mở MainActivity
-        Intent intent = new Intent(LoginScreen.this, MainActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(LoginScreen.this, MainActivity.class);
+//        startActivity(intent);
         finish();
+    }
+
+    private void showTermsDialog() {
+        // Tạo và cấu hình dialog
+        Dialog dialog = new Dialog(LoginScreen.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_terms);
+
+        // Cấu hình các phần tử trong dialog
+        ImageView imageViewTerms1 = dialog.findViewById(R.id.imageViewTerms1);
+        ImageView imageViewTerms2 = dialog.findViewById(R.id.imageViewTerms2);
+        Button btnAcceptTerms = dialog.findViewById(R.id.btnAcceptTerms);
+        Button btnDeclineTerms = dialog.findViewById(R.id.btnDeclineTerms);
+
+        // Thiết lập sự kiện cho các nút
+        btnAcceptTerms.setOnClickListener(v -> {
+            // Chuyển đến màn hình đăng ký khi chấp nhận điều khoản
+            Intent intent = new Intent(LoginScreen.this, RegisterScreen.class);
+            startActivity(intent);
+            dialog.dismiss(); // Đóng dialog
+        });
+
+        btnDeclineTerms.setOnClickListener(v -> {
+            dialog.dismiss(); // Đóng dialog nếu từ chối
+        });
+
+        // Hiển thị dialog
+        dialog.show();
     }
 
 }

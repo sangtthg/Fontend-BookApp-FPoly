@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ import frontend_book_market_app.polytechnic.client.profile.network.RepositoryAdd
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.AddressViewModel;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.AddressViewModelFactory;
 import frontend_book_market_app.polytechnic.client.setting.view.SettingActivity;
+import retrofit2.http.Tag;
 
 public class AddressListActivity extends AppCompatActivity {
     private ImageView btnBackThanhToan;
@@ -101,8 +103,6 @@ public class AddressListActivity extends AppCompatActivity {
         btnBackThanhToan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(AddressListActivity.this, MainActivity.class);
-//                startActivity(intent);
                 finish();
             }
         });
@@ -126,7 +126,7 @@ public class AddressListActivity extends AppCompatActivity {
             if (addresses != null && !addresses.isEmpty()) {
                 addressAdapter.setAddressList(addresses);
             } else {
-                Toast.makeText(AddressListActivity.this, "Không có địa chỉ nào", Toast.LENGTH_SHORT).show();
+                Log.d("Tag", "Không có địa chỉ nào");
             }
         });
     }

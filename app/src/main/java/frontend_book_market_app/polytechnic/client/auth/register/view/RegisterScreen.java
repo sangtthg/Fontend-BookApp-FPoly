@@ -261,44 +261,4 @@ public class RegisterScreen extends AppCompatActivity {
         finish();
     }
 
-    private void showTermsDialog() {
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_terms, null);
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setView(dialogView)
-                .setCancelable(false)
-                .create();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        }
-
-        Button btnAccept = dialogView.findViewById(R.id.btnAccept);
-        Button btnDecline = dialogView.findViewById(R.id.btnDecline);
-        TextView tvTerms = dialogView.findViewById(R.id.tvTerms);
-
-        // Set terms text (optional)
-        tvTerms.setText("Please read and accept the terms and conditions before registering.");
-
-        btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (validateInputs()) {
-                    String email = editTextEmailRegister.getText().toString().trim();
-                    registerViewModel.checkEmail(email); // Kiểm tra email trước khi gửi OTP
-                }
-            }
-        });
-
-        btnDecline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                Toast.makeText(RegisterScreen.this, "You must accept the terms to proceed.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Show the dialog
-        dialog.show();
-    }
-
 }

@@ -54,7 +54,8 @@
             android:exported="false" />
         <activity
             android:name=".coupon.view.ChiTietCouponActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Login"/>
         <activity
             android:name=".coupon.view.CouponActivity"
             android:exported="false" />

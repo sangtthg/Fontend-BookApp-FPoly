@@ -111,6 +111,10 @@ public class SharedPreferencesHelper {
         return gson.fromJson(json, type);
     }
 
+    public void updateAvatar(String newAvatarUrl) {
+        editor.putString(KEY_AVATAR, newAvatarUrl);
+    }
+
     public void saveAddressUpdate(UpdateAddressModel updateAddressModel) {
         // Tạo đối tượng AddressModel từ UpdateAddressModel
         AddressModel addressModel = new AddressModel(
