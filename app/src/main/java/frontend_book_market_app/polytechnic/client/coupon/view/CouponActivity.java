@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -19,14 +21,16 @@ import java.util.ArrayList;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.coupon.adapter.AdapterCoupon;
+import frontend_book_market_app.polytechnic.client.coupon.adapter.AdapterCouponHetHan;
 import frontend_book_market_app.polytechnic.client.coupon.viewmodel.CouponViewModel;
 import frontend_book_market_app.polytechnic.client.home.view.PaymentActivity;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 
 public class CouponActivity extends AppCompatActivity {
     private ImageView btnBackThanhToan;
-    private RecyclerView recyclerviewCoupon;
+    private RecyclerView recyclerviewCoupon,recyclerviewExpiredCoupon;
     private AdapterCoupon adapterCoupon;
+    private AdapterCouponHetHan adapterCouponHetHan;
     private Button btnDongYCoupon;
     private CouponViewModel couponViewModel;
     private SharedPreferences sharedPreferences;
@@ -35,9 +39,11 @@ public class CouponActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coupon);
+        Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-
+        recyclerviewExpiredCoupon = findViewById(R.id.recyclerviewExpiredCoupon);
         btnDongYCoupon = findViewById(R.id.btnDongYCoupon);
         btnBackThanhToan = findViewById(R.id.btnBackThanhToan);
         recyclerviewCoupon = findViewById(R.id.recyclerviewCoupon);
@@ -71,7 +77,7 @@ public class CouponActivity extends AppCompatActivity {
             }
         });
 
-
+//        setupRecyclerViewHetHan();
         setupRecyclerView();
         observeViewModel();
         couponViewModel.fetchCouponList();
@@ -83,17 +89,25 @@ public class CouponActivity extends AppCompatActivity {
         recyclerviewCoupon.setAdapter(adapterCoupon);
     }
 
+
+//    private void setupRecyclerViewHetHan() {
+//        recyclerviewExpiredCoupon.setLayoutManager(new LinearLayoutManager(this));
+//        adapterCouponHetHan = new AdapterCouponHetHan(this, new ArrayList<>()); // Initialize with an empty list
+//        recyclerviewExpiredCoupon.setAdapter(adapterCouponHetHan);
+//    }
+
     private void observeViewModel() {
         couponViewModel.getCouponList().observe(this, couponList -> {
             if (couponList != null) {
                 // Update the adapter with the new coupon list
                 adapterCoupon.setCouponList(couponList);
-
+//                adapterCouponHetHan.setCouponList(couponList);
                 // Restore selected coupon state
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 int savedCouponId = sharedPreferences.getInt("selectedCouponId", -1);
                 if (savedCouponId != -1) {
                     adapterCoupon.setSelectedCouponId(savedCouponId);
+//                    adapterCouponHetHan.setSelectedCouponId(savedCouponId);
                 }
             }
         });

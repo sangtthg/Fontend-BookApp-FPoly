@@ -310,18 +310,14 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
     }
 
     private void updateAvatar(Uri imageUri) {
-        // Thực hiện cập nhật ảnh đại diện ở đây
-        // Ví dụ: sử dụng Glide để tải ảnh vào ImageView
          imgAvatar = getView().findViewById(R.id.imgAvatar1);
         Glide.with(this)
                 .load(imageUri)
                 .apply(new RequestOptions().circleCrop())
                 .into(imgAvatar);
-
-        // Thực hiện lưu ảnh vào server hoặc SharedPreferences nếu cần
     }
     private void resetAvatar() {
-        imgAvatar.setImageResource(R.drawable.ic_money); // Set a default avatar image
+        imgAvatar.setImageResource(R.drawable.ic_money);
     }
 
 }

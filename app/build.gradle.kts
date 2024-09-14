@@ -46,6 +46,9 @@ android {
                     "src\\main\\res\\layouts\\book_details"
                 )
             }
+            assets {
+                srcDirs("src\\main\\assets", "src\\main\\assets")
+            }
         }
     }
 }
@@ -67,7 +70,6 @@ dependencies {
     implementation("androidx.activity:activity:1.9.0")
     implementation("io.github.chaosleung:pinview:1.4.4")
     implementation("cn.bingoogolapple:bga-badgeview:1.1.3")
-
     //
     implementation("io.socket:socket.io-client:2.0.0")
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))

@@ -31,30 +31,18 @@ public class ChangePasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_change_password);
-
-        // Initialize SharedPreferencesHelper
         SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(this);
-
-        // Initialize Repository
         RepositoryChangePass repositoryChangePass = new RepositoryChangePass();
         RepositoryChangePicture repositoryChangePicture = new RepositoryChangePicture(); // Initialize this
-
-        // Create ViewModelFactory with all required parameters
         ProfileViewModelFactory factory = new ProfileViewModelFactory(
                 repositoryChangePass, repositoryChangePicture, sharedPreferencesHelper
         );
-
-        // Initialize ViewModel using the factory
         profileViewModel = new ViewModelProvider(this, factory).get(ProfileViewModel.class);
-
-        // Initialize UI components
         imgBack = findViewById(R.id.imgBack);
         edtOldPassword = findViewById(R.id.edtOldPassword);
         edtNewPassword = findViewById(R.id.edtNewPassword);
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         btnChangePassword = findViewById(R.id.btnChangePassword);
-
-        // Set click listeners
         imgBack.setOnClickListener(view -> onBackPressed());
         btnChangePassword.setOnClickListener(v -> handleChangePassword());
     }
@@ -63,8 +51,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         String oldPassword = edtOldPassword.getText().toString().trim();
         String newPassword = edtNewPassword.getText().toString().trim();
         String confirmPassword = edtConfirmPassword.getText().toString().trim();
-
-        // Create ChangePasswordModel instance
         ChangePasswordModel model = new ChangePasswordModel(oldPassword, newPassword, confirmPassword);
 
         if (validatePasswords(model)) {
@@ -74,23 +60,44 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private boolean validatePasswords(ChangePasswordModel model) {
-        if (model.getPassword().isEmpty() || model.getNew_password().isEmpty() || model.getRe_password().isEmpty()) {
-            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
+        // Clear previous errors first, but only if the EditText has valid input
+        if (!edtOldPassword.getText().toString().isEmpty()) {
+            edtOldPassword.setError(null);
+        }
+        if (!edtNewPassword.getText().toString().isEmpty()) {
+            edtNewPassword.setError(null);
+        }
+        if (!edtConfirmPassword.getText().toString().isEmpty()) {
+            edtConfirmPassword.setError(null);
+        }
+
+        // Check if any of the fields are empty and apply errors only if empty
+        if (model.getPassword().isEmpty()) {
+            edtOldPassword.setError("Vui lòng điền mật khẩu cũ.");
+            return false;
+        } else if (model.getNew_password().isEmpty()) {
+            edtNewPassword.setError("Vui lòng điền mật khẩu mới.");
+            return false;
+        } else if (model.getRe_password().isEmpty()) {
+            edtConfirmPassword.setError("Vui lòng xác nhận mật khẩu mới.");
+            return false;
+        }
+        // Check if the new password has fewer than 6 characters
+        else if (model.getNew_password().length() < 6) {
+            edtNewPassword.setError("Mật khẩu mới phải có ít nhất 6 ký tự.");
+            return false;
+        }
+        // Check if the new password and confirm password match
+        else if (!model.getNew_password().equals(model.getRe_password())) {
+            edtConfirmPassword.setError("Mật khẩu mới và mật khẩu xác nhận không khớp.");
             return false;
         }
 
-        if (model.getNew_password().length() < 6) {
-            Toast.makeText(this, "Mật khẩu mới phải có ít nhất 6 ký tự.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (!model.getNew_password().equals(model.getRe_password())) {
-            Toast.makeText(this, "Mật khẩu mới và mật khẩu xác nhận không khớp.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
+        // If everything is valid, return true
         return true;
     }
+
+
 
     private void observePasswordChange() {
         profileViewModel.getPasswordChangeSuccess().observe(this, success -> {

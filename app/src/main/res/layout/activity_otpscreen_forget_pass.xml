@@ -9,10 +9,22 @@
     android:orientation="vertical"
     tools:context=".auth.forgetpassword.view.OTPScreenForgetPass">
 
+    <ImageButton
+        android:id="@+id/btnBackForget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_28sdp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Back"
+        android:src="@drawable/baseline_keyboard_backspace_24" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_50sdp"
         android:orientation="vertical">
 
         <TextView
@@ -20,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:fontFamily="@font/roboto_medium"
             android:text="Vui lòng nhập OTP để đặt lại mật khẩu"
             android:textColor="#2B2B2B"
             android:textSize="@dimen/_25sdp"
@@ -54,6 +67,8 @@
             android:layout_height="@dimen/_45sdp"
             android:backgroundTint="#FF7622"
             android:gravity="center"
+            android:fontFamily="@font/roboto_medium"
+
             android:text="Xác Nhận"
             android:textColor="@android:color/white"
             app:cornerRadius="@dimen/_40sdp"
