@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +28,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
+import frontend_book_market_app.polytechnic.client.core.MessagingService;
 import frontend_book_market_app.polytechnic.client.don_hang.view.DonHangFragment;
 import frontend_book_market_app.polytechnic.client.home.view.HomeFragment;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
@@ -43,10 +46,13 @@ import me.ibrahimsn.lib.SmoothBottomBar;
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
     private final FragmentManager fm = getSupportFragmentManager();
+
+    MessagingService messagingService = new MessagingService();
+
     private final ActivityResultLauncher<String> resultLauncher = registerForActivityResult(
             new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
-                    getDeviceToken();
+                    messagingService.getDeviceToken();
                 } else {
                     Toast.makeText(this, "Quyền thông báo bị từ chối", Toast.LENGTH_SHORT).show();
                 }
@@ -76,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         donHangUserViewModel = new ViewModelProvider(this).get(DonHangUserViewModel.class);
         sharedPreferencesHelper = new SharedPreferencesHelper(this);
+        String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.v("FirebaseLogs", "Device ID: " + android_id);
+
+
 
         fm.beginTransaction().add(R.id.frameLayout, homeFragment, "1").commit();
 
@@ -167,32 +177,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void promptLogin() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View dialogView = inflater.inflate(R.layout.dialog_custom_login, null);
+        MaterialDialog mDialog = new MaterialDialog.Builder(this)
+                .setTitle("Bạn Chưa Đăng Nhập")
+                .setMessage("Bạn chưa đăng nhập tài khoản, bạn có muốn Đăng nhập để sử dụng tính năng này không?")
+                .setCancelable(false)
+                .setPositiveButton("Đăng nhập", R.drawable.ic_check_24_default, new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        // Chuyển đến màn hình đăng nhập
+                        Intent intent = new Intent(MainActivity.this, LoginScreen.class);
+                        startActivity(intent);
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Hủy", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .build();
 
-        Button btnDialogCancel = dialogView.findViewById(R.id.btnDialogCancel);
-        Button btnDialogOk = dialogView.findViewById(R.id.btnDialogOk);
+        mDialog.show();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(dialogView);
-
-        AlertDialog dialog = builder.create();
-
-        btnDialogOk.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginScreen.class);
-            startActivity(intent);
-            dialog.dismiss();
-        });
-
-        btnDialogCancel.setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
     }
 
     private void requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                getDeviceToken();
+                messagingService.getDeviceToken();
             } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                 Toast.makeText(this, "Bạn cần cấp quyền thông báo để BookMarket App hoạt động bình thường.", Toast.LENGTH_LONG).show();
                 resultLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
@@ -202,22 +215,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
             if (notificationManagerCompat.areNotificationsEnabled()) {
-                getDeviceToken();
+                messagingService.getDeviceToken();
             } else {
                 Toast.makeText(this, "Bạn cần bật thông báo trong cài đặt để BookMarket App hoạt động bình thường.", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void getDeviceToken() {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e("FirebaseLogs", "Fetching token failed", task.getException());
-                return;
-            }
 
-            String token = task.getResult();
-            Log.v("FirebaseLogs", "Device Token: " + token);
-        });
-    }
 }

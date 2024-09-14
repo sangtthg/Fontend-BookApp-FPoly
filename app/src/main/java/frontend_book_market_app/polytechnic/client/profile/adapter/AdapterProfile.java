@@ -1,5 +1,7 @@
 package frontend_book_market_app.polytechnic.client.profile.adapter;
 
+import static frontend_book_market_app.polytechnic.client.core.MyApp.getContext;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,9 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
+import dev.shreyaspatil.MaterialDialog.AbstractDialog;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import frontend_book_market_app.polytechnic.client.MainActivity;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
@@ -81,21 +87,6 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
         } else {
             holder.txtEmail.setText(value);
         }
-
-        String avatarUrl = profile.getAvatar();
-//        Glide.with(holder.itemView.getContext())
-//                .load(avatarUrl != null && !avatarUrl.isEmpty() ? avatarUrl : R.drawable.avatar)
-//                .placeholder(R.drawable.avatar)
-//                .error(R.drawable.avatar)
-//                .apply(RequestOptions.bitmapTransform(new RoundedCorners(16)))  // Apply rounded corners
-//                .into(holder.imgAvatar);
-
-//        holder.imgChangeAvatar.setOnClickListener(view -> checkLoginStatus(view.getContext(), () -> {
-//            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            fragment.startActivityForResult(intent, 100); // Use the Fragment reference
-//        }));
-
-
 
         SharedPreferences sharedPreferences = holder.itemView.getContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
@@ -182,36 +173,45 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
         });
 
         dialog.show();
+
+
+
     }
 
     private void showLogoutDialog(Context context, ProfileViewHolder holder) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View dialogView = inflater.inflate(R.layout.dialog_logout_prompt, null);
-        builder.setView(dialogView);
+        if (context instanceof Activity) {
+            MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                    .setTitle("Đăng xuất")
+                    .setMessage("Bạn có chắc chắn đăng xuất không?")
+                    .setCancelable(false)
+                    .setPositiveButton("Đồng ý", R.drawable.ic_check_24_default, new AbstractDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            holder.btnLogoutProfile.setText("Đăng nhập");
+                            if (onLogoutClickListener != null) {
+                                onLogoutClickListener.onLogoutClick();
+                            }
+                            Intent intent = new Intent(context, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            context.startActivity(intent);
 
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Không", R.drawable.ic_close, new AbstractDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .build();
 
-        AppCompatButton btnDialogCancel = dialogView.findViewById(R.id.btnDialogCancel);
-        AppCompatButton btnDialogOk = dialogView.findViewById(R.id.btnDialogOk);
-        btnDialogCancel.setOnClickListener(v -> dialog.dismiss());
-
-        // Launch MainActivity and clear other activities from the stack
-
-        btnDialogOk.setOnClickListener(v -> {
-            holder.btnLogoutProfile.setText("Đăng nhập");
-            if (onLogoutClickListener != null) {
-                onLogoutClickListener.onLogoutClick();
-            }
-            Intent intent = new Intent(context, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            context.startActivity(intent);
-            dialog.dismiss();
-        });
-
-        dialog.show();
+            mDialog.show();
+        } else {
+            Log.e("AdapterProfile", "Context không phải là Activity. Không thể hiển thị dialog.");
+        }
     }
+
 
 
 

@@ -111,7 +111,7 @@ public class SearchActivity extends AppCompatActivity {
                                 handleSearchResults(bookSearchResponse, query); // Pass the query to handleSearchResults
                             });
                         } else {
-                            Toast.makeText(SearchActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SearchActivity.this, "Vui lòng nhập một từ khóa.", Toast.LENGTH_SHORT).show();
                         }
 
                     return true;
@@ -182,7 +182,7 @@ public class SearchActivity extends AppCompatActivity {
                         handleSearchResults(bookSearchResponse, query);
                     });
                 } else {
-                    Toast.makeText(SearchActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchActivity.this, "Vui lòng nhập một từ khóa.", Toast.LENGTH_SHORT).show();
                 }
 
         });
@@ -201,7 +201,7 @@ public class SearchActivity extends AppCompatActivity {
             if (books != null && !books.isEmpty()) {
                 updateBookList(books);
             } else {
-                Toast.makeText(SearchActivity.this, "No books available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this, "Sách không có sẵn.", Toast.LENGTH_SHORT).show();
             }
         });
     }

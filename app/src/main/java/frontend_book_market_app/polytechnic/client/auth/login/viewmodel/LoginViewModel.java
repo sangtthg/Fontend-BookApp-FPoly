@@ -43,8 +43,8 @@ public class LoginViewModel extends ViewModel {
         return addressResponse;
     }
 
-    public void login(String email, String password) {
-        repositoryLogin.login(email, password, new Callback<ResponseBody>() {
+    public void login(String email, String password, String deviceID, String deviceToken) {
+        repositoryLogin.login(email, password, deviceID, deviceToken, new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 try {
@@ -67,7 +67,6 @@ public class LoginViewModel extends ViewModel {
                             String role = userObject.getString("role");
                             String token = dataObject.getString("token");
                             int defaultAddress = userObject.optInt("default_address");
-                            System.out.println("kkkkkkkkkkkkkkkkkk1: "+ defaultAddress);
                             sharedPreferencesHelper.saveUserData(userId, username, email, avatar, authToken, resetCode, userStatus, role, token, defaultAddress + "");
 
                             loginResponse.postValue("Đăng nhập thành công");

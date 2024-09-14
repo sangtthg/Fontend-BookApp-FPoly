@@ -13,11 +13,14 @@ public interface ApiServiceLogin {
 
     @FormUrlEncoded
     @POST("api/login")
-        // Thay đổi URL endpoint nếu cần
     Call<ResponseBody> login(
             @Field("email") String email,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("device_id") String deviceID,
+            @Field("device_token") String deviceToken
     );
+
+
 
     @POST("api/address_detail/get")
     Call<ResponseBody> getAddress(@Header("Authorization") String token, @Body RequestBody body);

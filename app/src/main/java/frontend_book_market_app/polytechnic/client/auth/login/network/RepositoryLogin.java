@@ -14,8 +14,8 @@ public class RepositoryLogin {
         apiService = RetrofitManager.createService(ApiServiceLogin.class, Common.API_URL, null);
     }
 
-    public void login(String email, String password, Callback<ResponseBody> callback) {
-        Call<ResponseBody> call = apiService.login(email, password);
+    public void login(String email, String password, String deviceID, String deviceToken, Callback<ResponseBody> callback) {
+        Call<ResponseBody> call = apiService.login(email, password,deviceID, deviceToken);
         call.enqueue(callback);
     }
 

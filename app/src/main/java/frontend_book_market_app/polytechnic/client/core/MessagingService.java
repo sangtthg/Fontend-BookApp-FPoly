@@ -10,8 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.concurrent.ExecutionException;
 
 import frontend_book_market_app.polytechnic.client.R;
 
@@ -71,4 +76,33 @@ public class MessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    public void getDeviceToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("FirebaseLogs", "Fetching token failed", task.getException());
+                return;
+            }
+
+            String token = task.getResult();
+
+            Log.v("FirebaseLogs", "Device Token: " + token);
+        });
+    }
+
+    public String fetchDeviceToken() {
+        try {
+            return Tasks.await(FirebaseMessaging.getInstance().getToken());
+        } catch (ExecutionException | InterruptedException e) {
+            Log.e("FirebaseLogs", "Fetching token failed", e);
+            return null;
+        }
+    }
+
+
+//    public String getDeviceID() {
+//        return Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+//    }
+
+
 }
