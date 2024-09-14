@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.badgeview.BGABadgeImageView;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+import frontend_book_market_app.polytechnic.client.MainActivity;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapteHomerSachBanChay;
@@ -294,29 +297,29 @@ public class HomeFragment extends Fragment {
 
 
     private void promptLogin() {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View dialogView = inflater.inflate(R.layout.dialog_custom_login, null);
+        MaterialDialog mDialog = new MaterialDialog.Builder(requireActivity())
+                .setTitle("Bạn Chưa Đăng Nhập")
+                .setMessage("Bạn chưa đăng nhập tài khoản, bạn có muốn Đăng nhập để sử dụng tính năng này không?")
+                .setCancelable(false)
+                .setPositiveButton("Đăng nhập", R.drawable.ic_check_24_default, new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        // Chuyển đến màn hình đăng nhập
+                        Intent intent = new Intent(requireActivity(), LoginScreen.class);
+                        startActivity(intent);
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Hủy", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .build();
 
-        Button btnDialogCancel = dialogView.findViewById(R.id.btnDialogCancel);
-        Button btnDialogOk = dialogView.findViewById(R.id.btnDialogOk);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(dialogView);
-
-        AlertDialog dialog = builder.create();
-
-        btnDialogOk.setOnClickListener(v -> {
-            // Chuyển hướng đến màn hình đăng nhập
-            Intent intent = new Intent(getActivity(), LoginScreen.class);
-            startActivity(intent);
-            dialog.dismiss();
-        });
-
-        btnDialogCancel.setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
+        mDialog.show();
     }
-
     private boolean isUserLoggedIn() {
         String authToken = sharedPreferencesHelper.getToken();
         return authToken != null && !authToken.isEmpty();
