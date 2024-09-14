@@ -83,9 +83,7 @@ public class AddressViewModel extends ViewModel {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("kkkkkkkkkkkkkk2");
                     addressAddSuccess.setValue(true);
-                    System.out.println("heheheh"+ addressModel);
 
 //                    setUserAddress(context, addressModel.getAddress_id() + "");
                     setUserAddress(context, "1");

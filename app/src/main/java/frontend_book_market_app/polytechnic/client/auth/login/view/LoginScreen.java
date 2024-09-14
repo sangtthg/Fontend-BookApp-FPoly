@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
@@ -24,13 +26,18 @@ import androidx.lifecycle.Observer;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.viewmodel.LoginViewModelFactory;
+import frontend_book_market_app.polytechnic.client.core.MessagingService;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import frontend_book_market_app.polytechnic.client.MainActivity;
 import frontend_book_market_app.polytechnic.client.auth.forgetpassword.view.ForgetPasswordScreen;
 import frontend_book_market_app.polytechnic.client.auth.login.viewmodel.LoginViewModel;
 import frontend_book_market_app.polytechnic.client.auth.register.view.RegisterScreen;
+import android.provider.Settings.Secure;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LoginScreen extends AppCompatActivity {
+    MessagingService messagingService = new MessagingService();
     private EditText editTextPassword, editTextEmail;
     private boolean isPasswordVisible = false;
     private Button btnLogin;
@@ -41,6 +48,9 @@ public class LoginScreen extends AppCompatActivity {
     private ImageButton btnBackHomeLogin;
     private ProgressBar progressBar; // Add ProgressBar
     private View darkOverlay;
+
+    private String deviceID = "";
+    private String deviceToken = "";
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,15 @@ public class LoginScreen extends AppCompatActivity {
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_login);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("FirebaseLogs", "Fetching token failed", task.getException());
+                return;
+            }
+            deviceToken = task.getResult();
+            deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        });
+
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -90,7 +109,9 @@ public class LoginScreen extends AppCompatActivity {
                 // Hiển thị ProgressBar và lớp phủ tối
                 darkOverlay.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(email, password);
+                System.out.println("kkkkkkkkkk deviceID" + deviceID);
+                System.out.println("kkkkkkkkkk deviceToken" + deviceToken);
+                loginViewModel.login(email, password, deviceID, deviceToken);
             }
         });
 
