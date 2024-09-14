@@ -1,15 +1,14 @@
-package frontend_book_market_app.polytechnic.client.order_user.network;
+package frontend_book_market_app.polytechnic.client.don_hang.network;
 
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import frontend_book_market_app.polytechnic.client.order_user.model.OrderUserResponse;
+import frontend_book_market_app.polytechnic.client.don_hang.model.OrderUserResponse;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
-public interface ApiServiceOrderUser {
+public interface ApiServiceDonHangUser {
     @GET("orders/get-list-order?status=pending")
     Call<OrderUserResponse> getPendingOrders();
 

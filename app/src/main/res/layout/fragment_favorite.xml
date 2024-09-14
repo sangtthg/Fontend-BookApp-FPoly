@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/backgroundColor"
-    tools:context=".favorite.view.FavoriteFragment">
+    tools:context=".don_hang.view.DonHangFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

@@ -1,4 +1,4 @@
-package frontend_book_market_app.polytechnic.client.order_user.model;
+package frontend_book_market_app.polytechnic.client.don_hang.model;
 
 
 import java.util.List;

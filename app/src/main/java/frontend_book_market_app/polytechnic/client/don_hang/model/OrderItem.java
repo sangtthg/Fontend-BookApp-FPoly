@@ -1,4 +1,4 @@
-package frontend_book_market_app.polytechnic.client.order_user.model;
+package frontend_book_market_app.polytechnic.client.don_hang.model;
 
 public class OrderItem {
     public int book_id;

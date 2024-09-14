@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import frontend_book_market_app.polytechnic.client.order_user.model.OrderItem;
+import frontend_book_market_app.polytechnic.client.don_hang.model.OrderItem;
 import frontend_book_market_app.polytechnic.client.profile.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.profile.network.SharedService;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
@@ -24,7 +24,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import frontend_book_market_app.polytechnic.client.favorite.model.ReviewRequest;
+import frontend_book_market_app.polytechnic.client.don_hang.model.ReviewRequest;
 import frontend_book_market_app.polytechnic.client.home.model.CartDeleteRequest;
 import frontend_book_market_app.polytechnic.client.home.model.CartItem;
 import frontend_book_market_app.polytechnic.client.home.model.CartListResponse;

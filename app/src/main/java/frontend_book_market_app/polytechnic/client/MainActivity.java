@@ -30,11 +30,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
-import frontend_book_market_app.polytechnic.client.favorite.view.FavoriteFragment;
+import frontend_book_market_app.polytechnic.client.don_hang.view.DonHangFragment;
 import frontend_book_market_app.polytechnic.client.home.view.HomeFragment;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.notification.view.NotificationFragment;
-import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
+import frontend_book_market_app.polytechnic.client.don_hang.viewmodel.DonHangUserViewModel;
 import frontend_book_market_app.polytechnic.client.profile.view.ProfileFragment;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import me.ibrahimsn.lib.OnItemSelectedListener;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment profileFragment;
     private Fragment activeFragment = homeFragment;
     private HomeViewModel homeViewModel;
-    private OrderUserViewModel orderUserViewModel;
+    private DonHangUserViewModel donHangUserViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        orderUserViewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
+        donHangUserViewModel = new ViewModelProvider(this).get(DonHangUserViewModel.class);
         sharedPreferencesHelper = new SharedPreferencesHelper(this);
 
         fm.beginTransaction().add(R.id.frameLayout, homeFragment, "1").commit();
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     if (checkUserLogin()) {
                         if (favoriteFragment == null) {
-                            favoriteFragment = new FavoriteFragment();
+                            favoriteFragment = new DonHangFragment();
                             fm.beginTransaction().add(R.id.frameLayout, favoriteFragment, "2").commit();
                         }
                         activeFragment = favoriteFragment;

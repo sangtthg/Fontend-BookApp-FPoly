@@ -1,11 +1,10 @@
-package frontend_book_market_app.polytechnic.client.order_user.view;
+package frontend_book_market_app.polytechnic.client.don_hang.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +16,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
-import frontend_book_market_app.polytechnic.client.order_user.adapter.P3AdapterOrderDaGiaoHang;
-import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
+import frontend_book_market_app.polytechnic.client.don_hang.adapter.P3AdapterOrderDaGiaoHang;
+import frontend_book_market_app.polytechnic.client.don_hang.viewmodel.DonHangUserViewModel;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 
 public class Page3Fragment extends Fragment {
-    private OrderUserViewModel viewModel;
+    private DonHangUserViewModel viewModel;
     private RecyclerView recyclerView;
     private P3AdapterOrderDaGiaoHang adapter;
     private HomeViewModel homeViewModel;
@@ -40,7 +39,7 @@ public class Page3Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DonHangUserViewModel.class);
 
         LinearLayout emptyLayout = view.findViewById(R.id.emptyLayout);
 

@@ -1,4 +1,4 @@
-package frontend_book_market_app.polytechnic.client.favorite.model;
+package frontend_book_market_app.polytechnic.client.don_hang.model;
 
 import com.google.gson.annotations.SerializedName;
 

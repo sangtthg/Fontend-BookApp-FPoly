@@ -1,4 +1,4 @@
-package frontend_book_market_app.polytechnic.client.order_user.network;
+package frontend_book_market_app.polytechnic.client.don_hang.network;
 
 
 import static frontend_book_market_app.polytechnic.client.utils.Common.API_URL;
@@ -7,13 +7,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import frontend_book_market_app.polytechnic.client.core.RetrofitManager;
-import frontend_book_market_app.polytechnic.client.order_user.model.OrderUserResponse;
+import frontend_book_market_app.polytechnic.client.don_hang.model.OrderUserResponse;
 
-public class RepositoryOrderUser {
-    private final ApiServiceOrderUser apiService;
+public class RepositoryDonHangUser {
+    private final ApiServiceDonHangUser apiService;
 
-    public RepositoryOrderUser() {
-        apiService = RetrofitManager.createService(ApiServiceOrderUser.class, API_URL, null);
+    public RepositoryDonHangUser() {
+        apiService = RetrofitManager.createService(ApiServiceDonHangUser.class, API_URL, null);
     }
 
     //

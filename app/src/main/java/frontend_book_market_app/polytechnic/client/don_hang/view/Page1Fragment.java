@@ -1,4 +1,4 @@
-package frontend_book_market_app.polytechnic.client.order_user.view;
+package frontend_book_market_app.polytechnic.client.don_hang.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,16 +23,16 @@ import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
-import frontend_book_market_app.polytechnic.client.order_user.adapter.P1AdapterOrderChuaThanhToan;
-import frontend_book_market_app.polytechnic.client.order_user.model.Order;
-import frontend_book_market_app.polytechnic.client.order_user.model.OrderUserResponse;
-import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
+import frontend_book_market_app.polytechnic.client.don_hang.adapter.P1AdapterOrderChuaThanhToan;
+import frontend_book_market_app.polytechnic.client.don_hang.model.Order;
+import frontend_book_market_app.polytechnic.client.don_hang.model.OrderUserResponse;
+import frontend_book_market_app.polytechnic.client.don_hang.viewmodel.DonHangUserViewModel;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 
 
 public class Page1Fragment extends Fragment {
-    private OrderUserViewModel orderUserViewModel;
+    private DonHangUserViewModel donHangUserViewModel;
     private RecyclerView recyclerView;
     private P1AdapterOrderChuaThanhToan adapter;
     private HomeViewModel homeViewModel;
@@ -55,8 +55,8 @@ public class Page1Fragment extends Fragment {
         LinearLayout emptyLayout = view.findViewById(R.id.emptyLayout);
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        orderUserViewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
-        orderUserViewModel.fetchPendingOrders();
+        donHangUserViewModel = new ViewModelProvider(this).get(DonHangUserViewModel.class);
+        donHangUserViewModel.fetchPendingOrders();
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -85,7 +85,7 @@ public class Page1Fragment extends Fragment {
                         .setPositiveButton("Xác nhận huỷ", R.drawable.ic_check_24_default, new AbstractDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
-                                orderUserViewModel.cancelOrder(order.getId(), getContext());
+                                donHangUserViewModel.cancelOrder(order.getId(), getContext());
                                 dialogInterface.dismiss();
                             }
                         })
@@ -101,7 +101,7 @@ public class Page1Fragment extends Fragment {
             }
         });
 
-        orderUserViewModel.getTab1().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
+        donHangUserViewModel.getTab1().observe(getViewLifecycleOwner(), new Observer<OrderUserResponse>() {
             @Override
             public void onChanged(OrderUserResponse orderResponse) {
                 if (orderResponse != null && orderResponse.getCode() == 0 && !orderResponse.getOrders().isEmpty()) {
@@ -119,14 +119,14 @@ public class Page1Fragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             recyclerView.setAdapter(skeletonAdapter);
-            orderUserViewModel.fetchPendingOrders();
+            donHangUserViewModel.fetchPendingOrders();
             swipeRefreshLayout.setRefreshing(false);
         });
     }
 
     @Override
     public void onResume() {
-        orderUserViewModel.fetchPendingOrders();
+        donHangUserViewModel.fetchPendingOrders();
         super.onResume();
     }
 

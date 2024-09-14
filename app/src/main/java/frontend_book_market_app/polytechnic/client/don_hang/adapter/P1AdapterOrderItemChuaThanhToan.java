@@ -1,4 +1,4 @@
-package frontend_book_market_app.polytechnic.client.order_user.adapter;
+package frontend_book_market_app.polytechnic.client.don_hang.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +14,14 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.order_user.model.OrderItem;
+import frontend_book_market_app.polytechnic.client.don_hang.model.OrderItem;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
 import frontend_book_market_app.polytechnic.client.utils.TextV;
 
-public class P4AdapterOrderItemDaHuy extends RecyclerView.Adapter<P4AdapterOrderItemDaHuy.OrderItemViewHolder> {
+public class P1AdapterOrderItemChuaThanhToan extends RecyclerView.Adapter<P1AdapterOrderItemChuaThanhToan.OrderItemViewHolder> {
     private List<OrderItem> orderItems;
 
-    public P4AdapterOrderItemDaHuy(List<OrderItem> orderItems) {
+    public P1AdapterOrderItemChuaThanhToan(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 
@@ -64,17 +64,15 @@ public class P4AdapterOrderItemDaHuy extends RecyclerView.Adapter<P4AdapterOrder
             tvGiaMoiOrderItem = itemView.findViewById(R.id.tvGiaMoiOrderItem);
             tv_soLuong_itemOrder_item = itemView.findViewById(R.id.tv_soLuong_itemOrder_item);
             tvTenTacGiaItemOrder = itemView.findViewById(R.id.tvTenTacGiaItemOrder);
-
         }
 
         public void bind(OrderItem orderItem) {
             titleTextView.setText(orderItem.getTitle());
-            tv_soLuong_itemOrder_item.setText(String.format("x%d", orderItem.getQuantity()));
             tvTenTacGiaItemOrder.setText(orderItem.getAuthor_name());
+            tv_soLuong_itemOrder_item.setText(String.format("x%d", orderItem.getQuantity()));
             tvGiaMoiOrderItem.setText(CurrencyFormatter.toVNDWithSymbol(String.valueOf(orderItem.getNew_price())));
             tvGiaCuOrderItem.setText(CurrencyFormatter.toVNDWithSymbol(String.valueOf(orderItem.getOld_price())));
             TextV.setStrikeThrough(tvGiaCuOrderItem);
-
 
             Glide.with(bookImageViewOrderItem.getContext())
                     .load(orderItem.getBook_avatar())

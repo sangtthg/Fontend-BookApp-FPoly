@@ -1,7 +1,6 @@
-package frontend_book_market_app.polytechnic.client.order_user.adapter;
+package frontend_book_market_app.polytechnic.client.don_hang.adapter;
 
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.home.view.BookDetailsActivity;
-import frontend_book_market_app.polytechnic.client.order_user.model.Order;
+import frontend_book_market_app.polytechnic.client.don_hang.model.Order;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
 
 public class P4AdapterOrderDaHuy extends RecyclerView.Adapter<P4AdapterOrderDaHuy.OrderViewHolder> {

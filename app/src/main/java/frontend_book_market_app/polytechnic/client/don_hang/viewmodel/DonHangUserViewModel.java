@@ -1,4 +1,4 @@
-package frontend_book_market_app.polytechnic.client.order_user.viewmodel;
+package frontend_book_market_app.polytechnic.client.don_hang.viewmodel;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,19 +9,19 @@ import androidx.lifecycle.ViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import frontend_book_market_app.polytechnic.client.order_user.model.OrderUserResponse;
-import frontend_book_market_app.polytechnic.client.order_user.network.RepositoryOrderUser;
+import frontend_book_market_app.polytechnic.client.don_hang.model.OrderUserResponse;
+import frontend_book_market_app.polytechnic.client.don_hang.network.RepositoryDonHangUser;
 
-public class OrderUserViewModel extends ViewModel {
+public class DonHangUserViewModel extends ViewModel {
     private final MutableLiveData<OrderUserResponse> tab1, tab2, tab3, tab4;
-    private final RepositoryOrderUser repository;
+    private final RepositoryDonHangUser repository;
 
-    public OrderUserViewModel() {
+    public DonHangUserViewModel() {
         tab1 = new MutableLiveData<>();
         tab2 = new MutableLiveData<>();
         tab3 = new MutableLiveData<>();
         tab4 = new MutableLiveData<>();
-        repository = new RepositoryOrderUser();
+        repository = new RepositoryDonHangUser();
     }
 
     public LiveData<OrderUserResponse> getTab1() { return tab1; }

@@ -1,19 +1,16 @@
-package frontend_book_market_app.polytechnic.client.order_user.view;
+package frontend_book_market_app.polytechnic.client.don_hang.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.order_user.adapter.P2AdapterOrderChoVanChuyen;
-import frontend_book_market_app.polytechnic.client.order_user.model.OrderUserResponse;
-import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
+import frontend_book_market_app.polytechnic.client.don_hang.adapter.P2AdapterOrderChoVanChuyen;
+import frontend_book_market_app.polytechnic.client.don_hang.model.OrderUserResponse;
+import frontend_book_market_app.polytechnic.client.don_hang.viewmodel.DonHangUserViewModel;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 
 import androidx.annotation.NonNull;
@@ -25,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class Page2Fragment extends Fragment {
-    private OrderUserViewModel viewModel;
+    private DonHangUserViewModel viewModel;
     private RecyclerView recyclerView;
     private P2AdapterOrderChoVanChuyen adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -40,7 +37,7 @@ public class Page2Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DonHangUserViewModel.class);
         viewModel.getWaitForDeliveryOrders();
 
         LinearLayout emptyLayout = view.findViewById(R.id.emptyLayout);

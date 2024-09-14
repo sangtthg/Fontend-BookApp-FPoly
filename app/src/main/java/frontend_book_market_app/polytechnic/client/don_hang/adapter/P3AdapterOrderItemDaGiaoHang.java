@@ -1,4 +1,4 @@
-package frontend_book_market_app.polytechnic.client.order_user.adapter;
+package frontend_book_market_app.polytechnic.client.don_hang.adapter;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -7,20 +7,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
-import com.kongzue.dialogx.dialogs.MessageDialog;
 
 import org.aviran.cookiebar2.CookieBar;
 
@@ -28,8 +25,8 @@ import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
-import frontend_book_market_app.polytechnic.client.order_user.model.Order;
-import frontend_book_market_app.polytechnic.client.order_user.model.OrderItem;
+import frontend_book_market_app.polytechnic.client.don_hang.model.Order;
+import frontend_book_market_app.polytechnic.client.don_hang.model.OrderItem;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
 import frontend_book_market_app.polytechnic.client.utils.TextV;
 

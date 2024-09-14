@@ -1,14 +1,12 @@
-package frontend_book_market_app.polytechnic.client.favorite.view;
+package frontend_book_market_app.polytechnic.client.don_hang.view;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,19 +22,18 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.Objects;
 
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.order_user.view.ViewPagerAdapter;
-import frontend_book_market_app.polytechnic.client.order_user.viewmodel.OrderUserViewModel;
+import frontend_book_market_app.polytechnic.client.don_hang.viewmodel.DonHangUserViewModel;
 
-public class FavoriteFragment extends Fragment {
+public class DonHangFragment extends Fragment {
 
-    private OrderUserViewModel orderUserViewModel;
+    private DonHangUserViewModel donHangUserViewModel;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
-        orderUserViewModel = new ViewModelProvider(this).get(OrderUserViewModel.class);
+        donHangUserViewModel = new ViewModelProvider(this).get(DonHangUserViewModel.class);
 
         ViewPager2 viewPager = view.findViewById(R.id.viewPager);
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
@@ -100,7 +97,7 @@ public class FavoriteFragment extends Fragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden) orderUserViewModel.fetchPendingOrders();
+        if (!hidden) donHangUserViewModel.fetchPendingOrders();
         super.onHiddenChanged(hidden);
     }
 

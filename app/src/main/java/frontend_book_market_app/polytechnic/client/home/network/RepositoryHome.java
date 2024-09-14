@@ -5,7 +5,7 @@ import frontend_book_market_app.polytechnic.client.home.model.ImageResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import frontend_book_market_app.polytechnic.client.core.RetrofitManager;
-import frontend_book_market_app.polytechnic.client.favorite.model.ReviewRequest;
+import frontend_book_market_app.polytechnic.client.don_hang.model.ReviewRequest;
 import frontend_book_market_app.polytechnic.client.home.model.CartDeleteRequest;
 import frontend_book_market_app.polytechnic.client.home.model.CartListResponse;
 import frontend_book_market_app.polytechnic.client.home.model.CartRequest;
