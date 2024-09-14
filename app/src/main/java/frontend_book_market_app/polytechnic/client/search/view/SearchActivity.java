@@ -124,7 +124,6 @@ public class SearchActivity extends AppCompatActivity {
 
                         if (!query.isEmpty()) {
 
-
                             // Gọi phương thức tìm kiếm với query và token
                             searchViewModel.searchBooks( 1000, 1000, query);
 
@@ -150,6 +149,12 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    imageViewClear.setVisibility(View.VISIBLE);
+                } else {
+                    imageViewClear.setVisibility(View.GONE);
+                }
+
                 if (searchRunnable != null) {
                     handler.removeCallbacks(searchRunnable);
                 }

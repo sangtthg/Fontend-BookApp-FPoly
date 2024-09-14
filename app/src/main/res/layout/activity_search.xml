@@ -23,11 +23,12 @@
             <!-- Nút quay lại -->
             <ImageView
                 android:id="@+id/imageViewBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
                 android:padding="8dp"
                 android:layout_gravity="center"
-                android:src="@drawable/baseline_arrow_back_24" />
+                android:src="@drawable/ic_back"
+                app:tint="@color/black60" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -40,10 +41,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@android:color/transparent"
-                    android:hint="Nhập sách cần tìm"
-                    android:paddingStart="12dp"
+                    android:hint="Tìm kiếm sách..."
                     android:paddingEnd="48dp"
                     android:singleLine="true"
+                    android:fontFamily="@font/display_regular"
+                    android:textSize="@dimen/_15ssp"
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/darker_gray"
                     android:imeOptions="actionSearch"/>
@@ -53,10 +55,11 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
+                    android:visibility="gone"
                     android:layout_centerVertical="true"
                     android:contentDescription="Clear"
                     android:padding="8dp"
-                    android:src="@drawable/closed" />
+                    android:src="@drawable/close_2" />
             </RelativeLayout>
 
             <ImageView
@@ -65,7 +68,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="8dp"
-                android:src="@drawable/icons8_search" />
+                android:src="@drawable/seach123" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -102,21 +105,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_2sdp"
         android:background="@drawable/textview_background_red"
-        android:fontFamily="@font/roboto_regular"
+        android:fontFamily="@font/display_medium"
         android:paddingStart="2dp"
         android:paddingEnd="8dp"
         android:paddingBottom="4dp"
-        android:text="🔥 Gợi ý cho bạn!"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:text="💡  Gợi ý cho bạn"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/_14ssp"
         android:visibility="visible" />
 
     <View
         android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/_1sdp"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/_4sdp"
         android:background="#DCDCDC" />
 
     <!-- RecyclerView cho sách mới -->
