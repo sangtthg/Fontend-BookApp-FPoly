@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,13 @@ public class AdapteHomerSachBanChay extends RecyclerView.Adapter<AdapteHomerSach
             holder.tvPhanTramGiamHome.setVisibility(View.GONE);
         }
 
+
+        if (bookModel.getRateBook() < 1){
+            holder.linear_rating_2.setVisibility(View.GONE);
+        } else{
+            holder.linear_rating_2.setVisibility(View.VISIBLE);
+        }
+
         Glide.with(holder.itemView.getContext())
                 .load(bookModel.getBookAvatar())
                 .placeholder(R.drawable.loading_book)
@@ -69,6 +77,7 @@ public class AdapteHomerSachBanChay extends RecyclerView.Adapter<AdapteHomerSach
         TextView tvDaBan;
         TextView tvPhanTramGiamHome;
         TextView tvDanhGia;
+        LinearLayout linear_rating_2;
 
 
         public SachBanChayViewHolder(@NonNull View itemView) {
@@ -79,6 +88,8 @@ public class AdapteHomerSachBanChay extends RecyclerView.Adapter<AdapteHomerSach
             tvDaBan = itemView.findViewById(R.id.tvDaBan);
             tvPhanTramGiamHome = itemView.findViewById(R.id.tvPhanTramGiamHome);
             tvDanhGia = itemView.findViewById(R.id.tvDanhGia);
+            linear_rating_2 = itemView.findViewById(R.id.linear_rating_2);
+
         }
     }
 

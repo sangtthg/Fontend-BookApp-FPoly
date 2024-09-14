@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,13 @@ public class AdapteHomerSach extends RecyclerView.Adapter<AdapteHomerSach.SachHo
         holder.tvDaBan.setText(String.valueOf(bookModel.getPurchaseCount()));
         holder.tvGiaSach.setText(CurrencyFormatter.toVND(bookModel.getNewPrice()));
         holder.tvSachBanChay.setVisibility(View.INVISIBLE);
+
+        if (bookModel.getRateBook() < 1){
+            holder.linear_rating_2.setVisibility(View.GONE);
+        } else{
+            holder.linear_rating_2.setVisibility(View.VISIBLE);
+        }
+
         if (bookModel.getDiscountPercentage() > 0){
             holder.tvPhanTramGiamHome.setText(MessageFormat.format("-{0}%", bookModel.getDiscountPercentage()));
         } else{
@@ -72,6 +80,7 @@ public class AdapteHomerSach extends RecyclerView.Adapter<AdapteHomerSach.SachHo
         TextView tvPhanTramGiamHome;
         ImageView imgAnhBia;
         TextView tvDanhGia;
+        LinearLayout linear_rating_2;
 
         public SachHomeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +91,7 @@ public class AdapteHomerSach extends RecyclerView.Adapter<AdapteHomerSach.SachHo
             tvPhanTramGiamHome = itemView.findViewById(R.id.tvPhanTramGiamHome);
             tvDaBan = itemView.findViewById(R.id.tvDaBan);
             tvDanhGia = itemView.findViewById(R.id.tvDanhGia);
+            linear_rating_2 = itemView.findViewById(R.id.linear_rating_2);
         }
     }
 

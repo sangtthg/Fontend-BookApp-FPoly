@@ -92,30 +92,41 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/img_star_home"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:src="@drawable/star" />
 
-        <TextView
-            android:id="@+id/tvDanhGia"
+        <LinearLayout
+            android:id="@+id/ll_rate2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:fontFamily="@font/text_medium"
-            android:text="5.0"
-            android:textColor="#757575"
-            android:textSize="@dimen/_9ssp" />
+            android:orientation="horizontal">
 
-        <View
-            android:id="@+id/viewLine"
-            android:layout_width="2dp"
-            android:layout_height="14dp"
-            android:layout_marginHorizontal="@dimen/_8sdp"
-            android:layout_marginTop="1dp"
-            android:background="#cacaca" />
+
+            <ImageView
+                android:id="@+id/img_star_home"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:src="@drawable/star" />
+
+            <TextView
+                android:id="@+id/tvDanhGia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:fontFamily="@font/text_medium"
+                android:text="5.0"
+                android:textColor="#757575"
+                android:textSize="@dimen/_9ssp" />
+
+            <View
+                android:id="@+id/viewLine"
+                android:layout_width="2dp"
+                android:layout_height="14dp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_marginTop="1dp"
+                android:background="#cacaca" />
+        </LinearLayout>
+
+
 
         <TextView
             android:layout_width="wrap_content"
