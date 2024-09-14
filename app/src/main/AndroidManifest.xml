@@ -60,6 +60,7 @@
             android:exported="false" />
         <activity
             android:name=".auth.forgetpassword.view.OTPScreenForgetPass"
+            android:theme="@style/Login"
             android:exported="false" />
         <activity
             android:name=".setting.view.SettingActivity"
@@ -121,10 +122,12 @@
             android:exported="false" />
         <activity
             android:name=".auth.register.view.OTPScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Login"/>
         <activity
             android:name=".auth.register.view.RegisterScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Login"/>
         <activity
             android:theme="@style/Login"
             android:name=".auth.login.view.LoginScreen"

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/backgroundColor"
-        android:paddingTop="@dimen/_24sdp"
+        android:paddingTop="@dimen/_30sdp"
         android:paddingBottom="@dimen/_14sdp">
 
         <LinearLayout
@@ -28,7 +28,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_2sdp"
                 android:src="@drawable/ic_back" />
 
             <TextView
@@ -48,29 +47,32 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_height="0dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/bottomLayout"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewCoupon"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:background="@color/white" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerviewCoupon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@color/white" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewExpiredCoupon"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:background="@color/white" />
 
-        </LinearLayout>
-
-
-    </ScrollView>
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_42sdp"
         android:layout_alignParentBottom="true"
@@ -81,8 +83,9 @@
         <Button
             android:id="@+id/btnDongYCoupon"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_44sdp"
+            android:layout_height="@dimen/_47sdp"
             android:layout_weight="3"
+            android:fontFamily="@font/roboto_medium"
             android:backgroundTint="#aa0116"
             android:text="Đồng ý"
             android:textColor="@color/white"

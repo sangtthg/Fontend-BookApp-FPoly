@@ -1,6 +1,8 @@
 package frontend_book_market_app.polytechnic.client.auth.register.network;
 
 
+import frontend_book_market_app.polytechnic.client.auth.forgetpassword.model.CheckEmailRequest;
+import frontend_book_market_app.polytechnic.client.auth.forgetpassword.model.CheckEmailResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,5 +26,8 @@ public class RepositoryRegister {
         Call<ResponseBody> call = apiService.register(otpModel);
         call.enqueue(callback);
     }
-
+    public void checkEmail(CheckEmailRequest checkEmailRequest, Callback<CheckEmailResponse> callback) {
+        Call<CheckEmailResponse> call = apiService.checkEmail(checkEmailRequest);
+        call.enqueue(callback);
+    }
 }

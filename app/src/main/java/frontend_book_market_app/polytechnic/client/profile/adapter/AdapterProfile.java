@@ -139,8 +139,6 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             txtTenNguoiDung = itemView.findViewById(R.id.txtTenNguoiDung);
             txtDiaChi = itemView.findViewById(R.id.txtDiaChi);
             txtEmail = itemView.findViewById(R.id.txtEmail);
-//            imgAvatar = itemView.findViewById(R.id.imgAvatar);
-//            imgChangeAvatar = itemView.findViewById(R.id.imgChangeAvatar);
             btnLogoutProfile = itemView.findViewById(R.id.btnLogoutProfile);
         }
     }

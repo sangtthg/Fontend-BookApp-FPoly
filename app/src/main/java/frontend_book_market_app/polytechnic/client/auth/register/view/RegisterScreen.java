@@ -10,6 +10,8 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,11 +36,13 @@ public class RegisterScreen extends AppCompatActivity {
     private boolean isPasswordVisible = false;
     private RegisterViewModel registerViewModel;
     private TextView tvDangNhap;
-private ImageButton btnBackLoginRegister;
+    private ImageButton btnBackLoginRegister;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_registerscreen);
         editTextEmailRegister = findViewById(R.id.editTextEmailRegister);
         editTextUsernameRegister = findViewById(R.id.editTextUsernameRegister);
@@ -67,8 +71,29 @@ private ImageButton btnBackLoginRegister;
             return false;
         });
 
-
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+
+        // Quan sát email check
+        registerViewModel.getErrorMessage().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String errorMsg) {
+                Toast.makeText(RegisterScreen.this, errorMsg, Toast.LENGTH_SHORT).show();
+                if (errorMsg.equals("Email đã tồn tại")) {
+
+                    Log.d("RegisterScreen", "Email đã tồn tại.");
+                } else if (errorMsg.equals("Chuẩn bị đăng ký")) {
+                    // Tiến hành gửi OTP
+                    String email = editTextEmailRegister.getText().toString().trim();
+                    String username = editTextUsernameRegister.getText().toString().trim();
+                    String password = editTextPasswordRegister.getText().toString().trim();
+                    String repassword = editTextRePasswordRegister.getText().toString().trim();
+                    String address = "Trống"; // Giá trị mặc định cho address
+                    OTPModel otpModel = new OTPModel(email, password, repassword, username, address, null, null);
+                    registerViewModel.setOtpModel(otpModel);
+                    registerViewModel.postOTPAPI(otpModel);
+                }
+            }
+        });
         registerViewModel.getPostOTPResponse().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String response) {
@@ -86,23 +111,13 @@ private ImageButton btnBackLoginRegister;
                 finish();
             }
         });
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateInputs()) {
                     String email = editTextEmailRegister.getText().toString().trim();
-                    String username = editTextUsernameRegister.getText().toString().trim();
-                    String password = editTextPasswordRegister.getText().toString().trim();
-                    String repassword = editTextRePasswordRegister.getText().toString().trim();
-                    String address = "Trống"; // Giá trị mặc định cho address
-                    Log.d("RegisterScreen", "Email: " + email);
-                    Log.d("RegisterScreen", "Username: " + username);
-                    Log.d("RegisterScreen", "Password: " + password);
-                    Log.d("RegisterScreen", "Repassword: " + repassword);
-                    Log.d("RegisterScreen", "address: " + address);
-                    OTPModel otpModel = new OTPModel(email, password, repassword, username, address, null, null);
-                    registerViewModel.setOtpModel(otpModel);
-                    registerViewModel.postOTPAPI(otpModel);
+                    registerViewModel.checkEmail(email); // Kiểm tra email trước khi gửi OTP
                 }
             }
         });
@@ -189,9 +204,6 @@ private ImageButton btnBackLoginRegister;
         } else if (username.length() < 10) {
             editTextUsernameRegister.setError("Tên người dùng phải có ít nhất 10 ký tự");
             return false;
-        } else if (!username.matches("^[A-Z][a-z]*(\\s[A-Z][a-z]*)*$")) { // Biểu thức kiểm tra chữ cái đầu viết hoa
-            editTextUsernameRegister.setError("Họ và tên phải có chữ cái đầu viết hoa mỗi từ");
-            return false;
         }
 
 
@@ -247,6 +259,46 @@ private ImageButton btnBackLoginRegister;
         Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
         startActivity(intent);
         finish();
+    }
+
+    private void showTermsDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_terms, null);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        Button btnAccept = dialogView.findViewById(R.id.btnAccept);
+        Button btnDecline = dialogView.findViewById(R.id.btnDecline);
+        TextView tvTerms = dialogView.findViewById(R.id.tvTerms);
+
+        // Set terms text (optional)
+        tvTerms.setText("Please read and accept the terms and conditions before registering.");
+
+        btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (validateInputs()) {
+                    String email = editTextEmailRegister.getText().toString().trim();
+                    registerViewModel.checkEmail(email); // Kiểm tra email trước khi gửi OTP
+                }
+            }
+        });
+
+        btnDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Toast.makeText(RegisterScreen.this, "You must accept the terms to proceed.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Show the dialog
+        dialog.show();
     }
 
 }

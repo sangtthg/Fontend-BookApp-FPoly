@@ -126,11 +126,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case 3:
-                    if (profileFragment == null) {
-                        profileFragment = new ProfileFragment();
-                        fm.beginTransaction().add(R.id.frameLayout, profileFragment, "4").commit();
+                    if (checkUserLogin()) {
+                        if (profileFragment == null) {
+                            profileFragment = new ProfileFragment();
+                            fm.beginTransaction().add(R.id.frameLayout, profileFragment, "4").commit();
+                        }
+                        activeFragment = profileFragment;
+                    } else {
+                        // Nếu chưa đăng nhập, quay về HomeFragment
+                        if (homeFragment == null) {
+                            homeFragment = new HomeFragment();
+                            fm.beginTransaction().add(R.id.frameLayout, homeFragment, "1").commit();
+                        }
+                        activeFragment = homeFragment;
+                        bottomBar.setItemActiveIndex(0); // Quay về tab Home
                     }
-                    activeFragment = profileFragment;
                     break;
             }
 

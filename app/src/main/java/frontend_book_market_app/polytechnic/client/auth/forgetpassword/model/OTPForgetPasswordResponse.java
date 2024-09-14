@@ -13,8 +13,7 @@ public class OTPForgetPasswordResponse {
     @SerializedName("data")
     private Data data;
 
-    // Getter và Setter cho các trường
-
+    // Getter and Setter methods
     public String getStatus() {
         return status;
     }
@@ -39,7 +38,13 @@ public class OTPForgetPasswordResponse {
         this.data = data;
     }
 
-    // Lớp Data bên trong
+    // Check if OTP verification was successful
+    public boolean isSuccess() {
+        // Adjust the condition based on your API's success criteria
+        return "success".equalsIgnoreCase(status);
+    }
+
+    // Inner Data class
     public static class Data {
 
         @SerializedName("id")
@@ -51,22 +56,13 @@ public class OTPForgetPasswordResponse {
         @SerializedName("created_at")
         private String created_at;
 
-        public String getCreated_at() {
-            return created_at;
-        }
-
-        public void setCreated_at(String created_at) {
-            this.created_at = created_at;
-        }
-
         @SerializedName("email")
         private String email;
 
         @SerializedName("type")
         private String type;
 
-        // Getter và Setter cho các trường
-
+        // Getter and Setter methods
         public int getId() {
             return id;
         }
@@ -81,6 +77,14 @@ public class OTPForgetPasswordResponse {
 
         public void setOtp(String otp) {
             this.otp = otp;
+        }
+
+        public String getCreated_at() {
+            return created_at;
+        }
+
+        public void setCreated_at(String created_at) {
+            this.created_at = created_at;
         }
 
         public String getEmail() {

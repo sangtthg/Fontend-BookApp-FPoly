@@ -1,5 +1,7 @@
 package frontend_book_market_app.polytechnic.client.auth.register.viewmodel;
 
+import static android.content.ContentValues.TAG;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import frontend_book_market_app.polytechnic.client.auth.forgetpassword.model.CheckEmailRequest;
+import frontend_book_market_app.polytechnic.client.auth.forgetpassword.model.CheckEmailResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,18 +26,21 @@ import frontend_book_market_app.polytechnic.client.auth.register.network.Reposit
 public class RegisterViewModel extends ViewModel {
     private final RepositoryRegister repositoryRegister = new RepositoryRegister();
     private final MutableLiveData<String> postOTPResponse = new MutableLiveData<>();
-    private final MutableLiveData<String> otpLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> otpLiveData;
     private final MutableLiveData<String> idotpLiveData = new MutableLiveData<>();
     private OTPModel otpModel; // Biến để lưu trữ OTPModel
+    private final MutableLiveData<String> errorMessage;
 
     public RegisterViewModel() {
-        Log.d("RegisterViewModel", "Khởi tạo RegisterViewModel");
+        otpLiveData = new MutableLiveData<>();
+        errorMessage = new MutableLiveData<>();
     }
-
     public MutableLiveData<String> getPostOTPResponse() {
         return postOTPResponse;
     }
-
+    public MutableLiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
     public MutableLiveData<String> getOtpLiveData() {
         return otpLiveData;
     }
@@ -139,6 +146,34 @@ public class RegisterViewModel extends ViewModel {
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 registerResponse.postValue("Failure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void checkEmail(String email) {
+        CheckEmailRequest request = new CheckEmailRequest(email);
+        repositoryRegister.checkEmail(request, new Callback<CheckEmailResponse>() {
+            @Override
+            public void onResponse(Call<CheckEmailResponse> call, Response<CheckEmailResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    CheckEmailResponse checkEmailResponse = response.body();
+                    if (checkEmailResponse.isEmailRegistered()) {
+                        Log.d(TAG, "Email is already registered.");
+                        errorMessage.postValue("Email đã tồn tại");
+                    } else {
+                        Log.d(TAG, "Email is available.");
+                        errorMessage.postValue("Chuẩn bị đăng ký");
+                    }
+                } else {
+                    Log.e(TAG, "Check email error: " + response.errorBody());
+                    errorMessage.postValue("Error: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckEmailResponse> call, Throwable t) {
+                Log.e(TAG, "Check email onFailure: ", t);
+                errorMessage.postValue("Failure: " + t.getMessage());
             }
         });
     }
