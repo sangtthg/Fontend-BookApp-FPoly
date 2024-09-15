@@ -85,6 +85,10 @@ public class NotificationDetailActivity extends AppCompatActivity {
         if (Objects.equals(type, "system")) {
             titleTextView.setText("📢  Thông báo hệ thống - " + title);
             imageView.setVisibility(View.GONE);
+            if (imageUrl == null){
+                card2.setVisibility(View.GONE);
+                imageView.setVisibility(View.VISIBLE);
+            }
         } else {
             titleTextView.setText("📢  Thông báo đơn hàng - " + title);
             card2.setVisibility(View.GONE);
@@ -92,16 +96,23 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         messageTextView.setText(message);
         dateTextView.setText("Được gửi lúc: " + date);
+        int errorImageResId;
 
-        loadImage(imageUrl, imageView);
-        loadImage(imageUrl, imageView2);
+        if (Objects.equals(type, "cancelled")){
+            errorImageResId = R.drawable.giao_that_bai_1;
+        } else{
+            errorImageResId = R.drawable.courier_1;
+        }
+
+        loadImage(imageUrl, imageView, errorImageResId);
+        loadImage(imageUrl, imageView2, errorImageResId);
     }
 
-    private void loadImage(String url, ImageView imageView) {
+    private void loadImage(String url, ImageView imageView,  int imError) {
         Glide.with(this)
                 .load(url)
                 .placeholder(R.drawable.loading_book)
-                .error(R.drawable.courier_1)
+                .error(imError)
                 .centerCrop()
                 .into(imageView);
     }

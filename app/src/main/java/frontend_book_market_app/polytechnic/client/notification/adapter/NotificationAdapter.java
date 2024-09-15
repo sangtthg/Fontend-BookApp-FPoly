@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -100,8 +101,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     .centerCrop()
                     .into(holder.imgNotification);
         } else {
+            int errorImageResId;
+            if (Objects.equals(notification.getType(), "cancelled")){
+                errorImageResId = R.drawable.giao_that_bai;
+            } else{
+                errorImageResId = R.drawable.courier_1;
+            }
             Glide.with(holder.itemView.getContext())
-                    .load(R.drawable.courier)
+                    .load(errorImageResId)
                     .placeholder(R.drawable.loading_book)
                     .centerCrop()
                     .into(holder.imgNotification);

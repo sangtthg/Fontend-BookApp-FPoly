@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -69,14 +71,17 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         tvSDTNguoiDungOrder = findViewById(R.id.tvSDTNguoiDungOrder);
         tvDiaChiOrderChiTiet = findViewById(R.id.tvDiaChiOrderChiTiet);
-
         tvTenNguoiDungOrder = findViewById(R.id.tvTenNguoiDungOrder);
+        ArrayList<Integer> selectedCartItemIds = getIntent().getIntegerArrayListExtra("selectedCartItemIds");
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         RepositoryAddress repositoryAddress = new RepositoryAddress(); // Ensure proper initialization
         AddressViewModelFactory factory = new AddressViewModelFactory(sharedPreferences, repositoryAddress);
         editor = sharedPreferences.edit();
 
         addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
         Log.d("PaymentActivity", "AddressViewModel initialized");
         addressViewModel.loadAddresses();
         addressViewModel.getAddressList().observe(this, addresses -> {
@@ -103,25 +108,14 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
 
-        //        sharedPreferencesHelper = new SharedPreferencesHelper(this);
-        //        String tenNguoiDung = sharedPreferencesHelper.getUsername();
-        //        AddressModel defaultAddressModel = getDefaultAddress();
 
-        //        //INFO
-        //        soDienThoai = defaultAddressModel != null ? convertPhoneNumberToInternational(defaultAddressModel.getPhone()) : "Chưa có số điện thoại";
-        //        diaChi = defaultAddressModel != null ? defaultAddressModel.getAddress() : "Chưa có địa chỉ";
-
-        //        tvTenNguoiDungOrder.setText(tenNguoiDung);
-        //        tvSDTNguoiDungOrder.setText(formatPhoneNumber(soDienThoai));
-        //        tvDiaChiOrderChiTiet.setText(diaChi);
-
-        ArrayList<Integer> selectedCartItemIds = getIntent().getIntegerArrayListExtra("selectedCartItemIds");
         initView();
         initRecyclerView(this);
         initItemClick();
         hidenLayout();
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        homeViewModel.fetchOrderByCartID(selectedCartItemIds);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            homeViewModel.fetchOrderByCartID(selectedCartItemIds);
+        }, 2000);
         chonCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
