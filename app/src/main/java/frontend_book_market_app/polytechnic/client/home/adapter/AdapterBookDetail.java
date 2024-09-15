@@ -2,7 +2,6 @@ package frontend_book_market_app.polytechnic.client.home.adapter;
 
 import static frontend_book_market_app.polytechnic.client.core.MyApp.getContext;
 
-import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,18 +17,21 @@ import com.bumptech.glide.Glide;
 import com.colormoon.readmoretextview.ReadMoreTextView;
 
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.home.model.DetailBookResponse;
 import frontend_book_market_app.polytechnic.client.home.model.ReviewResponse;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
-import frontend_book_market_app.polytechnic.client.utils.DateUtils;
 
 public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_BOOK_DETAIL = 1, TYPE_COMMENT_LIST = 2, TYPE_EMPTY_STATE = 3;
-    private final List<Object> items;
     private static int commentCount = 0;
+    private final List<Object> items;
 
 
     public AdapterBookDetail(List<Object> items) {
@@ -136,9 +138,9 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                 tvGiaSachCu.setPaintFlags(tvGiaSachCu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 tvTacGia.setText(String.format("Tác giả: %s", data.getAuthorName()));
                 tvDaBan.setText(String.valueOf(data.getPurchaseCount()));
-                if (data.getDiscountPercentage() < 0){
+                if (data.getDiscountPercentage() < 0) {
                     tvPhanTramGiam.setVisibility(View.GONE);
-                } else{
+                } else {
                     tvPhanTramGiam.setText(MessageFormat.format("-{0}%", data.getDiscountPercentage()));
                 }
 
@@ -148,13 +150,6 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                         .error(R.drawable.ic_error_photo)
                         .centerCrop()
                         .into(book_image_detail);
-
-//                tvDaBan.setOnClickListener(v -> {
-//                    Intent intent = new Intent(itemView.getContext(), BookImageActivity.class);
-//                    intent.putExtra("bookID", data.getBookId());
-//                    itemView.getContext().startActivity(intent);
-//                });
-
 
             } else {
                 tvBookTitleDetaill.setText("Null");
@@ -182,7 +177,24 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void bind(ReviewResponse.Review review) {
             tvReviewerName.setText(review.getReviewerName());
             tvReviewContent.setText(review.getComment());
-            tvThoiGianComment.setText(DateUtils.formatDate(review.getCreatedAt(), "dd-MM-yyyy  HH:mm"));
+
+            //----
+            String createdAtString = review.getCreatedAt();
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date;
+            try {
+                date = inputFormat.parse(createdAtString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                date = new Date();
+            }
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            outputFormat.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+            String formattedDate = outputFormat.format(date);
+            tvThoiGianComment.setText(formattedDate);
+            //----
+
 
             Glide.with(itemView.getContext())
                     .load(review.getReviewerAvatar())
