@@ -91,6 +91,17 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp" />
 
+            <Button
+                android:id="@+id/btnDaHetMa"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:backgroundTint="@color/gray_light"
+                android:fontFamily="@font/display_regular"
+                android:text="Vô hiệu hóa"
+                android:textColor="#4e4c4c"
+                android:visibility="gone"
+                app:cornerRadius="3dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,17 +142,6 @@
                     android:indeterminate="false"
                     android:progress="0"
                     android:progressDrawable="@drawable/progress_drawable_horizontal" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:id="@+id/btnDaHetMa"
-                    android:fontFamily="@font/display_regular"
-                    android:textColor="#4e4c4c"
-                    android:backgroundTint="@color/gray_light"
-                    app:cornerRadius="3dp"
-                    android:visibility="gone"
-                    android:text="Đã hết mã"/>
 
                 <TextView
                     android:id="@+id/txtDieuKienCoupon"

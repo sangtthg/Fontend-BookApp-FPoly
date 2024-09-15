@@ -27,11 +27,12 @@
 
             <ImageView
                 android:id="@+id/imageViewBackSearch"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
                 android:padding="8dp"
                 android:layout_gravity="center"
-                android:src="@drawable/baseline_arrow_back_24" />
+                app:tint="@color/black60"
+                android:src="@drawable/ic_back" />
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -51,17 +52,19 @@
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/darker_gray"
                     android:imeOptions="actionSearch"/>
-
                 <ImageView
                     android:id="@+id/imageViewClear2"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
+                    android:visibility="gone"
                     android:layout_centerVertical="true"
                     android:contentDescription="Clear"
                     android:padding="8dp"
-                    android:src="@drawable/closed" />
+                    android:src="@drawable/close_2" />
             </RelativeLayout>
+
+
 
             <ImageView
                 android:id="@+id/imageViewSearch2"
@@ -69,7 +72,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:padding="8dp"
-                android:src="@drawable/icons8_search" />
+                android:src="@drawable/seach123" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <LinearLayout

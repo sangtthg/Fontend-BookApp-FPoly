@@ -37,6 +37,7 @@ import frontend_book_market_app.polytechnic.client.home.adapter.PaymentItemAdapt
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.profile.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.profile.network.RepositoryAddress;
+import frontend_book_market_app.polytechnic.client.profile.view.AddressListActivity;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.AddressViewModel;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.AddressViewModelFactory;
 import frontend_book_market_app.polytechnic.client.utils.CurrencyFormatter;
@@ -48,7 +49,7 @@ public class PaymentActivity extends AppCompatActivity {
     private RecyclerView recyclerViewPaymentItem;
     private SkeletonAdapter skeletonAdapter;
     private LinearLayout layout2, layout3, layoutCoupon;
-    private TextView chonCoupon, tvGiaShip, tvTongPhu, tvTongVanChuyen, tvTongCong, tvTongSoTien, tvNhanHang, tvTenNguoiDungOrder, tvSDTNguoiDungOrder, tvDiaChiOrderChiTiet;
+    private TextView txtThayDoiDiaChi, chonCoupon, tvGiaShip, tvTongPhu, tvTongVanChuyen, tvTongCong, tvTongSoTien, tvNhanHang, tvTenNguoiDungOrder, tvSDTNguoiDungOrder, tvDiaChiOrderChiTiet;
     private double totalPrice = 0.0;
     String soDienThoai;
     String diaChi;
@@ -56,8 +57,7 @@ public class PaymentActivity extends AppCompatActivity {
     private AddressViewModel addressViewModel;
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
-
+    double totalPriceExcludingShipping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +69,12 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         tvSDTNguoiDungOrder = findViewById(R.id.tvSDTNguoiDungOrder);
         tvDiaChiOrderChiTiet = findViewById(R.id.tvDiaChiOrderChiTiet);
+
         tvTenNguoiDungOrder = findViewById(R.id.tvTenNguoiDungOrder);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         RepositoryAddress repositoryAddress = new RepositoryAddress(); // Ensure proper initialization
         AddressViewModelFactory factory = new AddressViewModelFactory(sharedPreferences, repositoryAddress);
-        editor =  sharedPreferences.edit();
+        editor = sharedPreferences.edit();
 
         addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel.class);
         Log.d("PaymentActivity", "AddressViewModel initialized");
@@ -137,7 +138,7 @@ public class PaymentActivity extends AppCompatActivity {
                 double shippingFee = orderResponse.getShippingFee();
                 totalPrice = orderResponse.getTotalPrice(); // Cập nhật biến toàn cục
                 tvNhanHang.setText(orderResponse.getDeliveryDateText());
-                double totalPriceExcludingShipping = totalPrice - shippingFee;
+                 totalPriceExcludingShipping = totalPrice - shippingFee;
                 Log.d("PaymentActivity", "TauTau: " + totalPrice);
                 tvGiaShip.setText(CurrencyFormatter.toVND(String.valueOf(shippingFee)));
                 tvTongPhu.setText(CurrencyFormatter.toVND(String.valueOf(totalPriceExcludingShipping)));
@@ -165,25 +166,16 @@ public class PaymentActivity extends AppCompatActivity {
             String token = sharedPreferencesHelper.getToken();
             Log.d("PaymentActivity", "Coupon Code: " + couponCode);
             Log.d("khiAnDâtHang", "Token: " + token);
-
-            // Kiểm tra xem token có hợp lệ không
             if (token.isEmpty()) {
                 Toast.makeText(PaymentActivity.this, "Token không hợp lệ, không thể thanh toán!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Gọi phương thức payOrder với mã giảm giá và token hiện tại
             homeViewModel.payOrder(getApplicationContext(), -1, couponCode, token);
-
-            // Log thông tin về yêu cầu thanh toán
             Log.d("PaymentActivity", "Calling payOrder with orderId: -1 and couponCode: " + couponCode);
         });
 
         findViewById(R.id.backDetailButton).setOnClickListener(v -> {
-//            editor.remove("selectedCouponId");
-//            editor.remove("selectedCouponCode");
-//            editor.remove(  "selectedCouponDiscount");
-//            editor.apply();
             finish();
         });
     }
@@ -206,37 +198,6 @@ public class PaymentActivity extends AppCompatActivity {
         tvNhanHang = findViewById(R.id.tvNhanHang);
     }
 
-    //    private AddressModel getDefaultAddress() {
-    //        List<AddressModel> addresses = sharedPreferencesHelper.getAddresses();
-    //
-    //        if (addresses == null || addresses.isEmpty()) {
-    //            return null;
-    //        }
-    //
-    //        for (AddressModel address : addresses) {
-    //            if (address.isDefault()) {
-    //                return address;
-    //            }
-    //        }
-    //
-    //        return null;
-    //    }
-
-
-    private String formatPhoneNumber(String phoneNumber) {
-        if (phoneNumber.length() > 9) {
-            return phoneNumber.substring(0, 7) + "******" + phoneNumber.substring(phoneNumber.length() - 2);
-        } else {
-            return phoneNumber;
-        }
-    }
-
-    private String convertPhoneNumberToInternational(String phoneNumber) {
-        if (phoneNumber.startsWith("0")) {
-            return "(+84)0" + phoneNumber.substring(1);
-        }
-        return phoneNumber;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -246,36 +207,37 @@ public class PaymentActivity extends AppCompatActivity {
             int couponId = data.getIntExtra("couponId", -1);
             String couponCode = data.getStringExtra("couponCode");
             double couponDiscount = data.getDoubleExtra("couponDiscount", 0.0);
-
-            // Tính toán giá cuối cùng
-            double finalPrice = totalPrice - couponDiscount;
-
-            // Log thông tin giảm giá và giá cuối cùng
-            Log.d("PaymentActivity", "Coupon ID: " + couponId);
-            Log.d("PaymentActivity", "Coupon Code: " + couponCode);
-            Log.d("PaymentActivity", "Coupon Discount: " + couponDiscount);
-            Log.d("PaymentActivity", "Total Price: " + totalPrice);
-            Log.d("PaymentActivity", "Final Price: " + finalPrice);
-
-            // Cập nhật giao diện với giá cuối cùng
-            tvTongCong.setText(CurrencyFormatter.toVND(String.valueOf(finalPrice)));
-            tvTongSoTien.setText(CurrencyFormatter.toVND(String.valueOf(finalPrice)));
-
-            // Cập nhật TextView chonCoupon với mã giảm giá
-            if (couponCode != null && !couponCode.isEmpty()) {
-                chonCoupon.setText(couponCode);
-                chonCoupon.setTextColor(Color.RED);
-                chonCoupon.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20); // Adjust size as needed
-                chonCoupon.setTypeface(null, Typeface.BOLD);
-                chonCoupon.setAlpha(1.0f); // Fully opaque
+            if (couponDiscount > totalPrice &&  couponDiscount > totalPriceExcludingShipping) {
+                Toast.makeText(PaymentActivity.this, "Không cho nhập mã giảm giá", Toast.LENGTH_SHORT).show();
             } else {
-                // Reset to default text if no coupon code is applied
-                chonCoupon.setText("Chọn hoặc nhập mã >");
-                chonCoupon.setTextColor(Color.parseColor("#888888"));
-                chonCoupon.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-                chonCoupon.setTypeface(null, Typeface.NORMAL);
-                chonCoupon.setAlpha(0.5f); // Semi-transparent
+                double finalPrice = totalPrice - couponDiscount;
+                Log.d("PaymentActivity", "Coupon ID: " + couponId);
+                Log.d("PaymentActivity", "Coupon Code: " + couponCode);
+                Log.d("PaymentActivity", "Coupon Discount: " + couponDiscount);
+                Log.d("PaymentActivity", "Total Price: " + totalPrice);
+                Log.d("PaymentActivity", "Final Price: " + finalPrice);
+                Toast.makeText(PaymentActivity.this, "Áp dụng mã giảm giá thành cng", Toast.LENGTH_SHORT).show();
+
+                // Cập nhật giao diện với giá cuối cùng
+                tvTongCong.setText(CurrencyFormatter.toVND(String.valueOf(finalPrice)));
+                tvTongSoTien.setText(CurrencyFormatter.toVND(String.valueOf(finalPrice)));
+                if (couponCode != null && !couponCode.isEmpty()) {
+                    chonCoupon.setText(couponCode);
+                    chonCoupon.setTextColor(Color.RED);
+                    chonCoupon.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20); // Adjust size as needed
+                    chonCoupon.setTypeface(null, Typeface.BOLD);
+                    chonCoupon.setAlpha(1.0f); // Fully opaque
+                } else {
+                    // Reset to default text if no coupon code is applied
+                    chonCoupon.setText("Chọn hoặc nhập mã >");
+                    chonCoupon.setTextColor(Color.parseColor("#888888"));
+                    chonCoupon.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                    chonCoupon.setTypeface(null, Typeface.NORMAL);
+                    chonCoupon.setAlpha(0.5f);
+                }
             }
+
+
         }
     }
 
@@ -283,7 +245,7 @@ public class PaymentActivity extends AppCompatActivity {
         List<AddressModel> defaultAddresses = new ArrayList<>();
         if (addresses != null) {
             for (AddressModel address : addresses) {
-                if (address.isIs_default()) { // Kiểm tra biến boolean
+                if (address.isIs_default()) {
                     defaultAddresses.add(address);
                 }
             }
@@ -294,18 +256,12 @@ public class PaymentActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-//        editor.putInt("selectedCouponId", -1);
-//        editor.putString("selectedCouponCode", "");
-//        editor.putFloat("selectedCouponDiscount", (float) -1);
-
-
         editor.remove("selectedCouponId");
         editor.remove("selectedCouponCode");
-        editor.remove(  "selectedCouponDiscount");
+        editor.remove("selectedCouponDiscount");
         editor.apply();
         super.onDestroy();
     }
-
 
 
 }

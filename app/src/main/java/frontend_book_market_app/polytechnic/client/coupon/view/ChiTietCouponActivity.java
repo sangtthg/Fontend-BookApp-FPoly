@@ -65,7 +65,6 @@ public class ChiTietCouponActivity extends AppCompatActivity {
             slma.setTextColor(R.color.texthethan);
             txtSoluongmagiamgia.setTextColor(R.color.texthethan);
             txtHetHan.setTextColor(R.color.texthethan);
-            btnDongYChiTietCoupon.setVisibility(View.GONE);
         }
 
 

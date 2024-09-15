@@ -13,6 +13,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import frontend_book_market_app.polytechnic.client.R;
 
 public class ViewPagerAdapter extends PagerAdapter {
+
     Context context;
     int sliderAllImages[] = {
             R.drawable.anh1,
@@ -47,6 +48,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
+
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.slider_screen, container, false);
         ImageView sliderImage = view.findViewById(R.id.sliderImage);

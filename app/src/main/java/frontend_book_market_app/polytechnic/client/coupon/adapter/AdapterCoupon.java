@@ -20,9 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.coupon.model.CouponRequestModel;
@@ -39,7 +43,7 @@ public class AdapterCoupon extends RecyclerView.Adapter<AdapterCoupon.CouponView
     public static final int REQUEST_CODE_COUPON = 100; // Bạn có thể sử dụng một giá trị phù hợp
     private SharedPreferences sharedPreferences;
     private Context context;
-
+    private long differenceInMillis;
 
     public AdapterCoupon(Context context, List<CouponRequestModel> couponList) {
         this.context = context;
@@ -60,10 +64,6 @@ public class AdapterCoupon extends RecyclerView.Adapter<AdapterCoupon.CouponView
     public void onBindViewHolder(@NonNull CouponViewHolder holder, @SuppressLint("RecyclerView") int position) {
         CouponRequestModel coupon = couponList.get(position);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
-        String startDate = coupon.getValidFrom() != null ? sdf.format(coupon.getValidFrom()) : null;
-        String endDate = coupon.getValidTo() != null ? sdf.format(coupon.getValidTo()) : null;
-
         Log.d(TAG, "ID: " + coupon.getId());
         Log.d(TAG, "Code: " + coupon.getCode());
         Log.d(TAG, "Description: " + coupon.getDescription());
@@ -73,6 +73,46 @@ public class AdapterCoupon extends RecyclerView.Adapter<AdapterCoupon.CouponView
         Log.d(TAG, "Discount: " + coupon.getDiscountAmount());
         Log.d(TAG, "Status: " + coupon.getStatus());
         Log.d(TAG, "Actions: [Edit/Delete]");
+        //----------------------------------------------------
+        String startDate = coupon.getValidFrom() != null ? sdf.format(coupon.getValidFrom()) : null;
+        String endDate = coupon.getValidTo() != null ? sdf.format(coupon.getValidTo()) : null;
+
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+// Thêm giờ mặc định cho ngày bắt đầu và ngày kết thúc
+        String startDateTimeStr = startDate + " 00:00:00";
+        String endDateTimeStr = endDate + " 23:59:59";
+
+        try {
+            // Phân tích chuỗi ngày giờ
+            Date startDateTime = dateTimeFormat.parse(startDateTimeStr);
+            Date endDateTime = dateTimeFormat.parse(endDateTimeStr);
+            Date currentDate = new Date(); // Thời gian hiện tại
+
+            if (startDateTime != null && endDateTime != null) {
+                differenceInMillis = endDateTime.getTime() - currentDate.getTime();
+                long daysDifference = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
+                long hoursDifference = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24;
+                long minutesDifference = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60;
+
+                Log.d("DateDifference", "Days: " + daysDifference + ", Hours: " + hoursDifference + ", Minutes: " + minutesDifference);
+
+                // Hiển thị kết quả về thời gian còn lại hoặc đã hết hạn
+                if (differenceInMillis > 0) {
+                    Log.d("llllllllllllllllllllll", "Mã còn hạn");
+                } else {
+                    Log.d("llllllllllllllllllllll", "Mã giảm giá đã hết hạn.");
+
+                }
+            } else {
+                Log.d("llllllllllllllllllllll", "Không thể tính toán hạn sử dụng");
+            }
+
+        } catch (ParseException e) {
+            Log.e(TAG, "ParseException: " + e.getMessage());
+            Log.d("llllllllllllllllllllll", "Không thể tính toán hạn sử dụng");
+        }
+
 
         holder.txtMoTaCoupon.setText(coupon.getDescription());
         holder.voucherTitle.setText(coupon.getCode());
@@ -107,6 +147,7 @@ public class AdapterCoupon extends RecyclerView.Adapter<AdapterCoupon.CouponView
 
         int maxQuantity = 100;
         int progress = coupon.getQuantity();
+        String inActive = coupon.getStatus();
         holder.voucherProgressBar.setMax(maxQuantity);
         holder.voucherProgressBar.setProgress(progress);
 
@@ -124,7 +165,7 @@ public class AdapterCoupon extends RecyclerView.Adapter<AdapterCoupon.CouponView
             intent.putExtra("couponDiscount", coupon.getDiscountAmount());
             v.getContext().startActivity(intent);
         });
-        if (progress == 0) {
+        if (progress == 0 || Objects.equals(inActive, "inactive") || differenceInMillis <= 0) {
             holder.btnDaHetMa.setVisibility(View.VISIBLE);
             holder.voucher_image.setImageResource(R.drawable.couponmagiamgia);
             holder.voucherCheckbox.setVisibility(View.GONE);

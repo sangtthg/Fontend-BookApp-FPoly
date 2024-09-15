@@ -52,7 +52,7 @@
             android:id="@+id/btnXacNhan"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="@dimen/_45sdp"
-            android:backgroundTint="#FF7622"
+            android:backgroundTint="#aa0116"
             android:gravity="center"
             android:text="Xác Nhận"
             android:textColor="@android:color/white"

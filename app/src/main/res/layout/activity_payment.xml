@@ -112,6 +112,7 @@
                     android:layout_marginEnd="@dimen/_9sdp"
                     android:src="@drawable/ic_location" />
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -262,14 +263,15 @@
                 <ImageView
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_23sdp"
-                    android:src="@drawable/voucher"
-                    android:gravity="center_horizontal"/>
+                    android:gravity="center_horizontal"
+                    android:src="@drawable/voucher" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/roboto_medium"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/_10sdp"
                     android:text="Mã giảm giá"
