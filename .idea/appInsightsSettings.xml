@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="frontend_book_market_app.polytechnic.client" />
+                  <option name="mobileSdkAppId" value="1:163599643262:android:373a134b33b4b8d5ab9e2f" />
+                  <option name="projectId" value="datn-2789f" />
+                  <option name="projectNumber" value="163599643262" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

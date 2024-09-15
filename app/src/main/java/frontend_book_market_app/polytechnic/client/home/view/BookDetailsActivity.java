@@ -1,21 +1,18 @@
 package frontend_book_market_app.polytechnic.client.home.view;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,7 +27,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,20 +35,16 @@ import java.util.Locale;
 import cn.bingoogolapple.badgeview.BGABadgeImageView;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
-import frontend_book_market_app.polytechnic.client.MainActivity;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.auth.login.view.LoginScreen;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapterBookDetail;
 import frontend_book_market_app.polytechnic.client.home.model.DetailBookResponse;
 import frontend_book_market_app.polytechnic.client.home.model.ReviewResponse;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
-import frontend_book_market_app.polytechnic.client.notification.view.NotificationFragment;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 import android.Manifest;
-import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 public class BookDetailsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewBookDetailScreen;
@@ -74,13 +66,19 @@ public class BookDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_details);
-
         EdgeToEdge.enable(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+//        Window window = getWindow();
+//        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            View decor = getWindow().getDecorView();
+//            decor.setSystemUiVisibility(0);
+//        }
+
         sharedPreferencesHelper = new SharedPreferencesHelper(this);
 
         Intent intent = getIntent();
@@ -174,26 +172,6 @@ public class BookDetailsActivity extends AppCompatActivity {
             homeViewModel.fetchTotalItemInCart();
             swipeRefreshLayout.setRefreshing(false);
         });
-    }
-
-    private void showReviewDialog() {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_review);
-
-        RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
-        EditText editTextComment = dialog.findViewById(R.id.editTextComment);
-        MaterialButton buttonSubmit = dialog.findViewById(R.id.buttonSubmit);
-
-//        buttonSubmit.setOnClickListener(v -> {
-//            int rating = (int) ratingBar.getRating();
-//            String comment = editTextComment.getText().toString();
-//
-//            homeViewModel.submitReview(bookID, rating, comment, getApplicationContext());
-//
-//            dialog.dismiss();
-//        });
-
-        dialog.show();
     }
 
     private void initView() {

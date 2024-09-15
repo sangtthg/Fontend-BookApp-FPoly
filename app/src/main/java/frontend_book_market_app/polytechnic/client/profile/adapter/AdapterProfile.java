@@ -223,5 +223,40 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
 
 
 
+    private void showLogoutDialog2(Context context, ProfileViewHolder holder) {
+        if (context instanceof Activity) {
+            MaterialDialog mDialog = new MaterialDialog.Builder((Activity) context)
+                    .setTitle("Đăng xuất")
+                    .setMessage("Bạn có chắc chắn đăng xuất không?")
+                    .setCancelable(false)
+                    .setPositiveButton("Đồng ý", R.drawable.ic_check_24_default, new AbstractDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            holder.btnLogoutProfile.setText("Đăng nhập");
+                            if (onLogoutClickListener != null) {
+                                onLogoutClickListener.onLogoutClick();
+                            }
+                            Intent intent = new Intent(context, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            context.startActivity(intent);
+
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Không", R.drawable.ic_close, new AbstractDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .build();
+
+            mDialog.show();
+        } else {
+            Log.e("AdapterProfile", "Context không phải là Activity. Không thể hiển thị dialog.");
+        }
+    }
+
+
 
 }
