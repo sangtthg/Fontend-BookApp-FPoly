@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -106,6 +108,12 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             Intent intent = new Intent(v.getContext(), AddressListActivity.class);
             v.getContext().startActivity(intent);
         });
+
+
+
+            Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake_animation);
+            holder.idIcondiachi.startAnimation(shake);
+
     }
 
     @Override
@@ -122,7 +130,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
         TextView txtTenNguoiDung, txtEmail;
         TextView txtDoiMatKhau, txtDiaChi, btnLogoutProfile;
-        ImageView imgAvatar, imgChangeAvatar;
+        ImageView imgAvatar, idIcondiachi;
 
         public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -131,6 +139,7 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.ProfileV
             txtDiaChi = itemView.findViewById(R.id.txtDiaChi);
             txtEmail = itemView.findViewById(R.id.txtEmail);
             btnLogoutProfile = itemView.findViewById(R.id.btnLogoutProfile);
+            idIcondiachi = itemView.findViewById(R.id.idIcondiachi);
         }
     }
 

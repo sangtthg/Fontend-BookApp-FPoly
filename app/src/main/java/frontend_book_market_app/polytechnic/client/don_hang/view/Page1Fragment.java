@@ -82,14 +82,14 @@ public class Page1Fragment extends Fragment {
                         .setTitle("Huỷ đơn hàng")
                         .setMessage("Bạn có chắc bạn muốn huỷ đơn hàng này?")
                         .setCancelable(false)
-                        .setPositiveButton("Xác nhận huỷ", R.drawable.ic_check_24_default, new AbstractDialog.OnClickListener() {
+                        .setPositiveButton("Xác nhận", R.drawable.ic_check_24_default, new AbstractDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 donHangUserViewModel.cancelOrder(order.getId(), getContext());
                                 dialogInterface.dismiss();
                             }
                         })
-                        .setNegativeButton("KHÔNG", R.drawable.ic_close, new AbstractDialog.OnClickListener() {
+                        .setNegativeButton("Không", R.drawable.ic_close, new AbstractDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 dialogInterface.dismiss();

@@ -42,6 +42,7 @@ public class AViewModel extends ViewModel {
 
     public void setUserAvatar(Context context, String linkAvatar) {
         sharedPreferencesHelper = new SharedPreferencesHelper(context);
+        System.out.println("BUG: 1"+linkAvatar);
         sharedPreferencesHelper.updateAvatar(linkAvatar);
     }
 }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,7 +42,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private RecyclerView recyclerViewBooks;
     private AdapterSearchView bookAdapter;
     private List<Book> bookList;
-    private ImageView imageViewBackSearch, imageViewSearch2,imageViewClear2;
+    private ImageView imageViewBackSearch, imageViewSearch2, imageViewClear2;
     private EditText editTextSearch2;
     private ProgressBar progressBar;
     private SearchViewModel searchViewModel;
@@ -57,7 +59,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
-        imageViewClear2= findViewById(R.id.imageViewClear2);
+        imageViewClear2 = findViewById(R.id.imageViewClear2);
         spinnerFilterByAuthor = findViewById(R.id.spinnerFilterByAuthor);
         buttonSortByPrice = findViewById(R.id.buttonSortByPrice);
         textViewNoBooks = findViewById(R.id.textViewNoBooks);
@@ -131,13 +133,13 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         imageViewSearch2.setOnClickListener(v -> {
 
-                String query = editTextSearch2.getText().toString().trim();
-                if (!query.isEmpty()) {
-                    showProgressBar(true);
-                    performSearch(query);  // Perform the search
-                } else {
-                    Toast.makeText(SearchResultsActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
-                }
+            String query = editTextSearch2.getText().toString().trim();
+            if (!query.isEmpty()) {
+                showProgressBar(true);
+                performSearch(query);  // Perform the search
+            } else {
+                Toast.makeText(SearchResultsActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
+            }
 
         });
 
@@ -148,16 +150,62 @@ public class SearchResultsActivity extends AppCompatActivity {
                 showProgressBar(true);
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
 
-                        String query = editTextSearch2.getText().toString().trim();
-                        if (!query.isEmpty()) {
-                            performSearch(query);  // Perform the search
-                        } else {
-                            Toast.makeText(SearchResultsActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
-                        }
+                    String query = editTextSearch2.getText().toString().trim();
+                    if (!query.isEmpty()) {
+                        performSearch(query);  // Perform the search
+                    } else {
+                        Toast.makeText(SearchResultsActivity.this, "Please enter a search query", Toast.LENGTH_SHORT).show();
+                    }
 
                     return true;
                 }
                 return false;
+            }
+        });
+
+        editTextSearch2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    String query = editTextSearch2.getText().toString().trim();
+
+                    if (!query.isEmpty()) {
+
+                        searchViewModel.searchBooks( 1000, 1000, query);
+                        searchViewModel.getSearchResults().observe(SearchResultsActivity.this, bookSearchResponse -> {
+
+                            performSearch( query);
+                        });
+                    } else {
+                        Toast.makeText(SearchResultsActivity.this, "Vui lòng nhập một từ khóa.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        editTextSearch2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    imageViewClear2.setVisibility(View.VISIBLE);
+                } else {
+                    imageViewClear2.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
         bookList = new ArrayList<>();
@@ -261,9 +309,9 @@ public class SearchResultsActivity extends AppCompatActivity {
         return sharedPreferences.getString("token", null);
     }
 
-    private void performSearch( String query) {
+    private void performSearch(String query) {
         showProgressBar(true);
-        searchViewModel.searchBooks( 1000, 1000, query);
+        searchViewModel.searchBooks(1000, 1000, query);
 
         // Observe the search results
         searchViewModel.getSearchResults().observe(this, bookSearchResponse -> {
@@ -343,6 +391,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         authorList.clear(); // Clear the author list
         authorAdapter.notifyDataSetChanged(); // Update the Spinner
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

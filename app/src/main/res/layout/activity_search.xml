@@ -27,8 +27,7 @@
                 android:layout_height="@dimen/_28sdp"
                 android:padding="8dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_back"
-                app:tint="@color/black60" />
+                android:src="@drawable/ic_back" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

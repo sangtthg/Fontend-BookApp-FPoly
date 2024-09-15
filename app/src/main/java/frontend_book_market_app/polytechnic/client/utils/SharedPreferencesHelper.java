@@ -112,7 +112,7 @@ public class SharedPreferencesHelper {
     }
 
     public void updateAvatar(String newAvatarUrl) {
-        editor.putString(KEY_AVATAR, newAvatarUrl);
+        editor.putString(KEY_AVATAR, newAvatarUrl).apply();
     }
 
     public void saveAddressUpdate(UpdateAddressModel updateAddressModel) {

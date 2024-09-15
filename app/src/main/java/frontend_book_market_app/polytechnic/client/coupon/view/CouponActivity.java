@@ -19,14 +19,12 @@ import java.util.ArrayList;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.coupon.adapter.AdapterCoupon;
-import frontend_book_market_app.polytechnic.client.coupon.adapter.AdapterCouponHetHan;
 import frontend_book_market_app.polytechnic.client.coupon.viewmodel.CouponViewModel;
 
 public class CouponActivity extends AppCompatActivity {
     private ImageView btnBackThanhToan;
     private RecyclerView recyclerviewCoupon,recyclerviewExpiredCoupon;
     private AdapterCoupon adapterCoupon;
-    private AdapterCouponHetHan adapterCouponHetHan;
     private Button btnDongYCoupon;
     private CouponViewModel couponViewModel;
     private SharedPreferences sharedPreferences;

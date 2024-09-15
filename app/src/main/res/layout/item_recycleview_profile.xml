@@ -46,7 +46,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_drive_file_rename_outline_24" />
+            android:src="@drawable/profile"
+            android:layout_gravity="center"/>
 
         <TextView
             android:layout_width="0dp"
@@ -89,7 +90,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_mail_outline_24" />
+            android:src="@drawable/mail" />
 
         <TextView
             android:layout_width="0dp"
@@ -131,10 +132,11 @@
         android:padding="12dp">
 
         <ImageView
+            android:id="@+id/idIcondiachi"
             android:layout_width="24dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_directions_24" />
+            android:src="@drawable/address" />
 
         <TextView
             android:id="@+id/txtDiaChi"
@@ -174,7 +176,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_password_24" />
+            android:src="@drawable/passsword" />
 
         <TextView
 
@@ -215,7 +217,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/baseline_logout_24" />
+            android:src="@drawable/logout" />
 
         <TextView
             android:id="@+id/btnLogoutProfile"

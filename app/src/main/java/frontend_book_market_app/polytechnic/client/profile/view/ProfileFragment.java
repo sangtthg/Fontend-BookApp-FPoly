@@ -96,6 +96,8 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
                 sharedPreferencesHelper.getDefaultAddress()
         ));
         logUserInfo();
+        System.out.println("BUG: 2"+sharedPreferencesHelper.getAvatar());
+
         loadAvatar(sharedPreferencesHelper.getAvatar());
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProfile);

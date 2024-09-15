@@ -137,7 +137,7 @@
                 android:layout_width="@dimen/_260sdp"
                 android:layout_height="@dimen/_45sdp"
                 android:layout_gravity="center"
-                android:backgroundTint="#FF7622"
+                android:backgroundTint="@color/colorRedM"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Đăng Nhập"
                 android:textColor="@android:color/white"
