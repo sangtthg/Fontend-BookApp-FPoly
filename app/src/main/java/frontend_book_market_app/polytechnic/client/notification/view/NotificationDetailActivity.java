@@ -85,6 +85,10 @@ public class NotificationDetailActivity extends AppCompatActivity {
         if (Objects.equals(type, "system")) {
             titleTextView.setText("📢  Thông báo hệ thống - " + title);
             imageView.setVisibility(View.GONE);
+            if (imageUrl == null){
+                card2.setVisibility(View.GONE);
+                imageView.setVisibility(View.VISIBLE);
+            }
         } else {
             titleTextView.setText("📢  Thông báo đơn hàng - " + title);
             card2.setVisibility(View.GONE);
@@ -92,16 +96,32 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         messageTextView.setText(message);
         dateTextView.setText("Được gửi lúc: " + date);
+        int errorImageResId;
 
-        loadImage(imageUrl, imageView);
-        loadImage(imageUrl, imageView2);
+        if (Objects.equals(type, "cancelled")){
+            errorImageResId = R.drawable.that_b_1;
+        }
+        else if (Objects.equals(type, "delivered")){
+            errorImageResId = R.drawable.thanh_cong;
+        }
+        else if (Objects.equals(type, "wait_for_delivery")){
+            errorImageResId = R.drawable.dang_giao;
+        }else if (Objects.equals(type, "system")){
+            errorImageResId = R.drawable.thong_bao_he_thong_null;
+        }
+        else{
+            errorImageResId = R.drawable.courier_1;
+        }
+
+        loadImage(imageUrl, imageView, errorImageResId);
+        loadImage(imageUrl, imageView2, errorImageResId);
     }
 
-    private void loadImage(String url, ImageView imageView) {
+    private void loadImage(String url, ImageView imageView,  int imError) {
         Glide.with(this)
                 .load(url)
                 .placeholder(R.drawable.loading_book)
-                .error(R.drawable.courier_1)
+                .error(imError)
                 .centerCrop()
                 .into(imageView);
     }
