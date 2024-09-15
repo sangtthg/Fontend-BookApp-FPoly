@@ -103,9 +103,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else {
             int errorImageResId;
             if (Objects.equals(notification.getType(), "cancelled")){
-                errorImageResId = R.drawable.giao_that_bai;
-            } else{
-                errorImageResId = R.drawable.courier_1;
+                errorImageResId = R.drawable.that_b_1;
+            }
+            else if (Objects.equals(notification.getType(), "delivered")){
+                errorImageResId = R.drawable.thanh_cong;
+            }
+            else if (Objects.equals(notification.getType(), "wait_for_delivery")){
+                errorImageResId = R.drawable.dang_giao;
+            } else if (Objects.equals(notification.getType(), "system")){
+                errorImageResId = R.drawable.thong_bao_he_thong_null;
+            }
+            else{
+                errorImageResId = R.drawable.courier;
             }
             Glide.with(holder.itemView.getContext())
                     .load(errorImageResId)

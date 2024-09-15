@@ -99,8 +99,17 @@ public class NotificationDetailActivity extends AppCompatActivity {
         int errorImageResId;
 
         if (Objects.equals(type, "cancelled")){
-            errorImageResId = R.drawable.giao_that_bai_1;
-        } else{
+            errorImageResId = R.drawable.that_b_1;
+        }
+        else if (Objects.equals(type, "delivered")){
+            errorImageResId = R.drawable.thanh_cong;
+        }
+        else if (Objects.equals(type, "wait_for_delivery")){
+            errorImageResId = R.drawable.dang_giao;
+        }else if (Objects.equals(type, "system")){
+            errorImageResId = R.drawable.thong_bao_he_thong_null;
+        }
+        else{
             errorImageResId = R.drawable.courier_1;
         }
 
