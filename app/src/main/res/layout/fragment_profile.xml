@@ -61,11 +61,12 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="bottom|end"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
+
             android:background="@drawable/circle_background2"
             android:padding="6dp"
             android:scaleType="centerInside"
-            android:src="@drawable/imagechange" />
+            android:src="@drawable/baseline_add_photo_alternate_24" />
 
     </FrameLayout>
     <androidx.recyclerview.widget.RecyclerView
