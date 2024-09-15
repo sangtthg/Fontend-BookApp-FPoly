@@ -113,7 +113,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         profileViewModel.getErrorMessage().observe(this, error -> {
             if (error != null) {
-                Toast.makeText(this, "Lỗi: " + error, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Mật khẩu cũ không chính xác" , Toast.LENGTH_LONG).show();
             }
         });
     }
