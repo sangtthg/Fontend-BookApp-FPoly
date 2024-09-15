@@ -67,10 +67,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.linearLayoutParentNotification.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorLightBlue));
             holder.mainNotification.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorLightBlue));
             holder.imgNotification.setBackgroundResource(R.color.colorLightBlue);
+            holder.unreadIndicator.setVisibility(View.VISIBLE);
         } else {
             holder.linearLayoutParentNotification.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.transparent));
             holder.mainNotification.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.transparent));
             holder.imgNotification.setBackgroundResource(android.R.color.transparent);
+            holder.unreadIndicator.setVisibility(View.INVISIBLE);
         }
 
         //Item Click
@@ -80,8 +82,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 holder.linearLayoutParentNotification.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.transparent));
                 holder.mainNotification.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.transparent));
                 onItemClickListener.onItemClick(notification);
+                holder.unreadIndicator.setVisibility(View.INVISIBLE);
 
                 Intent intent = new Intent(holder.itemView.getContext(), NotificationDetailActivity.class);
+                intent.putExtra("type", notification.getType());
                 intent.putExtra("title", notification.getTitle());
                 intent.putExtra("message", notification.getMessage());
                 intent.putExtra("date", formattedDate);
@@ -127,6 +131,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         CircleImageView imgNotification;
         LinearLayout linearLayoutParentNotification;
         LinearLayout mainNotification;
+        View unreadIndicator;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -136,6 +141,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             linearLayoutParentNotification = itemView.findViewById(R.id.linearLayoutParentNotification);
             mainNotification = itemView.findViewById(R.id.mainNotification);
             imgNotification = itemView.findViewById(R.id.imgNotification);
+            unreadIndicator = itemView.findViewById(R.id.unreadIndicator);
+
         }
     }
 }

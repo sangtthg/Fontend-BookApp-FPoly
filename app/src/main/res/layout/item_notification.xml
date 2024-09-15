@@ -14,6 +14,8 @@
         android:background="@color/transparent"
         android:src="@drawable/courier" />
 
+
+
     <LinearLayout
         android:id="@+id/linearLayoutParentNotification"
         android:layout_width="0dp"
@@ -21,7 +23,7 @@
         android:layout_weight="3"
         android:background="@color/transparent"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         android:paddingTop="@dimen/_8sdp">
 
         <TextView
@@ -29,7 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/display_bold"
-            android:text="Hoàn tất thanh toán"
+            android:text="Hoàn tất thanh toán Hoàn tất thanh toán Hoàn tất thanh toán Hoàn tất thanh toán Hoàn tất thanh toán"
+            android:maxLines="1"
+            android:ellipsize="marquee"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_12ssp" />
 
@@ -56,12 +60,15 @@
             android:textColor="#A8A5A5"
             android:textSize="@dimen/_10ssp" />
 
-        <!--        <View-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="1dp"-->
-        <!--            android:layout_marginTop="@dimen/_8sdp"-->
-        <!--            android:background="#E0E0E0" />-->
-
     </LinearLayout>
 
+    <View
+        android:id="@+id/unreadIndicator"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:visibility="visible"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/circle_shape" />
 </LinearLayout>
