@@ -75,7 +75,11 @@ public class ChangePasswordScreen extends AppCompatActivity {
         btnChangePassword.setOnClickListener(v -> {
             String newPassword = editTextNewPassword.getText().toString();
             String confirmPassword = editTextConfirmPassword.getText().toString();
-
+            // Kiểm tra độ dài của mật khẩu
+            if (newPassword.length() < 6) {
+                Toast.makeText(this, "Mật khẩu phải có ít nhất 6 ký tự", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (newPassword.equals(confirmPassword)) {
                 if (otpIdString != null && otp != null) {
                     try {
