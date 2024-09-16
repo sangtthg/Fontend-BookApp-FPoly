@@ -1,5 +1,7 @@
 package frontend_book_market_app.polytechnic.client.home.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class ReviewResponse {
@@ -34,6 +36,7 @@ public class ReviewResponse {
         private String reviewerAvatar;
         private int rating;
         private String comment;
+        @SerializedName("created_at")
         private String createdAt;
         private String updatedAt;
 
