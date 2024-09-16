@@ -210,7 +210,7 @@ public class PaymentActivity extends AppCompatActivity {
                 Log.d("PaymentActivity", "Coupon Discount: " + couponDiscount);
                 Log.d("PaymentActivity", "Total Price: " + totalPrice);
                 Log.d("PaymentActivity", "Final Price: " + finalPrice);
-                Toast.makeText(PaymentActivity.this, "Áp dụng mã giảm giá thành cng", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PaymentActivity.this, "Áp dụng mã giảm giá thành công", Toast.LENGTH_SHORT).show();
 
                 // Cập nhật giao diện với giá cuối cùng
                 tvTongCong.setText(CurrencyFormatter.toVND(String.valueOf(finalPrice)));

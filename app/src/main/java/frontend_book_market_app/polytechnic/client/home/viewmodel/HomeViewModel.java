@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.don_hang.model.OrderItem;
+import frontend_book_market_app.polytechnic.client.home.view.PaymentActivity;
 import frontend_book_market_app.polytechnic.client.profile.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.profile.network.SharedService;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
@@ -470,6 +471,9 @@ public class HomeViewModel extends ViewModel {
                         context.startActivity(intent);
                     } else {
                         Log.e("HomeViewModel", "Invalid payment URL received");
+                        Log.e("HomeViewModel", "Invalid payment URL received");
+                        Toast.makeText(context, "Không thể dùng mã giảm giá này", Toast.LENGTH_SHORT).show();
+
                     }
                 } else {
                     // Ghi log lỗi nếu thanh toán không thành công
