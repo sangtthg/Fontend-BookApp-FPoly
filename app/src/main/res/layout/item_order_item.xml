@@ -34,7 +34,9 @@
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:fontFamily="@font/roboto_regular"
+            android:maxLines="1"
             android:text="Title"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp" />
@@ -68,7 +70,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
