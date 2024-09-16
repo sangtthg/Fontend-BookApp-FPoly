@@ -97,11 +97,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/textview_border2"
-                    android:paddingHorizontal="@dimen/_3sdp"
-                    android:paddingVertical="@dimen/_1sdp"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:fontFamily="@font/display_regular"
+                    android:paddingVertical="@dimen/_2sdp"
                     android:text="Đã đánh giá"
                     android:textColor="#26A69A"
-                    android:textSize="@dimen/_8ssp" />
+                    android:textSize="@dimen/_11ssp" />
 
                 <TextView
                     android:id="@+id/tvGiaCuOrderItem"
