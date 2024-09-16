@@ -195,10 +195,10 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
             tvThoiGianComment.setText(formattedDate);
             //----
 
-
             Glide.with(itemView.getContext())
                     .load(review.getReviewerAvatar())
                     .placeholder(R.drawable.loading_book)
+                    .error(R.drawable.man)
                     .centerCrop()
                     .into(avatar);
 
@@ -223,6 +223,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                 starContainer.addView(star);
             }
         }
+
     }
 
     static class EmptyStateViewHolder extends RecyclerView.ViewHolder {
