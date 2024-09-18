@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.don_hang.viewmodel.DonHangUserViewModel;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapterCart;
@@ -180,18 +182,29 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void showMissingInfoDialog() {
-        Dialog dialog = new Dialog(CartActivity.this);
-        dialog.setContentView(R.layout.dialog_missing_info);
-        Button btnOk = dialog.findViewById(R.id.btnOk);
+        MaterialDialog mDialog = new MaterialDialog.Builder(this)
+                .setTitle("Thiếu Thông Tin")
+                .setMessage("Bạn chưa cung cấp địa chỉ mặc định. Bạn có muốn thêm địa chỉ không?")
+                .setCancelable(false)
+                .setPositiveButton("Thêm địa chỉ", R.drawable.ic_check_24_default, new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        // Chuyển đến màn hình thêm địa chỉ
+                        Intent intent = new Intent(CartActivity.this, AddressListActivity.class);
+                        intent.putExtra("diachi", 0);
+                        startActivity(intent);
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Hủy", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .build();
 
-        btnOk.setOnClickListener(v -> {
-            dialog.dismiss();
-            Intent intent = new Intent(CartActivity.this, AddressListActivity.class);
-            intent.putExtra("diachi", 0);
-            startActivity(intent);
-        });
-
-        dialog.show();
+        mDialog.show();
     }
 
     public String getUserAddress() {

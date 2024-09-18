@@ -222,12 +222,15 @@ public class BookDetailsActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btnDatHang).setOnClickListener(v -> {
-            int bookId = getIntent().getIntExtra("bookID", -1);
-            if (bookId != -1) {
-                homeViewModel.addToCart(bookId, 1, this);
-            } else {
-                Toast.makeText(this, "Lỗi: Không thể xác định ID sách", Toast.LENGTH_SHORT).show();
+            if(checkUserLogin()){
+                int bookId = getIntent().getIntExtra("bookID", -1);
+                if (bookId != -1) {
+                    homeViewModel.addToCart(bookId, 1, this);
+                } else {
+                    Toast.makeText(this, "Lỗi: Không thể xác định ID sách", Toast.LENGTH_SHORT).show();
+                }
             }
+
         });
 
         findViewById(R.id.btnCallNow).setOnClickListener(v -> {
