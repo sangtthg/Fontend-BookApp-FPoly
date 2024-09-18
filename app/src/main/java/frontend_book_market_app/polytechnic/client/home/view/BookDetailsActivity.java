@@ -103,6 +103,7 @@ public class BookDetailsActivity extends AppCompatActivity {
             badgeImageView.getBadgeViewHelper().setBadgeBgColorInt(Color.RED);
             badgeImageView.getBadgeViewHelper().setBadgeTextColorInt(Color.WHITE);
         });
+        //TODO
         homeViewModel.getDetailBook().observe(this, new Observer<DetailBookResponse>() {
             @Override
             public void onChanged(DetailBookResponse detailBookResponse) {

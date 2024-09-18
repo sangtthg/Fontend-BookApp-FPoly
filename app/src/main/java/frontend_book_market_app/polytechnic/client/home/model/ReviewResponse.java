@@ -32,7 +32,9 @@ public class ReviewResponse {
         private int id;
         private int bookId;
         private String userId;
+        @SerializedName("username")
         private String reviewerName;
+        @SerializedName("user_avatar")
         private String reviewerAvatar;
         private int rating;
         private String comment;
