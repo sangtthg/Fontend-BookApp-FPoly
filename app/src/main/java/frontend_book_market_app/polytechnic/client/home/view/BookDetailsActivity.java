@@ -81,12 +81,6 @@ public class BookDetailsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-//        Window window = getWindow();
-//        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            View decor = getWindow().getDecorView();
-//            decor.setSystemUiVisibility(0);
-//        }
 
         sharedPreferencesHelper = new SharedPreferencesHelper(this);
 
@@ -209,7 +203,6 @@ public class BookDetailsActivity extends AppCompatActivity {
             swipeRefreshLayout.setRefreshing(true);
             recyclerViewBookDetailScreen.setAdapter(skeletonAdapter);
             homeViewModel.fetchBookDetail(bookID);
-//            homeViewModel.fetchBookReviews(bookID);
             homeViewModel.fetchTotalItemInCart();
             swipeRefreshLayout.setRefreshing(false);
         });
@@ -224,6 +217,12 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         findViewById(R.id.btnDatHang).setOnClickListener(v -> {
             if(checkUserLogin()){
+
+                if (homeViewModel.getBookQuantity().getValue() != null && homeViewModel.getBookQuantity().getValue()==0){
+                    Toast.makeText(this, "Đã hết hàng!!!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 int bookId = getIntent().getIntExtra("bookID", -1);
                 if (bookId != -1) {
                     homeViewModel.addToCart(bookId, 1, this);

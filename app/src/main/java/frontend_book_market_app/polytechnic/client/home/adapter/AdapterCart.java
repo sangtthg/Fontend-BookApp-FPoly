@@ -90,14 +90,13 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
             if (onItemCheckedBoxChangeListener != null) {
                 if (currentQuantity1 > bookQuantity1){
                     holder.bookCheckbox.setChecked(false);
-                    Toast.makeText(getContext(), "Đã đạt giới hạn của sách này trong kho", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Sách này hiện không còn hàng!!!", Toast.LENGTH_SHORT).show();
                 } else{
                     int bookID = cartItemDetail.getBook().getBookId();
                     String bookTitle = cartItemDetail.getBook().getTitle();
                     int cartId = cartItemDetail.getCartId();
                     onItemCheckedBoxChangeListener.onItemCheckedChange(holder.getAdapterPosition(), isChecked, bookID, bookTitle, cartId);
                 }
-
             }
         });
 

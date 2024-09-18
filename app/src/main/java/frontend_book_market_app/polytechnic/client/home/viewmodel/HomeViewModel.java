@@ -62,6 +62,8 @@ public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<ReviewResponse> bookReviews = new MutableLiveData<>();
 
+    private final MutableLiveData<Integer> bookQuantity = new MutableLiveData<>();
+
     private final MutableLiveData<ReviewResponse> reviewResponseLiveData = new MutableLiveData<>();
     private final List<OrderItem> selectedItems = new ArrayList<>();
     private List<String> avatarReviews;
@@ -131,6 +133,10 @@ public class HomeViewModel extends ViewModel {
         return avatarReviews;
     }
 
+    public LiveData<Integer> getBookQuantity() {
+        return bookQuantity;
+    }
+
 
 
     public AddressModel getDefaultAddress() {
@@ -192,6 +198,7 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
+    //TODO
     public void fetchBookDetail(int bookId) {
         repositoryHome.fetchBookDetail(bookId, new Callback<DetailBookResponse>() {
             @Override
@@ -200,6 +207,7 @@ public class HomeViewModel extends ViewModel {
                     detailBook.postValue(response.body());
                     listen.postValue(response.body().getData().getDescription());
                     avatarReviews = response.body().getData().getAvatarReviews();
+                    bookQuantity.postValue(Integer.parseInt(response.body().getData().getQuantity()));
                     Log.d(NAME, "Fetch BookDetail Success");
                     fetchBookReviews(bookId);
                 } else {
