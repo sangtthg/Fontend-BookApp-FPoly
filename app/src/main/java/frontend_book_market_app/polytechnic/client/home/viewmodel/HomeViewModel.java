@@ -398,15 +398,9 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    public void fetchOrderByCartID(List<Integer> cartItemIds) {
+    public void fetchOrderByCartID(List<Integer> cartItemIds, String name, String phone, String diaChi) {
         idOrder.postValue(0);
         System.out.println(cartItemIds);
-
-        AddressModel defaultAddressModel = getDefaultAddress();
-        if (defaultAddressModel != null) {
-            String name = defaultAddressModel.getName();
-            String phone = defaultAddressModel.getPhone();
-            String diaChi = defaultAddressModel.getAddress();
 
             OrderRequest orderRequest = new OrderRequest(cartItemIds, name, diaChi, phone);
             repositoryHome.createOrder(orderRequest, new Callback<OrderResponseHome>() {
@@ -427,9 +421,7 @@ public class HomeViewModel extends ViewModel {
                     Log.e(NAME, "Error creating order", t);
                 }
             });
-        } else {
-            Log.e(NAME, "Default address is null. Cannot proceed with order creation.");
-        }
+
     }
 
 

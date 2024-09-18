@@ -39,6 +39,7 @@ public class AddressListActivity extends AppCompatActivity {
     private AddressAdapter addressAdapter;
     private static final int REQUEST_CODE_ADD_ADDRESS = 2;
     private static final int REQUEST_CODE_UPDATE_ADDRESS = 2; // You can choose any unique integer
+    private int diachi = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +84,13 @@ public class AddressListActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        diachi = intent.getIntExtra("diachi", 0);
         btnAddAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddressListActivity.this, AddAddressActivity.class);
+                intent.putExtra("diachi", diachi);
                 startActivityForResult(intent, REQUEST_CODE_ADD_ADDRESS);
             }
         });
@@ -109,13 +113,13 @@ public class AddressListActivity extends AppCompatActivity {
     }
 
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ADD_ADDRESS && resultCode == RESULT_OK && requestCode == REQUEST_CODE_UPDATE_ADDRESS) {
-            loadAddressList();
+        if (requestCode == REQUEST_CODE_ADD_ADDRESS || requestCode == REQUEST_CODE_UPDATE_ADDRESS) {
+            if (resultCode == RESULT_OK) {
+                loadAddressList();
+            }
         }
     }
 
@@ -131,9 +135,9 @@ public class AddressListActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        finish();
+//    }
 }

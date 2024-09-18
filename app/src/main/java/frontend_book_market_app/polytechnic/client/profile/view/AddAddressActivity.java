@@ -42,7 +42,7 @@ public class AddAddressActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_ADD_CITY = 1;
     private String fullAddress2;
     private Toolbar toolbarqldc;
-
+    private int diachi = 0;
     private SharedPreferencesHelper sharedPreferencesHelper; // Thêm dòng này
 
     @SuppressLint("MissingInflatedId")
@@ -60,8 +60,13 @@ public class AddAddressActivity extends AppCompatActivity {
         spinnerAddressType = findViewById(R.id.spinnerAddressType);
         switchDefaultAddress = findViewById(R.id.switchDefaultAddress);
         btnSaveAddress = findViewById(R.id.btnSaveAddress);
+        switchDefaultAddress.setChecked(true);
+
+        switchDefaultAddress.setEnabled(false);
         sharedPreferencesHelper = new SharedPreferencesHelper(this); // Khởi tạo SharedPreferencesHelper
 
+        Intent intent = getIntent();
+        diachi = intent.getIntExtra("diachi", 0);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.address_type_options,
@@ -74,21 +79,6 @@ public class AddAddressActivity extends AppCompatActivity {
         AddressViewModelFactory factory = new AddressViewModelFactory(sharedPreferences, repositoryAddress);
         AddressViewModel addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel.class);
 
-
-//        // Retrieve data from Intent
-//        Intent intent = getIntent();
-//        String provinceName = intent.getStringExtra("PROVINCE_NAME");
-//        String districtName = intent.getStringExtra("DISTRICT_NAME");
-//        String wardName = intent.getStringExtra("WARD_NAME");
-//
-//        if (provinceName != null && !provinceName.isEmpty() &&
-//                districtName != null && !districtName.isEmpty() &&
-//                wardName != null && !wardName.isEmpty()) {
-//            String fullAddress = provinceName + "\n" + districtName + "\n" + wardName;
-//            edtDeliveryAddress.setText(fullAddress);
-//        } else {
-//            edtDeliveryAddress.setText("");
-//        }
         btnBackAddAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +144,9 @@ public class AddAddressActivity extends AppCompatActivity {
                     edtPhoneNumber.requestFocus();
                     return;
                 }
+                if (diachi == 0) {
+                    isDefaultAddress = true;
+                }
 
                 AddressModel addressModel = new AddressModel(fullName, phoneNumber, combinedAddress, addressType, isDefaultAddress);
                 addressViewModel.addAddress(getApplicationContext(), addressModel);
@@ -192,7 +185,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 String wardName = data.getStringExtra("WARD_NAME");
                 if (provinceName != null && districtName != null && wardName != null) {
                     String fullAddress = provinceName + "\n" + districtName + "\n" + wardName;
-                     fullAddress2 = wardName + ", " + districtName + ", " + provinceName;
+                    fullAddress2 = wardName + ", " + districtName + ", " + provinceName;
                     edtDeliveryAddress.setText(fullAddress);
                 }
             }
