@@ -60,7 +60,9 @@ public class PaymentActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     double totalPriceExcludingShipping;
-
+    private String ten;
+    private String sdt;
+    private String diachi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,40 +84,51 @@ public class PaymentActivity extends AppCompatActivity {
         addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        Log.d("PaymentActivity", "AddressViewModel initialized");
-        addressViewModel.loadAddresses();
-        addressViewModel.getAddressList().observe(this, addresses -> {
-            if (addresses != null) {
-                Log.d("PaymentActivity", "Address list size: " + addresses.size()); // Log size of the list
-                List<AddressModel> defaultAddresses = getDefaultAddresses(addresses);
-                if (!defaultAddresses.isEmpty()) {
-                    AddressModel defaultAddress = defaultAddresses.get(0); // Get the first default address
-                    // Update UI with default address
-                    tvSDTNguoiDungOrder.setText(defaultAddress.getPhone());
-                    tvDiaChiOrderChiTiet.setText(defaultAddress.getAddress());
-                    tvTenNguoiDungOrder.setText(defaultAddress.getName());
-                    Log.d("PaymentActivity", " " + defaultAddress.getPhone());
-                    Log.d("PaymentActivity", " " + defaultAddress.getAddress());
-                    Log.d("PaymentActivity", " " + defaultAddress.getName());
-                } else {
-                    tvDiaChiOrderChiTiet.setText("Chưa có địa chỉ mặc định");
-                    Log.d("PaymentActivity", "No default address available");
-                }
-            } else {
-                Log.d("PaymentActivity", "Address list is null");
-                tvDiaChiOrderChiTiet.setText("Chưa có địa chỉ mặc định");
-            }
-        });
+//        Log.d("PaymentActivity", "AddressViewModel initialized");
+//        addressViewModel.loadAddresses();
+//        addressViewModel.getAddressList().observe(this, addresses -> {
+//            if (addresses != null) {
+//                Log.d("PaymentActivity", "Address list size: " + addresses.size()); // Log size of the list
+//                List<AddressModel> defaultAddresses = getDefaultAddresses(addresses);
+//                if (!defaultAddresses.isEmpty()) {
+//                    AddressModel defaultAddress = defaultAddresses.get(0); // Get the first default address
+//                    // Update UI with default address
+//                    tvSDTNguoiDungOrder.setText(defaultAddress.getPhone());
+//                    tvDiaChiOrderChiTiet.setText(defaultAddress.getAddress());
+//                    tvTenNguoiDungOrder.setText(defaultAddress.getName());
+//                    Log.d("PaymentActivity", " " + defaultAddress.getPhone());
+//                    Log.d("PaymentActivity", " " + defaultAddress.getAddress());
+//                    Log.d("PaymentActivity", " " + defaultAddress.getName());
+//                } else {
+//                    tvDiaChiOrderChiTiet.setText("Chưa có địa chỉ mặc định");
+//                    Log.d("PaymentActivity", "No default address available");
+//                }
+//            } else {
+//                Log.d("PaymentActivity", "Address list is null");
+//                tvDiaChiOrderChiTiet.setText("Chưa có địa chỉ mặc định");
+//            }
+//        });
 
+// Trong CartActivity, lấy dữ liệu đã truyền đến
+        Intent intent = getIntent();
+         ten = intent.getStringExtra("ten");
+         sdt = intent.getStringExtra("sdt");
+         diachi = intent.getStringExtra("diachi");
 
+        Log.d("PaymentActivity", " " + ten);
+        Log.d("PaymentActivity", " " + sdt);
+        Log.d("PaymentActivity", " " + diachi);
+        tvTenNguoiDungOrder.setText(ten);
+        tvSDTNguoiDungOrder.setText(sdt);
+        tvDiaChiOrderChiTiet.setText(diachi);
 
         initView();
         initRecyclerView(this);
         initItemClick();
         hidenLayout();
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            homeViewModel.fetchOrderByCartID(selectedCartItemIds);
-        }, 2000);
+//        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            homeViewModel.fetchOrderByCartID(selectedCartItemIds,ten,sdt,diachi);
+//        }, 2000);
         chonCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,17 +248,17 @@ public class PaymentActivity extends AppCompatActivity {
         }
     }
 
-    private List<AddressModel> getDefaultAddresses(List<AddressModel> addresses) {
-        List<AddressModel> defaultAddresses = new ArrayList<>();
-        if (addresses != null) {
-            for (AddressModel address : addresses) {
-                if (address.isIs_default()) {
-                    defaultAddresses.add(address);
-                }
-            }
-        }
-        return defaultAddresses;
-    }
+//    private List<AddressModel> getDefaultAddresses(List<AddressModel> addresses) {
+//        List<AddressModel> defaultAddresses = new ArrayList<>();
+//        if (addresses != null) {
+//            for (AddressModel address : addresses) {
+//                if (address.isIs_default()) {
+//                    defaultAddresses.add(address);
+//                }
+//            }
+//        }
+//        return defaultAddresses;
+//    }
 
 
     @Override

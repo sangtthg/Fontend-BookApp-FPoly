@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +47,9 @@ public class CartActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private AddressViewModel addressViewModel;
     private SharedPreferencesHelper sharedPreferencesHelper;
+    private String ten;
+    private String sdt;
+    private String diachi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,12 +59,55 @@ public class CartActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         recyclerView = findViewById(R.id.recyclerViewCart);
         ImageButton btnToggleCheckbox = findViewById(R.id.btnCart);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         RepositoryAddress repositoryAddress = new RepositoryAddress(); // Ensure proper initialization
         AddressViewModelFactory factory = new AddressViewModelFactory(sharedPreferences, repositoryAddress);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel .class);
-
+        addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel.class);
         homeViewModel.fetchCartList();
+
+        addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel.class);
+        addressViewModel.loadAddresses();
+        addressViewModel.getAddressList().observe(this, addresses -> {
+            if (addresses != null) {
+                Log.d("PaymentActivity", "Address list size: " + addresses.size()); // Log size of the list
+                List<AddressModel> defaultAddresses = getDefaultAddresses(addresses);
+                if (!defaultAddresses.isEmpty()) {
+                    AddressModel defaultAddress = defaultAddresses.get(0); // Get the first default address
+                    Log.d("CartActivity222222", " " + defaultAddress.getPhone());
+                    Log.d("CartActivity222222", " " + defaultAddress.getAddress());
+                    Log.d("CartActivity222222", " " + defaultAddress.getName());
+                    ten = defaultAddress.getName();
+                    sdt = defaultAddress.getPhone();
+                    diachi = defaultAddress.getAddress();
+                } else {
+
+                    Log.d("PaymentActivity", "No default address available");
+                }
+            } else {
+                Log.d("PaymentActivity", "Address list is null");
+
+            }
+        });
+
+
+
+
+
+
+
+        // Trong Activity đích, lấy Intent đã được gửi tới
+        Intent intent = getIntent();
+        ten = intent.getStringExtra("ten");
+        sdt = intent.getStringExtra("sdt");
+        diachi = intent.getStringExtra("diachi");
+
+        Log.d("CartActivity", " " + ten);
+        Log.d("CartActivity", " " + sdt);
+        Log.d("CartActivity", " " + diachi);
+
+
         btnToggleCheckbox.setOnClickListener(v -> cartAdapter.toggleCheckbox());
 
         findViewById(R.id.btnDatHang).setOnClickListener(new View.OnClickListener() {
@@ -72,14 +119,18 @@ public class CartActivity extends AppCompatActivity {
                     Toast.makeText(CartActivity.this, "Hãy chọn ít nhất một sản phẩm!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (Objects.equals(getUserAddress(), "0")) showMissingInfoDialog();
-                    else{
+                    else {
                         Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
                         intent.putIntegerArrayListExtra("selectedCartItemIds", selectedIds);
+                        intent.putExtra("ten", ten);
+                        intent.putExtra("sdt", sdt);
+                        intent.putExtra("diachi", diachi);
                         startActivity(intent);
                     }
                 }
             }
         });
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartAdapter = new AdapterCart(new ArrayList<>(), homeViewModel);
@@ -126,13 +177,6 @@ public class CartActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
     }
 
     private void showMissingInfoDialog() {
@@ -143,6 +187,7 @@ public class CartActivity extends AppCompatActivity {
         btnOk.setOnClickListener(v -> {
             dialog.dismiss();
             Intent intent = new Intent(CartActivity.this, AddressListActivity.class);
+            intent.putExtra("diachi", 0);
             startActivity(intent);
         });
 
@@ -160,9 +205,47 @@ public class CartActivity extends AppCompatActivity {
 
         return defaultAddress;
     }
+    private List<AddressModel> getDefaultAddresses(List<AddressModel> addresses) {
+        List<AddressModel> defaultAddresses = new ArrayList<>();
+        if (addresses != null) {
+            for (AddressModel address : addresses) {
+                if (address.isIs_default()) {
+                    defaultAddresses.add(address);
+                }
+            }
+        }
+        return defaultAddresses;
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadAddress();
+    }
 
 
 
+    private void loadAddress() {
+        addressViewModel.loadAddresses();
+        addressViewModel.getAddressList().observe(this, addresses -> {
+            if (addresses != null) {
+                Log.d("CartActivity", "Address list size: " + addresses.size());
+                List<AddressModel> defaultAddresses = getDefaultAddresses(addresses);
+                if (!defaultAddresses.isEmpty()) {
+                    AddressModel defaultAddress = defaultAddresses.get(0);
+                    Log.d("CartActivity", " " + defaultAddress.getPhone());
+                    Log.d("CartActivity", " " + defaultAddress.getAddress());
+                    Log.d("CartActivity", " " + defaultAddress.getName());
+                    ten = defaultAddress.getName();
+                    sdt = defaultAddress.getPhone();
+                    diachi = defaultAddress.getAddress();
+                } else {
+                    Log.d("CartActivity", "No default address available");
+                }
+            } else {
+                Log.d("CartActivity", "Address list is null");
+            }
+        });
+    }
 
 }
 
