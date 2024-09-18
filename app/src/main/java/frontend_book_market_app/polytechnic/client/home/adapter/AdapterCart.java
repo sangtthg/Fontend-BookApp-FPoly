@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.home.model.CartDeleteRequest;
+import frontend_book_market_app.polytechnic.client.home.view.CartActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,21 +80,29 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
                 .centerCrop()
                 .into(holder.bookImage);
 
+        int currentQuantity1 = Integer.parseInt(holder.tvQuantity.getText().toString());
+        int bookQuantity1 = Integer.parseInt(cartItemDetail.getBook().getQuantity());
+
         holder.bookCheckbox.setVisibility(showCheckbox ? View.VISIBLE : View.GONE);
         holder.bookCheckbox.setOnCheckedChangeListener(null);
         holder.bookCheckbox.setChecked(false);
         holder.bookCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (onItemCheckedBoxChangeListener != null) {
-                int bookID = cartItemDetail.getBook().getBookId();
-                String bookTitle = cartItemDetail.getBook().getTitle();
-                int cartId = cartItemDetail.getCartId();
-                onItemCheckedBoxChangeListener.onItemCheckedChange(holder.getAdapterPosition(), isChecked, bookID, bookTitle, cartId);
+                if (currentQuantity1 > bookQuantity1){
+                    holder.bookCheckbox.setChecked(false);
+                    Toast.makeText(getContext(), "Đã đạt giới hạn của sách này trong kho", Toast.LENGTH_SHORT).show();
+                } else{
+                    int bookID = cartItemDetail.getBook().getBookId();
+                    String bookTitle = cartItemDetail.getBook().getTitle();
+                    int cartId = cartItemDetail.getCartId();
+                    onItemCheckedBoxChangeListener.onItemCheckedChange(holder.getAdapterPosition(), isChecked, bookID, bookTitle, cartId);
+                }
+
             }
         });
 
         holder.btnDecrease.setOnClickListener(v -> {
             if (holder.isUpdating) return;
-
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             if (currentQuantity > 1) {
                 updateQuantity(holder, cartItemDetail, --currentQuantity);
@@ -101,8 +111,13 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
 
         holder.btnIncrease.setOnClickListener(v -> {
             if (holder.isUpdating) return;
-
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+            int bookQuantity = Integer.parseInt(cartItemDetail.getBook().getQuantity());
+            if (currentQuantity > bookQuantity) {
+                Toast.makeText(getContext(), "Đã đạt giới hạn của sách này trong kho", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             updateQuantity(holder, cartItemDetail, ++currentQuantity);
         });
 
@@ -187,7 +202,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
         ProgressBar progressBar;
         com.apachat.swipereveallayout.core.SwipeLayout swipeLayout;
 
-        boolean isUpdating = false;
+        boolean isUpdating = false; //có thể tăng giảm
 
         TextView btnIncrease = itemView.findViewById(R.id.btnCong);
         TextView btnDecrease = itemView.findViewById(R.id.btnTru);

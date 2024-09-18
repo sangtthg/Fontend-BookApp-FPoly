@@ -1,20 +1,17 @@
 package frontend_book_market_app.polytechnic.client.home.view;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,17 +24,14 @@ import java.util.Objects;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.don_hang.viewmodel.DonHangUserViewModel;
 import frontend_book_market_app.polytechnic.client.home.adapter.AdapterCart;
 import frontend_book_market_app.polytechnic.client.home.model.CartListResponse;
 import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.profile.model.AddressModel;
 import frontend_book_market_app.polytechnic.client.profile.network.RepositoryAddress;
-import frontend_book_market_app.polytechnic.client.profile.network.SharedService;
 import frontend_book_market_app.polytechnic.client.profile.view.AddressListActivity;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.AddressViewModel;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.AddressViewModelFactory;
-import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import frontend_book_market_app.polytechnic.client.utils.SkeletonAdapter;
 
 public class CartActivity extends AppCompatActivity {
@@ -48,7 +42,6 @@ public class CartActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private SharedPreferences sharedPreferences;
     private AddressViewModel addressViewModel;
-    private SharedPreferencesHelper sharedPreferencesHelper;
     private String ten;
     private String sdt;
     private String diachi;
@@ -67,6 +60,7 @@ public class CartActivity extends AppCompatActivity {
         AddressViewModelFactory factory = new AddressViewModelFactory(sharedPreferences, repositoryAddress);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel.class);
+        //TODO
         homeViewModel.fetchCartList();
 
         addressViewModel = new ViewModelProvider(this, factory).get(AddressViewModel.class);
@@ -77,14 +71,10 @@ public class CartActivity extends AppCompatActivity {
                 List<AddressModel> defaultAddresses = getDefaultAddresses(addresses);
                 if (!defaultAddresses.isEmpty()) {
                     AddressModel defaultAddress = defaultAddresses.get(0); // Get the first default address
-                    Log.d("CartActivity222222", " " + defaultAddress.getPhone());
-                    Log.d("CartActivity222222", " " + defaultAddress.getAddress());
-                    Log.d("CartActivity222222", " " + defaultAddress.getName());
                     ten = defaultAddress.getName();
                     sdt = defaultAddress.getPhone();
                     diachi = defaultAddress.getAddress();
                 } else {
-
                     Log.d("PaymentActivity", "No default address available");
                 }
             } else {
@@ -92,11 +82,6 @@ public class CartActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
 
 
         // Trong Activity đích, lấy Intent đã được gửi tới
@@ -112,6 +97,7 @@ public class CartActivity extends AppCompatActivity {
 
         btnToggleCheckbox.setOnClickListener(v -> cartAdapter.toggleCheckbox());
 
+        //Đặt hàng
         findViewById(R.id.btnDatHang).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +110,7 @@ public class CartActivity extends AppCompatActivity {
                     else {
                         Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
                         intent.putIntegerArrayListExtra("selectedCartItemIds", selectedIds);
+
                         intent.putExtra("ten", ten);
                         intent.putExtra("sdt", sdt);
                         intent.putExtra("diachi", diachi);
@@ -218,6 +205,7 @@ public class CartActivity extends AppCompatActivity {
 
         return defaultAddress;
     }
+
     private List<AddressModel> getDefaultAddresses(List<AddressModel> addresses) {
         List<AddressModel> defaultAddresses = new ArrayList<>();
         if (addresses != null) {
@@ -229,12 +217,12 @@ public class CartActivity extends AppCompatActivity {
         }
         return defaultAddresses;
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         loadAddress();
     }
-
 
 
     private void loadAddress() {

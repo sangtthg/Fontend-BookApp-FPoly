@@ -149,6 +149,33 @@
                     android:textSize="@dimen/_10ssp" />
 
 
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="14dp"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:layout_marginTop="1dp"
+                    android:background="#cacaca" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/text_regular"
+                    android:text="Số sách sẵn có"
+                    android:textColor="#757575"
+                    android:textSize="@dimen/_10ssp" />
+
+                <TextView
+                    android:id="@+id/tvSoLuongConLai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/text_medium"
+                    android:text="106"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
+
             </LinearLayout>
 
             <TextView

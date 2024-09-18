@@ -6,7 +6,7 @@ import frontend_book_market_app.polytechnic.client.core.RetrofitManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static frontend_book_market_app.polytechnic.client.utils.Common.API_URL;
+import static frontend_book_market_app.polytechnic.client.utils.URL.API_URL;
 
 public class RepositorySearch {
     private final ApiServiceBook apiService;

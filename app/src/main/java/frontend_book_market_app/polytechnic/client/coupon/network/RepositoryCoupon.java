@@ -7,7 +7,7 @@ import frontend_book_market_app.polytechnic.client.coupon.model.CouponRequestMod
 
 import java.util.List;
 
-import static frontend_book_market_app.polytechnic.client.utils.Common.API_URL;
+import static frontend_book_market_app.polytechnic.client.utils.URL.API_URL;
 
 public class RepositoryCoupon {
     private final ApiServiceCoupon apiService;

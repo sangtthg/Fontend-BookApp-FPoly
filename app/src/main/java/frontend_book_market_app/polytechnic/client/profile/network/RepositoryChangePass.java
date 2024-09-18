@@ -6,7 +6,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static frontend_book_market_app.polytechnic.client.utils.Common.API_URL;
+import static frontend_book_market_app.polytechnic.client.utils.URL.API_URL;
 
 public class RepositoryChangePass {
     private final ApiServiceChangePass apiService;

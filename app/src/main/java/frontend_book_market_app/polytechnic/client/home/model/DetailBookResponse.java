@@ -77,6 +77,8 @@ public class DetailBookResponse {
         @SerializedName("avatar_reviews")
         private Object avatarReviews;
 
+
+
         public double getRateBook() {
             return rateBook;
         }

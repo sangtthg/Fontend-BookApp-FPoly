@@ -8,13 +8,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import frontend_book_market_app.polytechnic.client.core.RetrofitManager;
 import frontend_book_market_app.polytechnic.client.auth.register.model.OTPModel;
-import frontend_book_market_app.polytechnic.client.utils.Common;
+import frontend_book_market_app.polytechnic.client.utils.URL;
 
 public class RepositoryRegister {
     private final ApiServiceRegister apiService;
 
     public RepositoryRegister() {
-        apiService = RetrofitManager.createService(ApiServiceRegister.class, Common.API_URL, null);
+        apiService = RetrofitManager.createService(ApiServiceRegister.class, URL.API_URL, null);
     }
 
     public void postOTP(OTPModel otpModel, Callback<ResponseBody> callback) {

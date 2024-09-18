@@ -98,6 +98,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView tvPhanTramGiam;
         TextView tvDanhGia;
         TextView tvLuotDanhGia;
+        TextView tvSoLuongConLai;
         ReadMoreTextView tvMoTaNoiDung;
         LinearLayout layoutRate;
 
@@ -108,6 +109,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
             tvBookTitleDetaill = itemView.findViewById(R.id.book_title_detail);
             tvGiaSach = itemView.findViewById(R.id.tvGiaSach);
             tvGiaSachCu = itemView.findViewById(R.id.tvGiaSachCu);
+            tvSoLuongConLai = itemView.findViewById(R.id.tvSoLuongConLai);
             tvTacGia = itemView.findViewById(R.id.tvTacGia);
             tvDaBan = itemView.findViewById(R.id.tvDaBan);
             tvPhanTramGiam = itemView.findViewById(R.id.tvPhanTramGiam);
@@ -132,6 +134,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
                 tvMoTaNoiDung.setExpandedTextColor(R.color.app_red);
                 tvMoTaNoiDung.setTrimLines(3);
                 tvMoTaNoiDung.setText(data.getDescription());
+                tvSoLuongConLai.setText(data.getQuantity());
                 tvLuotDanhGia.setText(String.format("(%d)", commentCount));
                 tvGiaSach.setText(CurrencyFormatter.toVND(data.getNewPrice()));
                 tvGiaSachCu.setText(CurrencyFormatter.toVND(data.getOldPrice()));

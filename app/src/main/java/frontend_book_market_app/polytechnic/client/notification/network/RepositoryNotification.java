@@ -7,7 +7,7 @@ import frontend_book_market_app.polytechnic.client.notification.model.Notificati
 
 import java.util.List;
 
-import static frontend_book_market_app.polytechnic.client.utils.Common.API_URL;
+import static frontend_book_market_app.polytechnic.client.utils.URL.API_URL;
 
 public class RepositoryNotification {
     private final ApiServiceNotification apiService;

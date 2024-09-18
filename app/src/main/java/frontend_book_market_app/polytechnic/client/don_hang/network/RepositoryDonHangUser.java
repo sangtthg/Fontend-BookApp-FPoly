@@ -1,7 +1,7 @@
 package frontend_book_market_app.polytechnic.client.don_hang.network;
 
 
-import static frontend_book_market_app.polytechnic.client.utils.Common.API_URL;
+import static frontend_book_market_app.polytechnic.client.utils.URL.API_URL;
 
 import retrofit2.Call;
 import retrofit2.Callback;

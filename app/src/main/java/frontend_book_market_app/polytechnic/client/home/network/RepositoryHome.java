@@ -18,7 +18,7 @@ import frontend_book_market_app.polytechnic.client.home.model.PayOrderRequest;
 import frontend_book_market_app.polytechnic.client.home.model.PayOrderResponse;
 import frontend_book_market_app.polytechnic.client.home.model.ReviewResponse;
 
-import static frontend_book_market_app.polytechnic.client.utils.Common.API_URL;
+import static frontend_book_market_app.polytechnic.client.utils.URL.API_URL;
 
 public class RepositoryHome {
     private final ApiServiceHome apiService;

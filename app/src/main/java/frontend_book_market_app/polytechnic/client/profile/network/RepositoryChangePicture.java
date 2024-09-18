@@ -7,7 +7,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import frontend_book_market_app.polytechnic.client.core.RetrofitManager;
 
-import static frontend_book_market_app.polytechnic.client.utils.Common.API_URL;
+import static frontend_book_market_app.polytechnic.client.utils.URL.API_URL;
 
 public class RepositoryChangePicture {
     private final ApiServiceChangePicture apiService;

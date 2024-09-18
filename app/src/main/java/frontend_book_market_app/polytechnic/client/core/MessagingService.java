@@ -14,17 +14,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.concurrent.ExecutionException;
 
 import frontend_book_market_app.polytechnic.client.R;
 import frontend_book_market_app.polytechnic.client.notification.view.NotificationDetailActivity;
@@ -33,7 +25,6 @@ import frontend_book_market_app.polytechnic.client.utils.DateUtils;
 public class MessagingService extends FirebaseMessagingService {
 
     private static final String CHANNEL_ID = "all";
-    int notificationId = (int) System.currentTimeMillis();
 
     @Override
     public void onCreate() {
@@ -62,32 +53,32 @@ public class MessagingService extends FirebaseMessagingService {
     }
 
     private void getFirebaseMessage(String title, String body, String image, long timestamp) {
-    String formattedDate = DateUtils.formatTimestamp(timestamp);
+        String formattedDate = DateUtils.formatTimestamp(timestamp);
 
-    Intent intent = new Intent(this, NotificationDetailActivity.class);
-    intent.putExtra("title", title);
-    intent.putExtra("message", body);
-    intent.putExtra("imageUrl", image);
-    intent.putExtra("date", formattedDate);
+        Intent intent = new Intent(this, NotificationDetailActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("message", body);
+        intent.putExtra("imageUrl", image);
+        intent.putExtra("date", formattedDate);
 
-    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.icon_cart)
-            .setContentTitle(title != null ? title : "")
-            .setContentText(body != null ? body : "")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.icon_cart)
+                .setContentTitle(title != null ? title : "")
+                .setContentText(body != null ? body : "")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
 
-    NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-        managerCompat.notify(102, builder.build());
-    } else {
-        Log.e("MyFirebaseMessagingService", "Notification permission not granted");
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            managerCompat.notify(102, builder.build());
+        } else {
+            Log.e("MyFirebaseMessagingService", "Notification permission not granted");
+        }
     }
-}
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -114,20 +105,4 @@ public class MessagingService extends FirebaseMessagingService {
             Log.v("FirebaseLogs", "Device Token: " + token);
         });
     }
-
-    public String fetchDeviceToken() {
-        try {
-            return Tasks.await(FirebaseMessaging.getInstance().getToken());
-        } catch (ExecutionException | InterruptedException e) {
-            Log.e("FirebaseLogs", "Fetching token failed", e);
-            return null;
-        }
-    }
-
-
-//    public String getDeviceID() {
-//        return Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-//    }
-
-
 }

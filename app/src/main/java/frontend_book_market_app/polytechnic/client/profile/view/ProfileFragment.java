@@ -1,6 +1,7 @@
 package frontend_book_market_app.polytechnic.client.profile.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -30,20 +31,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import frontend_book_market_app.polytechnic.client.R;
-import frontend_book_market_app.polytechnic.client.home.viewmodel.HomeViewModel;
 import frontend_book_market_app.polytechnic.client.profile.adapter.AdapterProfile;
 import frontend_book_market_app.polytechnic.client.profile.model.ProfileModel;
 import frontend_book_market_app.polytechnic.client.profile.network.ApiServiceChangePicture;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.AViewModel;
 import frontend_book_market_app.polytechnic.client.profile.viewmodel.ProfileViewModel;
-import frontend_book_market_app.polytechnic.client.profile.viewmodel.ProfileViewModelFactory;
-import frontend_book_market_app.polytechnic.client.setting.view.SettingActivity;
-import frontend_book_market_app.polytechnic.client.utils.Common;
+import frontend_book_market_app.polytechnic.client.utils.URL;
 import frontend_book_market_app.polytechnic.client.utils.SharedPreferencesHelper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -56,15 +53,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileFragment extends Fragment implements AdapterProfile.OnLogoutClickListener, AdapterProfile.OnImageSelectedListener {
     private static final int REQUEST_CODE_PERMISSIONS = 100;
-
+    private static final int PICK_IMAGE_REQUEST = 100;
     private SharedPreferencesHelper sharedPreferencesHelper;
     private AdapterProfile adapter;
     private ProfileViewModel profileViewModel;
     private AViewModel aViewModel;
-    private static final int PICK_IMAGE_REQUEST = 100;
-
     private ImageView moreMenuNotification;
-    private ImageView imgAvatar,imgChangeAvatar;
+    private ImageView imgAvatar, imgChangeAvatar;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -75,7 +70,7 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
         // Initialize views
         moreMenuNotification = view.findViewById(R.id.moreMenuNotification);
         imgAvatar = view.findViewById(R.id.imgAvatar1);
-        imgChangeAvatar  = view.findViewById(R.id.imgChangeAvatar);
+        imgChangeAvatar = view.findViewById(R.id.imgChangeAvatar);
         imgChangeAvatar.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, PICK_IMAGE_REQUEST);
@@ -96,8 +91,6 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
                 sharedPreferencesHelper.getDefaultAddress()
         ));
         logUserInfo();
-        System.out.println("BUG: 2"+sharedPreferencesHelper.getAvatar());
-
         loadAvatar(sharedPreferencesHelper.getAvatar());
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewProfile);
@@ -189,8 +182,6 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
     }
 
 
-
-
     private File compressImage(File file) {
         File compressedFile = new File(getContext().getCacheDir(), file.getName());
         Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
@@ -211,15 +202,16 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
     }
 
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK && data != null && data.getData() != null) {
-            Uri selectedImageUri = data.getData();
-            if (selectedImageUri != null) {
-                onImageSelected(selectedImageUri);
+        if (requestCode == PICK_IMAGE_REQUEST) {
+            getActivity();
+            if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+                Uri selectedImageUri = data.getData();
+                if (selectedImageUri != null) {
+                    onImageSelected(selectedImageUri);
+                }
             }
         }
     }
@@ -277,12 +269,13 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
     }
 
     private void updateAvatar(Uri imageUri) {
-         imgAvatar = getView().findViewById(R.id.imgAvatar1);
+        imgAvatar = getView().findViewById(R.id.imgAvatar1);
         Glide.with(this)
                 .load(imageUri)
                 .apply(new RequestOptions().circleCrop())
                 .into(imgAvatar);
     }
+
     private void resetAvatar() {
         imgAvatar.setImageResource(R.drawable.ic_money);
     }
@@ -302,7 +295,7 @@ public class ProfileFragment extends Fragment implements AdapterProfile.OnLogout
         MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", compressedFile.getName(), requestFile);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Common.API_URL)
+                .baseUrl(URL.API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

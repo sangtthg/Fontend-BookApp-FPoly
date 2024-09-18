@@ -1,13 +1,11 @@
 package frontend_book_market_app.polytechnic.client.profile.network;
 
-import static frontend_book_market_app.polytechnic.client.utils.Common.API_URL;
+import static frontend_book_market_app.polytechnic.client.utils.URL.API_URL;
 
 import frontend_book_market_app.polytechnic.client.core.RetrofitManager;
-import frontend_book_market_app.polytechnic.client.home.model.HomeBookResponse;
 import frontend_book_market_app.polytechnic.client.profile.model.UserProfileRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RepositoryUserProfile {
 
