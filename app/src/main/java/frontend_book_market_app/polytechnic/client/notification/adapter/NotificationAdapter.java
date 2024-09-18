@@ -99,6 +99,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     .load(notification.getImageUrl())
                     .placeholder(R.drawable.loading_book)
                     .centerCrop()
+                    .centerCrop()
                     .into(holder.imgNotification);
         } else {
             int errorImageResId;
