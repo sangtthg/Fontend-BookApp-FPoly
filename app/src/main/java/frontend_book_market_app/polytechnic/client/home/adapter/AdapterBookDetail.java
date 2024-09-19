@@ -235,3 +235,4 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 }
+//
