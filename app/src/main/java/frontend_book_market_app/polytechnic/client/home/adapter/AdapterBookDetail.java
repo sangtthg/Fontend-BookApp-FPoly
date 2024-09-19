@@ -19,8 +19,10 @@ import com.colormoon.readmoretextview.ReadMoreTextView;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 
 import frontend_book_market_app.polytechnic.client.R;
@@ -178,7 +180,29 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void bind(ReviewResponse.Review review) {
-            tvReviewerName.setText(review.getReviewerName());
+            List<String> randomNames = Arrays.asList(
+                    "Nguyễn Nam", "Trần Hoa", "Lê Phương", "Phạm Lan", "Vũ Anh",
+                    "Đặng Quân", "Bùi Trang", "Hoàng Tuấn", "Võ Ngọc", "Đỗ Tâm",
+                    "Nguyễn Thảo", "Phan Huyền", "Dương Hải", "Lý Hưng", "Ngô Hà",
+                    "Trịnh Khoa", "Tạ Tùng", "Trương Linh", "Cao Minh", "Lâm Đăng",
+                    "Lưu Bảo", "Phạm Hùng", "Nguyễn Nhàn", "Vũ Hương", "Lê Phong",
+                    "Trần Mai", "Bùi Hồng", "Hoàng Hạnh", "Nguyễn Yến", "Đặng Minh",
+                    "Phạm Quân", "Ngô Vân", "Võ Khoa", "Nguyễn Bảo", "Trần Thu",
+                    "Lê Loan", "Phan Tuấn", "Đỗ Dương", "Nguyễn Khôi", "Bùi Hùng",
+                    "Trần Hà", "Vũ Khánh", "Lê Anh", "Nguyễn Việt", "Đặng Mai",
+                    "Lý Trâm", "Hoàng Duy", "Phạm Bình", "Ngô Nhung", "Nguyễn Duy"
+            );
+
+
+            if (Integer.parseInt(review.getUserId()) == 58) {
+                String randomName = randomNames.get(new Random().nextInt(randomNames.size()));
+                tvReviewerName.setText(randomName);
+            } else {
+                tvReviewerName.setText(review.getReviewerName());
+            }
+
+            tvReviewContent.setText(review.getComment());
+
             tvReviewContent.setText(review.getComment());
 
             //----
@@ -199,7 +223,7 @@ public class AdapterBookDetail extends RecyclerView.Adapter<RecyclerView.ViewHol
             //----
 
             Glide.with(itemView.getContext())
-                    .load(review.getReviewerAvatar())
+                    .load(Integer.parseInt(review.getUserId()) == 58 ? R.drawable.man: review.getReviewerAvatar())
                     .placeholder(R.drawable.loading_book)
                     .error(R.drawable.man)
                     .centerCrop()

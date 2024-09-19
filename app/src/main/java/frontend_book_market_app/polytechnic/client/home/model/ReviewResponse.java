@@ -31,6 +31,7 @@ public class ReviewResponse {
     public static class Review {
         private int id;
         private int bookId;
+        @SerializedName("user_id")
         private String userId;
         @SerializedName("username")
         private String reviewerName;
